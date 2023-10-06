@@ -1,0 +1,84 @@
+{
+  "ofertas": [
+    {
+      "id": 1,
+      "puesto": "Desarrollador de software senior ",
+      "empresa": "Tech Solutions SA",
+      "ubicacion": "Buenos Aires, Argentina",
+      "descripcion": "Buscamos un desarrollador de software senior con al menos 5 años de experiencia en programación en Java. Serás parte de un equipo innovador y colaborativo, desarrollando soluciones empresariales de alta calidad.",
+      "publicadoHace": "1 día"
+    },
+    {
+      "id": 2,
+      "puesto": "Analista de datos avanzado",
+      "empresa": "Data Insights Corporation",
+      "ubicacion": "Córdoba, Argentina",
+      "descripcion": "Estamos en busca de un analista de datos con experiencia en el manejo de grandes conjuntos de datos y herramientas de análisis avanzado. Tu trabajo ayudará a la empresa a tomar decisiones estratégicas basadas en datos.",
+      "publicadoHace": "2 días"
+    },
+    {
+      "id": 3,
+      "puesto": "Gerente de Marketing Digital",
+      "empresa": "Digital Marketing Pro",
+      "ubicacion": "Rosario, Argentina",
+      "descripcion": "Como Gerente de Marketing Digital, liderarás un equipo talentoso y serás responsable de diseñar y ejecutar estrategias de marketing digital para aumentar la visibilidad de nuestra marca en línea.",
+      "publicadoHace": "3 días"
+    },
+    {
+      "id": 4,
+      "puesto": "Ingeniero de calidad en manufactura",
+      "empresa": "Quality Manufacturing Co.",
+      "ubicacion": "Mar del Plata, Argentina",
+      "descripcion": "Buscamos un ingeniero de calidad con experiencia en la industria manufacturera para asegurar que nuestros productos cumplan con los más altos estándares de calidad. Participarás en la mejora continua de procesos.",
+      "publicadoHace": "1 semana"
+    },
+    {
+      "id": 5,
+      "puesto": "Asistente administrativo ejecutivo",
+      "empresa": "Admin Solutions Ltd.",
+      "ubicacion": "Mendoza, Argentina",
+      "descripcion": "Como asistente administrativo ejecutivo, serás el apoyo principal para la alta dirección. Gestionarás la correspondencia, organizarás viajes y coordinarás reuniones de alto nivel.",
+      "publicadoHace": "2 semanas"
+    },
+    {
+      "id": 6,
+      "puesto": "Diseñador gráfico creativo",
+      "empresa": "Creative Design Studio",
+      "ubicacion": "Buenos Aires, Argentina",
+      "descripcion": "Buscamos un diseñador gráfico creativo con un portafolio sólido de trabajos anteriores. Colaborarás en la creación de diseños atractivos y efectivos para clientes diversos.",
+      "publicadoHace": "4 días"
+    },
+    {
+      "id": 7,
+      "puesto": "Especialista en Recursos Humanos",
+      "empresa": "HR Excellence Group",
+      "ubicacion": "Córdoba, Argentina",
+      "descripcion": "Como especialista en recursos humanos, liderarás iniciativas de atracción de talento y desarrollo del personal. Tu experiencia será clave para el éxito de nuestra empresa.",
+      "publicadoHace": "5 días"
+    },
+    {
+      "id": 8,
+      "puesto": "Contador Senior",
+      "empresa": "Financial Services Corp.",
+      "ubicacion": "Buenos Aires, Argentina",
+      "descripcion": "Estamos buscando un contador senior con experiencia en finanzas corporativas. Serás responsable de la gestión financiera y la elaboración de informes para la alta dirección.",
+      "publicadoHace": "2 semanas"
+    },
+    {
+      "id": 9,
+      "puesto": "Ingeniero de Redes",
+      "empresa": "Network Solutions Inc.",
+      "ubicacion": "Córdoba, Argentina",
+      "descripcion": "Buscamos un ingeniero de redes con experiencia en diseño, implementación y mantenimiento de infraestructuras de red. Serás parte de un equipo técnico de alto rendimiento.",
+      "publicadoHace": "6 días"
+    },
+    {
+      "id": 10,
+      "puesto": "Especialista en Soporte Técnico",
+      "empresa": "Tech Support Experts",
+      "ubicacion": "Rosario, Argentina",
+      "descripcion": "Como especialista en soporte técnico, serás el punto de contacto principal para resolver problemas técnicos de los clientes. Tu habilidad para solucionar problemas será esencial para el éxito del equipo de soporte.",
+      "publicadoHace": "1 semana"
+    }
+  ]
+}

@@ -1,0 +1,663 @@
+import { useState } from "react";
+import "./Login.css";
+import GoogleIcon from "@mui/icons-material/Google";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Link,
+  TextField,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
+import SchoolIcon from "@mui/icons-material/School";
+import BusinessIcon from "@mui/icons-material/Business";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import * as yup from "yup";
+import { Toaster, toast } from "sonner";
+
+import { signIn } from "../../services/usuarios_service";
+import { getPostulanteById } from "../../services/postulantes_service";
+import { getEmpresaByIdUsuario } from "../../services/empresas_service";
+
+const Login = () => {
+  const [isSignup, setIsSignup] = useState(false);
+  const [tipoUsuario, setTipoUsuario] = useState("postulante");
+  const [mostrarContraseñaInicio, setMostrarContraseñaInicio] = useState(false);
+  const [mostrarContraseñaRegistro, setMostrarContraseñaRegistro] =
+    useState(false);
+
+  const toggleMostrarContraseñaInicio = () => {
+    setMostrarContraseñaInicio(!mostrarContraseñaInicio);
+  };
+
+  const toggleMostrarContraseñaRegistro = () => {
+    setMostrarContraseñaRegistro(!mostrarContraseñaRegistro);
+  };
+
+  const schemaRegistro = yup.object().shape({
+    emailRegistro: yup.string().email().required(),
+    contraseñaRegistro: yup
+      .string()
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
+      .required(),
+    confirmarContraseñaRegistro: yup
+      .string()
+      .oneOf(
+        [yup.ref("contraseñaRegistro"), null],
+        "Las contraseñas no coinciden"
+      )
+      .required(),
+  });
+
+  const schemaInicioSesion = yup.object().shape({
+    emailInicio: yup.string().email().required(),
+    contraseñaInicio: yup
+      .string()
+      .min(8, "La contraseña debe tener al menos 8 caracteres")
+      .required(),
+  });
+
+  const handleSubmitRegistro = (e) => {
+    e.preventDefault();
+
+    const email = e.target.emailRegistro.value;
+
+    if (!isValidEmail(email)) {
+      toast.error("El formato del correo electrónico no es válido.");
+      return;
+    }
+
+    schemaRegistro
+      .validate({
+        emailRegistro: e.target.emailRegistro.value,
+        contraseñaRegistro: e.target.contraseñaRegistro.value,
+        confirmarContraseñaRegistro: e.target.confirmarContraseñaRegistro.value,
+      })
+      .then((data) => {
+        console.log(data);
+        {
+          tipoUsuario === "postulante"
+            ? //Post de usuario (email, contraseña, grupo = 2)
+              (window.location.href = "/registro/postulante")
+            : //Post de usuario (email, contraseña, grupo = 1)
+              (window.location.href = "/registro/empresa");
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
+  const handleSubmitInicioSesion = async (e) => {
+    e.preventDefault();
+    const response = await signIn({
+      usuario: e.target.emailInicio.value,
+      password: e.target.contraseñaInicio.value,
+    });
+
+    const email = e.target.emailInicio.value;
+
+    if (!isValidEmail(email)) {
+      toast.error("El formato del correo electrónico no es válido.");
+      return;
+    }
+
+    schemaInicioSesion
+      .validate({
+        emailInicio: e.target.emailInicio.value,
+        contraseñaInicio: e.target.contraseñaInicio.value,
+      })
+      .then(async () => {
+        if (response === undefined) {
+          toast.error("Usuario o contraseña incorrectos");
+        } else {
+          let datosUsuario;
+          let tipoUsuario;
+
+          if (response.grupo === 1) {
+            datosUsuario = await getPostulanteById(response.id);
+            tipoUsuario = "postulante";
+          } else if (response.grupo === 2) {
+            datosUsuario = await getEmpresaByIdUsuario(response.id);
+            tipoUsuario = "empresa";
+          } else if (response.grupo === 3) {
+            datosUsuario = {};
+            tipoUsuario = "admin";
+          } else {
+            toast.error("Usuario o contraseña incorrectos");
+            return;
+          }
+
+          sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
+          sessionStorage.setItem("estaLogueado", "true");
+          sessionStorage.setItem("tipoUsuario", tipoUsuario);
+          sessionStorage.setItem("token", response.token);
+          sessionStorage.setItem("idUsuario", response.id);
+          window.location.href = "/";
+        }
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
+
+  const isValidEmail = (email) => {
+    // Esta función verifica si el correo electrónico tiene un formato válido.
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const toggleForm = () => {
+    setIsSignup(!isSignup);
+  };
+
+  const handleChange = (event, newAlignment) => {
+    if (newAlignment !== null) {
+      setTipoUsuario(newAlignment);
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "14px",
+        fontFamily: "Poppins, sans-serif",
+        boxSizing: "border-box",
+        minHeight: "100vh",
+      }}
+    >
+      <Box
+        sx={{
+          boxShadow: "0 14px 28px rgba(0, 0, 0, 0.5)",
+        }}
+        className={`container ${isSignup ? "change" : ""}`}
+      >
+        <Box className="forms-container">
+          {/* Registro */}
+          <Box className="form-control signup-form">
+            <Box
+              component="form"
+              onSubmit={handleSubmitRegistro}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                margin: "0px 30px",
+              }}
+            >
+              <Typography
+                variant="h2"
+                fontFamily={"Poppins, sans-serif"}
+                fontSize="2rem"
+                sx={{
+                  fontWeight: "bold",
+                  margin: "20px 0px",
+                }}
+              >
+                Registrate
+              </Typography>
+              <ToggleButtonGroup
+                value={tipoUsuario}
+                exclusive
+                onChange={handleChange}
+                aria-label="Platform"
+                size="small"
+                sx={{
+                  alignSelf: "center",
+                  marginBottom: "10px",
+                  "& .MuiToggleButton-root": {
+                    backgroundColor: "#efefef",
+                    color: "#000",
+                    border: "none",
+                    textTransform: "none",
+                    fontSize: "0.9rem",
+                    "&:hover": {
+                      backgroundColor: "#efefef",
+                    },
+                    "&.Mui-selected": {
+                      backgroundColor: "#5fa92c",
+                      color: "#fff",
+                      "&:hover": {
+                        backgroundColor: "#4b7f1f",
+                      },
+                    },
+                  },
+                }}
+              >
+                <ToggleButton value="postulante">
+                  <SchoolIcon
+                    sx={{
+                      marginRight: "5px",
+                    }}
+                  />
+                  Postulante
+                </ToggleButton>
+                <ToggleButton value="empresa">
+                  <BusinessIcon sx={{ marginRight: "5px" }} />
+                  Empresa
+                </ToggleButton>
+              </ToggleButtonGroup>
+              <TextField
+                type="email"
+                label="Email"
+                name="emailRegistro"
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                sx={{
+                  margin: "10px 0px",
+                  border: "none",
+                  backgroundColor: "#efefef",
+                  borderRadius: "5px",
+
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      border: "none",
+                    },
+                    "&:hover fieldset": {
+                      border: "none",
+                    },
+                    "&.Mui-focused fieldset": {
+                      border: "none",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                type={mostrarContraseñaRegistro ? "text" : "password"}
+                label="Contraseña"
+                name="contraseñaRegistro"
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={toggleMostrarContraseñaRegistro}>
+                      {mostrarContraseñaRegistro ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff sx={{ cursor: "pointer" }} />
+                      )}
+                    </IconButton>
+                  ),
+                }}
+                sx={{
+                  margin: "10px 0px",
+                  border: "none",
+                  backgroundColor: "#efefef",
+                  borderRadius: "5px",
+
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      border: "none",
+                    },
+                    "&:hover fieldset": {
+                      border: "none",
+                    },
+                    "&.Mui-focused fieldset": {
+                      border: "none",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                type={mostrarContraseñaRegistro ? "text" : "password"}
+                label="Confirmar contraseña"
+                name="confirmarContraseñaRegistro"
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                sx={{
+                  margin: "10px 0px",
+                  border: "none",
+                  backgroundColor: "#efefef",
+                  borderRadius: "5px",
+
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      border: "none",
+                    },
+                    "&:hover fieldset": {
+                      border: "none",
+                    },
+                    "&.Mui-focused fieldset": {
+                      border: "none",
+                    },
+                  },
+                }}
+              />
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{
+                  padding: "10px",
+                  marginTop: "5px",
+                  backgroundColor: "#5fa92c",
+                  borderRadius: "5px",
+                  color: "#fff",
+                  textTransform: "none",
+                  fontSize: "1rem",
+                  "&:hover": {
+                    backgroundColor: "#4b7f1f",
+                  },
+                }}
+              >
+                Siguiente
+              </Button>
+            </Box>
+            <Typography
+              variant="caption"
+              fontFamily={"Poppins, sans-serif"}
+              fontSize="0.8rem"
+              sx={{
+                margin: "10px 0px",
+              }}
+            >
+              o registrate con
+            </Typography>
+            <Box>
+              <IconButton>
+                <GoogleIcon />
+              </IconButton>
+              <IconButton>
+                <GitHubIcon />
+              </IconButton>
+              <IconButton>
+                <LinkedInIcon />
+              </IconButton>
+            </Box>
+          </Box>
+          {/* Inicio de sesión */}
+          <Box className="form-control signin-form">
+            <Box
+              component="form"
+              onSubmit={handleSubmitInicioSesion}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                margin: "0px 30px",
+              }}
+            >
+              <Typography
+                variant="h2"
+                fontFamily={"Poppins, sans-serif"}
+                fontSize="2rem"
+                sx={{
+                  fontWeight: "bold",
+                  margin: "26px 0px",
+                }}
+              >
+                Inicia sesión
+              </Typography>
+              <TextField
+                type="email"
+                label="Email"
+                name="emailInicio"
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                sx={{
+                  margin: "10px 0px",
+                  border: "none",
+                  backgroundColor: "#efefef",
+                  borderRadius: "5px",
+
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      border: "none",
+                    },
+                    "&:hover fieldset": {
+                      border: "none",
+                    },
+                    "&.Mui-focused fieldset": {
+                      border: "none",
+                    },
+                  },
+                }}
+              />
+              <TextField
+                type={mostrarContraseñaInicio ? "text" : "password"}
+                label="Contraseña"
+                name="contraseñaInicio"
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={toggleMostrarContraseñaInicio}>
+                      {mostrarContraseñaInicio ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff sx={{ cursor: "pointer" }} />
+                      )}
+                    </IconButton>
+                  ),
+                }}
+                sx={{
+                  margin: "10px 0px",
+                  border: "none",
+                  backgroundColor: "#efefef",
+                  borderRadius: "5px",
+
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      border: "none",
+                    },
+                    "&:hover fieldset": {
+                      border: "none",
+                    },
+                    "&.Mui-focused fieldset": {
+                      border: "none",
+                    },
+                  },
+                }}
+              />
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Grid item xs={6}>
+                  <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Recuérdame"
+                    sx={{
+                      "& .MuiTypography-root": {
+                        fontSize: "0.9rem",
+                      },
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6}>
+                  <Link href="/restablecimientoContraseña " variant="body2">
+                    ¿Olvidaste tu contraseña?
+                  </Link>
+                </Grid>
+              </Grid>
+              <Button
+                variant="contained"
+                type="submit"
+                sx={{
+                  padding: "10px",
+                  marginTop: "5px",
+                  backgroundColor: "#5fa92c",
+                  borderRadius: "5px",
+                  color: "#fff",
+                  textTransform: "none",
+                  fontSize: "1rem",
+                  "&:hover": {
+                    backgroundColor: "#4b7f1f",
+                  },
+                }}
+              >
+                Iniciar sesión
+              </Button>
+            </Box>
+            <Typography
+              variant="caption"
+              fontFamily={"Poppins, sans-serif"}
+              fontSize="0.8rem"
+              sx={{
+                margin: "10px 0px",
+              }}
+            >
+              o inicia sesión con
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <IconButton>
+                <GoogleIcon />
+              </IconButton>
+              <IconButton>
+                <GitHubIcon />
+              </IconButton>
+              <IconButton>
+                <LinkedInIcon />
+              </IconButton>
+            </Box>
+          </Box>
+        </Box>
+
+        {/* ---------- Textos ---------- */}
+
+        <Box className="intros-container">
+          <Box className="intro-control signin-intro">
+            {/* <Box
+              component="img"
+              src={logoUNAHUR}
+              alt="Logo UNAHUR"
+              sx={{
+                width: "100px",
+                margin: "0px auto",
+                paddingTop: "20px",
+                paddingBottom: "30px",
+              }}
+            /> */}
+            <Box className="intro-control__inner">
+              <Typography
+                variant="h2"
+                fontFamily={"Poppins, sans-serif"}
+                sx={{
+                  fontSize: "1.4rem",
+                  marginBlockStart: "0.83em",
+                  marginBlockEnd: "0.83em",
+                  fontWeight: "bold",
+                  lineHeight: "1.4",
+                }}
+              >
+                ¡Bienvenido de nuevo a la comunidad de trabajo de la UNAHUR!
+              </Typography>
+              <Typography
+                variant="body2"
+                fontFamily={"Poppins, sans-serif"}
+                sx={{
+                  margin: "10px 0px",
+                }}
+              >
+                Que bueno verte de nuevo por acá. Inicia sesión para seguir
+                buscando trabajo o publicar tu oferta laboral.
+              </Typography>
+              <Button
+                variant="contained"
+                onClick={toggleForm}
+                sx={{
+                  textTransform: "none",
+                  padding: "15px 30px",
+                  backgroundColor: "#00496d",
+                  borderRadius: "25px",
+                  margin: "10px 0px",
+                  fontSize: "0.8rem",
+                  "&:hover": {
+                    backgroundColor: "#00759b",
+                  },
+                }}
+              >
+                ¿No tenes una cuenta? Registrate.
+              </Button>
+            </Box>
+          </Box>
+          <Box className="intro-control signup-intro">
+            {/* <Box
+              component="img"
+              src={logoUNAHUR}
+              alt="Logo UNAHUR"
+              sx={{
+                width: "100px",
+                margin: "0px auto",
+                paddingTop: "20px",
+                paddingBottom: "30px",
+              }}
+            /> */}
+            <Box className="intro-control__inner">
+              <Typography
+                variant="h2"
+                fontFamily={"Poppins, sans-serif"}
+                sx={{
+                  fontSize: "1.4rem",
+                  marginBlockStart: "0.83em",
+                  marginBlockEnd: "0.83em",
+                  fontWeight: "bold",
+                  lineHeight: "1.4",
+                }}
+              >
+                ¡Unite a la comunidad de trabajo de la UNAHUR en 3 simples
+                pasos!
+              </Typography>
+              <Typography
+                variant="body2"
+                fontFamily={"Poppins, sans-serif"}
+                sx={{
+                  margin: "10px 0px",
+                }}
+              >
+                Bienvenido a la comunidad de trabajo mas grande de Argentina.
+                Encontrá el trabajo que buscas o publica tu oferta laboral.
+              </Typography>
+              <Button
+                variant="contained"
+                onClick={toggleForm}
+                sx={{
+                  textTransform: "none",
+                  padding: "15px 30px",
+                  backgroundColor: "#00496d",
+                  borderRadius: "25px",
+                  margin: "10px 0px",
+                  fontSize: "0.8rem",
+                  "&:hover": {
+                    backgroundColor: "#00759b",
+                  },
+                }}
+              >
+                ¿Ya tenes una cuenta? Inicia sesión.
+              </Button>
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+      <Toaster richColors closeButton />
+    </Box>
+  );
+};
+
+export default Login;
