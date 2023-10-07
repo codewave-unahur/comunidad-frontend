@@ -174,7 +174,7 @@ const MisPostulaciones = () => {
                         color: "white",
                       },
                     }}
-                    href={`/oferta/${oferta.Oferta.id}`}
+                    href={`/oferta/${oferta.Oferta?.id}`}
                   >
                     Ver
                   </Button>

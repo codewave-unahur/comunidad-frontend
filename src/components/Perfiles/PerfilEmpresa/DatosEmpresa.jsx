@@ -9,6 +9,7 @@ import {
   Button,
   Card,
   TextField,
+  MenuItem,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -16,9 +17,16 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import SaveIcon from "@mui/icons-material/Save";
 
-import { getEmpresaByIdUsuario } from "../../../services/empresas_service";
+import {
+  getEmpresaByIdUsuario,
+  putEmpresa,
+} from "../../../services/empresas_service";
 import { getProvincias } from "../../../services/provincias_service";
 import { getCiudades } from "../../../services/ciudades_service";
+
+import { Toaster, toast } from "sonner";
+
+import * as yup from "yup";
 
 import { useEffect, useState } from "react";
 
@@ -33,8 +41,6 @@ const DatosEmpresa = () => {
   const [provincias, setProvincias] = useState([]);
   const [ciudades, setCiudades] = useState([]);
   const [empresa, setEmpresa] = useState({});
-
-  console.log(empresa);
 
   useEffect(() => {
     const getEmpresa = async () => {
@@ -71,8 +77,104 @@ const DatosEmpresa = () => {
   };
 
   const handleSave = () => {
-    setEdit(false);
+    schema
+      .validate(empresa, { abortEarly: false })
+      .then(() => {
+        const datosActualizados = {
+          nombre_empresa: empresa.nombre_empresa,
+          nombreEmpresa: empresa.nombre_empresa,
+          descripcion: empresa.descripcion,
+          nombre_representante: empresa.nombre_representante,
+          nombreRepresentante: empresa.nombre_representante,
+          email_representante: empresa.email_representante,
+          emailRepresentante: empresa.email_representante,
+          telefono: empresa.telefono,
+          web: empresa.web,
+          pais: empresa.pais,
+          fk_id_provincia: empresa.fk_id_provincia,
+          provincia: empresa.fk_id_provincia,
+          fk_id_ciudad: empresa.fk_id_ciudad,
+          ciudad: empresa.fk_id_ciudad,
+          cp: empresa.cp,
+          calle: empresa.calle,
+          nro: empresa.nro,
+          piso: empresa.piso,
+          depto: empresa.depto,
+          logo: empresa.logo,
+        };
+
+        const response = putEmpresa(empresa.id, datosActualizados, token);
+
+        if (response) {
+          setEdit(false);
+          setEmpresa(datosActualizados);
+          setIsSubmitting(false);
+          toast.success("Datos actualizados correctamente");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
+        } else {
+          toast.error("Error al actualizar los datos");
+        }
+      })
+      .catch((error) => {
+        const errores = {};
+        error.inner.forEach((e) => {
+          errores[e.path] = e.message;
+        });
+        setValidarErrores(errores);
+        setIsSubmitting(true);
+        toast.error("Error al actualizar los datos");
+      });
   };
+
+  const schema = yup.object().shape({
+    nombre_empresa: yup.string().required("El nombre es obligatorio"),
+    descripcion: yup.string().required("La descripción es obligatoria"),
+    nombre_representante: yup
+      .string()
+      .required("El nombre del representante es obligatorio"),
+    email_representante: yup
+      .string()
+      .email("El email debe ser un email válido")
+      .required("El email es obligatorio"),
+    telefono: yup
+      .number()
+      .typeError("El teléfono debe ser un número")
+      .required("El teléfono es obligatorio")
+      .integer("El teléfono debe ser un número entero")
+      .positive("El teléfono debe ser un número positivo")
+      .max(9999999999, "El teléfono debe tener como máximo 10 dígitos"),
+    web: yup
+      .string()
+      .url("La web debe ser una URL válida")
+      .required("La web es obligatoria"),
+    pais: yup.string().required("El país es obligatorio"),
+    fk_id_provincia: yup.string().required("La provincia es obligatoria"),
+    fk_id_ciudad: yup.string().required("La ciudad es obligatoria"),
+    cp: yup
+      .number()
+      .typeError("El código postal debe ser un número")
+      .required("El código postal es obligatorio")
+      .integer("El código postal debe ser un número entero")
+      .positive("El código postal debe ser un número positivo")
+      .max(9999, "El código postal debe tener como máximo 4 dígitos"),
+    calle: yup.string().required("La calle es obligatoria"),
+    nro: yup
+      .number()
+      .typeError("El número de calle debe ser un número")
+      .required("El número de calle es obligatorio")
+      .integer("El número de calle debe ser un número entero")
+      .positive("El número de calle debe ser un número positivo"),
+    piso: yup
+      .number()
+      .typeError("El piso debe ser un número")
+      .integer("El piso debe ser un número entero")
+      .positive("El piso debe ser un número positivo")
+      .max(999, "El piso debe tener como máximo 3 dígitos")
+      .nullable(),
+    depto: yup.string(),
+  });
 
   return (
     <Card type="section" elevation={8}>
@@ -145,8 +247,22 @@ const DatosEmpresa = () => {
                 label="Nombre"
                 variant="outlined"
                 value={empresa.nombre_empresa || ""}
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 disabled={isFieldDisabled}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    nombre_empresa: e.target.value,
+                    nombreEmpresa: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.nombre_empresa}
+                helperText={
+                  isSubmitting && validarErrores.nombre_empresa
+                    ? validarErrores.nombre_empresa
+                    : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -154,9 +270,22 @@ const DatosEmpresa = () => {
                 label="Descripción"
                 variant="outlined"
                 value={empresa.descripcion || ""}
+                InputLabelProps={{ shrink: true }}
                 fullWidth
                 multiline
                 disabled={isFieldDisabled}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    descripcion: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.descripcion}
+                helperText={
+                  isSubmitting && validarErrores.descripcion
+                    ? validarErrores.descripcion
+                    : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -166,6 +295,20 @@ const DatosEmpresa = () => {
                 label="Nombre del representante"
                 variant="outlined"
                 value={empresa.nombre_representante || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    nombre_representante: e.target.value,
+                    nombreRepresentante: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.nombre_representante}
+                helperText={
+                  isSubmitting && validarErrores.nombre_representante
+                    ? validarErrores.nombre_representante
+                    : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -176,6 +319,20 @@ const DatosEmpresa = () => {
                 value={empresa.email_representante || ""}
                 fullWidth
                 disabled={isFieldDisabled}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    email_representante: e.target.value,
+                    emailRepresentante: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.email_representante}
+                helperText={
+                  isSubmitting && validarErrores.email_representante
+                    ? validarErrores.email_representante
+                    : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -185,6 +342,19 @@ const DatosEmpresa = () => {
                 label="Teléfono del representante"
                 variant="outlined"
                 value={empresa.telefono || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    telefono: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.telefono}
+                helperText={
+                  isSubmitting && validarErrores.telefono
+                    ? validarErrores.telefono
+                    : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -194,6 +364,17 @@ const DatosEmpresa = () => {
                 label="Web de la empresa"
                 variant="outlined"
                 value={empresa.web || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    web: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.web}
+                helperText={
+                  isSubmitting && validarErrores.web ? validarErrores.web : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -203,6 +384,17 @@ const DatosEmpresa = () => {
                 label="Nacionalidad"
                 variant="outlined"
                 value={empresa.pais || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    pais: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.pais}
+                helperText={
+                  isSubmitting && validarErrores.pais ? validarErrores.pais : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -211,8 +403,29 @@ const DatosEmpresa = () => {
                 disabled={isFieldDisabled}
                 label="Provincia"
                 variant="outlined"
-                value={empresa.Provincia?.nombre || ""}
-              />
+                select
+                value={empresa.fk_id_provincia || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    fk_id_provincia: e.target.value,
+                    provincia: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.fk_id_provincia}
+                helperText={
+                  isSubmitting && validarErrores.fk_id_provincia
+                    ? validarErrores.fk_id_provincia
+                    : ""
+                }
+              >
+                {provincias.map((provincia) => (
+                  <MenuItem key={provincia.id} value={provincia.id}>
+                    {provincia.nombre}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
               <TextField
@@ -220,8 +433,29 @@ const DatosEmpresa = () => {
                 disabled={isFieldDisabled}
                 label="Ciudad"
                 variant="outlined"
-                value={empresa.Ciudad?.nombre || ""}
-              />
+                select
+                value={empresa.fk_id_ciudad || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    fk_id_ciudad: e.target.value,
+                    ciudad: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.fk_id_ciudad}
+                helperText={
+                  isSubmitting && validarErrores.fk_id_ciudad
+                    ? validarErrores.fk_id_ciudad
+                    : ""
+                }
+              >
+                {ciudades.map((ciudad) => (
+                  <MenuItem key={ciudad.id} value={ciudad.id}>
+                    {ciudad.nombre}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
               <TextField
@@ -230,6 +464,17 @@ const DatosEmpresa = () => {
                 label="Código postal"
                 variant="outlined"
                 value={empresa.cp || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    cp: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.cp}
+                helperText={
+                  isSubmitting && validarErrores.cp ? validarErrores.cp : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -239,6 +484,19 @@ const DatosEmpresa = () => {
                 label="Calle"
                 variant="outlined"
                 value={empresa.calle || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    calle: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.calle}
+                helperText={
+                  isSubmitting && validarErrores.calle
+                    ? validarErrores.calle
+                    : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -248,6 +506,17 @@ const DatosEmpresa = () => {
                 label="Número de calle"
                 variant="outlined"
                 value={empresa.nro || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    nro: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.nro}
+                helperText={
+                  isSubmitting && validarErrores.nro ? validarErrores.nro : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -256,7 +525,19 @@ const DatosEmpresa = () => {
                 disabled={isFieldDisabled}
                 label="Piso"
                 variant="outlined"
-                value={empresa.piso || ""}
+                value={empresa.piso === null ? "" : empresa.piso || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    piso:
+                      e.target.value === "" ? null : parseInt(e.target.value),
+                  })
+                }
+                error={isSubmitting && validarErrores.piso}
+                helperText={
+                  isSubmitting && validarErrores.piso ? validarErrores.piso : ""
+                }
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
@@ -266,6 +547,19 @@ const DatosEmpresa = () => {
                 label="Departamento"
                 variant="outlined"
                 value={empresa.depto || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    depto: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.depto}
+                helperText={
+                  isSubmitting && validarErrores.depto
+                    ? validarErrores.depto
+                    : ""
+                }
               />
             </Grid>
 
@@ -285,6 +579,7 @@ const DatosEmpresa = () => {
           </Grid>
         </Box>
       </Stack>
+      <Toaster richColors closeButton />
     </Card>
   );
 };

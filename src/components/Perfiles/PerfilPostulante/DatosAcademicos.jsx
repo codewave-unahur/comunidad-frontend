@@ -90,6 +90,9 @@ const DatosAcademicos = () => {
           setUsuario(datosActualizados);
           setIsSubmitting(false);
           toast.success("Datos actualizados con éxito");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
         } else {
           toast.error("Error al actualizar los datos");
         }
@@ -110,7 +113,12 @@ const DatosAcademicos = () => {
     fk_id_carrera: yup.string(),
     estudios: yup.string(),
     fk_id_estudios: yup.string(),
-    cant_materias: yup.number().positive().integer(),
+    cant_materias: yup
+      .number()
+      .typeError("Debe ingresar un número")
+      .positive("Debe ingresar un número positivo")
+      .integer("Debe ingresar un número entero")
+      .nullable(),
     alumno_unahur: yup.boolean(),
   });
 
@@ -184,14 +192,19 @@ const DatosAcademicos = () => {
               <TextField
                 label="Materias aprobadas"
                 variant="outlined"
-                value={usuario.cant_materias || ""}
+                value={
+                  usuario.cant_materias === null
+                    ? ""
+                    : usuario.cant_materias || ""
+                }
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 disabled={isFieldDisabled}
                 onChange={(e) => {
                   setUsuario({
                     ...usuario,
-                    cant_materias: e.target.value,
+                    cant_materias:
+                      e.target.value === "" ? null : parseInt(e.target.value),
                   });
                 }}
                 error={Boolean(validarErrores.cant_materias)}

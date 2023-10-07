@@ -55,7 +55,9 @@ export default function IconUser() {
                   ? usuarioData.foto
                   : tipoUsuario === "empresa"
                   ? usuarioData.logo
-                  : "https://unahur.edu.ar/wp-content/uploads/2021/06/articles_comunicadoinstitucionalnot01.jpg"
+                  : tipoUsuario === "admin"
+                  ? "https://unahur.edu.ar/wp-content/uploads/2021/06/articles_comunicadoinstitucionalnot01.jpg"
+                  : ""
               }
             />
           </IconButton>

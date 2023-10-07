@@ -36,6 +36,8 @@ const DatosPersonales = () => {
   const [validarErrores, setValidarErrores] = useState({}); // Para controlar los errores
   const [isSubmitting, setIsSubmitting] = useState(false); // Para validar el formulario
   const [edit, setEdit] = useState(false); // Para habilitar los campos de edición
+  const [imagenSeleccionada, setImagenSeleccionada] = useState(null); // Para guardar la imagen seleccionada en el input[type=file]
+  const [isImageSelected, setIsImageSelected] = useState(false); // Para controlar si se seleccionó una imagen o no
   const isFieldDisabled = !edit;
   const [tiposDocumentos, setTiposDocumentos] = useState([]);
   const [provincias, setProvincias] = useState([]);
@@ -137,6 +139,9 @@ const DatosPersonales = () => {
           setUsuario(datosActualizados);
           setIsSubmitting(false);
           toast.success("Datos actualizados con éxito");
+          setTimeout(() => {
+            window.location.reload();
+          }, 1500);
         } else {
           toast.error("Error al actualizar los datos");
         }
@@ -160,13 +165,29 @@ const DatosPersonales = () => {
     fecha_nac: yup.date("La fecha de nacimiento es obligatoria").nullable(),
     tipoDocumento: yup.string(),
     // documento: yup.string(),
-    telefono: yup.string().required("El número de teléfono es obligatorio"),
+    telefono: yup
+      .number()
+      .typeError("Ingrese un número de teléfono válido")
+      .required("El número de teléfono es obligatorio")
+      .positive("El número de teléfono debe ser positivo")
+      .integer("El número de teléfono debe ser un número entero"),
     nacionalidad: yup.string(),
     provincia: yup.string(),
     ciudad: yup.string(),
-    cp: yup.string(),
+    cp: yup
+      .number()
+      .typeError("El código postal debe ser un número")
+      .required("El código postal es obligatorio")
+      .integer("El código postal debe ser un número entero")
+      .positive("El código postal debe ser un número positivo")
+      .max(9999, "El código postal debe tener como máximo 4 dígitos"),
     calle: yup.string(),
-    nro: yup.string(),
+    nro: yup
+      .number()
+      .typeError("El número de calle debe ser un número")
+      .required("El número de calle es obligatorio")
+      .integer("El número de calle debe ser un número entero")
+      .positive("El número de calle debe ser un número positivo"),
     foto: yup.string(),
     fk_id_usuario: yup.string(),
     fk_id_tipo_documento: yup.string(),
@@ -188,6 +209,11 @@ const DatosPersonales = () => {
     }
   };
 
+  const handleImageChange = (e) => {
+    setImagenSeleccionada(e.target.files[0]);
+    setIsImageSelected(true);
+  };
+
   return (
     <Card type="section" elevation={8}>
       <CardHeader title="Datos personales" />
@@ -200,7 +226,11 @@ const DatosPersonales = () => {
         >
           <Avatar
             alt="User Img"
-            src={usuario.foto}
+            src={
+              isImageSelected
+                ? URL.createObjectURL(imagenSeleccionada)
+                : usuario.foto
+            }
             sx={{
               width: 180,
               height: 180,
@@ -234,15 +264,33 @@ const DatosPersonales = () => {
               size="medium"
               variant="contained"
               endIcon={<AccountBoxIcon />}
+              sx={{
+                marginTop: 1,
+              }}
             >
               Cambiar imagen
               <input
                 type="file"
                 accept=".jpg,.jpeg,.png"
                 hidden
-                onChange={(e) => console.log(e.target.files[0])}
+                onChange={handleImageChange}
               />
             </Button>
+            {isImageSelected && (
+              <Button
+                onClick={() => {
+                  console.log({ imagenSeleccionada });
+                }}
+                sx={{
+                  marginTop: 2,
+                }}
+                variant="outlined"
+                size="medium"
+                color="success"
+              >
+                Confirmar imagen
+              </Button>
+            )}
           </Box>
         </Stack>
         <Divider />

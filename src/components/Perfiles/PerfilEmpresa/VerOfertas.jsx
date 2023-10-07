@@ -14,10 +14,23 @@ import {
 
 import CircleIcon from "@mui/icons-material/Circle";
 
-import ofertasData from "../../Home/ofertas.json";
+import { useEffect, useState } from "react";
+
+import { getOfertaByCuit } from "../../../services/ofertas_service";
 
 const VerOfertas = () => {
-  const { ofertas } = ofertasData;
+  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+
+  const [ofertas, setOfertas] = useState([]);
+
+  useEffect(() => {
+    const traerOfertas = async () => {
+      const response = await getOfertaByCuit(0, 20, "id", 1, datosUsuario.id);
+      setOfertas(response.ofertas.rows);
+    };
+    traerOfertas();
+  }, [datosUsuario.id]);
+
   return (
     <Card type="section" elevation={8}>
       <CardHeader title="Ofertas de trabajo" />
@@ -43,17 +56,33 @@ const VerOfertas = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="center">
-                  <Typography variant="subtitle1">{oferta.puesto}</Typography>
+                  <Typography variant="subtitle1">
+                    {oferta.titulo_oferta}
+                  </Typography>
                 </TableCell>
                 <TableCell align="center">
-                  <Typography variant="subtitle1">
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      flexDirection: "column",
+                    }}
+                  >
                     <CircleIcon
                       fontSize="small"
                       sx={{
                         verticalAlign: "middle",
-                        color: oferta.estado === "Aprobado" ? "green" : "red",
+                        color:
+                          oferta.Estado?.nombre_estado === "activa"
+                            ? "green"
+                            : oferta.Estado?.nombre_estado === "pendiente"
+                            ? "orange"
+                            : "black",
                       }}
                     />
+                    {oferta.Estado?.nombre_estado[0].toUpperCase() +
+                      oferta.Estado?.nombre_estado.slice(1)}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">
@@ -67,6 +96,7 @@ const VerOfertas = () => {
                         color: "white",
                       },
                     }}
+                    href={`/oferta/${oferta.id}`}
                   >
                     Ver
                   </Button>
@@ -87,6 +117,7 @@ const VerOfertas = () => {
                   </Button>
                   <Button
                     variant="outlined"
+                    disabled={oferta.Estado?.nombre_estado === "finalizada"}
                     sx={{
                       color: "red",
                       borderColor: "red",
