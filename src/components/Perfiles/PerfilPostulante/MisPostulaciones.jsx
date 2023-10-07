@@ -38,8 +38,10 @@ const MisPostulaciones = () => {
   const idUsuario = sessionStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
   const [open, setOpen] = useState(false);
+  const [idOfertaParaEliminar, setIdOfertaParaEliminar] = useState(null);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (ofertaID) => {
+    setIdOfertaParaEliminar(ofertaID);
     setOpen(true);
   };
 
@@ -189,50 +191,42 @@ const MisPostulaciones = () => {
                         borderColor: "red",
                       },
                     }}
-                    onClick={handleClickOpen}
+                    onClick={() => handleClickOpen(oferta.id)}
                   >
                     Eliminar
                   </Button>
-                  <Dialog
-                    open={open}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    onClose={handleClose}
-                    aria-describedby="alert-dialog-slide-description"
-                    sx={
-                      {
-                        // Quitar el blur del fondo
-                        // "& .MuiBackdrop-root": {
-                        //   backgroundColor: "unset",
-                        // },
-                      }
-                    }
-                  >
-                    <DialogTitle>
-                      {"¿Estás seguro que deseas eliminar esta postulación?"}
-                    </DialogTitle>
-                    <DialogContent>
-                      <DialogContentText id="alert-dialog-slide-description">
-                        Si eliminas esta postulación no podrás volver a
-                        postularte a esta oferta.
-                      </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose}>Cancelar</Button>
-                      <Button
-                        onClick={handleDeletePostulacion(oferta.id)}
-                        color="error"
-                      >
-                        Eliminar
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>
+          {"¿Estás seguro que deseas eliminar esta postulación?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Si eliminas esta postulación no podrás volver a postularte a esta
+            oferta.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button
+            onClick={handleDeletePostulacion(idOfertaParaEliminar)}
+            color="error"
+          >
+            Eliminar
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Toaster richColors closeButton />
     </Card>
   );

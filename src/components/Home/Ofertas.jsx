@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Avatar,
@@ -13,6 +13,7 @@ import {
 
 import { getOfertas } from "../../services/ofertas_service";
 import { getOfertaByCuit } from "../../services/ofertas_service";
+import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_service";
 import PropTypes from "prop-types";
 
 const Ofertas = (props) => {
@@ -22,6 +23,8 @@ const Ofertas = (props) => {
   const scrollRef = useRef({});
   const nombreBusqueda = window.location.search.split("=")[1] || "";
 
+  const [postulaciones, setPostulaciones] = useState([]);
+
   useEffect(() => {
     const traerOfertas = async () => {
       let response;
@@ -30,10 +33,45 @@ const Ofertas = (props) => {
       } else {
         response = await getOfertas(0, 20, nombreBusqueda, "id", 1);
       }
-      setOfertas(response.ofertas.rows);
+
+      if (tipoUsuario === "postulante") {
+        const ofertasFiltradas = response.ofertas.rows.filter((oferta) => {
+          return !postulaciones.some(
+            (postulacion) => postulacion.fk_id_oferta === oferta.id
+          );
+        });
+
+        setOfertas(ofertasFiltradas);
+      } else {
+        setOfertas(response.ofertas.rows);
+      }
     };
     traerOfertas();
-  }, [setOfertas, nombreBusqueda, tipoUsuario, datosUsuario?.id]);
+  }, [
+    setOfertas,
+    nombreBusqueda,
+    tipoUsuario,
+    datosUsuario?.id,
+    postulaciones,
+  ]);
+
+  useEffect(() => {
+    if (tipoUsuario === "postulante") {
+      const traerPostulaciones = async () => {
+        try {
+          const response = await getPostulacionesPorIdPostulante(
+            0,
+            20,
+            datosUsuario.id
+          );
+          setPostulaciones(response.postulaciones.rows);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      traerPostulaciones();
+    }
+  }, [tipoUsuario, datosUsuario?.id]);
 
   const publicadoHace = (fecha) => {
     const fechaPublicacion = new Date(fecha);
@@ -86,6 +124,11 @@ const Ofertas = (props) => {
               sx={{
                 "& .css-et1ao3-MuiTypography-root": {
                   fontSize: "1.4rem",
+                  overflow: "hidden",
+                  display: "-webkit-box",
+                  textOverflow: "ellipsis",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
                 },
                 height: 100,
               }}
