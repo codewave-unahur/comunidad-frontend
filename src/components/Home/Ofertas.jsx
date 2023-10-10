@@ -40,7 +40,6 @@ const Ofertas = (props) => {
             (postulacion) => postulacion.fk_id_oferta === oferta.id
           );
         });
-
         setOfertas(ofertasFiltradas);
       } else {
         setOfertas(response.ofertas.rows);
@@ -97,6 +96,22 @@ const Ofertas = (props) => {
         },
       }}
     >
+      {ofertas.length === 0 && (
+        <Grid item xs={12}>
+          <Typography
+            variant="h5"
+            color="text.secondary"
+            sx={{
+              textAlign: "center",
+              marginTop: 5,
+              marginBottom: 5,
+            }}
+          >
+            No se encontraron ofertas
+          </Typography>
+        </Grid>
+      )}
+
       {ofertas.map((oferta, index) => (
         <Grid xs={12} md={6} lg={4} xl={3} item key={index}>
           <Card

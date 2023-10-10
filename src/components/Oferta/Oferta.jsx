@@ -18,6 +18,7 @@ import {
   DialogActions,
   DialogContent,
   Slide,
+  Avatar,
 } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ScheduleIcon from "@mui/icons-material/Schedule";
@@ -63,7 +64,7 @@ const Oferta = () => {
   };
 
   const handleClickOpen = () => {
-    setOpen(true);
+    estaLogueado === "true" ? setOpen(true) : (window.location.href = "/login");
   };
 
   const handleClose = () => {
@@ -112,8 +113,23 @@ const Oferta = () => {
             padding: "1rem",
             boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)",
             borderRadius: 2,
+            position: "relative",
           }}
         >
+          <Avatar
+            src="https://cdn.discordapp.com/attachments/955646153297395722/996230598853148792/unknown.png"
+            sx={{
+              position: "absolute",
+              right: "3rem",
+              top: "6rem",
+              width: 150,
+              height: 150,
+              display: {
+                xs: "none",
+                sm: "block",
+              },
+            }}
+          />
           <CardHeader
             title={oferta.titulo_oferta}
             subheader={oferta.zona_trabajo}
@@ -123,6 +139,7 @@ const Oferta = () => {
               },
             }}
           />
+
           <CardContent>
             <Typography
               variant="subtitle1"

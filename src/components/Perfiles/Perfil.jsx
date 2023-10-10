@@ -52,13 +52,25 @@ const menuOptionsPostulante = [
   },
   {
     id: "3",
+    name: "formacion",
+    Icon: SchoolIcon,
+    text: "Formación ?",
+    renderSection: (
+      <p>
+        Acá iría lo que propuso Carolina sobre los cursos o demás experiencia.
+        No sé como se llamaría la sección.
+      </p>
+    ),
+  },
+  {
+    id: "4",
     name: "curriculumVitae",
     Icon: DescriptionIcon,
     text: "Curriculum Vitae",
     renderSection: <CurriculumVitae />,
   },
   {
-    id: "4",
+    id: "5",
     name: "misPostulaciones",
     Icon: AssignmentIcon,
     text: "Mis postulaciones",

@@ -37,9 +37,7 @@ const Header = (props) => {
       };
       traerOfertas();
 
-      if (window.location.pathname !== "/") {
-        window.location.href = `/?busqueda=${buscador}`;
-      }
+      window.location.href = `/?busqueda=${buscador}`;
     };
 
     return (
@@ -61,7 +59,7 @@ const Header = (props) => {
               xs: "0.8rem",
               sm: "1rem",
             },
-            fontWeight: "bold",
+            fontFamily: "Poppins, sans-serif",
           }}
           placeholder="Buscar ofertas..."
           value={buscador}
