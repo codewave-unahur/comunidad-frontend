@@ -44,10 +44,10 @@ export async function getOfertaById(id) {
 
 // Trae una oferta por id de la empresa
 
-export async function getOfertaByCuit(pagina, limite, ordenar, idEstado, cuit) {
+export async function getOfertaByCuit(pagina, buscarTitulo, limite, cuit) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/cuit/${cuit}?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&idEstado=${idEstado}`
+      `${config.apiUrl}/ofertas/cuit/${cuit}?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}`
     );
     return response.data;
   } catch (error) {

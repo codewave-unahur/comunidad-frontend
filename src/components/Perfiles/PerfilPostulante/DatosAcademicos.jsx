@@ -7,6 +7,7 @@ import {
   MenuItem,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
 
 import * as yup from "yup";
@@ -20,12 +21,14 @@ import { getPostulanteById } from "../../../services/postulantes_service";
 import { putPostulante } from "../../../services/postulantes_service";
 import { getCarreras } from "../../../services/carreras_service";
 import { getEstudios } from "../../../services/estudios_service";
+// import { getIdiomasPostulante } from "../../../services/idiomasPostulantes_service";
 
 import { useEffect, useState } from "react";
 
 const DatosAcademicos = () => {
   const idUsuario = sessionStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
+  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
 
   const [validarErrores, setValidarErrores] = useState({}); // Para controlar los errores
   const [isSubmitting, setIsSubmitting] = useState(false); // Para validar el formulario
@@ -33,6 +36,9 @@ const DatosAcademicos = () => {
   const isFieldDisabled = !edit;
   const [carreras, setCarreras] = useState([]);
   const [estudios, setEstudios] = useState([]);
+  const [idiomas, setIdiomas] = useState([
+    { idioma: "Inglés", nivelOral: "Alto", nivelEscrito: "Alto" },
+  ]);
   const [usuario, setUsuario] = useState({
     carrera: "",
     fk_id_carrera: "",
@@ -62,6 +68,14 @@ const DatosAcademicos = () => {
     getEstudiosData();
     getCarrerasData();
   }, []);
+
+  useEffect(() => {
+    const getIdiomasData = async () => {
+      // const response = await getIdiomasPostulante(datosUsuario.id);
+      // setIdiomas(response.idiomas);
+    };
+    getIdiomasData();
+  }, [datosUsuario.id]);
 
   const handleEdit = () => {
     setEdit(true);
@@ -121,6 +135,13 @@ const DatosAcademicos = () => {
       .nullable(),
     alumno_unahur: yup.boolean(),
   });
+
+  const agregarNuevoIdioma = () => {
+    setIdiomas([
+      ...idiomas,
+      { id: idiomas.length, idioma: "", nivelOral: "", nivelEscrito: "" },
+    ]);
+  };
 
   return (
     <Card type="section" elevation={8}>
@@ -247,23 +268,51 @@ const DatosAcademicos = () => {
                 <MenuItem value={false}>No</MenuItem>
               </TextField>
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <TextField
-                label="Idioma"
-                variant="outlined"
-                defaultValue="Ingles"
-                fullWidth
-                disabled={isFieldDisabled}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <TextField
-                label="Nivel de idioma"
-                variant="outlined"
-                defaultValue="Alto"
-                fullWidth
-                disabled={isFieldDisabled}
-              />
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography variant="h5" gutterBottom>
+                Idiomas
+              </Typography>
+              {idiomas.map((idioma, index) => (
+                <Grid container spacing={2} paddingY={2} key={index}>
+                  <Grid item xs={12} sm={4} md={4}>
+                    <TextField
+                      label="Idioma"
+                      variant="outlined"
+                      value={idioma.idioma}
+                      fullWidth
+                      disabled={isFieldDisabled}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4} md={4}>
+                    <TextField
+                      label="Nivel oral"
+                      variant="outlined"
+                      value={idioma.nivelOral}
+                      fullWidth
+                      disabled={isFieldDisabled}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={4} md={4}>
+                    <TextField
+                      label="Nivel escrito"
+                      variant="outlined"
+                      value={idioma.nivelEscrito}
+                      fullWidth
+                      disabled={isFieldDisabled}
+                    />
+                  </Grid>
+                </Grid>
+              ))}
+              {edit && (
+                <Button
+                  disableElevation
+                  variant="contained"
+                  onClick={agregarNuevoIdioma}
+                  sx={{ marginTop: 1 }}
+                >
+                  Agregar nuevo idioma
+                </Button>
+              )}
             </Grid>
 
             <Grid item xs={12} sm={12} md={12}>

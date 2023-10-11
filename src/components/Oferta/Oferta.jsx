@@ -25,10 +25,14 @@ import ScheduleIcon from "@mui/icons-material/Schedule";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import WorkHistoryOutlinedIcon from "@mui/icons-material/WorkHistoryOutlined";
+import MapsHomeWorkOutlinedIcon from "@mui/icons-material/MapsHomeWorkOutlined";
 
 import { postPostulacion } from "../../services/postulaciones_service";
 
 import { Toaster, toast } from "sonner";
+
+import PreferenciasOferta from "./PreferenciasOferta";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -132,10 +136,18 @@ const Oferta = () => {
           />
           <CardHeader
             title={oferta.titulo_oferta}
-            subheader={oferta.zona_trabajo}
+            subheader={
+              <>
+                {oferta.zona_trabajo} <PreferenciasOferta />
+              </>
+            }
             sx={{
               "& .MuiTypography-h5": {
                 fontSize: "2rem",
+                width: {
+                  xs: "50%",
+                  sm: "100%",
+                },
               },
             }}
           />
@@ -174,12 +186,71 @@ const Oferta = () => {
               <ListItem>
                 <ListItemText primary={oferta.descripcion} />
               </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={
+                    <>
+                      Tareas a realizar:
+                      <br />
+                      Acá va la descripción de las tareas a realizar
+                    </>
+                  }
+                />
+              </ListItem>
+            </List>
+            <Divider sx={{ marginTop: "1rem" }} />
+            <Typography variant="h6" color="primary" sx={{ marginTop: "1rem" }}>
+              Requisitos
+            </Typography>
+            <List>
+              <ListItem>
+                <ListItemText
+                  primary={
+                    "Rango etario: " +
+                    oferta.edad_desde +
+                    " a " +
+                    oferta.edad_hasta +
+                    " años"
+                  }
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={
+                    "Experiencia previa: " + oferta.experiencia_previa_desc
+                  }
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={
+                    "Estudios mínimos: " +
+                    oferta.Estudio?.nombre_estudio +
+                    " " +
+                    oferta.Estudio?.estado_estudio
+                  }
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemText
+                  primary={"Carrera: " + oferta.Carrera?.nombre_carrera}
+                />
+              </ListItem>
             </List>
             <Divider sx={{ marginTop: "1rem" }} />
             <Typography variant="h6" color="primary" sx={{ marginTop: "1rem" }}>
               Detalles de la oferta
             </Typography>
-            <List>
+            <List
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "repeat(1, 1fr)",
+                  sm: "repeat(2, 1fr)",
+                },
+                gap: "1rem",
+              }}
+            >
               <ListItem>
                 <AttachMoneyIcon
                   color="primary"
@@ -220,6 +291,19 @@ const Oferta = () => {
                 />
               </ListItem>
               <ListItem>
+                <WorkHistoryOutlinedIcon
+                  color="primary"
+                  fontSize="large"
+                  sx={{
+                    marginRight: "0.5rem",
+                  }}
+                />
+                <ListItemText
+                  primary={oferta.Jornada?.nombre_jornada}
+                  secondary="Jornada"
+                />
+              </ListItem>
+              <ListItem>
                 <VerifiedIcon
                   color="primary"
                   fontSize="large"
@@ -230,6 +314,19 @@ const Oferta = () => {
                 <ListItemText
                   primary={oferta.beneficios}
                   secondary="Beneficios"
+                />
+              </ListItem>
+              <ListItem>
+                <MapsHomeWorkOutlinedIcon
+                  color="primary"
+                  fontSize="large"
+                  sx={{
+                    marginRight: "0.5rem",
+                  }}
+                />
+                <ListItemText
+                  primary={"Presencial, remoto, híbrido"}
+                  secondary="Modalidad de trabajo"
                 />
               </ListItem>
             </List>

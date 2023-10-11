@@ -15,13 +15,30 @@ import {
 
 import CircleIcon from "@mui/icons-material/Circle";
 
-import ofertasData from "../../Home/ofertas.json";
-import { useState } from "react";
+import { getOfertas } from "../../../services/ofertas_service";
+import { useEffect, useState } from "react";
 
 const Ofertas = () => {
-  const { ofertas } = ofertasData;
+  const [ofertas, setOfertas] = useState([]);
   const [estadoOferta, setEstadoOferta] = useState("Ofertas activas");
-  // Las ofertas pueden ser: Ofertas activas, Ofertas pendientes, Ofertas en revisión, Ofertas finalizadas
+  let estado =
+    estadoOferta === "Ofertas activas"
+      ? 1
+      : estadoOferta === "Ofertas pendientes"
+      ? 2
+      : estadoOferta === "Ofertas en revisión"
+      ? 4
+      : estadoOferta === "Ofertas finalizadas"
+      ? 5
+      : 1;
+
+  useEffect(() => {
+    const traerOfertas = async () => {
+      const response = await getOfertas(0, 20, "", "id", estado);
+      setOfertas(response.ofertas.rows);
+    };
+    traerOfertas();
+  }, [estado]);
 
   return (
     <Card type="section" elevation={8}>
@@ -126,10 +143,14 @@ const Ofertas = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="center">
-                  <Typography variant="subtitle1">{oferta.puesto}</Typography>
+                  <Typography variant="subtitle1">
+                    {oferta.titulo_oferta}
+                  </Typography>
                 </TableCell>
                 <TableCell align="center">
-                  <Typography variant="subtitle1">{oferta.empresa}</Typography>
+                  <Typography variant="subtitle1">
+                    {oferta.Empresa?.nombre_empresa}
+                  </Typography>
                 </TableCell>
                 <TableCell align="center">
                   <Typography variant="subtitle1">
@@ -137,7 +158,14 @@ const Ofertas = () => {
                       fontSize="small"
                       sx={{
                         verticalAlign: "middle",
-                        color: oferta.estado === "Aprobado" ? "green" : "red",
+                        color:
+                          oferta.Estado?.id === 1
+                            ? "green"
+                            : oferta.Estado?.id === 2
+                            ? "orange"
+                            : oferta.Estado?.id === 4
+                            ? "red"
+                            : "black",
                       }}
                     />
                   </Typography>
@@ -153,6 +181,7 @@ const Ofertas = () => {
                         color: "white",
                       },
                     }}
+                    href={`/oferta/${oferta.id}`}
                   >
                     Ver
                   </Button>

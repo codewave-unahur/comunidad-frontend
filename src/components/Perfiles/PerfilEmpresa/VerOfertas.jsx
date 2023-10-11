@@ -25,7 +25,7 @@ const VerOfertas = () => {
 
   useEffect(() => {
     const traerOfertas = async () => {
-      const response = await getOfertaByCuit(0, 20, "id", 1, datosUsuario.id);
+      const response = await getOfertaByCuit(0, "", 20, datosUsuario.id);
       setOfertas(response.ofertas.rows);
     };
     traerOfertas();

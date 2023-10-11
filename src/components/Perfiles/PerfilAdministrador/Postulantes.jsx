@@ -12,10 +12,20 @@ import {
   Card,
 } from "@mui/material";
 
-import postulantesData from "../../Home/postulantes.json";
+import { getPostulantes } from "../../../services/postulantes_service";
+import { useEffect, useState } from "react";
 
 const Postulantes = () => {
-  const { postulantes } = postulantesData;
+  const [postulantes, setPostulantes] = useState([]);
+
+  useEffect(() => {
+    const traerPostulantes = async () => {
+      const response = await getPostulantes(0, 20, "id", "");
+      setPostulantes(response.postulantes.rows);
+    };
+    traerPostulantes();
+  }, []);
+
   return (
     <Card type="section" elevation={8}>
       <CardHeader title="Listado de postulantes" />
@@ -44,7 +54,7 @@ const Postulantes = () => {
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell align="center">
-                  <Typography variant="subtitle1">{postulante.dni}</Typography>
+                  <Typography variant="subtitle1">{postulante.id}</Typography>
                 </TableCell>
                 <TableCell align="center">
                   <Typography variant="subtitle1">
@@ -53,7 +63,7 @@ const Postulantes = () => {
                 </TableCell>
                 <TableCell align="center">
                   <Typography variant="subtitle1">
-                    {postulante.email}
+                    {postulante.Usuario?.usuario}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">

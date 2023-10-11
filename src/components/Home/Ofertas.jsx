@@ -29,7 +29,7 @@ const Ofertas = (props) => {
     const traerOfertas = async () => {
       let response;
       if (tipoUsuario === "empresa") {
-        response = await getOfertaByCuit(0, 20, "id", 1, datosUsuario.id);
+        response = await getOfertaByCuit(0, "", 20, datosUsuario.id);
       } else {
         response = await getOfertas(0, 20, nombreBusqueda, "id", 1);
       }

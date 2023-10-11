@@ -233,7 +233,7 @@ function Perfil() {
                 fontWeight: "bold",
               }}
             >
-              {tipoUsuario === "administrador"
+              {tipoUsuario === "admin"
                 ? "Administrador"
                 : usuario.nombre + " " + usuario.apellido}
             </Typography>
