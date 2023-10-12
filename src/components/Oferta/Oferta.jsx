@@ -32,7 +32,8 @@ import { postPostulacion } from "../../services/postulaciones_service";
 
 import { Toaster, toast } from "sonner";
 
-import PreferenciasOferta from "./PreferenciasOferta";
+// import PreferenciasOferta from "./PreferenciasOferta";
+import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_service";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -47,6 +48,8 @@ const Oferta = () => {
   const idOferta = parseInt(window.location.pathname.split("/")[2]);
   const [oferta, setOferta] = useState({});
   const [open, setOpen] = useState(false);
+  const [postulaciones, setPostulaciones] = useState([]);
+
   useEffect(() => {
     const traerOferta = async () => {
       try {
@@ -58,6 +61,24 @@ const Oferta = () => {
     };
     traerOferta();
   }, [idOferta]);
+
+  useEffect(() => {
+    if (tipoUsuario === "postulante") {
+      const traerPostulaciones = async () => {
+        try {
+          const response = await getPostulacionesPorIdPostulante(
+            0,
+            20,
+            datosUsuario.id
+          );
+          setPostulaciones(response.postulaciones.rows);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      traerPostulaciones();
+    }
+  }, [tipoUsuario, datosUsuario?.id]);
 
   const publicadoHace = (fecha) => {
     const fechaPublicacion = new Date(fecha);
@@ -101,6 +122,10 @@ const Oferta = () => {
     }
   };
 
+  const estaPostulado = postulaciones.some(
+    (postulacion) => postulacion.fk_id_oferta === idOferta
+  );
+
   return (
     <>
       <Header />
@@ -138,7 +163,7 @@ const Oferta = () => {
             title={oferta.titulo_oferta}
             subheader={
               <>
-                {oferta.zona_trabajo} <PreferenciasOferta />
+                {oferta.zona_trabajo} {/*<PreferenciasOferta />*/}
               </>
             }
             sx={{
@@ -339,6 +364,13 @@ const Oferta = () => {
                 ? console.log("Editar oferta")
                 : handleClickOpen
             }
+            disabled={
+              tipoUsuario === "empresa" || tipoUsuario === "admin"
+                ? false
+                : tipoUsuario === "postulante" && estaPostulado
+                ? true
+                : false
+            }
             sx={{
               margin: "1rem",
               padding: "0.5rem",
@@ -353,6 +385,8 @@ const Oferta = () => {
           >
             {tipoUsuario === "empresa" || tipoUsuario === "admin"
               ? "Editar oferta"
+              : tipoUsuario === "postulante" && estaPostulado
+              ? "Ya estás postulado"
               : "Postularme"}
           </Button>
         </Card>

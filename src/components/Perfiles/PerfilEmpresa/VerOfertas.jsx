@@ -10,18 +10,72 @@ import {
   TableRow,
   Paper,
   Card,
+  Slide,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 
 import CircleIcon from "@mui/icons-material/Circle";
 
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
 
-import { getOfertaByCuit } from "../../../services/ofertas_service";
+import { getOfertaByCuit, putOferta } from "../../../services/ofertas_service";
+
+import { Toaster, toast } from "sonner";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const VerOfertas = () => {
   const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+  const token = sessionStorage.getItem("token");
 
   const [ofertas, setOfertas] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [idOfertaAFinalizar, setIdOfertaAFinalizar] = useState(null);
+  const handleClickOpen = (ofertaID) => {
+    setIdOfertaAFinalizar(ofertaID);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleFinalizarOferta = (idOferta) => async () => {
+    try {
+      const response = await putOferta(
+        idOferta,
+        {
+          idEstado: 5,
+        },
+        token
+      );
+      if (response === "OK") {
+        toast.success("Oferta finalizada con éxito");
+        handleClose();
+        setOfertas(
+          ofertas.map((oferta) => {
+            if (oferta.id === idOferta) {
+              oferta.Estado = { id: 5, nombre_estado: "finalizada" };
+            }
+            return oferta;
+          })
+        );
+      } else {
+        toast.error("Error al finalizar la oferta");
+        handleClose();
+      }
+    } catch (error) {
+      console.log("error", error);
+      toast.error("Error al finalizar la oferta");
+      handleClose();
+    }
+  };
 
   useEffect(() => {
     const traerOfertas = async () => {
@@ -112,12 +166,18 @@ const VerOfertas = () => {
                         borderColor: "green",
                       },
                     }}
+                    href={`/postulantes/${oferta.id}`}
                   >
                     Ver postulantes
                   </Button>
                   <Button
                     variant="outlined"
-                    disabled={oferta.Estado?.nombre_estado === "finalizada"}
+                    disabled={oferta.Estado?.id === 5}
+                    onClick={
+                      oferta.Estado?.id === 5
+                        ? null
+                        : () => handleClickOpen(oferta.id)
+                    }
                     sx={{
                       color: "red",
                       borderColor: "red",
@@ -136,6 +196,32 @@ const VerOfertas = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle>
+          {"¿Está seguro que desea finalizar la oferta?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Si finaliza esta oferta no podrá volver a activarla.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancelar</Button>
+          <Button
+            onClick={handleFinalizarOferta(idOfertaAFinalizar)}
+            color="error"
+          >
+            Finalizar
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Toaster richColors closeButton />
     </Card>
   );
 };

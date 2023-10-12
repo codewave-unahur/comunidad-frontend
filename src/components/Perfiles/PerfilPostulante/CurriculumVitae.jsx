@@ -1,11 +1,10 @@
 import { Button, CardHeader, Grid, Card } from "@mui/material";
 
-import CV from "./CV.pdf";
-
 import { useState } from "react";
 
 const CurriculumVitae = () => {
   const [cvSubido, setCvSubido] = useState(false);
+  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
 
   const handleSubirCV = () => {
     setCvSubido(true);
@@ -43,7 +42,7 @@ const CurriculumVitae = () => {
             sx={{
               float: "right",
             }}
-            href={CV}
+            href={datosUsuario.cv}
             target="_blank"
             disabled={!cvSubido}
             fullWidth

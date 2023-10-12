@@ -18,6 +18,8 @@ const ciudades = [
   "seleccionada",
 ];
 
+const genero = ["Femenino", "Masculino", "Otro"];
+
 export default function DatosPersonales() {
   return (
     <>
@@ -146,6 +148,17 @@ export default function DatosPersonales() {
         <Grid item xs={12} sm={4}>
           <TextField
             required
+            id="codigoPostal"
+            name="codigoPostal"
+            label="Código postal"
+            fullWidth
+            autoComplete="codigoPostal"
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
             id="nombreCalle"
             name="nombreCalle"
             label="Nombre de la calle"
@@ -175,6 +188,57 @@ export default function DatosPersonales() {
             label="Teléfono de contacto"
             fullWidth
             autoComplete="telefono"
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            type="url"
+            id="linkedin"
+            name="linkedin"
+            label="Linkedin"
+            fullWidth
+            autoComplete="linkedin"
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            type="url"
+            id="red"
+            name="red"
+            label="Otra red social"
+            fullWidth
+            autoComplete="red"
+            variant="outlined"
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            select
+            id="genero"
+            name="genero"
+            label="Género"
+            fullWidth
+            autoComplete="genero"
+            variant="outlined"
+            defaultValue=""
+          >
+            {genero.map((genero) => (
+              <MenuItem key={genero} value={genero}>
+                {genero}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            id="discapacidad"
+            name="discapacidad"
+            label="¿Tiene alguna discapacidad?"
+            fullWidth
+            multiline
+            autoComplete="discapacidad"
             variant="outlined"
           />
         </Grid>

@@ -1,6 +1,13 @@
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import { Checkbox, FormControlLabel, MenuItem, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  MenuItem,
+  TextField,
+} from "@mui/material";
+import { useState } from "react";
 
 const datosEstudio = [
   { id: 1, nombre_estudio: "Primario", estado_estudio: "Incompleto" },
@@ -35,6 +42,21 @@ const listaCarreras = [
 ];
 
 export default function DatosAcademicos() {
+  const [idiomas, setIdiomas] = useState([
+    { idioma: "", nivelOral: "", nivelEscrito: "" },
+  ]);
+
+  const agregarNuevoIdioma = () => {
+    setIdiomas([
+      ...idiomas,
+      { id: idiomas.length, idioma: "", nivelOral: "", nivelEscrito: "" },
+    ]);
+  };
+
+  const quitarIdioma = (index) => {
+    setIdiomas(idiomas.filter((idioma) => idioma.id !== index));
+  };
+
   return (
     <>
       <Typography variant="h5" gutterBottom>
@@ -92,72 +114,58 @@ export default function DatosAcademicos() {
         </Grid>
       </Grid>
       <Grid container spacing={3} paddingTop={3}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="idioma1"
-            name="idioma1"
-            label="Idioma 1"
-            fullWidth
-            autoComplete="idioma1"
-            variant="outlined"
-          />
+        <Grid item xs={12} sm={12} md={12}>
+          <Typography variant="h5" gutterBottom>
+            Idiomas
+          </Typography>
+          {idiomas.map((idioma, index) => (
+            <Grid container spacing={2} paddingY={2} key={index}>
+              <Grid item xs={12} sm={4} md={4}>
+                <TextField
+                  label="Idioma"
+                  variant="outlined"
+                  value={idioma.idioma}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={4} md={4}>
+                <TextField
+                  label="Nivel oral"
+                  variant="outlined"
+                  value={idioma.nivelOral}
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={12} sm={4} md={4}>
+                <TextField
+                  label="Nivel escrito"
+                  variant="outlined"
+                  value={idioma.nivelEscrito}
+                  fullWidth
+                />
+              </Grid>
+              {index === 0 ? null : (
+                <Button
+                  disableElevation
+                  variant="contained"
+                  onClick={() => quitarIdioma(index)}
+                  sx={{ marginTop: 1, marginLeft: 2 }}
+                >
+                  Quitar idioma
+                </Button>
+              )}
+            </Grid>
+          ))}
+          <Button
+            disableElevation
+            variant="contained"
+            onClick={agregarNuevoIdioma}
+            sx={{ marginTop: 1 }}
+          >
+            Agregar nuevo idioma
+          </Button>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="nivelIdioma1"
-            name="nivelIdioma1"
-            label="Nivel idioma 1"
-            fullWidth
-            autoComplete="nivelIdioma1"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="idioma2"
-            name="idioma2"
-            label="Idioma 2"
-            fullWidth
-            autoComplete="idioma2"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="nivelIdioma2"
-            name="nivelIdioma2"
-            label="Nivel idioma 2"
-            fullWidth
-            autoComplete="nivelIdioma2"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="idioma3"
-            name="idioma3"
-            label="Idioma 3"
-            fullWidth
-            autoComplete="idioma3"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="nivelIdioma3"
-            name="nivelIdioma3"
-            label="Nivel idioma 3"
-            fullWidth
-            autoComplete="nivelIdioma3"
-            variant="outlined"
-          />
-        </Grid>
+
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox />}
