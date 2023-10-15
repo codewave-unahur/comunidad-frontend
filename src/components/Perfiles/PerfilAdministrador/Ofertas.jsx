@@ -17,6 +17,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 
 import { getOfertas } from "../../../services/ofertas_service";
 import { useEffect, useState } from "react";
+import Buscador from "../../Buscador/Buscador";
 
 const Ofertas = () => {
   const [ofertas, setOfertas] = useState([]);
@@ -42,7 +43,16 @@ const Ofertas = () => {
 
   return (
     <Card type="section" elevation={8}>
-      <CardHeader title={estadoOferta} />
+      <CardHeader
+        title={estadoOferta}
+        action={<Buscador placeholder="Buscar oferta" />}
+        sx={{
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+          },
+        }}
+      />
       <Stack
         component="header"
         my={3}
@@ -197,6 +207,7 @@ const Ofertas = () => {
                         borderColor: "green",
                       },
                     }}
+                    href={`/postulantes/${oferta.id}`}
                   >
                     Ver postulantes
                   </Button>

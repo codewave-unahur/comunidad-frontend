@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import {
   Avatar,
   Button,
@@ -180,12 +179,9 @@ const Ofertas = (props) => {
                 justifyContent: "center",
               }}
             >
-              <Link
-                to={`/oferta/${oferta.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                <Button variant="contained">Ver oferta</Button>
-              </Link>
+              <Button variant="contained" href={`/oferta/${oferta.id}`}>
+                Ver oferta
+              </Button>
             </CardActions>
           </Card>
         </Grid>

@@ -14,6 +14,7 @@ import {
 
 import { getPostulantes } from "../../../services/postulantes_service";
 import { useEffect, useState } from "react";
+import Buscador from "../../Buscador/Buscador";
 
 const Postulantes = () => {
   const [postulantes, setPostulantes] = useState([]);
@@ -28,7 +29,16 @@ const Postulantes = () => {
 
   return (
     <Card type="section" elevation={8}>
-      <CardHeader title="Listado de postulantes" />
+      <CardHeader
+        title="Listado de postulantes"
+        action={<Buscador placeholder="Buscar postulante" />}
+        sx={{
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+          },
+        }}
+      />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -79,6 +89,7 @@ const Postulantes = () => {
                         borderColor: "green",
                       },
                     }}
+                    href={`/postulante/${postulante.id}`}
                   >
                     Ver postulante
                   </Button>

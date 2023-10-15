@@ -1,6 +1,6 @@
 import { CssBaseline } from "@mui/material";
 import Header from "../Header/Header";
-import Ofertas from "./Ofertas.jsx";
+import Ofertas from "../Ofertas/Ofertas.jsx";
 import { useState } from "react";
 
 const Inicio = () => {

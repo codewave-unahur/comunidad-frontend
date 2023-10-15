@@ -51,6 +51,10 @@ const Oferta = () => {
   const [postulaciones, setPostulaciones] = useState([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const traerOferta = async () => {
       try {
         const response = await getOfertaById(idOferta);

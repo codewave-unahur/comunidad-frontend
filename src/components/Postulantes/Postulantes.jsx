@@ -30,6 +30,7 @@ import { Toaster, toast } from "sonner";
 
 // import PreferenciasOferta from "./PreferenciasOferta";
 import { getPostulacionesPorIdOferta } from "../../services/postulacionesId_service";
+import { getOfertaById } from "../../services/ofertas_service";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -41,6 +42,7 @@ const Postulantes = () => {
 
   const [open, setOpen] = useState(false);
   const [postulaciones, setPostulaciones] = useState([]);
+  const [nombreOferta, setNombreOferta] = useState("");
 
   useEffect(() => {
     const traerPostulaciones = async () => {
@@ -51,6 +53,15 @@ const Postulantes = () => {
         console.log(error);
       }
     };
+    const traerOferta = async () => {
+      try {
+        const response = await getOfertaById(idOferta);
+        setNombreOferta(response.titulo_oferta);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    traerOferta();
     traerPostulaciones();
   }, [idOferta]);
 
@@ -81,7 +92,7 @@ const Postulantes = () => {
           }}
         >
           <CardHeader
-            title={"Postulantes a " + postulaciones[0]?.Oferta?.titulo_oferta}
+            title={"Postulantes a " + nombreOferta}
             sx={{
               "& .MuiTypography-h5": {
                 fontSize: "2rem",
@@ -187,6 +198,7 @@ const Postulantes = () => {
                             color: "white",
                           },
                         }}
+                        href={`/postulante/${postulacion.Postulante?.id}`}
                       >
                         Ver perfil
                       </Button>
@@ -214,6 +226,14 @@ const Postulantes = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          {postulaciones.length === 0 ? (
+            <Typography
+              variant="h4"
+              sx={{ textAlign: "center", padding: "1rem", margin: "1rem" }}
+            >
+              Aun no hay postulantes para esta oferta
+            </Typography>
+          ) : null}
           <Dialog
             open={open}
             TransitionComponent={Transition}

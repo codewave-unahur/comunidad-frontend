@@ -15,6 +15,7 @@ import {
 
 import { getEmpresas } from "../../../services/empresas_service";
 import { useEffect, useState } from "react";
+import Buscador from "../../Buscador/Buscador";
 
 const Empresas = () => {
   const [empresas, setEmpresas] = useState([]);
@@ -36,7 +37,16 @@ const Empresas = () => {
 
   return (
     <Card type="section" elevation={8}>
-      <CardHeader title={estadoOferta} />
+      <CardHeader
+        title={estadoOferta}
+        action={<Buscador placeholder="Buscar empresa" />}
+        sx={{
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+          },
+        }}
+      />
       <Stack
         component="header"
         my={3}
@@ -139,6 +149,7 @@ const Empresas = () => {
                         borderColor: "green",
                       },
                     }}
+                    href={`/empresa/${empresa.id}`}
                   >
                     Ver empresa
                   </Button>

@@ -25,6 +25,7 @@ import { forwardRef, useEffect, useState } from "react";
 import { getOfertaByCuit, putOferta } from "../../../services/ofertas_service";
 
 import { Toaster, toast } from "sonner";
+import Buscador from "../../Buscador/Buscador";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -87,7 +88,16 @@ const VerOfertas = () => {
 
   return (
     <Card type="section" elevation={8}>
-      <CardHeader title="Ofertas de trabajo" />
+      <CardHeader
+        title="Ofertas de trabajo"
+        action={<Buscador placeholder="Buscar oferta" />}
+        sx={{
+          flexDirection: {
+            xs: "column",
+            sm: "row",
+          },
+        }}
+      />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
