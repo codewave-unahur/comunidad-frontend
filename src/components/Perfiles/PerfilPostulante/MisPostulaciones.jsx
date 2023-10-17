@@ -108,11 +108,24 @@ const MisPostulaciones = () => {
     }
   };
 
+  const handleSubmit = async (e, busqueda) => {
+    e.preventDefault();
+    const response = await getPostulacionesPorIdPostulante(
+      0,
+      20,
+      postulante.id,
+      busqueda
+    );
+    setOfertas(response.postulaciones.rows);
+  };
+
   return (
     <Card type="section" elevation={8}>
       <CardHeader
         title="Mis postulaciones"
-        action={<Buscador placeholder="Buscar oferta" />}
+        action={
+          <Buscador handleSubmit={handleSubmit} placeholder="Buscar oferta" />
+        }
         sx={{
           flexDirection: {
             xs: "column",

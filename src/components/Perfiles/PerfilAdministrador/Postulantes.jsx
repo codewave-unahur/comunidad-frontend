@@ -27,11 +27,22 @@ const Postulantes = () => {
     traerPostulantes();
   }, []);
 
+  const handleSubmit = async (e, buscador) => {
+    e.preventDefault();
+    const response = await getPostulantes(0, 20, "id", buscador);
+    setPostulantes(response.postulantes.rows);
+  };
+
   return (
     <Card type="section" elevation={8}>
       <CardHeader
         title="Listado de postulantes"
-        action={<Buscador placeholder="Buscar postulante" />}
+        action={
+          <Buscador
+            handleSubmit={handleSubmit}
+            placeholder="Buscar postulante"
+          />
+        }
         sx={{
           flexDirection: {
             xs: "column",

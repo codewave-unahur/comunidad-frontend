@@ -132,6 +132,7 @@ const Header = (props) => {
               item
               xs={8}
               sm={6}
+              margin={{ xs: 1, sm: 0 }}
               justifyContent="center"
               alignItems="center"
             >

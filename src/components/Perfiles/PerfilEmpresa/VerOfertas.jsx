@@ -86,11 +86,19 @@ const VerOfertas = () => {
     traerOfertas();
   }, [datosUsuario.id]);
 
+  const handleSubmit = async (e, busqueda) => {
+    e.preventDefault();
+    const response = await getOfertaByCuit(0, busqueda, 20, datosUsuario.id);
+    setOfertas(response.ofertas.rows);
+  };
+
   return (
     <Card type="section" elevation={8}>
       <CardHeader
         title="Ofertas de trabajo"
-        action={<Buscador placeholder="Buscar oferta" />}
+        action={
+          <Buscador handleSubmit={handleSubmit} placeholder="Buscar oferta" />
+        }
         sx={{
           flexDirection: {
             xs: "column",
@@ -183,11 +191,7 @@ const VerOfertas = () => {
                   <Button
                     variant="outlined"
                     disabled={oferta.Estado?.id === 5}
-                    onClick={
-                      oferta.Estado?.id === 5
-                        ? null
-                        : () => handleClickOpen(oferta.id)
-                    }
+                    onClick={() => handleClickOpen(oferta.id)}
                     sx={{
                       color: "red",
                       borderColor: "red",

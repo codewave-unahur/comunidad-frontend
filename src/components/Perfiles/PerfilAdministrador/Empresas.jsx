@@ -11,19 +11,36 @@ import {
   Paper,
   Card,
   Stack,
+  Slide,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 
-import { getEmpresas } from "../../../services/empresas_service";
-import { useEffect, useState } from "react";
+import { getEmpresas, putEmpresa } from "../../../services/empresas_service";
+import { useEffect, useState, forwardRef } from "react";
 import Buscador from "../../Buscador/Buscador";
 
+import { Toaster, toast } from "sonner";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="down" ref={ref} {...props} />;
+});
+
 const Empresas = () => {
+  const token = sessionStorage.getItem("token");
+
+  const [open, setOpen] = useState(false);
   const [empresas, setEmpresas] = useState([]);
-  const [estadoOferta, setEstadoOferta] = useState("Empresas activas");
+  const [idEmpresaAActivar, setIdEmpresaAActivar] = useState(null);
+  const [nombreEmpresaAActivar, setNombreEmpresaAActivar] = useState(null);
+  const [estadoEmpresa, setEstadoEmpresa] = useState("Empresas activas");
   let estado =
-    estadoOferta === "Empresas activas"
+    estadoEmpresa === "Empresas activas"
       ? 1
-      : estadoOferta === "Empresas pendientes"
+      : estadoEmpresa === "Empresas pendientes"
       ? 2
       : 1;
 
@@ -35,131 +52,221 @@ const Empresas = () => {
     traerEmpresas();
   }, [estado]);
 
-  return (
-    <Card type="section" elevation={8}>
-      <CardHeader
-        title={estadoOferta}
-        action={<Buscador placeholder="Buscar empresa" />}
-        sx={{
-          flexDirection: {
-            xs: "column",
-            sm: "row",
-          },
-        }}
-      />
-      <Stack
-        component="header"
-        my={3}
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        flexWrap="wrap"
-        textTransform="uppercase"
-        paddingX={2}
-      >
-        <Button
-          variant="contained"
-          sx={{
-            color: "white",
-            backgroundColor: "green",
-            "&:hover": {
-              backgroundColor: "green",
-              color: "white",
-            },
-            width: "220px",
-            margin: 1,
-          }}
-          onClick={() => setEstadoOferta("Empresas activas")}
-        >
-          Empresas activas
-        </Button>
-        <Button
-          variant="contained"
-          sx={{
-            color: "white",
-            backgroundColor: "orange",
-            "&:hover": {
-              backgroundColor: "orange",
-              color: "white",
-            },
-            width: "220px",
-            margin: 1,
-          }}
-          onClick={() => setEstadoOferta("Empresas pendientes")}
-        >
-          Empresas pendientes
-        </Button>
-      </Stack>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">
-                <Typography variant="h5">CUIT</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="h5">Nombre</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="h5">Representante</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="h5">Email</Typography>
-              </TableCell>
-              <TableCell align="center">
-                <Typography variant="h5">Acciones</Typography>
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {empresas.map((empresa) => (
-              <TableRow
-                key={empresa.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="center">
-                  <Typography variant="subtitle1">{empresa.id}</Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="subtitle1">
-                    {empresa.nombre_empresa}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="subtitle1">
-                    {empresa.nombre_representante}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography variant="subtitle1">
-                    {empresa.email_representante}
-                  </Typography>
-                </TableCell>
+  const handleClickOpen = (empresaID, empresaNombre) => {
+    setIdEmpresaAActivar(empresaID);
+    setNombreEmpresaAActivar(empresaNombre);
+    setOpen(true);
+  };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const activarEmpresa = (id) => async () => {
+    const estadoActivo = {
+      idEstado: 1,
+    };
+
+    try {
+      const response = await putEmpresa(id, estadoActivo, token);
+      if (response) {
+        toast.success("La empresa fue activada con éxito.");
+        setEmpresas(empresas.filter((empresa) => empresa.id !== id));
+        setOpen(false);
+      } else {
+        toast.error("No se pudo activar la empresa.");
+      }
+    } catch (error) {
+      toast.error("No se pudo activar la empresa.");
+    }
+  };
+
+  const handleSubmit = async (e, buscador) => {
+    e.preventDefault();
+    const response = await getEmpresas(0, 20, "id", estado, buscador);
+    setEmpresas(response.empresas.rows);
+  };
+
+  return (
+    <>
+      <Card type="section" elevation={8}>
+        <CardHeader
+          title={estadoEmpresa}
+          action={
+            <Buscador
+              handleSubmit={handleSubmit}
+              placeholder="Buscar empresa"
+            />
+          }
+          sx={{
+            flexDirection: {
+              xs: "column",
+              sm: "row",
+            },
+          }}
+        />
+        <Stack
+          component="header"
+          my={3}
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          flexWrap="wrap"
+          textTransform="uppercase"
+          paddingX={2}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              color: "white",
+              backgroundColor: "green",
+              "&:hover": {
+                backgroundColor: "green",
+                color: "white",
+              },
+              width: "220px",
+              margin: 1,
+            }}
+            onClick={() => setEstadoEmpresa("Empresas activas")}
+          >
+            Empresas activas
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              color: "white",
+              backgroundColor: "orange",
+              "&:hover": {
+                backgroundColor: "orange",
+                color: "white",
+              },
+              width: "220px",
+              margin: 1,
+            }}
+            onClick={() => setEstadoEmpresa("Empresas pendientes")}
+          >
+            Empresas pendientes
+          </Button>
+        </Stack>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
                 <TableCell align="center">
-                  <Button
-                    variant="outlined"
-                    sx={{
-                      margin: 1,
-                      color: "green",
-                      borderColor: "green",
-                      "&:hover": {
-                        backgroundColor: "lightgrey",
-                        color: "black",
-                        borderColor: "green",
-                      },
-                    }}
-                    href={`/empresa/${empresa.id}`}
-                  >
-                    Ver empresa
-                  </Button>
+                  <Typography variant="h5">CUIT</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="h5">Nombre</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="h5">Representante</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="h5">Email</Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="h5">Acciones</Typography>
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Card>
+            </TableHead>
+            <TableBody>
+              {empresas.map((empresa) => (
+                <TableRow
+                  key={empresa.id}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell align="center">
+                    <Typography variant="subtitle1">{empresa.id}</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="subtitle1">
+                      {empresa.nombre_empresa}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="subtitle1">
+                      {empresa.nombre_representante}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="subtitle1">
+                      {empresa.email_representante}
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell align="center">
+                    {estadoEmpresa === "Empresas pendientes" ? (
+                      <Button
+                        variant="contained"
+                        onClick={() =>
+                          handleClickOpen(empresa.id, empresa.nombre_empresa)
+                        }
+                        sx={{
+                          color: "white",
+                          backgroundColor: "green",
+                          "&:hover": {
+                            backgroundColor: "green",
+                            color: "white",
+                          },
+                        }}
+                      >
+                        Activar
+                      </Button>
+                    ) : null}
+                    <Button
+                      variant="outlined"
+                      sx={{
+                        margin: 1,
+                        color: "green",
+                        borderColor: "green",
+                        "&:hover": {
+                          backgroundColor: "lightgrey",
+                          color: "black",
+                          borderColor: "green",
+                        },
+                      }}
+                      href={`/empresa/${empresa.id}`}
+                    >
+                      Ver empresa
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle>
+          {"¿Está seguro que desea activar la empresa "}
+          <b>{nombreEmpresaAActivar}</b>?
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Una vez activada, la empresa podrá publicar ofertas laborales.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="error">
+            No, cancelar.
+          </Button>
+          <Button
+            onClick={activarEmpresa(idEmpresaAActivar)}
+            autoFocus
+            color="success"
+          >
+            Sí, activar.
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Toaster richColors closeButton />
+    </>
   );
 };
 
