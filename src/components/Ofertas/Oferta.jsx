@@ -153,8 +153,8 @@ const Oferta = () => {
             src="https://cdn.discordapp.com/attachments/955646153297395722/996230598853148792/unknown.png"
             sx={{
               position: "absolute",
-              right: "3rem",
-              top: "6rem",
+              right: "2rem",
+              top: "2rem",
               width: 150,
               height: 150,
               display: {
@@ -235,11 +235,14 @@ const Oferta = () => {
               <ListItem>
                 <ListItemText
                   primary={
-                    "Rango etario: " +
-                    oferta.edad_desde +
-                    " a " +
-                    oferta.edad_hasta +
-                    " años"
+                    oferta.edad_desde === null && oferta.edad_hasta === null ? (
+                      "Rango etario: " + "No hay requisitos de edad"
+                    ) : (
+                      <>
+                        Rango etario: {oferta.edad_desde} - {oferta.edad_hasta}{" "}
+                        años
+                      </>
+                    )
                   }
                 />
               </ListItem>
@@ -289,7 +292,7 @@ const Oferta = () => {
                   }}
                 />
                 <ListItemText
-                  primary={oferta.remuneracion}
+                  primary={oferta.remuneracion || "No especificado"}
                   secondary="Salario"
                 />
               </ListItem>
@@ -341,7 +344,7 @@ const Oferta = () => {
                   }}
                 />
                 <ListItemText
-                  primary={oferta.beneficios}
+                  primary={oferta.beneficios || "No especificado"}
                   secondary="Beneficios"
                 />
               </ListItem>
@@ -365,7 +368,7 @@ const Oferta = () => {
             color="primary"
             onClick={
               tipoUsuario === "empresa" || tipoUsuario === "admin"
-                ? console.log("Editar oferta")
+                ? () => window.location.reload()
                 : handleClickOpen
             }
             disabled={
