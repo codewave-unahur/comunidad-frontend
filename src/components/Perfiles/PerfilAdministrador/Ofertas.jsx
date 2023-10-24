@@ -24,6 +24,7 @@ import { Toaster, toast } from "sonner";
 import { getOfertas, putOferta } from "../../../services/ofertas_service";
 import { useEffect, useState, forwardRef } from "react";
 import Buscador from "../../Buscador/Buscador";
+import Paginacion from "../../Paginacion/Paginacion";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -32,6 +33,9 @@ const Transition = forwardRef(function Transition(props, ref) {
 const Ofertas = () => {
   const token = sessionStorage.getItem("token");
 
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(0);
+  const limite = 6;
   const [ofertas, setOfertas] = useState([]);
   const [estadoOferta, setEstadoOferta] = useState("Ofertas activas");
   const [open, setOpen] = useState(false);
@@ -126,16 +130,30 @@ const Ofertas = () => {
 
   useEffect(() => {
     const traerOfertas = async () => {
-      const response = await getOfertas(0, 20, "", "id", estado);
+      const response = await getOfertas(
+        paginaActual - 1,
+        limite,
+        "",
+        "id",
+        estado
+      );
       setOfertas(response.ofertas.rows);
+      setTotalPaginas(response.totalPaginas);
     };
     traerOfertas();
-  }, [estado]);
+  }, [estado, paginaActual]);
 
   const handleSubmit = async (e, buscador) => {
     e.preventDefault();
-    const response = await getOfertas(0, 20, buscador, "id", estado);
+    setPaginaActual(1);
+    const response = await getOfertas(0, limite, buscador, "id", estado);
     setOfertas(response.ofertas.rows);
+    setTotalPaginas(response.totalPaginas);
+  };
+
+  const handleChangeEstadoOferta = (e) => {
+    setEstadoOferta(e.target.textContent);
+    setPaginaActual(1);
   };
 
   const botonVer = (oferta) => {
@@ -304,7 +322,7 @@ const Ofertas = () => {
               width: "200px",
               margin: 1,
             }}
-            onClick={() => setEstadoOferta(name)}
+            onClick={handleChangeEstadoOferta}
           >
             {name}
           </Button>
@@ -314,13 +332,13 @@ const Ofertas = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">
+              <TableCell align="center" sx={{ width: "40%" }}>
                 <Typography variant="h5">Puesto</Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="center" sx={{ width: "20%" }}>
                 <Typography variant="h5">Empresa</Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="center" sx={{ width: "40%" }}>
                 <Typography variant="h5">Acciones</Typography>
               </TableCell>
             </TableRow>
@@ -348,6 +366,11 @@ const Ofertas = () => {
             ))}
           </TableBody>
         </Table>
+        <Paginacion
+          paginaActual={paginaActual}
+          totalPaginas={totalPaginas}
+          cambiarPagina={setPaginaActual}
+        />
       </TableContainer>
       <Dialog
         open={open}

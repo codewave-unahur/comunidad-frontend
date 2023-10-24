@@ -26,6 +26,7 @@ import { getOfertaByCuit, putOferta } from "../../../services/ofertas_service";
 
 import { Toaster, toast } from "sonner";
 import Buscador from "../../Buscador/Buscador";
+import Paginacion from "../../Paginacion/Paginacion";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,6 +36,9 @@ const VerOfertas = () => {
   const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
   const token = sessionStorage.getItem("token");
 
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(0);
+  const limite = 6;
   const [ofertas, setOfertas] = useState([]);
   const [open, setOpen] = useState(false);
   const [idOfertaAFinalizar, setIdOfertaAFinalizar] = useState(null);
@@ -80,16 +84,28 @@ const VerOfertas = () => {
 
   useEffect(() => {
     const traerOfertas = async () => {
-      const response = await getOfertaByCuit(0, "", 20, datosUsuario.id);
+      const response = await getOfertaByCuit(
+        paginaActual - 1,
+        "",
+        limite,
+        datosUsuario.id
+      );
       setOfertas(response.ofertas.rows);
+      setTotalPaginas(response.totalPaginas);
     };
     traerOfertas();
-  }, [datosUsuario.id]);
+  }, [datosUsuario.id, paginaActual]);
 
   const handleSubmit = async (e, busqueda) => {
     e.preventDefault();
-    const response = await getOfertaByCuit(0, busqueda, 20, datosUsuario.id);
+    const response = await getOfertaByCuit(
+      paginaActual - 1,
+      busqueda,
+      limite,
+      datosUsuario.id
+    );
     setOfertas(response.ofertas.rows);
+    setTotalPaginas(response.totalPaginas);
   };
 
   return (
@@ -110,13 +126,13 @@ const VerOfertas = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">
+              <TableCell align="center" sx={{ width: "40%" }}>
                 <Typography variant="h5">Puesto</Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="center" sx={{ width: "20%" }}>
                 <Typography variant="h5">Estado</Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="center" sx={{ width: "40%" }}>
                 <Typography variant="h5">Acciones</Typography>
               </TableCell>
             </TableRow>
@@ -209,6 +225,11 @@ const VerOfertas = () => {
             ))}
           </TableBody>
         </Table>
+        <Paginacion
+          paginaActual={paginaActual}
+          totalPaginas={totalPaginas}
+          cambiarPagina={setPaginaActual}
+        />
       </TableContainer>
       <Dialog
         open={open}

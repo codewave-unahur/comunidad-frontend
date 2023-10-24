@@ -18,19 +18,31 @@ import PropTypes from "prop-types";
 const Ofertas = (props) => {
   const tipoUsuario = sessionStorage.getItem("tipoUsuario");
   const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
-  const { ofertas, setOfertas } = props;
+  const { ofertas, setOfertas, paginaActual, setTotalPaginas } = props;
   const scrollRef = useRef({});
   const nombreBusqueda = window.location.search.split("=")[1] || "";
 
   const [postulaciones, setPostulaciones] = useState([]);
+  const limite = 12;
 
   useEffect(() => {
     const traerOfertas = async () => {
       let response;
       if (tipoUsuario === "empresa") {
-        response = await getOfertaByCuit(0, "", 20, datosUsuario.id);
+        response = await getOfertaByCuit(
+          paginaActual - 1,
+          "",
+          limite,
+          datosUsuario.id
+        );
       } else {
-        response = await getOfertas(0, 20, nombreBusqueda, "id", 1);
+        response = await getOfertas(
+          paginaActual - 1,
+          limite,
+          nombreBusqueda,
+          "id",
+          1
+        );
       }
 
       if (tipoUsuario === "postulante") {
@@ -39,9 +51,11 @@ const Ofertas = (props) => {
             (postulacion) => postulacion.fk_id_oferta === oferta.id
           );
         });
+        setTotalPaginas(response.totalPaginas);
         setOfertas(ofertasFiltradas);
       } else {
         setOfertas(response.ofertas.rows);
+        setTotalPaginas(response.totalPaginas);
       }
     };
     traerOfertas();
@@ -51,6 +65,8 @@ const Ofertas = (props) => {
     tipoUsuario,
     datosUsuario?.id,
     postulaciones,
+    setTotalPaginas,
+    paginaActual,
   ]);
 
   useEffect(() => {
@@ -58,8 +74,8 @@ const Ofertas = (props) => {
       const traerPostulaciones = async () => {
         try {
           const response = await getPostulacionesPorIdPostulante(
-            0,
-            20,
+            paginaActual - 1,
+            9999,
             datosUsuario.id
           );
           setPostulaciones(response.postulaciones.rows);
@@ -69,7 +85,7 @@ const Ofertas = (props) => {
       };
       traerPostulaciones();
     }
-  }, [tipoUsuario, datosUsuario?.id]);
+  }, [tipoUsuario, datosUsuario?.id, paginaActual]);
 
   const publicadoHace = (fecha) => {
     const fechaPublicacion = new Date(fecha);
@@ -193,6 +209,8 @@ const Ofertas = (props) => {
 Ofertas.propTypes = {
   ofertas: PropTypes.array.isRequired,
   setOfertas: PropTypes.func.isRequired,
+  paginaActual: PropTypes.number.isRequired,
+  setTotalPaginas: PropTypes.func.isRequired,
 };
 
 export default Ofertas;

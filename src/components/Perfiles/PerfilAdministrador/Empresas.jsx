@@ -24,6 +24,7 @@ import { useEffect, useState, forwardRef } from "react";
 import Buscador from "../../Buscador/Buscador";
 
 import { Toaster, toast } from "sonner";
+import Paginacion from "../../Paginacion/Paginacion";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -32,6 +33,9 @@ const Transition = forwardRef(function Transition(props, ref) {
 const Empresas = () => {
   const token = sessionStorage.getItem("token");
 
+  const [paginaActual, setPaginaActual] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(0);
+  const limite = 6;
   const [open, setOpen] = useState(false);
   const [empresas, setEmpresas] = useState([]);
   const [idEmpresaAActivar, setIdEmpresaAActivar] = useState(null);
@@ -46,11 +50,18 @@ const Empresas = () => {
 
   useEffect(() => {
     const traerEmpresas = async () => {
-      const response = await getEmpresas(0, 20, "id", estado, "");
+      const response = await getEmpresas(
+        paginaActual - 1,
+        limite,
+        "id",
+        estado,
+        ""
+      );
       setEmpresas(response.empresas.rows);
+      setTotalPaginas(response.totalPaginas);
     };
     traerEmpresas();
-  }, [estado]);
+  }, [estado, paginaActual]);
 
   const handleClickOpen = (empresaID, empresaNombre) => {
     setIdEmpresaAActivar(empresaID);
@@ -83,8 +94,15 @@ const Empresas = () => {
 
   const handleSubmit = async (e, buscador) => {
     e.preventDefault();
-    const response = await getEmpresas(0, 20, "id", estado, buscador);
+    setPaginaActual(1);
+    const response = await getEmpresas(0, limite, "id", estado, buscador);
     setEmpresas(response.empresas.rows);
+    setTotalPaginas(response.totalPaginas);
+  };
+
+  const handleChangeEstadoEmpresa = (e) => {
+    setEstadoEmpresa(e.target.textContent);
+    setPaginaActual(1);
   };
 
   return (
@@ -127,7 +145,7 @@ const Empresas = () => {
               width: "220px",
               margin: 1,
             }}
-            onClick={() => setEstadoEmpresa("Empresas activas")}
+            onClick={handleChangeEstadoEmpresa}
           >
             Empresas activas
           </Button>
@@ -143,7 +161,7 @@ const Empresas = () => {
               width: "220px",
               margin: 1,
             }}
-            onClick={() => setEstadoEmpresa("Empresas pendientes")}
+            onClick={handleChangeEstadoEmpresa}
           >
             Empresas pendientes
           </Button>
@@ -152,19 +170,19 @@ const Empresas = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="center">
+                <TableCell align="center" sx={{ width: "20%" }}>
                   <Typography variant="h5">CUIT</Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="center" sx={{ width: "20%" }}>
                   <Typography variant="h5">Nombre</Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="center" sx={{ width: "20%" }}>
                   <Typography variant="h5">Representante</Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="center" sx={{ width: "20%" }}>
                   <Typography variant="h5">Email</Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="center" sx={{ width: "20%" }}>
                   <Typography variant="h5">Acciones</Typography>
                 </TableCell>
               </TableRow>
@@ -234,6 +252,11 @@ const Empresas = () => {
               ))}
             </TableBody>
           </Table>
+          <Paginacion
+            paginaActual={paginaActual}
+            totalPaginas={totalPaginas}
+            cambiarPagina={setPaginaActual}
+          />
         </TableContainer>
       </Card>
       <Dialog
