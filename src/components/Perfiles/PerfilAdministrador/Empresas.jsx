@@ -43,10 +43,10 @@ const Empresas = () => {
   const [estadoEmpresa, setEstadoEmpresa] = useState("Empresas activas");
   let estado =
     estadoEmpresa === "Empresas activas"
-      ? 1
+      ? "Activo"
       : estadoEmpresa === "Empresas pendientes"
-      ? 2
-      : 1;
+      ? "Observado"
+      : "Activo";
 
   useEffect(() => {
     const traerEmpresas = async () => {

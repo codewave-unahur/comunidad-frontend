@@ -86,8 +86,9 @@ const VerOfertas = () => {
     const traerOfertas = async () => {
       const response = await getOfertaByCuit(
         paginaActual - 1,
-        "",
         limite,
+        "",
+        "",
         datosUsuario.id
       );
       setOfertas(response.ofertas.rows);
@@ -100,8 +101,9 @@ const VerOfertas = () => {
     e.preventDefault();
     const response = await getOfertaByCuit(
       paginaActual - 1,
-      busqueda,
       limite,
+      busqueda,
+      "",
       datosUsuario.id
     );
     setOfertas(response.ofertas.rows);
@@ -162,15 +164,14 @@ const VerOfertas = () => {
                       sx={{
                         verticalAlign: "middle",
                         color:
-                          oferta.Estado?.nombre_estado === "activa"
+                          oferta.estado === "Activa"
                             ? "green"
-                            : oferta.Estado?.nombre_estado === "pendiente"
+                            : oferta.estado === "Observada"
                             ? "orange"
                             : "black",
                       }}
                     />
-                    {oferta.Estado?.nombre_estado[0].toUpperCase() +
-                      oferta.Estado?.nombre_estado.slice(1)}
+                    {oferta.estado[0].toUpperCase() + oferta.estado.slice(1)}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">

@@ -32,7 +32,7 @@ const Header = (props) => {
       e.preventDefault();
 
       const traerOfertas = async () => {
-        const response = await getOfertas(0, 20, buscador, "id", 1);
+        const response = await getOfertas(0, 20, buscador, "id", "Activa");
         setOfertas(response.ofertas.rows);
       };
       traerOfertas();

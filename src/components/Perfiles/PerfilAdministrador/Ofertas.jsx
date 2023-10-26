@@ -44,14 +44,14 @@ const Ofertas = () => {
 
   let estado =
     estadoOferta === "Ofertas activas"
-      ? 1
+      ? "Activa"
       : estadoOferta === "Ofertas pendientes"
-      ? 2
+      ? "Pendiente"
       : estadoOferta === "Ofertas en revisión"
-      ? 4
+      ? "Observada"
       : estadoOferta === "Ofertas finalizadas"
-      ? 5
-      : 1;
+      ? "Finalizada"
+      : null;
 
   const handleClickOpen = (ofertaID, action) => {
     setIdOfertaAFinalizar(ofertaID);
@@ -262,22 +262,22 @@ const Ofertas = () => {
   };
 
   const estadoMap = {
-    1: {
+    Activa: {
       name: "Ofertas activas",
       color: "green",
       actions: accionesOfertasActivas,
     },
-    2: {
+    Pendiente: {
       name: "Ofertas pendientes",
       color: "orange",
       actions: accionesOfertasPendientes,
     },
-    4: {
+    Observada: {
       name: "Ofertas en revisión",
       color: "red",
       actions: accionesOfertasEnRevision,
     },
-    5: {
+    Finalizada: {
       name: "Ofertas finalizadas",
       color: "black",
       actions: accionesOfertasFinalizadas,
@@ -360,7 +360,7 @@ const Ofertas = () => {
                   </Typography>
                 </TableCell>
                 <TableCell align="center">
-                  {estadoMap[oferta.Estado?.id].actions(oferta)}
+                  {estadoMap[oferta.estado].actions(oferta)}
                 </TableCell>
               </TableRow>
             ))}

@@ -31,8 +31,9 @@ const Ofertas = (props) => {
       if (tipoUsuario === "empresa") {
         response = await getOfertaByCuit(
           paginaActual - 1,
-          "",
           limite,
+          "",
+          "Activa",
           datosUsuario.id
         );
       } else {
@@ -41,10 +42,9 @@ const Ofertas = (props) => {
           limite,
           nombreBusqueda,
           "id",
-          1
+          "Activa"
         );
       }
-
       if (tipoUsuario === "postulante") {
         const ofertasFiltradas = response.ofertas.rows.filter((oferta) => {
           return !postulaciones.some(

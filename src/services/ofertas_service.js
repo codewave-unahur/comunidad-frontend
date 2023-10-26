@@ -8,11 +8,11 @@ export async function getOfertas(
   limite,
   buscarTitulo,
   ordenar,
-  idEstado
+  estado
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}&ordenar=${ordenar}&idEstado=${idEstado}`
+      `${config.apiUrl}/ofertas/?pagina=${pagina}&limite=${limite}10&ordenar=${ordenar}&buscarTitulo=${buscarTitulo}&estado=${estado}`
     );
     return response.data;
   } catch (error) {
@@ -35,7 +35,7 @@ export async function getOfertasSinFiltros() {
 
 export async function getOfertaById(id) {
   try {
-    const response = await axios.get(`${config.apiUrl}/ofertas/idOferta/${id}`);
+    const response = await axios.get(`${config.apiUrl}/ofertas/${id}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -44,10 +44,10 @@ export async function getOfertaById(id) {
 
 // Trae una oferta por id de la empresa
 
-export async function getOfertaByCuit(pagina, buscarTitulo, limite, cuit) {
+export async function getOfertaByCuit(pagina, limite, ordenar, estado, cuit) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/cuit/${cuit}?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}`
+      `${config.apiUrl}/ofertas/cuit/${cuit}?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&idEstado=${estado}`
     );
     return response.data;
   } catch (error) {

@@ -7,12 +7,12 @@ export async function getEmpresas(
   pagina,
   limite,
   ordenar,
-  idEstado,
+  estado,
   nombreEmpresa
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/empresas/?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&idEstado=${idEstado}&nombreEmpresa=${nombreEmpresa}`
+      `${config.apiUrl}/empresas/?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&nombreEmpresa=${nombreEmpresa}&estado=${estado}`
     );
     return response.data;
   } catch (error) {
@@ -22,9 +22,11 @@ export async function getEmpresas(
 
 // Trae todas las empresas sin filtros
 
-export async function getEmpresasSinFiltros() {
+export async function getEmpresasSinFiltros(pagina, limite) {
   try {
-    const response = await axios.get(`${config.apiUrl}/empresas/all`);
+    const response = await axios.get(
+      `${config.apiUrl}/empresas/all/?pagina=${pagina}&limite=${limite}`
+    );
     return response.data;
   } catch (error) {
     console.error(error);
