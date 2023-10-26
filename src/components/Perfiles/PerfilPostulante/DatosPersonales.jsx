@@ -212,7 +212,7 @@ const DatosPersonales = () => {
           justifyContent="center"
         >
           <Avatar
-            alt="User Img"
+            alt={usuario.nombre + " " + usuario.apellido}
             src={
               isImageSelected
                 ? URL.createObjectURL(imagenSeleccionada)

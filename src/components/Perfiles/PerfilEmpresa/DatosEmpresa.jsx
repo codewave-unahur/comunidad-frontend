@@ -194,7 +194,7 @@ const DatosEmpresa = () => {
           justifyContent="center"
         >
           <Avatar
-            alt="User Img"
+            alt={empresa.nombre_empresa}
             src={
               isImageSelected
                 ? URL.createObjectURL(imagenSeleccionada)

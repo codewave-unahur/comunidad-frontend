@@ -1,5 +1,4 @@
 import Header from "../Header/Header";
-import { getOfertaById } from "../../services/ofertas_service";
 import { useState, useEffect, forwardRef } from "react";
 import {
   Button,
@@ -28,6 +27,7 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import WorkHistoryOutlinedIcon from "@mui/icons-material/WorkHistoryOutlined";
 import MapsHomeWorkOutlinedIcon from "@mui/icons-material/MapsHomeWorkOutlined";
 
+import { getOfertaById } from "../../services/ofertas_service";
 import { postPostulacion } from "../../services/postulaciones_service";
 
 import { Toaster, toast } from "sonner";
@@ -150,13 +150,13 @@ const Oferta = () => {
           }}
         >
           <Avatar
-            src="https://cdn.discordapp.com/attachments/955646153297395722/996230598853148792/unknown.png"
+            src={oferta.Empresa?.logo}
             sx={{
               position: "absolute",
               right: "2rem",
               top: "2rem",
-              width: 150,
-              height: 150,
+              width: 170,
+              height: 170,
               display: {
                 xs: "none",
                 sm: "block",

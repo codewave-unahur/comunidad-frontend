@@ -1,13 +1,18 @@
-import { Button, CardHeader, Grid, Card } from "@mui/material";
+import { Button, CardHeader, Grid, Card, Box, Typography } from "@mui/material";
 
 import { useState } from "react";
 
-const CurriculumVitae = () => {
-  const [cvSubido, setCvSubido] = useState(false);
-  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+import DescriptionIcon from "@mui/icons-material/Description";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
-  const handleSubirCV = () => {
-    setCvSubido(true);
+const CurriculumVitae = () => {
+  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+  const [cvSeleccionado, setCvSeleccionado] = useState(null); // Para guardar la imagen seleccionada en el input[type=file]
+  const [isCVSelected, setIsCVSelected] = useState(false); // Para controlar si se seleccionó una imagen o no
+
+  const handleSubirCV = (e) => {
+    setCvSeleccionado(e.target.files[0]);
+    setIsCVSelected(true);
   };
 
   return (
@@ -23,17 +28,57 @@ const CurriculumVitae = () => {
         paddingY={2}
       >
         <Grid item xs={12} sm={6} md={6}>
-          <Button
-            disableElevation
-            variant="contained"
+          <Box
             sx={{
-              float: "right",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
-            onClick={handleSubirCV}
-            fullWidth
           >
-            Subir Curriculum Vitae
-          </Button>
+            <Typography variant="caption" display="block">
+              Formato de archivo admitido: PDF
+              <ErrorOutlineIcon
+                fontSize="small"
+                sx={{
+                  verticalAlign: "middle",
+                  ml: 0.5,
+                }}
+              />
+            </Typography>
+            <Button
+              component="label"
+              disableElevation
+              size="medium"
+              variant="contained"
+              endIcon={<DescriptionIcon />}
+              sx={{
+                marginTop: 1,
+              }}
+            >
+              Cambiar Curriculum Vitae
+              <input
+                type="file"
+                accept="application/pdf"
+                hidden
+                onChange={handleSubirCV}
+              />
+            </Button>
+            {isCVSelected && (
+              <Button
+                onClick={() => {
+                  console.log({ cvSeleccionado });
+                }}
+                sx={{
+                  marginTop: 2,
+                }}
+                variant="outlined"
+                size="medium"
+                color="success"
+              >
+                Subir Curriculum Vitae seleccionado <br /> {cvSeleccionado.name}
+              </Button>
+            )}
+          </Box>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <Button
@@ -44,7 +89,6 @@ const CurriculumVitae = () => {
             }}
             href={datosUsuario.cv}
             target="_blank"
-            disabled={!cvSubido}
             fullWidth
           >
             Ver Curriculum Vitae
