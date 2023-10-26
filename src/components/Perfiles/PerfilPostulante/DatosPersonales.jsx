@@ -47,7 +47,7 @@ const DatosPersonales = () => {
     nombre: "",
     apellido: "",
     fecha_nac: "",
-    tipoDocumento: "",
+    tipo_documento: "",
     documento: "",
     telefono: "",
     nacionalidad: "",
@@ -57,10 +57,6 @@ const DatosPersonales = () => {
     calle: "",
     nro: "",
     foto: "",
-    fk_id_usuario: "",
-    fk_id_tipo_documento: "",
-    fk_id_provincia: "",
-    fk_id_ciudad: "",
     Usuario: {
       usuario: "",
     },
@@ -113,7 +109,7 @@ const DatosPersonales = () => {
           nombre: usuario.nombre,
           apellido: usuario.apellido,
           fecha_nac: usuario.fecha_nac,
-          tipoDocumento: usuario.tipoDocumento,
+          tipoDocumento: usuario.tipo_documento,
           documento: usuario.documento,
           telefono: usuario.telefono,
           nacionalidad: usuario.nacionalidad,
@@ -123,10 +119,6 @@ const DatosPersonales = () => {
           calle: usuario.calle,
           nro: usuario.nro,
           foto: usuario.foto,
-          fk_id_usuario: usuario.fk_id_usuario,
-          fk_id_tipo_documento: usuario.fk_id_tipo_documento,
-          fk_id_provincia: usuario.fk_id_provincia,
-          fk_id_ciudad: usuario?.fk_id_ciudad,
           Usuario: {
             usuario: usuario.Usuario.usuario,
           },
@@ -163,7 +155,7 @@ const DatosPersonales = () => {
     apellido: yup.string().required("El apellido es obligatorio"),
     // email: yup.string().email("Ingrese un correo electrónico válido"),
     fecha_nac: yup.date("La fecha de nacimiento es obligatoria").nullable(),
-    tipoDocumento: yup.string(),
+    tipo_documento: yup.string(),
     // documento: yup.string(),
     telefono: yup
       .number()
@@ -188,11 +180,6 @@ const DatosPersonales = () => {
       .required("El número de calle es obligatorio")
       .integer("El número de calle debe ser un número entero")
       .positive("El número de calle debe ser un número positivo"),
-    foto: yup.string(),
-    fk_id_usuario: yup.string(),
-    fk_id_tipo_documento: yup.string(),
-    fk_id_provincia: yup.string(),
-    fk_id_ciudad: yup.string(),
     Usuario: yup.object().shape({
       usuario: yup.string(),
     }),
@@ -374,13 +361,12 @@ const DatosPersonales = () => {
                 label="Tipo de documento"
                 variant="outlined"
                 select
-                value={usuario.fk_id_tipo_documento || ""}
+                value={usuario.tipo_documento || ""}
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) =>
                   setUsuario({
                     ...usuario,
-                    tipoDocumento: e.target.value,
-                    fk_id_tipo_documento: e.target.value,
+                    tipo_documento: e.target.value,
                   })
                 }
               >

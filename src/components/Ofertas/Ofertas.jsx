@@ -32,9 +32,8 @@ const Ofertas = (props) => {
         response = await getOfertaByCuit(
           paginaActual - 1,
           limite,
-          "",
-          "Activa",
-          datosUsuario.id
+          datosUsuario.id,
+          nombreBusqueda
         );
       } else {
         response = await getOfertas(
@@ -143,8 +142,8 @@ const Ofertas = (props) => {
             <CardHeader
               avatar={
                 <Avatar
-                  src="https://cdn.discordapp.com/attachments/955646153297395722/996230598853148792/unknown.png"
-                  alt="Google"
+                  src={oferta.Empresa?.logo}
+                  alt={oferta.Empresa?.nombre_empresa}
                 />
               }
               title={oferta.titulo_oferta}

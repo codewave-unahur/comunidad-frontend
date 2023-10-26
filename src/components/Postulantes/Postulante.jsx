@@ -24,7 +24,6 @@ const Postulante = () => {
   const idPostulante = parseInt(window.location.pathname.split("/")[2]);
 
   const [postulante, setPostulante] = useState({});
-
   useEffect(() => {
     const traerPostulante = async () => {
       try {
@@ -199,11 +198,7 @@ const Postulante = () => {
             >
               <ListItem>
                 <ListItemText
-                  primary={
-                    postulante.Estudios?.nombre_estudio +
-                    " - " +
-                    postulante.Estudios?.estado_estudio
-                  }
+                  primary={postulante.Estudios?.nombre_estudio_estado}
                   secondary="Estudios"
                 />
               </ListItem>

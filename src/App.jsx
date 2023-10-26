@@ -3,12 +3,13 @@ import RegistroPostulante from "./components/Registro/RegistroPostulante/Registr
 import RegistroEmpresa from "./components/Registro/RegistroEmpresa/RegistroEmpresa.jsx";
 import Inicio from "./components/Home/Inicio";
 import Login from "./components/LoginAnimado/Login.jsx";
-import RestablecerContraseña from "./components/RestablecerContraseña/RestablecerContraseña.jsx";
+import Email from "./components/RestablecerContraseña/Email.jsx";
 import Oferta from "./components/Ofertas/Oferta.jsx";
 import Perfil from "./components/Perfiles/Perfil";
 import Postulantes from "./components/Postulantes/Postulantes";
 import Postulante from "./components/Postulantes/Postulante";
 import Empresa from "./components/Empresa/Empresa";
+import NuevaContraseña from "./components/RestablecerContraseña/NuevaContraseña.jsx";
 
 function App() {
   return (
@@ -22,9 +23,10 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/registro/postulante" element={<RegistroPostulante />} />
       <Route path="/registro/empresa" element={<RegistroEmpresa />} />
+      <Route path="/restablecimientoContraseña" element={<Email />} />
       <Route
-        path="/restablecimientoContraseña"
-        element={<RestablecerContraseña />}
+        path="/restablecimientoContraseña/nuevaContraseña/:id"
+        element={<NuevaContraseña />}
       />
     </Routes>
   );

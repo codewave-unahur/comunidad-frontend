@@ -256,10 +256,7 @@ const Oferta = () => {
               <ListItem>
                 <ListItemText
                   primary={
-                    "Estudios mínimos: " +
-                    oferta.Estudio?.nombre_estudio +
-                    " " +
-                    oferta.Estudio?.estado_estudio
+                    "Estudios mínimos: " + oferta.Estudio?.nombre_estudio_estado
                   }
                 />
               </ListItem>

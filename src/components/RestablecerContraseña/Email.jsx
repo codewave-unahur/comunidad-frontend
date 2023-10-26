@@ -9,12 +9,36 @@ import {
   Typography,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import { Toaster, toast } from "sonner";
+
+import { postResetPasswordRequest } from "../../services/password_service";
 
 const RestablecerContraseña = () => {
+  const handleSendEmail = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await postResetPasswordRequest(e.target.email.value);
+      const id = response.link.split("=")[2];
+      response &&
+        toast.success("El código de restablecimiento fue enviado a su correo");
+
+      setTimeout(() => {
+        window.location.href = `/restablecimientoContraseña/nuevaContraseña/${id}`;
+      }, 5000);
+    } catch (error) {
+      toast.error("El correo electrónico ingresado no existe");
+    }
+  };
+
   return (
     <>
       <CssBaseline />
-      <Container component="form" maxWidth="sm" sx={{ mb: 4 }}>
+      <Container
+        component="form"
+        onSubmit={handleSendEmail}
+        maxWidth="sm"
+        sx={{ mb: 4 }}
+      >
         <Paper
           variant="outlined"
           sx={{
@@ -60,6 +84,7 @@ const RestablecerContraseña = () => {
             type="email"
             label="Email"
             id="email"
+            name="email"
             sx={{
               mt: 2,
             }}
@@ -77,6 +102,7 @@ const RestablecerContraseña = () => {
           </Button>
         </Paper>
       </Container>
+      <Toaster richColors closeButton duration={5000} />
     </>
   );
 };

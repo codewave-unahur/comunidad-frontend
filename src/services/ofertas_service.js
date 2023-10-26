@@ -44,10 +44,10 @@ export async function getOfertaById(id) {
 
 // Trae una oferta por id de la empresa
 
-export async function getOfertaByCuit(pagina, limite, ordenar, estado, cuit) {
+export async function getOfertaByCuit(pagina, limite, cuit, buscarTitulo) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/cuit/${cuit}?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&idEstado=${estado}`
+      `${config.apiUrl}/ofertas/cuit/${cuit}?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}`
     );
     return response.data;
   } catch (error) {
@@ -75,7 +75,9 @@ export async function putOferta(idOferta, oferta, token) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/ofertas/idOferta/${idOferta}?authorization=${token}`,
-      oferta
+      {
+        estado: oferta,
+      }
     );
     return response.data;
   } catch (error) {

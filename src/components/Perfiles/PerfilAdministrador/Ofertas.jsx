@@ -66,21 +66,15 @@ const Ofertas = () => {
   const handleFinalizarOferta = (idOferta) => async () => {
     let idEstado =
       action === "finalizar"
-        ? 5
+        ? "Finalizada"
         : action === "activar"
-        ? 1
+        ? "Activa"
         : action === "suspender"
-        ? 4
+        ? "Observada"
         : null;
 
     try {
-      const response = await putOferta(
-        idOferta,
-        {
-          idEstado,
-        },
-        token
-      );
+      const response = await putOferta(idOferta, idEstado, token);
       if (response === "OK") {
         toast.success(
           `La oferta se ha ${

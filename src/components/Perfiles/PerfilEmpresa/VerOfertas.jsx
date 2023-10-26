@@ -53,20 +53,14 @@ const VerOfertas = () => {
 
   const handleFinalizarOferta = (idOferta) => async () => {
     try {
-      const response = await putOferta(
-        idOferta,
-        {
-          idEstado: 5,
-        },
-        token
-      );
+      const response = await putOferta(idOferta, "Finalizada", token);
       if (response === "OK") {
         toast.success("Oferta finalizada con éxito");
         handleClose();
         setOfertas(
           ofertas.map((oferta) => {
             if (oferta.id === idOferta) {
-              oferta.Estado = { id: 5, nombre_estado: "finalizada" };
+              oferta.estado = "Finalizada";
             }
             return oferta;
           })
@@ -87,9 +81,8 @@ const VerOfertas = () => {
       const response = await getOfertaByCuit(
         paginaActual - 1,
         limite,
-        "",
-        "",
-        datosUsuario.id
+        datosUsuario.id,
+        ""
       );
       setOfertas(response.ofertas.rows);
       setTotalPaginas(response.totalPaginas);
@@ -102,9 +95,8 @@ const VerOfertas = () => {
     const response = await getOfertaByCuit(
       paginaActual - 1,
       limite,
-      busqueda,
-      "",
-      datosUsuario.id
+      datosUsuario.id,
+      busqueda
     );
     setOfertas(response.ofertas.rows);
     setTotalPaginas(response.totalPaginas);
@@ -207,7 +199,7 @@ const VerOfertas = () => {
                   </Button>
                   <Button
                     variant="outlined"
-                    disabled={oferta.Estado?.id === 5}
+                    disabled={oferta.estado === "Finalizada"}
                     onClick={() => handleClickOpen(oferta.id)}
                     sx={{
                       color: "red",
