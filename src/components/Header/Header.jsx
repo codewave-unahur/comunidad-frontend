@@ -116,7 +116,7 @@ const Header = (props) => {
               <Link href="/">
                 <img
                   src="https://cdn.discordapp.com/attachments/956988369693454466/989600731369709669/Logoblanco.png"
-                  alt="logo"
+                  alt="Logo comunidad de trabajo"
                   style={{
                     height: "60px",
                     width: "auto",
