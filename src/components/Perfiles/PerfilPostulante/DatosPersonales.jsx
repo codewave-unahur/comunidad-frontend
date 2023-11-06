@@ -48,7 +48,7 @@ const DatosPersonales = () => {
     nombre: "",
     apellido: "",
     fecha_nac: "",
-    tipo_documento: "",
+    tipo_documento: null,
     documento: "",
     telefono: "",
     nacionalidad: "",
@@ -380,9 +380,15 @@ const DatosPersonales = () => {
                 fullWidth
                 disabled={isFieldDisabled}
                 label="Tipo de documento"
+                id="tipo_documento"
+                name="tipo_documento"
                 variant="outlined"
                 select
-                value={usuario.tipo_documento || ""}
+                value={
+                  tiposDocumentos.find(
+                    (tipo) => tipo.id === parseInt(usuario.tipo_documento)
+                  )?.id || ""
+                }
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) =>
                   setUsuario({
@@ -391,6 +397,7 @@ const DatosPersonales = () => {
                   })
                 }
               >
+                <MenuItem value="">Selecciona un tipo de documento</MenuItem>
                 {tiposDocumentos.map((tipo) => (
                   <MenuItem key={tipo.id} value={tipo.id}>
                     {tipo.tipo_documento}
@@ -474,7 +481,10 @@ const DatosPersonales = () => {
                 label="Ciudad"
                 variant="outlined"
                 select
-                value={usuario.fk_id_ciudad || ""}
+                value={
+                  ciudades.find((ciudad) => ciudad.id === usuario.fk_id_ciudad)
+                    ?.id || ""
+                }
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) =>
                   setUsuario({
@@ -484,6 +494,7 @@ const DatosPersonales = () => {
                   })
                 }
               >
+                <MenuItem value="">Selecciona una ciudad</MenuItem>
                 {ciudades.map((ciudad) => (
                   <MenuItem key={ciudad.id} value={ciudad.id}>
                     {ciudad.nombre}

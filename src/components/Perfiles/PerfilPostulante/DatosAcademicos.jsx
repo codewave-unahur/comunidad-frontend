@@ -153,7 +153,11 @@ const DatosAcademicos = () => {
               <TextField
                 label="Carrera"
                 variant="outlined"
-                value={usuario.fk_id_carrera || ""}
+                value={
+                  carreras.find(
+                    (carrera) => carrera.id === usuario.fk_id_carrera
+                  )?.id || ""
+                }
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 select
@@ -172,6 +176,7 @@ const DatosAcademicos = () => {
                     : ""
                 }
               >
+                <MenuItem value="">Selecciona una carrera</MenuItem>
                 {carreras.map((carrera) => (
                   <MenuItem key={carrera.id} value={carrera.id}>
                     {carrera.nombre_carrera}
@@ -183,7 +188,11 @@ const DatosAcademicos = () => {
               <TextField
                 label="Nivel académico"
                 variant="outlined"
-                value={usuario.fk_id_estudios || ""}
+                value={
+                  estudios.find(
+                    (estudio) => estudio.id === usuario.fk_id_estudios
+                  )?.id || ""
+                }
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 select
@@ -202,6 +211,7 @@ const DatosAcademicos = () => {
                     : ""
                 }
               >
+                <MenuItem value="">Selecciona un nivel académico</MenuItem>
                 {estudios.map((estudio) => (
                   <MenuItem key={estudio.id} value={estudio.id}>
                     {estudio.nombre_estudio_estado}

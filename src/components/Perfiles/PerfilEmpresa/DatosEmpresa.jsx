@@ -455,7 +455,11 @@ const DatosEmpresa = () => {
                 label="Provincia"
                 variant="outlined"
                 select
-                value={empresa.fk_id_provincia || ""}
+                value={
+                  provincias.find(
+                    (provincia) => provincia.id === empresa.fk_id_provincia
+                  )?.id || ""
+                }
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) =>
                   setEmpresa({
@@ -471,6 +475,7 @@ const DatosEmpresa = () => {
                     : ""
                 }
               >
+                <MenuItem value="">Selecciona una provincia</MenuItem>
                 {provincias.map((provincia) => (
                   <MenuItem key={provincia.id} value={provincia.id}>
                     {provincia.nombre}
@@ -485,7 +490,10 @@ const DatosEmpresa = () => {
                 label="Ciudad"
                 variant="outlined"
                 select
-                value={empresa.fk_id_ciudad || ""}
+                value={
+                  ciudades.find((ciudad) => ciudad.id === empresa.fk_id_ciudad)
+                    ?.id || ""
+                }
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) =>
                   setEmpresa({
@@ -501,6 +509,7 @@ const DatosEmpresa = () => {
                     : ""
                 }
               >
+                <MenuItem value="">Selecciona una ciudad</MenuItem>
                 {ciudades.map((ciudad) => (
                   <MenuItem key={ciudad.id} value={ciudad.id}>
                     {ciudad.nombre}
