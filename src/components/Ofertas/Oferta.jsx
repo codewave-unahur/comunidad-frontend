@@ -18,6 +18,8 @@ import {
   DialogContent,
   Slide,
   Avatar,
+  Skeleton,
+  Box,
 } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ScheduleIcon from "@mui/icons-material/Schedule";
@@ -49,6 +51,7 @@ const Oferta = () => {
   const [oferta, setOferta] = useState({});
   const [open, setOpen] = useState(false);
   const [postulaciones, setPostulaciones] = useState([]);
+  const isLoading = Object.keys(oferta).length === 0;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -149,250 +152,354 @@ const Oferta = () => {
             position: "relative",
           }}
         >
-          <Avatar
-            src={oferta.Empresa?.logo}
-            sx={{
-              position: "absolute",
-              right: "2rem",
-              top: "2rem",
-              width: 170,
-              height: 170,
-              display: {
-                xs: "none",
-                sm: "block",
-              },
-            }}
-          />
-          <CardHeader
-            title={oferta.titulo_oferta}
-            subheader={
-              <>
-                {oferta.zona_trabajo} {/*<PreferenciasOferta />*/}
-              </>
-            }
-            sx={{
-              "& .MuiTypography-h5": {
-                fontSize: "2rem",
-                width: {
-                  xs: "50%",
-                  sm: "100%",
-                },
-              },
-            }}
-          />
-
-          <CardContent>
-            <Typography
-              variant="subtitle1"
-              color="textSecondary"
-              sx={{ alignItems: "center", display: "flex" }}
-            >
-              <CalendarMonthIcon
-                color="primary"
-                fontSize="medium"
+          {isLoading ? (
+            <>
+              <Skeleton variant="text" width="60%" />
+              <Skeleton variant="text" width="20%" />
+              <Skeleton
+                variant="circular"
                 sx={{
-                  marginRight: "0.5rem",
+                  position: "absolute",
+                  right: "2rem",
+                  top: "1rem",
+                  width: 170,
+                  height: 170,
+                  display: {
+                    xs: "none",
+                    sm: "block",
+                  },
                 }}
               />
-              Publicado hace {publicadoHace(oferta.createdAt)} días
-            </Typography>
-            <Typography variant="h6" color="primary" sx={{ marginTop: "1rem" }}>
-              Información de la empresa
-            </Typography>
-            <List>
-              <ListItem>
-                <ListItemText primary={oferta.Empresa?.nombre_empresa} />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary={oferta.Empresa?.descripcion} />
-              </ListItem>
-            </List>
-            <Divider sx={{ marginTop: "1rem" }} />
-            <Typography variant="h6" color="primary" sx={{ marginTop: "1rem" }}>
-              Descripción de la oferta
-            </Typography>
-            <List>
-              <ListItem>
-                <ListItemText primary={oferta.descripcion} />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    <>
-                      Tareas a realizar:
-                      <br />
-                      Acá va la descripción de las tareas a realizar
-                    </>
-                  }
-                />
-              </ListItem>
-            </List>
-            <Divider sx={{ marginTop: "1rem" }} />
-            <Typography variant="h6" color="primary" sx={{ marginTop: "1rem" }}>
-              Requisitos
-            </Typography>
-            <List>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    oferta.edad_desde === null && oferta.edad_hasta === null ? (
-                      "Rango etario: " + "No hay requisitos de edad"
-                    ) : (
-                      <>
-                        Rango etario: {oferta.edad_desde} - {oferta.edad_hasta}{" "}
-                        años
-                      </>
-                    )
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    "Experiencia previa: " + oferta.experiencia_previa_desc
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={
-                    "Estudios mínimos: " + oferta.Estudio?.nombre_estudio_estado
-                  }
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={"Carrera: " + oferta.Carrera?.nombre_carrera}
-                />
-              </ListItem>
-            </List>
-            <Divider sx={{ marginTop: "1rem" }} />
-            <Typography variant="h6" color="primary" sx={{ marginTop: "1rem" }}>
-              Detalles de la oferta
-            </Typography>
-            <List
+            </>
+          ) : (
+            <>
+              <Avatar
+                src={oferta.Empresa?.logo}
+                alt={oferta.Empresa?.nombre_empresa}
+                sx={{
+                  position: "absolute",
+                  right: "2rem",
+                  top: "5rem",
+                  width: 170,
+                  height: 170,
+                  display: {
+                    xs: "none",
+                    sm: "block",
+                  },
+                }}
+              />
+              <CardHeader
+                title={oferta.titulo_oferta}
+                subheader={
+                  <>
+                    {oferta.zona_trabajo} {/*<PreferenciasOferta />*/}
+                  </>
+                }
+                sx={{
+                  "& .MuiTypography-h5": {
+                    fontSize: "2rem",
+                    width: {
+                      xs: "50%",
+                      sm: "100%",
+                    },
+                  },
+                }}
+              />
+            </>
+          )}
+
+          <CardContent>
+            {isLoading ? (
+              <>
+                <Skeleton variant="text" width="40%" />
+                <Skeleton variant="text" width="50%" />
+                <Skeleton variant="text" width="30%" />
+                <Skeleton variant="text" width="70%" />
+                <Divider sx={{ marginTop: "1rem" }} />
+                <Skeleton variant="text" width="40%" />
+                <Skeleton variant="text" width="50%" />
+                <Skeleton variant="text" width="30%" />
+                <Divider sx={{ marginTop: "1rem" }} />
+                <Skeleton variant="text" width="40%" />
+                <Skeleton variant="text" width="60%" />
+                <Skeleton variant="text" width="60%" />
+                <Skeleton variant="text" width="60%" />
+                <Skeleton variant="text" width="60%" />
+                <Divider sx={{ marginTop: "1rem" }} />
+                <Skeleton variant="text" width="40%" />
+                <Box
+                  sx={{
+                    display: "grid",
+                    mt: 2,
+                    gridTemplateColumns: {
+                      xs: "repeat(1, 1fr)",
+                      sm: "repeat(2, 1fr)",
+                    },
+                    gap: "1rem",
+                  }}
+                >
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                </Box>
+              </>
+            ) : (
+              <>
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  sx={{ alignItems: "center", display: "flex" }}
+                >
+                  <CalendarMonthIcon
+                    color="primary"
+                    fontSize="medium"
+                    sx={{
+                      marginRight: "0.5rem",
+                    }}
+                  />
+                  Publicado hace {publicadoHace(oferta.createdAt)} días
+                </Typography>
+                <Typography
+                  variant="h6"
+                  color="primary"
+                  sx={{ marginTop: "1rem" }}
+                >
+                  Información de la empresa
+                </Typography>
+                <List>
+                  <ListItem>
+                    <ListItemText primary={oferta.Empresa?.nombre_empresa} />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText primary={oferta.Empresa?.descripcion} />
+                  </ListItem>
+                </List>
+                <Divider sx={{ marginTop: "1rem" }} />
+                <Typography
+                  variant="h6"
+                  color="primary"
+                  sx={{ marginTop: "1rem" }}
+                >
+                  Descripción de la oferta
+                </Typography>
+                <List>
+                  <ListItem>
+                    <ListItemText primary={oferta.descripcion} />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        <>
+                          Tareas a realizar:
+                          <br />
+                          Acá va la descripción de las tareas a realizar
+                        </>
+                      }
+                    />
+                  </ListItem>
+                </List>
+                <Divider sx={{ marginTop: "1rem" }} />
+                <Typography
+                  variant="h6"
+                  color="primary"
+                  sx={{ marginTop: "1rem" }}
+                >
+                  Requisitos
+                </Typography>
+                <List>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        oferta.edad_desde === null &&
+                        oferta.edad_hasta === null ? (
+                          "Rango etario: " + "No hay requisitos de edad"
+                        ) : (
+                          <>
+                            Rango etario: {oferta.edad_desde} -{" "}
+                            {oferta.edad_hasta} años
+                          </>
+                        )
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        "Experiencia previa: " +
+                        (oferta.experiencia_previa_desc === null
+                          ? "No se requiere experiencia previa"
+                          : oferta.experiencia_previa_desc)
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        "Estudios mínimos: " +
+                        oferta.Estudio?.nombre_estudio_estado
+                      }
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        "Carrera: " +
+                        (oferta.Carrera?.nombre_carrera || "No especificado")
+                      }
+                    />
+                  </ListItem>
+                </List>
+                <Divider sx={{ marginTop: "1rem" }} />
+                <Typography
+                  variant="h6"
+                  color="primary"
+                  sx={{ marginTop: "1rem" }}
+                >
+                  Detalles de la oferta
+                </Typography>
+                <List
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "repeat(1, 1fr)",
+                      sm: "repeat(2, 1fr)",
+                    },
+                    gap: "1rem",
+                  }}
+                >
+                  <ListItem>
+                    <AttachMoneyIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={oferta.remuneracion || "No especificado"}
+                      secondary="Salario"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ScheduleIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={`De ${oferta.horario_laboral_desde}hs a ${oferta.horario_laboral_hasta}hs`}
+                      secondary="Horario"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <WorkOutlineIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={oferta.Contrato?.nombre_contrato}
+                      secondary="Tipo de contrato"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <WorkHistoryOutlinedIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={oferta.Jornada?.nombre_jornada}
+                      secondary="Jornada"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <VerifiedIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={oferta.beneficios || "No especificado"}
+                      secondary="Beneficios"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <MapsHomeWorkOutlinedIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={"Presencial, remoto, híbrido"}
+                      secondary="Modalidad de trabajo"
+                    />
+                  </ListItem>
+                </List>
+              </>
+            )}
+          </CardContent>
+          {isLoading ? (
+            <Skeleton
+              variant="rounded"
+              width="50%"
+              height={50}
               sx={{
-                display: "grid",
-                gridTemplateColumns: {
-                  xs: "repeat(1, 1fr)",
-                  sm: "repeat(2, 1fr)",
+                margin: "1rem",
+                padding: "0.5rem",
+                marginLeft: "auto",
+                marginRight: "auto",
+                display: "block",
+              }}
+            />
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={
+                tipoUsuario === "empresa" || tipoUsuario === "admin"
+                  ? () => window.location.reload()
+                  : handleClickOpen
+              }
+              disabled={
+                tipoUsuario === "empresa" || tipoUsuario === "admin"
+                  ? false
+                  : tipoUsuario === "postulante" && estaPostulado
+                  ? true
+                  : false
+              }
+              sx={{
+                margin: "1rem",
+                padding: "0.5rem",
+                width: {
+                  xs: "90%",
+                  sm: "50%",
                 },
-                gap: "1rem",
+                marginLeft: "auto",
+                marginRight: "auto",
+                display: "block",
               }}
             >
-              <ListItem>
-                <AttachMoneyIcon
-                  color="primary"
-                  fontSize="large"
-                  sx={{
-                    marginRight: "0.5rem",
-                  }}
-                />
-                <ListItemText
-                  primary={oferta.remuneracion || "No especificado"}
-                  secondary="Salario"
-                />
-              </ListItem>
-              <ListItem>
-                <ScheduleIcon
-                  color="primary"
-                  fontSize="large"
-                  sx={{
-                    marginRight: "0.5rem",
-                  }}
-                />
-                <ListItemText
-                  primary={`De ${oferta.horario_laboral_desde}hs a ${oferta.horario_laboral_hasta}hs`}
-                  secondary="Horario"
-                />
-              </ListItem>
-              <ListItem>
-                <WorkOutlineIcon
-                  color="primary"
-                  fontSize="large"
-                  sx={{
-                    marginRight: "0.5rem",
-                  }}
-                />
-                <ListItemText
-                  primary={oferta.Contrato?.nombre_contrato}
-                  secondary="Tipo de contrato"
-                />
-              </ListItem>
-              <ListItem>
-                <WorkHistoryOutlinedIcon
-                  color="primary"
-                  fontSize="large"
-                  sx={{
-                    marginRight: "0.5rem",
-                  }}
-                />
-                <ListItemText
-                  primary={oferta.Jornada?.nombre_jornada}
-                  secondary="Jornada"
-                />
-              </ListItem>
-              <ListItem>
-                <VerifiedIcon
-                  color="primary"
-                  fontSize="large"
-                  sx={{
-                    marginRight: "0.5rem",
-                  }}
-                />
-                <ListItemText
-                  primary={oferta.beneficios || "No especificado"}
-                  secondary="Beneficios"
-                />
-              </ListItem>
-              <ListItem>
-                <MapsHomeWorkOutlinedIcon
-                  color="primary"
-                  fontSize="large"
-                  sx={{
-                    marginRight: "0.5rem",
-                  }}
-                />
-                <ListItemText
-                  primary={"Presencial, remoto, híbrido"}
-                  secondary="Modalidad de trabajo"
-                />
-              </ListItem>
-            </List>
-          </CardContent>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={
-              tipoUsuario === "empresa" || tipoUsuario === "admin"
-                ? () => window.location.reload()
-                : handleClickOpen
-            }
-            disabled={
-              tipoUsuario === "empresa" || tipoUsuario === "admin"
-                ? false
+              {tipoUsuario === "empresa" || tipoUsuario === "admin"
+                ? "Editar oferta"
                 : tipoUsuario === "postulante" && estaPostulado
-                ? true
-                : false
-            }
-            sx={{
-              margin: "1rem",
-              padding: "0.5rem",
-              width: {
-                xs: "90%",
-                sm: "50%",
-              },
-              marginLeft: "auto",
-              marginRight: "auto",
-              display: "block",
-            }}
-          >
-            {tipoUsuario === "empresa" || tipoUsuario === "admin"
-              ? "Editar oferta"
-              : tipoUsuario === "postulante" && estaPostulado
-              ? "Ya estás postulado"
-              : "Postularme"}
-          </Button>
+                ? "Ya estás postulado"
+                : "Postularme"}
+            </Button>
+          )}
         </Card>
       </Container>
       <Dialog

@@ -11,6 +11,8 @@ import {
   ListItem,
   ListItemText,
   Avatar,
+  Skeleton,
+  Box,
 } from "@mui/material";
 
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -24,6 +26,8 @@ const Postulante = () => {
   const idPostulante = parseInt(window.location.pathname.split("/")[2]);
 
   const [postulante, setPostulante] = useState({});
+  const isLoading = Object.keys(postulante).length === 0;
+
   useEffect(() => {
     const traerPostulante = async () => {
       try {
@@ -55,8 +59,6 @@ const Postulante = () => {
   };
 
   const formatoFecha = (fecha) => {
-    // dd/mm/aaaa
-    // "fecha_nac": "2000-11-23T00:00:00.000Z",
     const fechaNacimiento = new Date(fecha);
     const dia = fechaNacimiento.getDate();
     const mes = fechaNacimiento.getMonth() + 1;
@@ -83,144 +85,218 @@ const Postulante = () => {
             position: "relative",
           }}
         >
-          <Avatar
-            src={postulante.foto}
-            sx={{
-              position: "absolute",
-              right: "2rem",
-              top: "2rem",
-              width: 150,
-              height: 150,
-              display: {
-                xs: "none",
-                sm: "block",
-              },
-            }}
-          />
-          <CardHeader
-            title={postulante.nombre + " " + postulante.apellido}
-            subheader={calcularEdad(postulante.fecha_nac) + " años"}
-            sx={{
-              "& .MuiTypography-h5": {
-                fontSize: "2rem",
-                width: {
-                  xs: "50%",
-                  sm: "100%",
-                },
-              },
-            }}
-          />
+          {isLoading ? (
+            <>
+              <Skeleton variant="text" width="50%" />
+              <Skeleton variant="text" width="20%" />
+              <Skeleton
+                variant="circular"
+                sx={{
+                  position: "absolute",
+                  right: "2rem",
+                  top: "1rem",
+                  width: 170,
+                  height: 170,
+                  display: {
+                    xs: "none",
+                    sm: "block",
+                  },
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <Avatar
+                src={postulante.foto}
+                alt={postulante.nombre + " " + postulante.apellido}
+                sx={{
+                  position: "absolute",
+                  right: "2rem",
+                  top: "2rem",
+                  width: 150,
+                  height: 150,
+                  display: {
+                    xs: "none",
+                    sm: "block",
+                  },
+                }}
+              />
+              <CardHeader
+                title={postulante.nombre + " " + postulante.apellido}
+                subheader={calcularEdad(postulante.fecha_nac) + " años"}
+                sx={{
+                  "& .MuiTypography-h5": {
+                    fontSize: "2rem",
+                    width: {
+                      xs: "50%",
+                      sm: "100%",
+                    },
+                  },
+                }}
+              />
+            </>
+          )}
 
           <CardContent>
-            <Typography variant="h6" color="primary" sx={{ marginTop: "1rem" }}>
-              Datos personales
-            </Typography>
-            <List
-              sx={{
-                display: "grid",
-                gridTemplateColumns: {
-                  xs: "repeat(1, 1fr)",
-                  sm: "repeat(2, 1fr)",
-                },
-                gap: "1rem",
-              }}
-            >
-              <ListItem>
-                <EmailOutlinedIcon
-                  color="primary"
-                  fontSize="large"
+            {isLoading ? (
+              <>
+                <Skeleton variant="text" width="40%" sx={{ mt: 10 }} />
+                <Box
                   sx={{
-                    marginRight: "0.5rem",
+                    display: "grid",
+                    mt: 2,
+                    gridTemplateColumns: {
+                      xs: "repeat(1, 1fr)",
+                      sm: "repeat(2, 1fr)",
+                    },
+                    gap: "1rem",
                   }}
-                />
-                <ListItemText
-                  primary={postulante.Usuario?.usuario}
-                  secondary="Email"
-                />
-              </ListItem>
-              <ListItem>
-                <LocalPhoneOutlinedIcon
-                  color="primary"
-                  fontSize="large"
+                >
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                </Box>
+                <Divider sx={{ marginTop: "1rem" }} />
+                <Skeleton variant="text" width="40%" />
+                <Box
                   sx={{
-                    marginRight: "0.5rem",
+                    display: "grid",
+                    mt: 2,
+                    gridTemplateColumns: {
+                      xs: "repeat(1, 1fr)",
+                      sm: "repeat(2, 1fr)",
+                    },
+                    gap: "1rem",
                   }}
-                />
-                <ListItemText
-                  primary={postulante.telefono}
-                  secondary="Teléfono"
-                />
-              </ListItem>
-              <ListItem>
-                <CalendarMonth
+                >
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                  <Skeleton variant="rounded" width="65%" height={50} />
+                </Box>
+              </>
+            ) : (
+              <>
+                <Typography
+                  variant="h6"
                   color="primary"
-                  fontSize="large"
+                  sx={{ marginTop: "1rem" }}
+                >
+                  Datos personales
+                </Typography>
+                <List
                   sx={{
-                    marginRight: "0.5rem",
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "repeat(1, 1fr)",
+                      sm: "repeat(2, 1fr)",
+                    },
+                    gap: "1rem",
                   }}
-                />
-                <ListItemText
-                  primary={formatoFecha(postulante.fecha_nac)}
-                  secondary="Fecha de nacimiento"
-                />
-              </ListItem>
-              <ListItem>
-                <LocationOnOutlinedIcon
+                >
+                  <ListItem>
+                    <EmailOutlinedIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={postulante.Usuario?.usuario}
+                      secondary="Email"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <LocalPhoneOutlinedIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={postulante.telefono}
+                      secondary="Teléfono"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <CalendarMonth
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={formatoFecha(postulante.fecha_nac)}
+                      secondary="Fecha de nacimiento"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <LocationOnOutlinedIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={
+                        postulante.Ciudad?.nombre +
+                        ", " +
+                        postulante.Provincia?.nombre
+                      }
+                      secondary="Lugar de residencia"
+                    />
+                  </ListItem>
+                </List>
+                <Divider sx={{ marginTop: "1rem" }} />
+                <Typography
+                  variant="h6"
                   color="primary"
-                  fontSize="large"
+                  sx={{ marginTop: "1rem" }}
+                >
+                  Datos académicos
+                </Typography>
+                <List
                   sx={{
-                    marginRight: "0.5rem",
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "repeat(1, 1fr)",
+                      sm: "repeat(2, 1fr)",
+                    },
+                    gap: "1rem",
                   }}
-                />
-                <ListItemText
-                  primary={
-                    postulante.Ciudad?.nombre +
-                    ", " +
-                    postulante.Provincia?.nombre
-                  }
-                  secondary="Lugar de residencia"
-                />
-              </ListItem>
-            </List>
-            <Divider sx={{ marginTop: "1rem" }} />
-            <Typography variant="h6" color="primary" sx={{ marginTop: "1rem" }}>
-              Datos académicos
-            </Typography>
-            <List
-              sx={{
-                display: "grid",
-                gridTemplateColumns: {
-                  xs: "repeat(1, 1fr)",
-                  sm: "repeat(2, 1fr)",
-                },
-                gap: "1rem",
-              }}
-            >
-              <ListItem>
-                <ListItemText
-                  primary={postulante.Estudios?.nombre_estudio_estado}
-                  secondary="Estudios"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={postulante.Carrera?.nombre_carrera}
-                  secondary="Carrera"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={postulante.cant_materias}
-                  secondary="Materias aprobadas"
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={postulante.alumno_unahur ? "Si" : "No"}
-                  secondary="¿Es alumno de la UNAHUR?"
-                />
-              </ListItem>
-            </List>
+                >
+                  <ListItem>
+                    <ListItemText
+                      primary={postulante.Estudios?.nombre_estudio_estado}
+                      secondary="Estudios"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={postulante.Carrera?.nombre_carrera}
+                      secondary="Carrera"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={postulante.cant_materias}
+                      secondary="Materias aprobadas"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={postulante.alumno_unahur ? "Si" : "No"}
+                      secondary="¿Es alumno de la UNAHUR?"
+                    />
+                  </ListItem>
+                </List>
+              </>
+            )}
           </CardContent>
         </Card>
       </Container>

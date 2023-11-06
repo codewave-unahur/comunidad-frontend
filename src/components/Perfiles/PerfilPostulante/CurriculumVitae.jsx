@@ -1,4 +1,4 @@
-import { Button, CardHeader, Grid, Card, Box, Typography } from "@mui/material";
+import { Button, CardHeader, Grid, Card, Typography } from "@mui/material";
 
 import { useState } from "react";
 
@@ -22,77 +22,76 @@ const CurriculumVitae = () => {
         container
         spacing={3}
         direction="row"
-        justifyContent="space-evenly"
+        justifyContent="space-between"
         alignItems="center"
         paddingX={2}
         paddingY={2}
       >
         <Grid item xs={12} sm={6} md={6}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
-            <Typography variant="caption" display="block">
-              Formato de archivo admitido: PDF
-              <ErrorOutlineIcon
-                fontSize="small"
-                sx={{
-                  verticalAlign: "middle",
-                  ml: 0.5,
-                }}
-              />
-            </Typography>
-            <Button
-              component="label"
-              disableElevation
-              size="medium"
-              variant="contained"
-              endIcon={<DescriptionIcon />}
+          <Typography variant="body2" display="block">
+            Formato de archivo admitido: PDF
+            <ErrorOutlineIcon
+              fontSize="small"
               sx={{
-                marginTop: 1,
+                verticalAlign: "middle",
+                ml: 0.5,
               }}
-            >
-              Cambiar Curriculum Vitae
-              <input
-                type="file"
-                accept="application/pdf"
-                hidden
-                onChange={handleSubirCV}
-              />
-            </Button>
-            {isCVSelected && (
-              <Button
-                onClick={() => {
-                  console.log({ cvSeleccionado });
-                }}
-                sx={{
-                  marginTop: 2,
-                }}
-                variant="outlined"
-                size="medium"
-                color="success"
-              >
-                Subir Curriculum Vitae seleccionado <br /> {cvSeleccionado.name}
-              </Button>
-            )}
-          </Box>
+            />
+          </Typography>
+          <Button
+            component="label"
+            disableElevation
+            size="medium"
+            variant="contained"
+            endIcon={<DescriptionIcon />}
+            sx={{
+              marginTop: 1,
+            }}
+            fullWidth
+          >
+            Seleccionar Curriculum Vitae
+            <input
+              type="file"
+              accept="application/pdf"
+              hidden
+              onChange={handleSubirCV}
+            />
+          </Button>
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           <Button
             disableElevation
             variant="contained"
+            size="medium"
+            endIcon={<DescriptionIcon />}
             sx={{
-              float: "right",
+              marginTop: 3.6,
             }}
             href={datosUsuario.cv}
             target="_blank"
             fullWidth
+            disabled={!datosUsuario.cv}
           >
             Ver Curriculum Vitae
           </Button>
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          {isCVSelected && (
+            <Button
+              onClick={() => {
+                console.log({ cvSeleccionado });
+              }}
+              sx={{
+                marginTop: 2,
+              }}
+              variant="outlined"
+              color="success"
+              fullWidth
+              disableElevation
+            >
+              Subir {cvSeleccionado.name}
+            </Button>
+          )}
         </Grid>
       </Grid>
     </Card>
