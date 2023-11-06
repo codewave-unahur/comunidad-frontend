@@ -8,7 +8,7 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 import {
   Dialog,
   DialogActions,
@@ -24,25 +24,41 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function Registro({ steps, getStepContent }) {
+export default function Registro({
+  steps,
+  getStepContent,
+  handleFinish,
+  setValidarErrores,
+  schema,
+  postulante,
+}) {
   Registro.propTypes = {
     steps: PropTypes.arrayOf(PropTypes.string).isRequired,
     getStepContent: PropTypes.func.isRequired,
+    handleFinish: PropTypes.func.isRequired,
+    setValidarErrores: PropTypes.func.isRequired,
+    schema: PropTypes.object.isRequired,
+    postulante: PropTypes.object.isRequired,
   };
   const [open, setOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
   const isSmallScreen = useMediaQuery("(max-width:600px)");
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1);
-    window.scrollTo(0, 0);
-  };
-
-  const handleFinish = () => {
-    toast.success("Cuenta creada exitosamente");
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 2000);
+    try {
+      // Intenta validar los campos con Yup
+      schema.validateSync(postulante, { abortEarly: false });
+      // Si no hay errores, puedes avanzar al siguiente paso
+      setActiveStep(activeStep + 1);
+      window.scrollTo(0, 0);
+    } catch (error) {
+      // Si hay errores, actualiza el estado de errores de validación
+      const errors = {};
+      error.inner.forEach((e) => {
+        errors[e.path] = e.message;
+      });
+      setValidarErrores(errors);
+    }
   };
 
   const handleBack = () => {

@@ -1,26 +1,82 @@
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import { MenuItem } from "@mui/material";
+import { MenuItem, Grid, TextField, Typography } from "@mui/material";
 
-const tiposDocumentos = ["DNI", "PASAPORTE", "LC", "LE"];
+import PropTypes from "prop-types";
 
-const provincias = ["Acá", "van", "las", "provincias", "de", "la", "Argentina"];
+import { getTiposDocumentos } from "../../../services/tiposDocumentos_service";
+import { getProvincias } from "../../../services/provincias_service";
+import { getCiudades } from "../../../services/ciudades_service";
+import { useEffect, useState } from "react";
 
-const ciudades = [
-  "Acá",
-  "van",
-  "las",
-  "ciudades",
-  "de",
-  "la",
-  "provincia",
-  "seleccionada",
-];
+export default function DatosPersonales({
+  postulante,
+  setPostulante,
+  schema,
+  validarErrores,
+  setValidarErrores,
+}) {
+  DatosPersonales.propTypes = {
+    postulante: PropTypes.object.isRequired,
+    setPostulante: PropTypes.func.isRequired,
+    schema: PropTypes.object.isRequired,
+    validarErrores: PropTypes.object.isRequired,
+    setValidarErrores: PropTypes.func.isRequired,
+  };
+  const [tiposDocumentos, setTiposDocumentos] = useState([]);
+  const [provincias, setProvincias] = useState([]);
+  const [ciudades, setCiudades] = useState([]);
 
-const genero = ["Femenino", "Masculino", "Otro"];
+  useEffect(() => {
+    async function fetchData() {
+      const [response1, response2] = await Promise.all([
+        getTiposDocumentos(),
+        getProvincias(),
+      ]);
+      if (response1 && response1.tipos_documentos) {
+        setTiposDocumentos(response1.tipos_documentos);
+      }
+      if (response2 && response2.provincias) {
+        setProvincias(response2.provincias);
+      }
+    }
 
-export default function DatosPersonales() {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const traerCiudades = async () => {
+      const response = await getCiudades(postulante.provincia);
+      if (response && response.ciudades) {
+        setCiudades(response.ciudades);
+      }
+    };
+
+    if (postulante.provincia) {
+      traerCiudades();
+    }
+  }, [postulante.provincia]);
+
+  const handleChange = (e) => {
+    setPostulante({
+      ...postulante,
+      [e.target.name]: e.target.value,
+    });
+
+    try {
+      schema.validateSyncAt(e.target.name, {
+        [e.target.name]: e.target.value,
+      });
+      setValidarErrores({
+        ...validarErrores,
+        [e.target.name]: false,
+      });
+    } catch (error) {
+      setValidarErrores({
+        ...validarErrores,
+        [e.target.name]: true,
+      });
+    }
+  };
+
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -30,56 +86,77 @@ export default function DatosPersonales() {
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="text"
+            label="Nombre"
             id="nombre"
             name="nombre"
-            label="Nombre"
-            fullWidth
-            autoFocus
-            autoComplete="nombre"
             variant="outlined"
+            fullWidth
+            value={postulante.nombre || ""}
+            InputLabelProps={{
+              shrink: postulante.nombre ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.nombre)}
+            helperText={validarErrores.nombre ? validarErrores.nombre : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="text"
+            label="Apellido"
             id="apellido"
             name="apellido"
-            label="Apellido"
-            fullWidth
-            autoComplete="apellido"
             variant="outlined"
+            fullWidth
+            value={postulante.apellido || ""}
+            InputLabelProps={{ shrink: postulante.apellido ? true : false }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.apellido)}
+            helperText={validarErrores.apellido ? validarErrores.apellido : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            required
             type="date"
-            id="fechaNacimiento"
-            name="fechaNacimiento"
+            required
             label="Fecha de nacimiento"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-            autoComplete="fechaNacimiento"
+            id="fecha_nac"
+            name="fecha_nac"
             variant="outlined"
+            fullWidth
+            value={postulante.fecha_nac || ""}
+            InputLabelProps={{ shrink: true }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.fecha_nac)}
+            helperText={
+              validarErrores.fecha_nac ? validarErrores.fecha_nac : ""
+            }
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            required
             select
+            required
+            label="Tipo de documento"
             id="tipoDocumento"
             name="tipoDocumento"
-            label="Tipo de documento"
-            fullWidth
-            autoComplete="tipoDocumento"
             variant="outlined"
-            defaultValue=""
+            fullWidth
+            value={
+              tiposDocumentos.find(
+                (tipo) => tipo.id === postulante.tipoDocumento
+              )?.id || ""
+            }
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.tipoDocumento)}
+            helperText={
+              validarErrores.tipoDocumento ? validarErrores.tipoDocumento : ""
+            }
           >
+            <MenuItem value="">Selecciona un tipo de documento</MenuItem>
             {tiposDocumentos.map((tipo) => (
-              <MenuItem key={tipo} value={tipo}>
-                {tipo}
+              <MenuItem key={tipo.id} value={tipo.id}>
+                {tipo.tipo_documento}
               </MenuItem>
             ))}
           </TextField>
@@ -87,60 +164,89 @@ export default function DatosPersonales() {
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="number"
-            id="numeroDocumento"
-            name="numeroDocumento"
-            label="Numero de documento"
-            fullWidth
-            autoComplete="numeroDocumento"
+            label="Documento"
+            id="documento"
+            name="documento"
             variant="outlined"
+            fullWidth
+            value={postulante.documento || ""}
+            InputLabelProps={{
+              shrink: postulante.documento ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.documento)}
+            helperText={
+              validarErrores.documento ? validarErrores.documento : ""
+            }
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
+            label="Nacionalidad"
             id="nacionalidad"
             name="nacionalidad"
-            label="Nacionalidad"
-            fullWidth
-            autoComplete="nacionalidad"
             variant="outlined"
+            fullWidth
+            value={postulante.nacionalidad || ""}
+            InputLabelProps={{
+              shrink: postulante.nacionalidad ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.nacionalidad)}
+            helperText={
+              validarErrores.nacionalidad ? validarErrores.nacionalidad : ""
+            }
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            required
             select
+            required
+            label="Provincia"
             id="provincia"
             name="provincia"
-            label="Provincia"
-            fullWidth
-            autoComplete="provincia"
             variant="outlined"
-            defaultValue=""
+            fullWidth
+            value={
+              provincias.find(
+                (provincia) => provincia.id === postulante.provincia
+              )?.id || ""
+            }
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.provincia)}
+            helperText={
+              validarErrores.provincia ? validarErrores.provincia : ""
+            }
           >
             {provincias.map((provincia) => (
-              <MenuItem key={provincia} value={provincia}>
-                {provincia}
+              <MenuItem key={provincia.id} value={provincia.id}>
+                {provincia.nombre}
               </MenuItem>
             ))}
           </TextField>
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            required
             select
+            required
+            label="Ciudad"
             id="ciudad"
             name="ciudad"
-            label="Ciudad"
-            fullWidth
-            autoComplete="ciudad"
             variant="outlined"
-            defaultValue=""
+            fullWidth
+            value={
+              ciudades.find((ciudad) => ciudad.id === postulante.ciudad)?.id ||
+              ""
+            }
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.ciudad)}
+            helperText={validarErrores.ciudad ? validarErrores.ciudad : ""}
           >
+            <MenuItem value="">Selecciona una ciudad</MenuItem>
             {ciudades.map((ciudad) => (
-              <MenuItem key={ciudad} value={ciudad}>
-                {ciudad}
+              <MenuItem key={ciudad.id} value={ciudad.id}>
+                {ciudad.nombre}
               </MenuItem>
             ))}
           </TextField>
@@ -148,98 +254,118 @@ export default function DatosPersonales() {
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            id="codigoPostal"
-            name="codigoPostal"
             label="Código postal"
-            fullWidth
-            autoComplete="codigoPostal"
+            id="cp"
+            name="cp"
             variant="outlined"
+            fullWidth
+            value={postulante.cp || ""}
+            InputLabelProps={{
+              shrink: postulante.cp ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.cp)}
+            helperText={validarErrores.cp ? validarErrores.cp : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            required
-            id="nombreCalle"
-            name="nombreCalle"
             label="Nombre de la calle"
-            fullWidth
-            autoComplete="nombreCalle"
+            id="calle"
+            name="calle"
             variant="outlined"
+            fullWidth
+            value={postulante.calle || ""}
+            InputLabelProps={{
+              shrink: postulante.calle ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.calle)}
+            helperText={validarErrores.calle ? validarErrores.calle : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Número"
+            id="nro"
+            name="nro"
+            variant="outlined"
+            fullWidth
+            value={postulante.nro || ""}
+            InputLabelProps={{
+              shrink: postulante.nro ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.nro)}
+            helperText={validarErrores.nro ? validarErrores.nro : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Piso"
+            id="piso"
+            name="piso"
+            variant="outlined"
+            fullWidth
+            value={postulante.piso || ""}
+            InputLabelProps={{
+              shrink: postulante.piso ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.piso)}
+            helperText={validarErrores.piso ? validarErrores.piso : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Departamento"
+            id="depto"
+            name="depto"
+            variant="outlined"
+            fullWidth
+            value={postulante.depto || ""}
+            InputLabelProps={{
+              shrink: postulante.depto ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.depto)}
+            helperText={validarErrores.depto ? validarErrores.depto : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="number"
-            id="alturaCalle"
-            name="alturaCalle"
-            label="Altura de la calle"
-            fullWidth
-            autoComplete="alturaCalle"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            required
-            type="tel"
+            label="Teléfono"
             id="telefono"
             name="telefono"
-            label="Teléfono de contacto"
-            fullWidth
-            autoComplete="telefono"
             variant="outlined"
+            fullWidth
+            value={postulante.telefono || ""}
+            InputLabelProps={{
+              shrink: postulante.telefono ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.telefono)}
+            helperText={validarErrores.telefono ? validarErrores.telefono : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            type="url"
-            id="linkedin"
-            name="linkedin"
-            label="Linkedin"
-            fullWidth
-            autoComplete="linkedin"
+            label="Presentación"
+            id="presentacion"
+            name="presentacion"
             variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            type="url"
-            id="red"
-            name="red"
-            label="Otra red social"
             fullWidth
-            autoComplete="red"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            select
-            id="genero"
-            name="genero"
-            label="Género"
-            fullWidth
-            autoComplete="genero"
-            variant="outlined"
-            defaultValue=""
-          >
-            {genero.map((genero) => (
-              <MenuItem key={genero} value={genero}>
-                {genero}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            id="discapacidad"
-            name="discapacidad"
-            label="¿Tiene alguna discapacidad?"
-            fullWidth
+            value={postulante.presentacion || ""}
+            InputLabelProps={{
+              shrink: postulante.presentacion ? true : false,
+            }}
             multiline
-            autoComplete="discapacidad"
-            variant="outlined"
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.presentacion)}
+            helperText={
+              validarErrores.presentacion ? validarErrores.presentacion : ""
+            }
           />
         </Grid>
       </Grid>

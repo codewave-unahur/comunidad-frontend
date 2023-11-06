@@ -21,8 +21,8 @@ function App() {
       <Route path="/postulante/:id" element={<Postulante />} />
       <Route path="/postulantes/:id" element={<Postulantes />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/registro/postulante" element={<RegistroPostulante />} />
-      <Route path="/registro/empresa" element={<RegistroEmpresa />} />
+      <Route path="/registro/postulante/:id" element={<RegistroPostulante />} />
+      <Route path="/registro/empresa/:id" element={<RegistroEmpresa />} />
       <Route path="/restablecimientoContraseña" element={<Email />} />
       <Route
         path="/restablecimientoContraseña/nuevaContraseña/:id"

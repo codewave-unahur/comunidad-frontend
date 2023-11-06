@@ -23,7 +23,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import * as yup from "yup";
 import { Toaster, toast } from "sonner";
 
-import { signIn } from "../../services/usuarios_service";
+import { signIn, signUp } from "../../services/usuarios_service";
 import { getPostulanteById } from "../../services/postulantes_service";
 import { getEmpresaByIdUsuario } from "../../services/empresas_service";
 
@@ -65,15 +65,20 @@ const Login = () => {
       .required(),
   });
 
-  const handleSubmitRegistro = (e) => {
+  const handleSubmitRegistro = async (e) => {
     e.preventDefault();
 
     const email = e.target.emailRegistro.value;
-
     if (!isValidEmail(email)) {
       toast.error("El formato del correo electrónico no es válido.");
       return;
     }
+
+    const response = await signUp({
+      usuario: e.target.emailRegistro.value,
+      password: e.target.contraseñaRegistro.value,
+      grupo: tipoUsuario === "postulante" ? 1 : 2,
+    });
 
     schemaRegistro
       .validate({
@@ -81,14 +86,16 @@ const Login = () => {
         contraseñaRegistro: e.target.contraseñaRegistro.value,
         confirmarContraseñaRegistro: e.target.confirmarContraseñaRegistro.value,
       })
-      .then((data) => {
-        console.log(data);
-        {
+      .then(() => {
+        if (response === undefined) {
+          toast.error(
+            "El email ingresado ya se encuentra registrado. Por favor, ingrese otro email o inicie sesión."
+          );
+        } else {
+          const idUsuario = response.id;
           tipoUsuario === "postulante"
-            ? //Post de usuario (email, contraseña, grupo = 2)
-              (window.location.href = "/registro/postulante")
-            : //Post de usuario (email, contraseña, grupo = 1)
-              (window.location.href = "/registro/empresa");
+            ? (window.location.href = `/registro/postulante/${idUsuario}`)
+            : (window.location.href = `/registro/empresa/${idUsuario}`);
         }
       })
       .catch((err) => {
@@ -98,17 +105,17 @@ const Login = () => {
 
   const handleSubmitInicioSesion = async (e) => {
     e.preventDefault();
-    const response = await signIn({
-      usuario: e.target.emailInicio.value,
-      password: e.target.contraseñaInicio.value,
-    });
 
     const email = e.target.emailInicio.value;
-
     if (!isValidEmail(email)) {
       toast.error("El formato del correo electrónico no es válido.");
       return;
     }
+
+    const response = await signIn({
+      usuario: e.target.emailInicio.value,
+      password: e.target.contraseñaInicio.value,
+    });
 
     schemaInicioSesion
       .validate({
