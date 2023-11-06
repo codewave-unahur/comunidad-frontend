@@ -23,6 +23,7 @@ import {
 } from "../../../services/empresas_service";
 import { getProvincias } from "../../../services/provincias_service";
 import { getCiudades } from "../../../services/ciudades_service";
+import { updateLogo } from "../../../services/files_service";
 
 import { Toaster, toast } from "sonner";
 
@@ -76,6 +77,18 @@ const DatosEmpresa = () => {
   const handleEdit = () => {
     setEdit(true);
     setIsSubmitting(false);
+  };
+
+  const hadleUpdateLogo = (logo, id) => {
+    const response = updateLogo(logo, id);
+    if (response) {
+      toast.success("Logo actualizado correctamente");
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } else {
+      toast.error("Error al actualizar el logo");
+    }
   };
 
   const handleSave = () => {
@@ -248,7 +261,7 @@ const DatosEmpresa = () => {
             {isImageSelected && (
               <Button
                 onClick={() => {
-                  console.log({ imagenSeleccionada });
+                  hadleUpdateLogo(imagenSeleccionada, empresa.id);
                 }}
                 sx={{
                   marginTop: 2,
