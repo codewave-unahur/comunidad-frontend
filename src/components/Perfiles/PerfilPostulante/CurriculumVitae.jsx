@@ -2,17 +2,40 @@ import { Button, CardHeader, Grid, Card, Typography } from "@mui/material";
 
 import { useState } from "react";
 
+import { uploadCV } from "../../../services/files_service";
+
 import DescriptionIcon from "@mui/icons-material/Description";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { Toaster, toast } from "sonner";
 
 const CurriculumVitae = () => {
   const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+  const token = sessionStorage.getItem("token");
+
   const [cvSeleccionado, setCvSeleccionado] = useState(null); // Para guardar la imagen seleccionada en el input[type=file]
   const [isCVSelected, setIsCVSelected] = useState(false); // Para controlar si se seleccionó una imagen o no
 
-  const handleSubirCV = (e) => {
+  const handleCVSeleccionado = (e) => {
     setCvSeleccionado(e.target.files[0]);
     setIsCVSelected(true);
+  };
+
+  const handleSaveCV = async (cv, id, token) => {
+    try {
+      const response = await uploadCV(cv, id, token);
+      if (response) {
+        datosUsuario.cv = response.url;
+        sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
+        toast.success("Curriculum Vitae subido con éxito");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error("Error al subir el Curriculum Vitae");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -54,7 +77,7 @@ const CurriculumVitae = () => {
               type="file"
               accept="application/pdf"
               hidden
-              onChange={handleSubirCV}
+              onChange={handleCVSeleccionado}
             />
           </Button>
         </Grid>
@@ -78,9 +101,9 @@ const CurriculumVitae = () => {
         <Grid item xs={12} sm={6} md={6}>
           {isCVSelected && (
             <Button
-              onClick={() => {
-                console.log({ cvSeleccionado });
-              }}
+              onClick={() =>
+                handleSaveCV(cvSeleccionado, datosUsuario.id, token)
+              }
               sx={{
                 marginTop: 2,
               }}
@@ -94,6 +117,7 @@ const CurriculumVitae = () => {
           )}
         </Grid>
       </Grid>
+      <Toaster richColors closeButton />
     </Card>
   );
 };

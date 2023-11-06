@@ -23,7 +23,7 @@ import {
 } from "../../../services/empresas_service";
 import { getProvincias } from "../../../services/provincias_service";
 import { getCiudades } from "../../../services/ciudades_service";
-import { updateLogo } from "../../../services/files_service";
+import { uploadLogo } from "../../../services/files_service";
 
 import { Toaster, toast } from "sonner";
 
@@ -79,15 +79,26 @@ const DatosEmpresa = () => {
     setIsSubmitting(false);
   };
 
-  const hadleUpdateLogo = (logo, id) => {
-    const response = updateLogo(logo, id);
-    if (response) {
-      toast.success("Logo actualizado correctamente");
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
-    } else {
-      toast.error("Error al actualizar el logo");
+  const handleSaveLogo = async (logo, id) => {
+    try {
+      const response = await uploadLogo(logo, id);
+      if (response) {
+        setEmpresa({
+          ...empresa,
+          logo: response,
+        });
+        const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+        datosUsuario.logo = response.url;
+        sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
+        toast.success("Logo actualizado correctamente");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error("Error al actualizar el logo");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -260,9 +271,7 @@ const DatosEmpresa = () => {
             </Button>
             {isImageSelected && (
               <Button
-                onClick={() => {
-                  hadleUpdateLogo(imagenSeleccionada, empresa.id);
-                }}
+                onClick={() => handleSaveLogo(imagenSeleccionada, empresa.id)}
                 sx={{
                   marginTop: 2,
                 }}

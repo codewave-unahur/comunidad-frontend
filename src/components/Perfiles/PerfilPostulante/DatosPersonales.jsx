@@ -28,6 +28,7 @@ import { putPostulante } from "../../../services/postulantes_service";
 import { getTiposDocumentos } from "../../../services/tiposDocumentos_service";
 import { getProvincias } from "../../../services/provincias_service";
 import { getCiudades } from "../../../services/ciudades_service";
+import { uploadFoto } from "../../../services/files_service";
 
 const DatosPersonales = () => {
   const idUsuario = sessionStorage.getItem("idUsuario");
@@ -98,6 +99,26 @@ const DatosPersonales = () => {
   const handleEdit = () => {
     setEdit(true);
     setIsSubmitting(false);
+  };
+
+  const handleSaveFoto = async (foto, id, token) => {
+    try {
+      const response = await uploadFoto(foto, id, token);
+      if (response) {
+        setUsuario({ ...usuario, foto: response });
+        const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+        datosUsuario.foto = response.url;
+        sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
+        toast.success("Foto actualizada con éxito");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error("Error al actualizar la foto");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSave = () => {
@@ -265,9 +286,9 @@ const DatosPersonales = () => {
             </Button>
             {isImageSelected && (
               <Button
-                onClick={() => {
-                  console.log({ imagenSeleccionada });
-                }}
+                onClick={() =>
+                  handleSaveFoto(imagenSeleccionada, usuario.id, token)
+                }
                 sx={{
                   marginTop: 2,
                 }}
