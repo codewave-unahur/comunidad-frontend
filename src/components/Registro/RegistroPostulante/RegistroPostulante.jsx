@@ -40,9 +40,10 @@ export default function RegistroPostulante() {
     foto: "",
   });
 
-  const [validarErrores, setValidarErrores] = useState({}); // Para controlar los errores de validación
+  const [validarErroresDatosPersonales, setValidarErroresDatosPersonales] =
+    useState({}); // Para controlar los errores de validación
 
-  const schema = yup.object().shape({
+  const schemaDatosPersonales = yup.object().shape({
     nombre: yup.string().required("Campo requerido"),
     apellido: yup.string().required("Campo requerido"),
     fecha_nac: yup.date().required("Campo requerido"),
@@ -82,6 +83,22 @@ export default function RegistroPostulante() {
     presentacion: yup.string().optional(),
   });
 
+  const [validarErroresDatosAcademicos, setValidarErroresDatosAcademicos] =
+    useState({}); // Para controlar los errores de validación
+
+  const schemaDatosAcademicos = yup.object().shape({
+    estudios: yup.string().optional(),
+    carrera: yup.string().optional(),
+    cantMaterias: yup
+      .number()
+      .typeError("La cantidad de materias debe ser un número")
+      .integer("La cantidad de materias debe ser un número entero")
+      .nullable(),
+    alumnoUnahur: yup.boolean().optional(),
+    cv: yup.string().optional(),
+    foto: yup.string().optional(),
+  });
+
   const getStepContent = (step) => {
     switch (step) {
       case 0:
@@ -89,9 +106,9 @@ export default function RegistroPostulante() {
           <DatosPersonales
             postulante={postulante}
             setPostulante={setPostulante}
-            schema={schema}
-            validarErrores={validarErrores}
-            setValidarErrores={setValidarErrores}
+            schema={schemaDatosPersonales}
+            validarErrores={validarErroresDatosPersonales}
+            setValidarErrores={setValidarErroresDatosPersonales}
           />
         );
       case 1:
@@ -99,6 +116,9 @@ export default function RegistroPostulante() {
           <DatosAcademicos
             postulante={postulante}
             setPostulante={setPostulante}
+            schema={schemaDatosAcademicos}
+            validarErrores={validarErroresDatosAcademicos}
+            setValidarErrores={setValidarErroresDatosAcademicos}
           />
         );
       default:
@@ -109,7 +129,8 @@ export default function RegistroPostulante() {
   const handleFinish = async () => {
     try {
       // Intenta validar los campos con Yup
-      schema.validateSync(postulante, { abortEarly: false });
+      schemaDatosPersonales.validateSync(postulante, { abortEarly: false });
+      schemaDatosAcademicos.validateSync(postulante, { abortEarly: false });
 
       const response = await postPostulante(postulante);
 
@@ -125,8 +146,8 @@ export default function RegistroPostulante() {
       error.inner.forEach((e) => {
         errors[e.path] = e.message;
       });
-      setValidarErrores(errors);
-
+      setValidarErroresDatosPersonales(errors);
+      setValidarErroresDatosAcademicos(errors);
       console.log("Error: ", error);
       toast.error("Hubo un error al crear tu cuenta");
     }
@@ -135,13 +156,14 @@ export default function RegistroPostulante() {
   return (
     <>
       {/* <Header /> */}
+      {console.log(postulante)}
       <Registro
         steps={steps}
         getStepContent={getStepContent}
         handleFinish={handleFinish}
         postulante={postulante}
-        schema={schema}
-        setValidarErrores={setValidarErrores}
+        schema={schemaDatosPersonales}
+        setValidarErrores={setValidarErroresDatosPersonales}
       />
       ;
     </>

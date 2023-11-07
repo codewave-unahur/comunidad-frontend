@@ -61,6 +61,9 @@ const DatosPersonales = () => {
     Usuario: {
       usuario: "",
     },
+    piso: "",
+    depto: "",
+    presentacion: "",
   });
 
   useEffect(() => {
@@ -143,6 +146,9 @@ const DatosPersonales = () => {
           Usuario: {
             usuario: usuario.Usuario.usuario,
           },
+          piso: usuario.piso,
+          depto: usuario.depto,
+          presentacion: usuario.presentacion,
         };
 
         const response = putPostulante(usuario.id, datosActualizados, token);
@@ -198,12 +204,20 @@ const DatosPersonales = () => {
     nro: yup
       .number()
       .typeError("El número de calle debe ser un número")
-      .required("El número de calle es obligatorio")
       .integer("El número de calle debe ser un número entero")
-      .positive("El número de calle debe ser un número positivo"),
+      .positive("El número de calle debe ser un número positivo")
+      .nullable(),
     Usuario: yup.object().shape({
       usuario: yup.string(),
     }),
+    piso: yup
+      .number()
+      .typeError("El piso debe ser un número")
+      .integer("El piso debe ser un número entero")
+      .positive("El piso debe ser un número positivo")
+      .nullable(),
+    depto: yup.string().optional(),
+    presentacion: yup.string().optional(),
   });
 
   const handleInputChange = (fieldName, value) => {
@@ -539,6 +553,48 @@ const DatosPersonales = () => {
                 onChange={(e) => handleInputChange("nro", e.target.value)}
                 error={Boolean(validarErrores.nro)}
                 helperText={validarErrores.nro}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                disabled={isFieldDisabled}
+                label="Piso"
+                variant="outlined"
+                value={usuario.piso || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) => handleInputChange("piso", e.target.value)}
+                error={Boolean(validarErrores.piso)}
+                helperText={validarErrores.piso}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                disabled={isFieldDisabled}
+                label="Departamento"
+                variant="outlined"
+                value={usuario.depto || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) => handleInputChange("depto", e.target.value)}
+                error={Boolean(validarErrores.depto)}
+                helperText={validarErrores.depto}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                disabled={isFieldDisabled}
+                label="Presentación"
+                variant="outlined"
+                multiline
+                value={usuario.presentacion || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  handleInputChange("presentacion", e.target.value)
+                }
+                error={Boolean(validarErrores.presentacion)}
+                helperText={validarErrores.presentacion}
               />
             </Grid>
 
