@@ -29,7 +29,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Toaster, toast } from "sonner";
 
 // import PreferenciasOferta from "./PreferenciasOferta";
-import { getPostulacionesPorIdOferta } from "../../services/postulacionesId_service";
+import { getPostulacionesPorIdOferta, getPostulacionesPorIdOfertaTodas,activarPostulacion, marcarContactado } from "../../services/postulacionesId_service";
 import { getOfertaById } from "../../services/ofertas_service";
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -38,17 +38,25 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const Postulantes = () => {
   const estaLogueado = sessionStorage.getItem("estaLogueado");
+  const tipoUsuario = sessionStorage.getItem("tipoUsuario");
   const idOferta = window.location.pathname.split("/")[2];
 
   const [open, setOpen] = useState(false);
   const [postulaciones, setPostulaciones] = useState([]);
   const [nombreOferta, setNombreOferta] = useState("");
+  const [postulacionElegida, setPostulacionElegida] = useState({});
 
   useEffect(() => {
     const traerPostulaciones = async () => {
       try {
-        const response = await getPostulacionesPorIdOferta(0, 20, idOferta);
-        setPostulaciones(response.postulaciones.rows);
+        if (tipoUsuario === "empresa") {
+          const response = await getPostulacionesPorIdOferta(0, 20, idOferta);
+          setPostulaciones(response.postulaciones.rows);
+        }
+        else {
+          const response = await getPostulacionesPorIdOfertaTodas(0, 20, idOferta);
+          setPostulaciones(response.postulaciones.rows);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -72,6 +80,43 @@ const Postulantes = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleClickAction = () => {
+    if (tipoUsuario === "empresa") {
+      const response = marcarContactado(postulacionElegida.id)
+      console.log(response)
+      window.location.reload()
+      toast.success("Postulante evaluado correctamente");
+    }
+    else {
+      const response = activarPostulacion(postulacionElegida.id)
+      console.log(response)
+      window.location.reload()
+      toast.success("Postulante evaluado correctamente");
+    }
+  }
+
+  const handleColor = (contactado, estado_postulacion) => {
+    if (tipoUsuario === "empresa") {
+      let color = "orange"
+      if (contactado === true) {
+        color = "green";
+      }
+      if (contactado === false) {
+        color = "red";
+      }
+      return color
+    }  else {
+      let color = "orange"
+      if (estado_postulacion === true) {
+        color = "green";
+      }
+      if (estado_postulacion === false) {
+        color = "red";
+      }
+      return color
+    }
+  }
 
   return (
     <>
@@ -171,11 +216,7 @@ const Postulantes = () => {
                       <Icon
                         sx={{
                           color:
-                            postulacion.contactado === true
-                              ? "green"
-                              : postulacion.contactado === false
-                              ? "red"
-                              : "orange",
+                          handleColor(postulacion.contactado, postulacion.estado_postulacion)
                         }}
                       >
                         {postulacion.contactado === true ? (
@@ -207,6 +248,10 @@ const Postulantes = () => {
                         color="success"
                         sx={{
                           margin: 1,
+                        }}
+                        onClick={() => {
+                          setPostulacionElegida(postulacion);
+                          handleClickAction();
                         }}
                       >
                         Evaluar

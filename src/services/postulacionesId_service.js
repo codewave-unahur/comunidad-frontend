@@ -14,6 +14,40 @@ export async function getPostulacionesPorIdOferta(pagina, limite, id) {
   }
 }
 
+export async function getPostulacionesPorIdOfertaTodas(pagina, limite, id) {
+  try {
+    const response = await axios.get(
+      `${config.apiUrl}/postulaciones/ofertatodas/${id}/?pagina=${pagina}&limite=${limite}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function activarPostulacion(id) {
+  try {
+    const response = await axios.put(
+      `${config.apiUrl}/postulaciones/activar/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function marcarContactado(id) {
+  try {
+    const response = await axios.put(
+      `${config.apiUrl}/postulaciones/contactado/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
 // Trae todas las postulaciones por id del postulante
 
 export async function getPostulacionesPorIdPostulante(pagina, limite, id) {
