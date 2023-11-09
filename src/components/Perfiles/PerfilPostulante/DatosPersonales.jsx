@@ -513,6 +513,10 @@ const DatosPersonales = () => {
                     (ciudades) =>
                       ciudades.fk_id_provincia === usuario.fk_id_provincia
                   )
+                  .filter(
+                    (ciudades) =>
+                      ciudades.fk_id_provincia === usuario.fk_id_provincia
+                  )
                   .map((ciudad) => (
                     <MenuItem key={ciudad.id} value={ciudad.id}>
                       {ciudad.nombre}
