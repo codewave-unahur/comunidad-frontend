@@ -509,11 +509,12 @@ const DatosPersonales = () => {
                 }
               >
                 <MenuItem value="">Selecciona una ciudad</MenuItem>
-                {ciudades.map((ciudad) => (
-                  <MenuItem key={ciudad.id} value={ciudad.id}>
-                    {ciudad.nombre}
-                  </MenuItem>
-                ))}
+                {ciudades.filter( ciudades => ciudades.fk_id_provincia === usuario.fk_id_provincia)
+                    .map((ciudad) => (
+                    <MenuItem key={ciudad.id} value={ciudad.id}>
+                      {ciudad.nombre}
+                    </MenuItem>
+                  ))}
               </TextField>
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
