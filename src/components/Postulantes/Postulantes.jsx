@@ -29,7 +29,12 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { Toaster, toast } from "sonner";
 
 // import PreferenciasOferta from "./PreferenciasOferta";
-import { getPostulacionesPorIdOferta, getPostulacionesPorIdOfertaTodas,activarPostulacion, marcarContactado } from "../../services/postulacionesId_service";
+import {
+  getPostulacionesPorIdOferta,
+  getPostulacionesPorIdOfertaTodas,
+  activarPostulacion,
+  marcarContactado,
+} from "../../services/postulacionesId_service";
 import { getOfertaById } from "../../services/ofertas_service";
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -52,9 +57,12 @@ const Postulantes = () => {
         if (tipoUsuario === "empresa") {
           const response = await getPostulacionesPorIdOferta(0, 20, idOferta);
           setPostulaciones(response.postulaciones.rows);
-        }
-        else {
-          const response = await getPostulacionesPorIdOfertaTodas(0, 20, idOferta);
+        } else {
+          const response = await getPostulacionesPorIdOfertaTodas(
+            0,
+            20,
+            idOferta
+          );
           setPostulaciones(response.postulaciones.rows);
         }
       } catch (error) {
@@ -83,40 +91,39 @@ const Postulantes = () => {
 
   const handleClickAction = () => {
     if (tipoUsuario === "empresa") {
-      const response = marcarContactado(postulacionElegida.id)
-      console.log(response)
-      window.location.reload()
+      const response = marcarContactado(postulacionElegida.id);
+      console.log(response);
+      // window.location.reload()
+      toast.success("Postulante evaluado correctamente");
+    } else {
+      const response = activarPostulacion(postulacionElegida.id);
+      console.log(response);
+      // window.location.reload()
       toast.success("Postulante evaluado correctamente");
     }
-    else {
-      const response = activarPostulacion(postulacionElegida.id)
-      console.log(response)
-      window.location.reload()
-      toast.success("Postulante evaluado correctamente");
-    }
-  }
+  };
 
   const handleColor = (contactado, estado_postulacion) => {
     if (tipoUsuario === "empresa") {
-      let color = "orange"
+      let color = "orange";
       if (contactado === true) {
         color = "green";
       }
       if (contactado === false) {
         color = "red";
       }
-      return color
-    }  else {
-      let color = "orange"
+      return color;
+    } else {
+      let color = "orange";
       if (estado_postulacion === true) {
         color = "green";
       }
       if (estado_postulacion === false) {
         color = "red";
       }
-      return color
+      return color;
     }
-  }
+  };
 
   return (
     <>
@@ -215,8 +222,10 @@ const Postulantes = () => {
                     <TableCell align="center">
                       <Icon
                         sx={{
-                          color:
-                          handleColor(postulacion.contactado, postulacion.estado_postulacion)
+                          color: handleColor(
+                            postulacion.contactado,
+                            postulacion.estado_postulacion
+                          ),
                         }}
                       >
                         {postulacion.contactado === true ? (

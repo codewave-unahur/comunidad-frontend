@@ -1,22 +1,73 @@
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import { MenuItem } from "@mui/material";
+import { MenuItem, Grid, TextField, Typography } from "@mui/material";
 
-const provincias = ["Acá", "van", "las", "provincias", "de", "la", "Argentina"];
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 
-const ciudades = [
-  "Acá",
-  "van",
-  "las",
-  "ciudades",
-  "de",
-  "la",
-  "provincia",
-  "seleccionada",
-];
+import { getProvincias } from "../../../services/provincias_service";
+import { getCiudades } from "../../../services/ciudades_service";
 
-export default function DatosPersonales() {
+export default function DatosPersonales({
+  empresa,
+  setEmpresa,
+  schema,
+  validarErrores,
+  setValidarErrores,
+}) {
+  DatosPersonales.propTypes = {
+    empresa: PropTypes.object.isRequired,
+    setEmpresa: PropTypes.func.isRequired,
+    schema: PropTypes.object.isRequired,
+    validarErrores: PropTypes.object.isRequired,
+    setValidarErrores: PropTypes.func.isRequired,
+  };
+  const [provincias, setProvincias] = useState([]);
+  const [ciudades, setCiudades] = useState([]);
+
+  useEffect(() => {
+    const traerProvincias = async () => {
+      const response = await getProvincias();
+      if (response) {
+        setProvincias(response.provincias);
+      }
+    };
+    traerProvincias();
+  }, []);
+
+  useEffect(() => {
+    const traerCiudades = async () => {
+      const response = await getCiudades(empresa.provincia);
+      if (response && response.ciudades) {
+        setCiudades(response.ciudades);
+      }
+    };
+
+    if (empresa.provincia) {
+      traerCiudades();
+    }
+  }, [empresa.provincia]);
+
+  const handleChange = (e) => {
+    setEmpresa({
+      ...empresa,
+      [e.target.name]: e.target.value,
+    });
+
+    try {
+      schema.validateSyncAt(e.target.name, {
+        [e.target.name]: e.target.value,
+      });
+      setValidarErrores({
+        ...validarErrores,
+        [e.target.name]: false,
+      });
+    } catch (error) {
+      setValidarErrores({
+        ...validarErrores,
+        [e.target.name]: true,
+      });
+    }
+  };
+
   return (
     <>
       <Typography variant="h6" gutterBottom>
@@ -26,79 +77,122 @@ export default function DatosPersonales() {
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="text"
-            id="nombre"
-            name="nombre"
             label="Nombre de la empresa"
-            fullWidth
-            autoFocus
+            id="nombreEmpresa"
+            name="nombreEmpresa"
             variant="outlined"
+            fullWidth
+            value={empresa.nombreEmpresa || ""}
+            InputLabelProps={{
+              shrink: empresa.nombreEmpresa ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.nombreEmpresa)}
+            helperText={
+              validarErrores.nombreEmpresa ? validarErrores.nombreEmpresa : ""
+            }
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="text"
+            label="Cuit"
             id="cuit"
             name="cuit"
-            label="Cuit"
-            fullWidth
             variant="outlined"
+            fullWidth
+            value={empresa.cuit || ""}
+            InputLabelProps={{
+              shrink: empresa.cuit ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.cuit)}
+            helperText={validarErrores.cuit ? validarErrores.cuit : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="text"
-            id="descripción"
-            name="descripción"
             label="Descripción"
-            fullWidth
+            id="descripcion"
+            name="descripcion"
             variant="outlined"
+            fullWidth
+            multiline
+            value={empresa.descripcion || ""}
+            InputLabelProps={{
+              shrink: empresa.descripcion ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.descripcion)}
+            helperText={
+              validarErrores.descripcion ? validarErrores.descripcion : ""
+            }
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            id="nacionalidad"
-            name="nacionalidad"
             label="Nacionalidad"
-            fullWidth
+            id="pais"
+            name="pais"
             variant="outlined"
+            fullWidth
+            value={empresa.pais || ""}
+            InputLabelProps={{
+              shrink: empresa.pais ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.pais)}
+            helperText={validarErrores.pais ? validarErrores.pais : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            required
             select
+            required
+            label="Provincia"
             id="provincia"
             name="provincia"
-            label="Provincia"
-            fullWidth
             variant="outlined"
-            defaultValue=""
+            fullWidth
+            value={
+              provincias.find((provincia) => provincia.id === empresa.provincia)
+                ?.id || ""
+            }
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.provincia)}
+            helperText={
+              validarErrores.provincia ? validarErrores.provincia : ""
+            }
           >
             {provincias.map((provincia) => (
-              <MenuItem key={provincia} value={provincia}>
-                {provincia}
+              <MenuItem key={provincia.id} value={provincia.id}>
+                {provincia.nombre}
               </MenuItem>
             ))}
           </TextField>
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            required
             select
+            required
+            label="Ciudad"
             id="ciudad"
             name="ciudad"
-            label="Ciudad"
-            fullWidth
             variant="outlined"
-            defaultValue=""
+            fullWidth
+            value={
+              ciudades.find((ciudad) => ciudad.id === empresa.ciudad)?.id || ""
+            }
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.ciudad)}
+            helperText={validarErrores.ciudad ? validarErrores.ciudad : ""}
           >
+            <MenuItem value="">Selecciona una ciudad</MenuItem>
             {ciudades.map((ciudad) => (
-              <MenuItem key={ciudad} value={ciudad}>
-                {ciudad}
+              <MenuItem key={ciudad.id} value={ciudad.id}>
+                {ciudad.nombre}
               </MenuItem>
             ))}
           </TextField>
@@ -106,95 +200,160 @@ export default function DatosPersonales() {
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            id="nombreCalle"
-            name="nombreCalle"
             label="Nombre de la calle"
-            fullWidth
+            id="calle"
+            name="calle"
             variant="outlined"
+            fullWidth
+            value={empresa.calle || ""}
+            InputLabelProps={{
+              shrink: empresa.calle ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.calle)}
+            helperText={validarErrores.calle ? validarErrores.calle : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="number"
-            id="alturaCalle"
-            name="alturaCalle"
             label="Altura de la calle"
-            fullWidth
+            id="nro"
+            name="nro"
             variant="outlined"
+            fullWidth
+            value={empresa.nro || ""}
+            InputLabelProps={{
+              shrink: empresa.nro ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.nro)}
+            helperText={validarErrores.nro ? validarErrores.nro : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            required
-            type="number"
+            label="Piso"
             id="piso"
             name="piso"
-            label="Piso"
-            fullWidth
             variant="outlined"
+            fullWidth
+            value={empresa.piso || ""}
+            InputLabelProps={{
+              shrink: empresa.piso ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.piso)}
+            helperText={validarErrores.piso ? validarErrores.piso : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            required
-            id="departamento"
-            name="departamento"
             label="Departamento"
-            fullWidth
+            id="depto"
+            name="depto"
             variant="outlined"
+            fullWidth
+            value={empresa.depto || ""}
+            InputLabelProps={{
+              shrink: empresa.depto ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.depto)}
+            helperText={validarErrores.depto ? validarErrores.depto : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="number"
-            id="códigoPostal"
-            name="códigoPostal"
             label="Código postal"
-            fullWidth
+            id="cp"
+            name="cp"
             variant="outlined"
+            fullWidth
+            value={empresa.cp || ""}
+            InputLabelProps={{
+              shrink: empresa.cp ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.cp)}
+            helperText={validarErrores.cp ? validarErrores.cp : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            type="tel"
-            id="teléfono"
-            name="teléfono"
             label="Teléfono"
-            fullWidth
+            id="telefono"
+            name="telefono"
             variant="outlined"
+            fullWidth
+            value={empresa.telefono || ""}
+            InputLabelProps={{
+              shrink: empresa.telefono ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.telefono)}
+            helperText={validarErrores.telefono ? validarErrores.telefono : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
+            label="Página web"
             id="web"
             name="web"
-            label="Página web"
-            fullWidth
             variant="outlined"
+            fullWidth
+            value={empresa.web || ""}
+            InputLabelProps={{
+              shrink: empresa.web ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.web)}
+            helperText={validarErrores.web ? validarErrores.web : ""}
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
+            label="Nombre del representante"
             id="nombreRepresentante"
             name="nombreRepresentante"
-            label="Nombre del representante"
-            fullWidth
             variant="outlined"
+            fullWidth
+            value={empresa.nombreRepresentante || ""}
+            InputLabelProps={{
+              shrink: empresa.nombreRepresentante ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.nombreRepresentante)}
+            helperText={
+              validarErrores.nombreRepresentante
+                ? validarErrores.nombreRepresentante
+                : ""
+            }
           />
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
             required
+            label="Email del representante"
             id="emailRepresentante"
             name="emailRepresentante"
-            label="Email del representante"
-            fullWidth
             variant="outlined"
+            fullWidth
+            value={empresa.emailRepresentante || ""}
+            InputLabelProps={{
+              shrink: empresa.emailRepresentante ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.emailRepresentante)}
+            helperText={
+              validarErrores.emailRepresentante
+                ? validarErrores.emailRepresentante
+                : ""
+            }
           />
         </Grid>
       </Grid>

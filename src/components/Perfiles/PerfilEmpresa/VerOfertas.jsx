@@ -16,6 +16,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  TextField,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 
 import CircleIcon from "@mui/icons-material/Circle";
@@ -230,6 +234,8 @@ const VerOfertas = () => {
         keepMounted
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description"
+        maxWidth="sm"
+        fullWidth
       >
         <DialogTitle>
           {"¿Está seguro que desea finalizar la oferta?"}
@@ -238,6 +244,33 @@ const VerOfertas = () => {
           <DialogContentText id="alert-dialog-slide-description">
             Si finaliza esta oferta no podrá volver a activarla.
           </DialogContentText>
+          <FormGroup
+            sx={{
+              marginY: 2,
+            }}
+          >
+            <FormControlLabel
+              control={<Checkbox />}
+              label="La oferta se concreto dentro de la comunidad"
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="La oferta se concreto fuera de la comunidad"
+            />
+            <FormControlLabel
+              control={<Checkbox />}
+              label="La oferta no se concreto"
+            />
+          </FormGroup>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="motivo"
+            label="Motivo del cierre (opcional)"
+            type="text"
+            fullWidth
+            variant="standard"
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>

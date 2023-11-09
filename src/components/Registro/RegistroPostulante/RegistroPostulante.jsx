@@ -71,6 +71,7 @@ export default function RegistroPostulante() {
       .typeError("El piso debe ser un número")
       .integer("El piso debe ser un número entero")
       .positive("El piso debe ser un número positivo")
+      .optional()
       .nullable(),
     depto: yup.string().optional(),
     telefono: yup
@@ -156,12 +157,11 @@ export default function RegistroPostulante() {
   return (
     <>
       {/* <Header /> */}
-      {console.log(postulante)}
       <Registro
         steps={steps}
         getStepContent={getStepContent}
         handleFinish={handleFinish}
-        postulante={postulante}
+        usuario={postulante}
         schema={schemaDatosPersonales}
         setValidarErrores={setValidarErroresDatosPersonales}
       />

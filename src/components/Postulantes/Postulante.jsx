@@ -59,11 +59,18 @@ const Postulante = () => {
   };
 
   const formatoFecha = (fecha) => {
+    // dia/mes/año
     const fechaNacimiento = new Date(fecha);
-    const dia = fechaNacimiento.getDate();
-    const mes = fechaNacimiento.getMonth() + 1;
-    const anio = fechaNacimiento.getFullYear();
-    return dia + "/" + mes + "/" + anio;
+    let dia = fechaNacimiento.getDate() + 1;
+    let mes = fechaNacimiento.getMonth() + 1;
+    const año = fechaNacimiento.getFullYear();
+    if (dia < 10) {
+      dia = "0" + dia;
+    }
+    if (mes < 10) {
+      mes = "0" + mes;
+    }
+    return dia + "/" + mes + "/" + año;
   };
 
   return (

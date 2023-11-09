@@ -30,7 +30,7 @@ export default function Registro({
   handleFinish,
   setValidarErrores,
   schema,
-  postulante,
+  usuario,
 }) {
   Registro.propTypes = {
     steps: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -38,7 +38,7 @@ export default function Registro({
     handleFinish: PropTypes.func.isRequired,
     setValidarErrores: PropTypes.func.isRequired,
     schema: PropTypes.object.isRequired,
-    postulante: PropTypes.object.isRequired,
+    usuario: PropTypes.object.isRequired,
   };
   const [open, setOpen] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
@@ -47,7 +47,7 @@ export default function Registro({
   const handleNext = () => {
     try {
       // Intenta validar los campos con Yup
-      schema.validateSync(postulante, { abortEarly: false });
+      schema.validateSync(usuario, { abortEarly: false });
       // Si no hay errores, puedes avanzar al siguiente paso
       setActiveStep(activeStep + 1);
       window.scrollTo(0, 0);
