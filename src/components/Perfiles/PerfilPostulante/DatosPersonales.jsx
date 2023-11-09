@@ -58,12 +58,12 @@ const DatosPersonales = () => {
     calle: "",
     nro: "",
     foto: "",
-    Usuario: {
-      usuario: "",
-    },
     piso: "",
     depto: "",
     presentacion: "",
+    Usuario: {
+      usuario: "",
+    },
   });
 
   useEffect(() => {
@@ -143,12 +143,12 @@ const DatosPersonales = () => {
           calle: usuario.calle,
           nro: usuario.nro,
           foto: usuario.foto,
-          Usuario: {
-            usuario: usuario.Usuario.usuario,
-          },
           piso: usuario.piso,
           depto: usuario.depto,
           presentacion: usuario.presentacion,
+          Usuario: {
+            usuario: usuario.Usuario.usuario,
+          },
         };
 
         const response = putPostulante(usuario.id, datosActualizados, token);
@@ -207,17 +207,16 @@ const DatosPersonales = () => {
       .integer("El número de calle debe ser un número entero")
       .positive("El número de calle debe ser un número positivo")
       .nullable(),
-    Usuario: yup.object().shape({
-      usuario: yup.string(),
-    }),
     piso: yup
       .number()
       .typeError("El piso debe ser un número")
       .integer("El piso debe ser un número entero")
-      .positive("El piso debe ser un número positivo")
       .nullable(),
-    depto: yup.string().optional(),
-    presentacion: yup.string().optional(),
+    depto: yup.string().nullable(),
+    presentacion: yup.string().nullable(),
+    Usuario: yup.object().shape({
+      usuario: yup.string(),
+    }),
   });
 
   const handleInputChange = (fieldName, value) => {
@@ -509,8 +508,16 @@ const DatosPersonales = () => {
                 }
               >
                 <MenuItem value="">Selecciona una ciudad</MenuItem>
-                {ciudades.filter( ciudades => ciudades.fk_id_provincia === usuario.fk_id_provincia)
-                    .map((ciudad) => (
+                {ciudades
+                  .filter(
+                    (ciudades) =>
+                      ciudades.fk_id_provincia === usuario.fk_id_provincia
+                  )
+                  .filter(
+                    (ciudades) =>
+                      ciudades.fk_id_provincia === usuario.fk_id_provincia
+                  )
+                  .map((ciudad) => (
                     <MenuItem key={ciudad.id} value={ciudad.id}>
                       {ciudad.nombre}
                     </MenuItem>
