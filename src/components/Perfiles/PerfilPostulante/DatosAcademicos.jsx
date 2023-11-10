@@ -25,6 +25,24 @@ import { getEstudios } from "../../../services/estudios_service";
 
 import { useEffect, useState } from "react";
 
+// Lista idiomas (español, inglés, portugués y alemán)
+// Nivel oral (inicial, básico, intermedio, avanzado y nativo)
+// Nivel escrito (inicial, básico, intermedio, avanzado y nativo)
+
+const idiomas = [
+  { id: 1, idioma: "Inglés" },
+  { id: 2, idioma: "Portugués" },
+  { id: 3, idioma: "Alemán" },
+];
+
+const niveles = [
+  { id: 1, nivel: "Inicial" },
+  { id: 2, nivel: "Básico" },
+  { id: 3, nivel: "Intermedio" },
+  { id: 4, nivel: "Avanzado" },
+  { id: 5, nivel: "Nativo" },
+];
+
 const DatosAcademicos = () => {
   const idUsuario = sessionStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
@@ -36,9 +54,9 @@ const DatosAcademicos = () => {
   const isFieldDisabled = !edit;
   const [carreras, setCarreras] = useState([]);
   const [estudios, setEstudios] = useState([]);
-  const [idiomas, setIdiomas] = useState([
-    { idioma: "Inglés", nivelOral: "Alto", nivelEscrito: "Alto" },
-  ]);
+  // const [idiomas, setIdiomas] = useState([
+  //   { idioma: "Inglés", nivelOral: "Alto", nivelEscrito: "Alto" },
+  // ]);
   const [usuario, setUsuario] = useState({
     carrera: "",
     fk_id_carrera: "",
@@ -135,13 +153,6 @@ const DatosAcademicos = () => {
       .nullable(),
     alumno_unahur: yup.boolean(),
   });
-
-  const agregarNuevoIdioma = () => {
-    setIdiomas([
-      ...idiomas,
-      { id: idiomas.length, idioma: "", nivelOral: "", nivelEscrito: "" },
-    ]);
-  };
 
   return (
     <Card type="section" elevation={8}>
@@ -282,42 +293,68 @@ const DatosAcademicos = () => {
               <Typography variant="h5" gutterBottom>
                 Idiomas
               </Typography>
-              {idiomas.map((idioma, index) => (
-                <Grid container spacing={2} paddingY={2} key={index}>
-                  <Grid item xs={12} sm={4} md={4}>
-                    <TextField
-                      label="Idioma"
-                      variant="outlined"
-                      value={idioma.idioma}
-                      fullWidth
-                      disabled={isFieldDisabled}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4} md={4}>
-                    <TextField
-                      label="Nivel oral"
-                      variant="outlined"
-                      value={idioma.nivelOral}
-                      fullWidth
-                      disabled={isFieldDisabled}
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={4} md={4}>
-                    <TextField
-                      label="Nivel escrito"
-                      variant="outlined"
-                      value={idioma.nivelEscrito}
-                      fullWidth
-                      disabled={isFieldDisabled}
-                    />
-                  </Grid>
+              <Grid container spacing={2} paddingY={2}>
+                <Grid item xs={12} sm={4} md={4}>
+                  <TextField
+                    select
+                    label="Idioma"
+                    variant="outlined"
+                    fullWidth
+                    disabled={isFieldDisabled}
+                  >
+                    <MenuItem value="" disabled>
+                      Selecciona un idioma
+                    </MenuItem>
+                    {idiomas.map((idioma) => (
+                      <MenuItem key={idioma.id} value={idioma.id}>
+                        {idioma.idioma}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid>
-              ))}
+                <Grid item xs={12} sm={4} md={4}>
+                  <TextField
+                    select
+                    label="Nivel oral"
+                    variant="outlined"
+                    fullWidth
+                    disabled={isFieldDisabled}
+                  >
+                    <MenuItem value="" disabled>
+                      Selecciona un nivel oral
+                    </MenuItem>
+                    {niveles.map((nivel) => (
+                      <MenuItem key={nivel.id} value={nivel.id}>
+                        {nivel.nivel}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={12} sm={4} md={4}>
+                  <TextField
+                    select
+                    label="Nivel escrito"
+                    variant="outlined"
+                    fullWidth
+                    disabled={isFieldDisabled}
+                  >
+                    <MenuItem value="" disabled>
+                      Selecciona un nivel escrito
+                    </MenuItem>
+                    {niveles.map((nivel) => (
+                      <MenuItem key={nivel.id} value={nivel.id}>
+                        {nivel.nivel}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+              </Grid>
+
               {edit && (
                 <Button
                   disableElevation
                   variant="contained"
-                  onClick={agregarNuevoIdioma}
+                  // onClick={agregarNuevoIdioma}
                   sx={{ marginTop: 1 }}
                 >
                   Agregar nuevo idioma
