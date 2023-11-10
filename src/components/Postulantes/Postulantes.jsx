@@ -22,9 +22,9 @@ import {
   Icon,
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import PendingOutlinedIcon from "@mui/icons-material/PendingOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
 
 import { Toaster, toast } from "sonner";
 
@@ -42,14 +42,13 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 const Postulantes = () => {
-  const estaLogueado = sessionStorage.getItem("estaLogueado");
   const tipoUsuario = sessionStorage.getItem("tipoUsuario");
   const idOferta = window.location.pathname.split("/")[2];
 
   const [open, setOpen] = useState(false);
   const [postulaciones, setPostulaciones] = useState([]);
+  const [idPostulacion, setIdPostulacion] = useState("");
   const [nombreOferta, setNombreOferta] = useState("");
-  const [postulacionElegida, setPostulacionElegida] = useState({});
 
   useEffect(() => {
     const traerPostulaciones = async () => {
@@ -79,49 +78,45 @@ const Postulantes = () => {
     };
     traerOferta();
     traerPostulaciones();
-  }, [idOferta]);
+  }, [idOferta, tipoUsuario]);
 
   const handleClickOpen = () => {
-    estaLogueado === "true" ? setOpen(true) : (window.location.href = "/login");
+    setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleClickAction = () => {
+  const handleClickAction = async (id) => {
     if (tipoUsuario === "empresa") {
-      const response = marcarContactado(postulacionElegida.id);
-      console.log(response);
-      // window.location.reload()
-      toast.success("Postulante evaluado correctamente");
+      try {
+        const response = await marcarContactado(id);
+        if (response) {
+          toast.success("Postulante evaluado correctamente");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          toast.error("Error al evaluar postulante");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     } else {
-      const response = activarPostulacion(postulacionElegida.id);
-      console.log(response);
-      // window.location.reload()
-      toast.success("Postulante evaluado correctamente");
-    }
-  };
-
-  const handleColor = (contactado, estado_postulacion) => {
-    if (tipoUsuario === "empresa") {
-      let color = "orange";
-      if (contactado === true) {
-        color = "green";
+      try {
+        const response = await activarPostulacion(id);
+        if (response) {
+          toast.success("Postulación aceptada correctamente");
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          toast.error("Error al evaluar postulante");
+        }
+      } catch (error) {
+        console.log(error);
       }
-      if (contactado === false) {
-        color = "red";
-      }
-      return color;
-    } else {
-      let color = "orange";
-      if (estado_postulacion === true) {
-        color = "green";
-      }
-      if (estado_postulacion === false) {
-        color = "red";
-      }
-      return color;
     }
   };
 
@@ -220,20 +215,45 @@ const Postulantes = () => {
                       </IconButton>
                     </TableCell>
                     <TableCell align="center">
-                      <Icon
-                        sx={{
-                          color: handleColor(
-                            postulacion.contactado,
-                            postulacion.estado_postulacion
-                          ),
-                        }}
-                      >
-                        {postulacion.contactado === true ? (
-                          <CheckOutlinedIcon />
-                        ) : postulacion.contactado === false ? (
-                          <CloseOutlinedIcon />
+                      <Icon>
+                        {tipoUsuario === "empresa" ? (
+                          postulacion.contactado === true ? (
+                            <CheckOutlinedIcon
+                              sx={{
+                                color: "green",
+                              }}
+                            />
+                          ) : postulacion.contactado === false ? (
+                            <CloseOutlinedIcon
+                              sx={{
+                                color: "red",
+                              }}
+                            />
+                          ) : (
+                            <PendingActionsIcon
+                              sx={{
+                                color: "orange",
+                              }}
+                            />
+                          )
+                        ) : postulacion.estado_postulacion === true ? (
+                          <CheckOutlinedIcon
+                            sx={{
+                              color: "green",
+                            }}
+                          />
+                        ) : postulacion.estado_postulacion === false ? (
+                          <CloseOutlinedIcon
+                            sx={{
+                              color: "red",
+                            }}
+                          />
                         ) : (
-                          <PendingOutlinedIcon />
+                          <PendingActionsIcon
+                            sx={{
+                              color: "orange",
+                            }}
+                          />
                         )}
                       </Icon>
                     </TableCell>
@@ -259,11 +279,22 @@ const Postulantes = () => {
                           margin: 1,
                         }}
                         onClick={() => {
-                          setPostulacionElegida(postulacion);
-                          handleClickAction();
+                          setIdPostulacion(postulacion.id);
+                          handleClickOpen();
                         }}
+                        disabled={
+                          tipoUsuario === "empresa"
+                            ? postulacion.contactado === true
+                              ? true
+                              : false
+                            : postulacion.estado_postulacion === true
+                            ? true
+                            : false
+                        }
                       >
-                        Evaluar
+                        {tipoUsuario === "empresa"
+                          ? "Evaluar"
+                          : "Aceptar postulacion"}
                       </Button>
                       <Button
                         variant="outlined"
@@ -271,8 +302,19 @@ const Postulantes = () => {
                         sx={{
                           margin: 1,
                         }}
+                        disabled={
+                          tipoUsuario === "empresa"
+                            ? postulacion.contactado === false
+                              ? true
+                              : false
+                            : postulacion.estado_postulacion === false
+                            ? true
+                            : false
+                        }
                       >
-                        No evaluar
+                        {tipoUsuario === "empresa"
+                          ? "Rechazar"
+                          : "Rechazar postulacion"}
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -296,19 +338,29 @@ const Postulantes = () => {
             aria-describedby="alert-dialog-slide-description"
           >
             <DialogTitle>
-              {"¿Está seguro que desea finalizar la oferta?"}
+              {tipoUsuario === "empresa"
+                ? "¿Está seguro que desea evaluar a este postulante?"
+                : "¿Está seguro que desea aceptar esta postulación?"}
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
-                Si finaliza esta oferta no podrá volver a activarla.
+                Algún texto de confirmación
               </DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose}>Cancelar</Button>
-              <Button color="error">Finalizar</Button>
+              <Button color="error" onClick={handleClose}>
+                Cancelar
+              </Button>
+              <Button
+                color="success"
+                onClick={() => {
+                  handleClickAction(idPostulacion);
+                }}
+              >
+                {tipoUsuario === "empresa" ? "Evaluar" : "Aceptar postulacion"}
+              </Button>
             </DialogActions>
           </Dialog>
-          <Toaster richColors closeButton />
         </Card>
       </Container>
 
