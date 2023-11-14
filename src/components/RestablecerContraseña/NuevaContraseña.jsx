@@ -14,6 +14,7 @@ import { Toaster, toast } from "sonner";
 import { postResetPassword } from "../../services/password_service";
 
 import * as yup from "yup";
+import Header from "../Header/Header";
 
 const NuevaContraseña = () => {
   const id = window.location.href.split("/")[5];
@@ -66,6 +67,7 @@ const NuevaContraseña = () => {
   return (
     <>
       <CssBaseline />
+      <Header />
       <Container
         component="form"
         onSubmit={handleCambioContraseña}

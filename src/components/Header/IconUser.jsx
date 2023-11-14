@@ -56,7 +56,7 @@ export default function IconUser() {
                   : tipoUsuario === "empresa"
                   ? usuarioData.logo
                   : tipoUsuario === "admin"
-                  ? "https://unahur.edu.ar/wp-content/uploads/2021/06/articles_comunicadoinstitucionalnot01.jpg"
+                  ? "https://cdn.discordapp.com/attachments/955646153297395722/1046571441262432257/hurlingham.png"
                   : ""
               }
             />

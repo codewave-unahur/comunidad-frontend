@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Toaster, toast } from "sonner";
 
 import { postResetPasswordRequest } from "../../services/password_service";
+import Header from "../Header/Header";
 
 const RestablecerContraseña = () => {
   const handleSendEmail = async (e) => {
@@ -33,6 +34,7 @@ const RestablecerContraseña = () => {
   return (
     <>
       <CssBaseline />
+      <Header />
       <Container
         component="form"
         onSubmit={handleSendEmail}
