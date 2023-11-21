@@ -44,6 +44,7 @@ import { getPostulanteById } from "../../services/postulantes_service";
 import { getEmpresaByIdUsuario } from "../../services/empresas_service";
 import { forwardRef, useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
+import BaseUNAHUR from "./PerfilAdministrador/BaseUNAHUR";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -137,6 +138,13 @@ const menuOptionsAdmin = [
     Icon: BusinessIcon,
     text: "Empresas",
     renderSection: <Empresas />,
+  },
+  {
+    id: "4",
+    name: "base",
+    Icon: StorageIcon,
+    text: "Base UNAHUR",
+    renderSection: <BaseUNAHUR />,
   },
 ];
 
