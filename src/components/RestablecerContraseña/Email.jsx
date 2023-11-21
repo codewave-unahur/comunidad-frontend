@@ -20,12 +20,14 @@ const RestablecerContraseña = () => {
     try {
       const response = await postResetPasswordRequest(e.target.email.value);
       const id = response.link.split("=")[2];
-      response &&
+      if (response) {
         toast.success("El código de restablecimiento fue enviado a su correo");
-
-      setTimeout(() => {
-        window.location.href = `/restablecimientoContraseña/nuevaContraseña/${id}`;
-      }, 5000);
+        setTimeout(() => {
+          window.location.href = `/restablecimientoContraseña/nuevaContraseña/${id}`;
+        }, 3000);
+      } else {
+        toast.error("El correo electrónico ingresado no existe");
+      }
     } catch (error) {
       toast.error("El correo electrónico ingresado no existe");
     }

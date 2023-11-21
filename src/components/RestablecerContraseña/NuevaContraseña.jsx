@@ -38,21 +38,22 @@ const NuevaContraseña = () => {
     const confirmarContraseña = e.target.confirmarContraseña.value;
 
     try {
-      await schema.validate(
+      schema.validate(
         { contraseña, confirmarContraseña },
         { abortEarly: false }
       );
       const response = await postResetPassword(id, token, contraseña);
-      response &&
-        toast.success("La contraseña fue cambiada exitosamente.") &&
+
+      if (response) {
+        toast.success("La contraseña fue cambiada exitosamente.");
         setTimeout(() => {
           window.location.href = `/login`;
         }, 3000);
-
-      !response &&
+      } else {
         toast.error(
           "El código de restablecimiento es incorrecto o ha expirado."
         );
+      }
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         error.inner.forEach((validationError) => {

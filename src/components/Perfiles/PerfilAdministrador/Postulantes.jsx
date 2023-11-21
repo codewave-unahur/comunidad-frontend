@@ -10,12 +10,15 @@ import {
   TableRow,
   Paper,
   Card,
+  Grid,
 } from "@mui/material";
 
 import { getPostulantes } from "../../../services/postulantes_service";
 import { useEffect, useState } from "react";
 import Buscador from "../../Buscador/Buscador";
 import Paginacion from "../../Paginacion/Paginacion";
+import FiltroAptitudes from "../../Filtros/FiltroAptitudes";
+import FiltroPreferencias from "../../Filtros/FiltroPreferencias";
 
 const Postulantes = () => {
   const [paginaActual, setPaginaActual] = useState(1);
@@ -57,6 +60,22 @@ const Postulantes = () => {
           },
         }}
       />
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          paddingX: 2,
+          paddingY: 1,
+        }}
+      >
+        <Grid item xs={12} sm={6}>
+          <FiltroAptitudes />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FiltroPreferencias />
+        </Grid>
+      </Grid>
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
