@@ -442,25 +442,27 @@ const DatosAcademicos = () => {
               <Typography variant="h5" gutterBottom>
                 Aptitudes
               </Typography>
-              <Grid container spacing={2} paddingY={2}>
+              <Grid container spacing={2} paddingY={1}>
                 <Grid item xs={12} sm={4} md={4}>
-                  <AptitudesOferta />
-                  <TextField
-                    select
-                    label="Aptitudes"
-                    variant="outlined"
-                    fullWidth
-                    disabled={isFieldDisabled}
-                  >
-                    <MenuItem value="" disabled>
-                      Selecciona una aptitud
-                    </MenuItem>
-                    {aptitudes.map((aptitud) => (
-                      <MenuItem key={aptitud.key} value={aptitud.key}>
-                        {aptitud.label}
+                  <AptitudesOferta edit={edit} />
+                  {edit && (
+                    <TextField
+                      select
+                      label="Aptitudes"
+                      variant="outlined"
+                      fullWidth
+                      disabled={isFieldDisabled}
+                    >
+                      <MenuItem value="" disabled>
+                        Selecciona una aptitud
                       </MenuItem>
-                    ))}
-                  </TextField>
+                      {aptitudes.map((aptitud) => (
+                        <MenuItem key={aptitud.key} value={aptitud.key}>
+                          {aptitud.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
                 </Grid>
               </Grid>
 
@@ -479,25 +481,27 @@ const DatosAcademicos = () => {
               <Typography variant="h5" gutterBottom>
                 Preferencias
               </Typography>
-              <Grid container spacing={2} paddingY={2}>
+              <Grid container spacing={2} paddingY={1}>
                 <Grid item xs={12} sm={4} md={4}>
-                  <PreferenciasOferta />
-                  <TextField
-                    select
-                    label="Preferencias"
-                    variant="outlined"
-                    fullWidth
-                    disabled={isFieldDisabled}
-                  >
-                    <MenuItem value="" disabled>
-                      Selecciona una preferencia
-                    </MenuItem>
-                    {preferencias.map((preferencia) => (
-                      <MenuItem key={preferencia.key} value={preferencia.key}>
-                        {preferencia.label}
+                  <PreferenciasOferta edit={edit} />
+                  {edit && (
+                    <TextField
+                      select
+                      label="Preferencias"
+                      variant="outlined"
+                      fullWidth
+                      disabled={isFieldDisabled}
+                    >
+                      <MenuItem value="" disabled>
+                        Selecciona una preferencia
                       </MenuItem>
-                    ))}
-                  </TextField>
+                      {preferencias.map((preferencia) => (
+                        <MenuItem key={preferencia.key} value={preferencia.key}>
+                          {preferencia.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )}
                 </Grid>
               </Grid>
 
