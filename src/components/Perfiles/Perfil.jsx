@@ -1,12 +1,19 @@
 import { useSearchParams } from "react-router-dom";
 import {
+  Box,
+  Button,
   Card,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   Grid,
   IconButton,
   ListItemIcon,
   MenuItem,
   MenuList,
+  Slide,
   Stack,
   Typography,
 } from "@mui/material";
@@ -35,7 +42,12 @@ import Empresas from "./PerfilAdministrador/Empresas";
 
 import { getPostulanteById } from "../../services/postulantes_service";
 import { getEmpresaByIdUsuario } from "../../services/empresas_service";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useState } from "react";
+import { Toaster, toast } from "sonner";
+
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const menuOptionsPostulante = [
   {
@@ -77,13 +89,6 @@ const menuOptionsPostulante = [
     Icon: AssignmentIcon,
     text: "Mis postulaciones",
     renderSection: <MisPostulaciones />,
-  },
-  {
-    id: "6",
-    name: "baseUnahur",
-    Icon: StorageIcon,
-    text: "Aplicar a la base UNAHUR",
-    // renderSection: <Base />,
   },
 ];
 
@@ -136,6 +141,9 @@ const menuOptionsAdmin = [
 ];
 
 function Perfil() {
+  const [open, setOpen] = useState(false);
+  const [cvSeleccionado, setCvSeleccionado] = useState(null); // Para guardar la imagen seleccionada en el input[type=file]
+  const [isCVSelected, setIsCVSelected] = useState(false); // Para controlar si se seleccionó una imagen o no
   const [searchParams, setSearchParams] = useSearchParams();
   const tipoUsuario = sessionStorage.getItem("tipoUsuario");
   const idUsuario = sessionStorage.getItem("idUsuario");
@@ -143,6 +151,26 @@ function Perfil() {
     nombre: "",
     apellido: "",
   });
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setCvSeleccionado(null);
+    setIsCVSelected(false);
+    setOpen(false);
+  };
+
+  const handleCVSeleccionado = (e) => {
+    setCvSeleccionado(e.target.files[0]);
+    setIsCVSelected(true);
+  };
+
+  const handleSubirCV = () => {
+    toast.success("Su curriculum vitae se subió con éxito.");
+    handleClose();
+  };
 
   useEffect(() => {
     if (tipoUsuario === "postulante") {
@@ -262,6 +290,98 @@ function Perfil() {
                   {text}
                 </MenuItem>
               ))}
+              {tipoUsuario === "postulante" && [
+                <MenuItem
+                  key="subirCvMenuItem"
+                  onClick={() => {
+                    handleClickOpen();
+                  }}
+                >
+                  <ListItemIcon>
+                    <StorageIcon />
+                  </ListItemIcon>
+                  Subir cv a la base UNAHUR
+                </MenuItem>,
+                <Dialog
+                  key="subirCvDialog"
+                  open={open}
+                  TransitionComponent={Transition}
+                  keepMounted
+                  onClose={handleClose}
+                  aria-describedby="alert-dialog-slide-description"
+                  maxWidth="sm"
+                  fullWidth
+                >
+                  <DialogTitle>
+                    {
+                      "Por favor, seleccione el curriculum vitae que desea subir a la base general de la UNAHUR."
+                    }
+                  </DialogTitle>
+                  <DialogContent>
+                    <Stack
+                      direction={{ xs: "column", sm: "column", md: "row" }}
+                      spacing={6}
+                      paddingY={2}
+                      alignItems="center"
+                      justifyContent="center"
+                    >
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          justifyContent: "center",
+                          paddingX: 2,
+                        }}
+                      >
+                        <Button
+                          component="label"
+                          disableElevation
+                          size="medium"
+                          variant="contained"
+                          endIcon={<DescriptionIcon />}
+                          sx={{
+                            marginTop: 1,
+                          }}
+                        >
+                          Seleccione su curriculum vitae
+                          <input
+                            type="file"
+                            accept="application/pdf"
+                            hidden
+                            onChange={handleCVSeleccionado}
+                          />
+                        </Button>
+                        {isCVSelected && (
+                          <Typography
+                            variant="subtitle1"
+                            display="block"
+                            sx={{
+                              marginTop: 1,
+                            }}
+                          >
+                            {cvSeleccionado.name}
+                          </Typography>
+                        )}
+                      </Box>
+                    </Stack>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button color="error" onClick={handleClose}>
+                      Cancelar
+                    </Button>
+                    <Button
+                      onClick={handleSubirCV}
+                      color="success"
+                      variant="contained"
+                      disableElevation
+                      disabled={!isCVSelected}
+                    >
+                      Subir CV
+                    </Button>
+                  </DialogActions>
+                </Dialog>,
+                <Toaster key="subirCvToaster" richColors closeButton />,
+              ]}
             </MenuList>
           </Card>
         </Grid>
