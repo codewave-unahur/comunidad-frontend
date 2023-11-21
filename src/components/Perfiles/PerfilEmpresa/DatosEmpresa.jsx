@@ -301,6 +301,14 @@ const DatosEmpresa = () => {
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 onChange={(e) =>
                   setEmpresa({
                     ...empresa,
@@ -325,6 +333,14 @@ const DatosEmpresa = () => {
                 fullWidth
                 multiline
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 onChange={(e) =>
                   setEmpresa({
                     ...empresa,
@@ -343,6 +359,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Nombre del representante"
                 variant="outlined"
                 value={empresa.nombre_representante || ""}
@@ -370,6 +394,14 @@ const DatosEmpresa = () => {
                 value={empresa.email_representante || ""}
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) =>
                   setEmpresa({
@@ -390,6 +422,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Teléfono del representante"
                 variant="outlined"
                 value={empresa.telefono || ""}
@@ -412,6 +452,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Web de la empresa"
                 variant="outlined"
                 value={empresa.web || ""}
@@ -432,6 +480,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Nacionalidad"
                 variant="outlined"
                 value={empresa.pais || ""}
@@ -452,6 +508,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Provincia"
                 variant="outlined"
                 select
@@ -487,6 +551,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Ciudad"
                 variant="outlined"
                 select
@@ -521,6 +593,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Código postal"
                 variant="outlined"
                 value={empresa.cp || ""}
@@ -541,6 +621,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Calle"
                 variant="outlined"
                 value={empresa.calle || ""}
@@ -563,6 +651,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Número de calle"
                 variant="outlined"
                 value={empresa.nro || ""}
@@ -583,6 +679,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Piso"
                 variant="outlined"
                 value={empresa.piso === null ? "" : empresa.piso || ""}
@@ -604,6 +708,14 @@ const DatosEmpresa = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Departamento"
                 variant="outlined"
                 value={empresa.depto || ""}

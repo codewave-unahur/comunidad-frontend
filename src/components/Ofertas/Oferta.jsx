@@ -471,7 +471,9 @@ const Oferta = () => {
               color="primary"
               onClick={
                 tipoUsuario === "empresa" || tipoUsuario === "admin"
-                  ? () => window.location.reload()
+                  ? () => {
+                      window.location.href = `/oferta/editar/${idOferta}`;
+                    }
                   : handleClickOpen
               }
               disabled={

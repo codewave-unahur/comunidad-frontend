@@ -74,7 +74,7 @@ const Ofertas = () => {
         : null;
 
     try {
-      const response = await putOferta(idOferta, idEstado, token);
+      const response = await putOferta(idOferta, { estado: idEstado }, token);
       if (response === "OK") {
         toast.success(
           `La oferta se ha ${

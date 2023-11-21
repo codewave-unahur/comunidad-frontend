@@ -331,6 +331,14 @@ const DatosPersonales = () => {
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 onChange={(e) => handleInputChange("nombre", e.target.value)}
                 error={Boolean(validarErrores.nombre)}
                 helperText={
@@ -348,6 +356,14 @@ const DatosPersonales = () => {
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 onChange={(e) => handleInputChange("apellido", e.target.value)}
                 error={Boolean(validarErrores.apellido)}
                 helperText={
@@ -366,6 +382,14 @@ const DatosPersonales = () => {
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 onChange={(e) => {
                   setUsuario({
                     ...usuario,
@@ -379,6 +403,14 @@ const DatosPersonales = () => {
                 fullWidth
                 type="date"
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Fecha de nacimiento"
                 variant="outlined"
                 value={usuario.fecha_nac?.slice(0, 10) || ""}
@@ -392,6 +424,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Tipo de documento"
                 id="tipo_documento"
                 name="tipo_documento"
@@ -422,6 +462,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Número de documento"
                 variant="outlined"
                 value={usuario.id || ""}
@@ -435,6 +483,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Número de teléfono"
                 variant="outlined"
                 value={usuario.telefono || ""}
@@ -452,6 +508,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Nacionalidad"
                 variant="outlined"
                 value={usuario.nacionalidad || ""}
@@ -467,6 +531,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Provincia"
                 variant="outlined"
                 select
@@ -491,6 +563,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Ciudad"
                 variant="outlined"
                 select
@@ -528,6 +608,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Código postal"
                 variant="outlined"
                 value={usuario.cp || ""}
@@ -541,6 +629,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Calle"
                 variant="outlined"
                 value={usuario.calle || ""}
@@ -554,6 +650,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Número de calle"
                 variant="outlined"
                 value={usuario.nro || ""}
@@ -567,6 +671,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Piso"
                 variant="outlined"
                 value={usuario.piso || ""}
@@ -580,6 +692,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Departamento"
                 variant="outlined"
                 value={usuario.depto || ""}
@@ -593,6 +713,14 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Presentación"
                 variant="outlined"
                 multiline

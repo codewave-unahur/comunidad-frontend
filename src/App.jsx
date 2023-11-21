@@ -10,6 +10,7 @@ import Postulantes from "./components/Postulantes/Postulantes";
 import Postulante from "./components/Postulantes/Postulante";
 import Empresa from "./components/Empresa/Empresa";
 import NuevaContraseña from "./components/RestablecerContraseña/NuevaContraseña.jsx";
+import EdicionOferta from "./components/Ofertas/EdicionOferta.jsx";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/" element={<Inicio />} />
       <Route path="/perfil" element={<Perfil />} />
       <Route path="/oferta/:id" element={<Oferta />} />
+      <Route path="/oferta/editar/:id" element={<EdicionOferta />} />
       <Route path="/empresa/:id" element={<Empresa />} />
       <Route path="/postulante/:id" element={<Postulante />} />
       <Route path="/postulantes/:id" element={<Postulantes />} />

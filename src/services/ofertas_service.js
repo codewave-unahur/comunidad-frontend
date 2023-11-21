@@ -75,9 +75,7 @@ export async function putOferta(idOferta, oferta, token) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/ofertas/idOferta/${idOferta}?authorization=${token}`,
-      {
-        estado: oferta,
-      }
+      oferta
     );
     return response.data;
   } catch (error) {

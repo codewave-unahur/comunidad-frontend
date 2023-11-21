@@ -18,6 +18,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import BusinessIcon from "@mui/icons-material/Business";
 import PostAddIcon from "@mui/icons-material/PostAdd";
+import StorageIcon from "@mui/icons-material/Storage";
 
 import Header from "../Header/Header";
 import DatosPersonales from "./PerfilPostulante/DatosPersonales";
@@ -30,6 +31,7 @@ import CrearOferta from "./PerfilEmpresa/CrearOferta";
 import Postulantes from "./PerfilAdministrador/Postulantes";
 import Ofertas from "./PerfilAdministrador/Ofertas";
 import Empresas from "./PerfilAdministrador/Empresas";
+// import Base from "./PerfilPostulante/Base";
 
 import { getPostulanteById } from "../../services/postulantes_service";
 import { getEmpresaByIdUsuario } from "../../services/empresas_service";
@@ -54,7 +56,7 @@ const menuOptionsPostulante = [
     id: "3",
     name: "formacion",
     Icon: SchoolIcon,
-    text: "Formación ?",
+    text: "Formación",
     renderSection: (
       <p>
         Acá iría lo que propuso Carolina sobre los cursos o demás experiencia.
@@ -75,6 +77,13 @@ const menuOptionsPostulante = [
     Icon: AssignmentIcon,
     text: "Mis postulaciones",
     renderSection: <MisPostulaciones />,
+  },
+  {
+    id: "6",
+    name: "baseUnahur",
+    Icon: StorageIcon,
+    text: "Aplicar a la base UNAHUR",
+    // renderSection: <Base />,
   },
 ];
 

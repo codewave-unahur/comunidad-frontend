@@ -57,7 +57,11 @@ const VerOfertas = () => {
 
   const handleFinalizarOferta = (idOferta) => async () => {
     try {
-      const response = await putOferta(idOferta, "Finalizada", token);
+      const response = await putOferta(
+        idOferta,
+        { estado: "Finalizada" },
+        token
+      );
       if (response === "OK") {
         toast.success("Oferta finalizada con éxito");
         handleClose();

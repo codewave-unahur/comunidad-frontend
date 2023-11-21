@@ -25,6 +25,11 @@ import { getEstudios } from "../../../services/estudios_service";
 
 import { useEffect, useState } from "react";
 
+import {
+  PreferenciasOferta,
+  AptitudesOferta,
+} from "../../Ofertas/PreferenciasOferta";
+
 // Lista idiomas (español, inglés, portugués y alemán)
 // Nivel oral (inicial, básico, intermedio, avanzado y nativo)
 // Nivel escrito (inicial, básico, intermedio, avanzado y nativo)
@@ -41,6 +46,22 @@ const niveles = [
   { id: 3, nivel: "Intermedio" },
   { id: 4, nivel: "Avanzado" },
   { id: 5, nivel: "Nativo" },
+];
+
+const aptitudes = [
+  { key: 0, label: "JavaScript" },
+  { key: 1, label: "Material UI" },
+  { key: 2, label: "React" },
+  { key: 3, label: "PostgreSQL" },
+  { key: 4, label: "NodeJS" },
+];
+
+const preferencias = [
+  { key: 0, label: "Analista funcional" },
+  { key: 1, label: "Desarrollador web" },
+  { key: 2, label: "Diseño gráfico" },
+  { key: 3, label: "Kinesiología" },
+  { key: 4, label: "Diseño industrial" },
 ];
 
 const DatosAcademicos = () => {
@@ -173,6 +194,14 @@ const DatosAcademicos = () => {
                 fullWidth
                 select
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 onChange={(e) => {
                   setUsuario({
                     ...usuario,
@@ -208,6 +237,14 @@ const DatosAcademicos = () => {
                 fullWidth
                 select
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 onChange={(e) => {
                   setUsuario({
                     ...usuario,
@@ -242,6 +279,14 @@ const DatosAcademicos = () => {
                 InputLabelProps={{ shrink: true }}
                 fullWidth
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 onChange={(e) => {
                   setUsuario({
                     ...usuario,
@@ -272,6 +317,14 @@ const DatosAcademicos = () => {
                 }
                 InputLabelProps={{ shrink: true }}
                 disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 onChange={(e) => {
                   setUsuario({
                     ...usuario,
@@ -301,6 +354,14 @@ const DatosAcademicos = () => {
                     variant="outlined"
                     fullWidth
                     disabled={isFieldDisabled}
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                      },
+                      "&& .MuiFormLabel-root.Mui-disabled": {
+                        color: "rgba(0, 0, 0, 0.80)",
+                      },
+                    }}
                   >
                     <MenuItem value="" disabled>
                       Selecciona un idioma
@@ -319,6 +380,14 @@ const DatosAcademicos = () => {
                     variant="outlined"
                     fullWidth
                     disabled={isFieldDisabled}
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                      },
+                      "&& .MuiFormLabel-root.Mui-disabled": {
+                        color: "rgba(0, 0, 0, 0.80)",
+                      },
+                    }}
                   >
                     <MenuItem value="" disabled>
                       Selecciona un nivel oral
@@ -337,6 +406,14 @@ const DatosAcademicos = () => {
                     variant="outlined"
                     fullWidth
                     disabled={isFieldDisabled}
+                    sx={{
+                      "& .MuiInputBase-input.Mui-disabled": {
+                        WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                      },
+                      "&& .MuiFormLabel-root.Mui-disabled": {
+                        color: "rgba(0, 0, 0, 0.80)",
+                      },
+                    }}
                   >
                     <MenuItem value="" disabled>
                       Selecciona un nivel escrito
@@ -361,7 +438,80 @@ const DatosAcademicos = () => {
                 </Button>
               )}
             </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography variant="h5" gutterBottom>
+                Aptitudes
+              </Typography>
+              <Grid container spacing={2} paddingY={2}>
+                <Grid item xs={12} sm={4} md={4}>
+                  <AptitudesOferta />
+                  <TextField
+                    select
+                    label="Aptitudes"
+                    variant="outlined"
+                    fullWidth
+                    disabled={isFieldDisabled}
+                  >
+                    <MenuItem value="" disabled>
+                      Selecciona una aptitud
+                    </MenuItem>
+                    {aptitudes.map((aptitud) => (
+                      <MenuItem key={aptitud.key} value={aptitud.key}>
+                        {aptitud.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+              </Grid>
 
+              {edit && (
+                <Button
+                  disableElevation
+                  variant="contained"
+                  // onClick={agregarNuevoIdioma}
+                  sx={{ marginTop: 1 }}
+                >
+                  Agregar una nueva aptitud
+                </Button>
+              )}
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography variant="h5" gutterBottom>
+                Preferencias
+              </Typography>
+              <Grid container spacing={2} paddingY={2}>
+                <Grid item xs={12} sm={4} md={4}>
+                  <PreferenciasOferta />
+                  <TextField
+                    select
+                    label="Preferencias"
+                    variant="outlined"
+                    fullWidth
+                    disabled={isFieldDisabled}
+                  >
+                    <MenuItem value="" disabled>
+                      Selecciona una preferencia
+                    </MenuItem>
+                    {preferencias.map((preferencia) => (
+                      <MenuItem key={preferencia.key} value={preferencia.key}>
+                        {preferencia.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+              </Grid>
+
+              {edit && (
+                <Button
+                  disableElevation
+                  variant="contained"
+                  // onClick={agregarNuevoIdioma}
+                  sx={{ marginTop: 1 }}
+                >
+                  Agregar una nueva preferencia
+                </Button>
+              )}
+            </Grid>
             <Grid item xs={12} sm={12} md={12}>
               <Button
                 disableElevation

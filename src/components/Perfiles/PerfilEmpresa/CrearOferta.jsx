@@ -80,8 +80,8 @@ const CrearOferta = () => {
   const handleSubmit = () => {
     schema
       .validate(oferta, { abortEarly: false })
-      .then(() => {
-        const response = postOferta(oferta, token);
+      .then(async () => {
+        const response = await postOferta(oferta, token);
         if (response) {
           toast.success("Oferta creada con éxito");
           toast("A la brevedad será revisada por un administrador");
