@@ -46,20 +46,39 @@ const VerOfertas = () => {
   const [ofertas, setOfertas] = useState([]);
   const [open, setOpen] = useState(false);
   const [idOfertaAFinalizar, setIdOfertaAFinalizar] = useState(null);
+  const [motivo, setMotivo] = useState("");
+  const [motivoCheck, setMotivoCheck] = useState("");
+
+  const handleMotivoCheck = (e) => {
+    const { name, checked } = e.target;
+    if (checked) {
+      setMotivoCheck(name);
+    } else {
+      setMotivoCheck("");
+    }
+  };
+
   const handleClickOpen = (ofertaID) => {
     setIdOfertaAFinalizar(ofertaID);
     setOpen(true);
   };
 
   const handleClose = () => {
+    setMotivo("");
+    setMotivoCheck("");
     setOpen(false);
   };
 
   const handleFinalizarOferta = (idOferta) => async () => {
+    if (!motivoCheck) {
+      toast.error("Debe seleccionar un motivo para finalizar la oferta");
+      return;
+    }
+
     try {
       const response = await putOferta(
         idOferta,
-        { estado: "Finalizada" },
+        { estado: "Finalizada", cierre: motivo, check: motivoCheck },
         token
       );
       if (response === "OK") {
@@ -73,6 +92,8 @@ const VerOfertas = () => {
             return oferta;
           })
         );
+        setMotivo("");
+        setMotivoCheck("");
       } else {
         toast.error("Error al finalizar la oferta");
         handleClose();
@@ -167,6 +188,8 @@ const VerOfertas = () => {
                           oferta.estado === "Activa"
                             ? "green"
                             : oferta.estado === "Observada"
+                            ? "red"
+                            : oferta.estado === "Pendiente"
                             ? "orange"
                             : "black",
                       }}
@@ -254,15 +277,39 @@ const VerOfertas = () => {
             }}
           >
             <FormControlLabel
-              control={<Checkbox />}
+              control={
+                <Checkbox
+                  checked={
+                    motivoCheck ===
+                    "La oferta se concreto dentro de la comunidad"
+                  }
+                  onChange={handleMotivoCheck}
+                  name="La oferta se concreto dentro de la comunidad"
+                />
+              }
               label="La oferta se concreto dentro de la comunidad"
             />
             <FormControlLabel
-              control={<Checkbox />}
+              control={
+                <Checkbox
+                  checked={
+                    motivoCheck ===
+                    "La oferta se concreto fuera de la comunidad"
+                  }
+                  onChange={handleMotivoCheck}
+                  name="La oferta se concreto fuera de la comunidad"
+                />
+              }
               label="La oferta se concreto fuera de la comunidad"
             />
             <FormControlLabel
-              control={<Checkbox />}
+              control={
+                <Checkbox
+                  checked={motivoCheck === "La oferta no se concreto"}
+                  onChange={handleMotivoCheck}
+                  name="La oferta no se concreto"
+                />
+              }
               label="La oferta no se concreto"
             />
           </FormGroup>
@@ -274,6 +321,8 @@ const VerOfertas = () => {
             type="text"
             fullWidth
             variant="standard"
+            value={motivo}
+            onChange={(e) => setMotivo(e.target.value)}
           />
         </DialogContent>
         <DialogActions>

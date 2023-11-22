@@ -21,7 +21,11 @@ import {
 
 import { Toaster, toast } from "sonner";
 
-import { getOfertas, putOferta } from "../../../services/ofertas_service";
+import {
+  getOfertas,
+  getOfertaById,
+  putOferta,
+} from "../../../services/ofertas_service";
 import { useEffect, useState, forwardRef } from "react";
 import Buscador from "../../Buscador/Buscador";
 import Paginacion from "../../Paginacion/Paginacion";
@@ -40,6 +44,8 @@ const Ofertas = () => {
   const [estadoOferta, setEstadoOferta] = useState("Ofertas activas");
   const [open, setOpen] = useState(false);
   const [idOfertaAFinalizar, setIdOfertaAFinalizar] = useState(null);
+  const [motivoCierre, setMotivoCierre] = useState(null);
+  const [comentarioEmpresa, setComentarioEmpresa] = useState("");
   const [action, setAction] = useState(null);
 
   let estado =
@@ -57,6 +63,14 @@ const Ofertas = () => {
     setIdOfertaAFinalizar(ofertaID);
     setAction(action);
     setOpen(true);
+    if (action === "cierre") {
+      const traerMotivoCierre = async () => {
+        const response = await getOfertaById(ofertaID, token);
+        setMotivoCierre(response.check);
+        setComentarioEmpresa(response.cierre);
+      };
+      traerMotivoCierre();
+    }
   };
 
   const handleClose = () => {
@@ -252,7 +266,27 @@ const Ofertas = () => {
   };
 
   const accionesOfertasFinalizadas = (oferta) => {
-    return <>{botonVer(oferta)}</>;
+    return (
+      <>
+        {botonVer(oferta)}
+        <Button
+          variant="outlined"
+          sx={{
+            margin: 1,
+            color: "green",
+            borderColor: "green",
+            "&:hover": {
+              backgroundColor: "lightgrey",
+              color: "black",
+              borderColor: "green",
+            },
+          }}
+          onClick={() => handleClickOpen(oferta.id, "cierre")}
+        >
+          Motivos de cierre
+        </Button>
+      </>
+    );
   };
 
   const estadoMap = {
@@ -380,23 +414,42 @@ const Ofertas = () => {
             ? "¿Está seguro que desea activar esta oferta?"
             : action === "suspender"
             ? "¿Está seguro que desea suspender esta oferta?"
+            : action === "cierre"
+            ? "Motivos de cierre"
             : null}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            {action === "finalizar"
-              ? "Una vez finalizada, la oferta no podrá ser modificada"
-              : action === "activar"
-              ? "Una vez activada, la oferta podrá ser vista por los postulantes"
-              : action === "suspender"
-              ? "Una vez suspendida, la oferta no podrá ser vista por los postulantes"
-              : null}
+            {action === "finalizar" ? (
+              "Una vez finalizada, la oferta no podrá ser modificada"
+            ) : action === "activar" ? (
+              "Una vez activada, la oferta podrá ser vista por los postulantes"
+            ) : action === "suspender" ? (
+              "Una vez suspendida, la oferta no podrá ser vista por los postulantes"
+            ) : action === "cierre" ? (
+              <>
+                {motivoCierre}
+                <br />
+                <br />
+                <strong>Comentario de la empresa:</strong>
+                <br />
+                {comentarioEmpresa
+                  ? comentarioEmpresa
+                  : "No hay comentarios por parte de la empresa"}
+              </>
+            ) : null}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancelar</Button>
+          <Button onClick={handleClose}>
+            {action === "cierre" ? null : "Cancelar"}
+          </Button>
           <Button
-            onClick={handleFinalizarOferta(idOfertaAFinalizar)}
+            onClick={
+              action === "cierre"
+                ? () => handleClose()
+                : () => handleFinalizarOferta(idOfertaAFinalizar)
+            }
             color={
               action === "finalizar"
                 ? "error"
@@ -413,6 +466,8 @@ const Ofertas = () => {
               ? "Activar"
               : action === "suspender"
               ? "Suspender"
+              : action === "cierre"
+              ? "Aceptar"
               : null}
           </Button>
         </DialogActions>
