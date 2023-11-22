@@ -296,7 +296,7 @@ const Oferta = () => {
                         <>
                           Tareas a realizar:
                           <br />
-                          Acá va la descripción de las tareas a realizar
+                          {oferta.tareasARealizar || "No especificado"}
                         </>
                       }
                     />
@@ -445,7 +445,7 @@ const Oferta = () => {
                       }}
                     />
                     <ListItemText
-                      primary={"Presencial, remoto, híbrido"}
+                      primary={oferta.modalidadDeTrabajo || "No especificado"}
                       secondary="Modalidad de trabajo"
                     />
                   </ListItem>

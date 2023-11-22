@@ -22,6 +22,21 @@ import { getTiposContratos } from "../../../services/contratos_service";
 import { postOferta } from "../../../services/ofertas_service";
 import { Toaster, toast } from "sonner";
 
+const modalidadDeTrabajo = [
+  {
+    value: "Presencial",
+    label: "Presencial",
+  },
+  {
+    value: "Remoto",
+    label: "Remoto",
+  },
+  {
+    value: "Híbrido",
+    label: "Híbrido",
+  },
+];
+
 const CrearOferta = () => {
   const token = sessionStorage.getItem("token");
   const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
@@ -52,6 +67,8 @@ const CrearOferta = () => {
     idJornada: "",
     idContrato: "",
     idEmpresa: idEmpresa,
+    modalidadDeTrabajo: "",
+    tareasARealizar: "",
   });
 
   useEffect(() => {
@@ -146,6 +163,8 @@ const CrearOferta = () => {
     idCarrera: yup.string().required("La carrera es obligatoria"),
     idJornada: yup.string().required("La jornada es obligatoria"),
     idContrato: yup.string().required("El contrato es obligatorio"),
+    modalidadDeTrabajo: yup.string().required("La modalidad es obligatoria"),
+    tareasARealizar: yup.string().required("Las tareas son obligatorias"),
   });
 
   return (
@@ -442,6 +461,46 @@ const CrearOferta = () => {
                   </MenuItem>
                 ))}
               </TextField>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                select
+                fullWidth
+                label="Modalidad de trabajo"
+                variant="outlined"
+                value={oferta.modalidadDeTrabajo || ""}
+                onChange={(e) => {
+                  setOferta({
+                    ...oferta,
+                    modalidadDeTrabajo: e.target.value,
+                  });
+                }}
+                error={Boolean(validarErrores.modalidadDeTrabajo)}
+                helperText={validarErrores.modalidadDeTrabajo}
+              >
+                {modalidadDeTrabajo.map((modalidad) => (
+                  <MenuItem key={modalidad.value} value={modalidad.value}>
+                    {modalidad.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                label="Tareas a realizar"
+                variant="outlined"
+                value={oferta.tareasARealizar || ""}
+                multiline
+                onChange={(e) => {
+                  setOferta({
+                    ...oferta,
+                    tareasARealizar: e.target.value,
+                  });
+                }}
+                error={Boolean(validarErrores.tareasARealizar)}
+                helperText={validarErrores.tareasARealizar}
+              />
             </Grid>
 
             <Grid item xs={12} sm={12} md={12}>
