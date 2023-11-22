@@ -72,7 +72,8 @@ const MisPostulaciones = () => {
         const postulaciones = await getPostulacionesPorIdPostulante(
           paginaActual - 1,
           limite,
-          postulante.id
+          postulante.id,
+          ""
         );
         if (
           postulaciones &&
@@ -112,13 +113,14 @@ const MisPostulaciones = () => {
     }
   };
 
-  const handleSubmit = async (e, busqueda) => {
+  const handleSubmit = async (e, buscador) => {
     e.preventDefault();
+    setPaginaActual(1);
     const response = await getPostulacionesPorIdPostulante(
       0,
       limite,
       postulante.id,
-      busqueda
+      buscador
     );
     setOfertas(response.postulaciones.rows);
     setTotalPaginas(response.totalPaginas);

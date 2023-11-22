@@ -47,13 +47,17 @@ export async function marcarContactado(id) {
   }
 }
 
-
 // Trae todas las postulaciones por id del postulante
 
-export async function getPostulacionesPorIdPostulante(pagina, limite, id) {
+export async function getPostulacionesPorIdPostulante(
+  pagina,
+  limite,
+  id,
+  nombreDeOferta
+) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/postulaciones/postulante/${id}/?pagina=${pagina}&limite=${limite}`
+      `${config.apiUrl}/postulaciones/postulante/${id}/?pagina=${pagina}&limite=${limite}&nombreDeOferta=${nombreDeOferta}`
     );
     return response.data;
   } catch (error) {
