@@ -47,6 +47,7 @@ const DatosPersonales = () => {
     id: "",
     nombre: "",
     apellido: "",
+    genero: "",
     fecha_nac: "",
     tipo_documento: null,
     documento: "",
@@ -132,6 +133,7 @@ const DatosPersonales = () => {
           id: usuario.id,
           nombre: usuario.nombre,
           apellido: usuario.apellido,
+          genero: usuario.genero,
           fecha_nac: usuario.fecha_nac,
           tipoDocumento: usuario.tipo_documento,
           documento: usuario.documento,
@@ -193,6 +195,7 @@ const DatosPersonales = () => {
     nacionalidad: yup.string(),
     provincia: yup.string(),
     ciudad: yup.string(),
+    genero: yup.string(),
     cp: yup
       .number()
       .typeError("El código postal debe ser un número")
@@ -647,6 +650,27 @@ const DatosPersonales = () => {
                 }
                 error={Boolean(validarErrores.presentacion)}
                 helperText={validarErrores.presentacion}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
+                label="Género"
+                variant="outlined"
+                value={usuario.genero || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) => handleInputChange("genero", e.target.value)}
+                error={Boolean(validarErrores.genero)}
+                helperText={validarErrores.genero}
               />
             </Grid>
 
