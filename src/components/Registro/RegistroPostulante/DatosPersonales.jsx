@@ -304,6 +304,25 @@ export default function DatosPersonales({
             }
           />
         </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Género"
+            id="genero"
+            name="genero"
+            variant="outlined"
+            fullWidth
+            value={postulante.genero || ""}
+            InputLabelProps={{
+              shrink: postulante.genero ? true : false,
+            }}
+            multiline
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.genero)}
+            helperText={
+              validarErrores.presentacion ? validarErrores.genero : ""
+            }
+          />
+        </Grid>
       </Grid>
     </>
   );
