@@ -27,10 +27,6 @@ export default function RegistroPostulante() {
     pais: "",
     provincia: null,
     ciudad: null,
-    calle: "",
-    nro: null,
-    piso: null,
-    depto: "",
     cp: "",
     telefono: null,
     cantMaterias: null,
@@ -59,21 +55,6 @@ export default function RegistroPostulante() {
       .integer("El código postal debe ser un número entero")
       .positive("El código postal debe ser un número positivo")
       .max(9999, "El código postal debe tener como máximo 4 dígitos"),
-    calle: yup.string().optional(),
-    nro: yup
-      .number()
-      .typeError("El número de calle debe ser un número")
-      .integer("El número de calle debe ser un número entero")
-      .positive("El número de calle debe ser un número positivo")
-      .nullable(),
-    piso: yup
-      .number()
-      .typeError("El piso debe ser un número")
-      .integer("El piso debe ser un número entero")
-      .positive("El piso debe ser un número positivo")
-      .optional()
-      .nullable(),
-    depto: yup.string().optional(),
     telefono: yup
       .number()
       .typeError("El teléfono debe ser un número")
