@@ -72,7 +72,7 @@ export async function postEmpresa(empresa) {
 
 export async function putEmpresa(id, empresa, token) {
   try {
-    const response = await axios.put(
+    const response = await axios.patch(
       `${config.apiUrl}/empresas/cuit/${id}?authorization=${token}`,
       empresa
     );
