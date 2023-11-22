@@ -75,7 +75,8 @@ const Ofertas = (props) => {
           const response = await getPostulacionesPorIdPostulante(
             paginaActual - 1,
             9999,
-            datosUsuario.id
+            datosUsuario.id,
+            ""
           );
           setPostulaciones(response.postulaciones.rows);
         } catch (error) {
