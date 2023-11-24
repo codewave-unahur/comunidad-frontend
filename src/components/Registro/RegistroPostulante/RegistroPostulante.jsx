@@ -34,6 +34,7 @@ export default function RegistroPostulante() {
     presentacion: "",
     cv: "",
     foto: "",
+    genero: "",
   });
 
   const [validarErroresDatosPersonales, setValidarErroresDatosPersonales] =
@@ -63,6 +64,7 @@ export default function RegistroPostulante() {
       .positive("El teléfono debe ser un número positivo")
       .max(9999999999, "El teléfono debe tener como máximo 10 dígitos"),
     presentacion: yup.string().optional(),
+    genero: yup.string().optional(),
   });
 
   const [validarErroresDatosAcademicos, setValidarErroresDatosAcademicos] =
