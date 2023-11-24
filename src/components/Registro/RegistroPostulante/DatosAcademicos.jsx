@@ -47,11 +47,21 @@ export default function DatosAcademicos({
   }, []);
 
   const handleChange = (e) => {
+    // Si se cambia la opción de Estudios, deshabilita Carrera y deselecciónala
+    if (e.target.name === "estudios") {
+      setCarreraEnabled(e.target.value === 7 || e.target.value === 8);
+      setPostulante({
+        ...postulante,
+        carrera: null, // Desselecciona Carrera
+      });
+    }
+  
+    // Actualiza el resto de los campos
     setPostulante({
       ...postulante,
       [e.target.name]: e.target.value,
     });
-
+  
     try {
       schema.validateSyncAt(e.target.name, {
         [e.target.name]: e.target.value,
@@ -66,13 +76,6 @@ export default function DatosAcademicos({
         [e.target.name]: true,
       });
     }
-    // Habilita o deshabilita el campo Carrera según la selección en Estudios
-    setCarreraEnabled(
-      e.target.name === "estudios" &&
-        (e.target.value === 7 ||
-          e.target.value === 8)
-    );
-    console.log(e.target.value);
   };
 
   const [idiomas, setIdiomas] = useState([
