@@ -31,6 +31,7 @@ export default function DatosAcademicos({
 
   const [carreras, setCarreras] = useState([]);
   const [estudios, setEstudios] = useState([]);
+  const [carreraEnabled, setCarreraEnabled] = useState(false);
 
   useEffect(() => {
     const getCarrerasData = async () => {
@@ -65,6 +66,13 @@ export default function DatosAcademicos({
         [e.target.name]: true,
       });
     }
+    // Habilita o deshabilita el campo Carrera según la selección en Estudios
+    setCarreraEnabled(
+      e.target.name === "estudios" &&
+        (e.target.value === 7 ||
+          e.target.value === 8)
+    );
+    console.log(e.target.value);
   };
 
   const [idiomas, setIdiomas] = useState([
@@ -127,6 +135,7 @@ export default function DatosAcademicos({
             onChange={(e) => handleChange(e)}
             error={Boolean(validarErrores.carrera)}
             helperText={validarErrores.carrera ? validarErrores.carrera : ""}
+            disabled={!carreraEnabled}
           >
             <MenuItem value="">Seleccione una opción</MenuItem>
             {carreras.map((carrera) => (

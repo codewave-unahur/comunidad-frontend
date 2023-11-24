@@ -18,7 +18,7 @@ export default function RegistroPostulante() {
     tipoDocumento: "",
     idUsuario: idUsuario,
     estudios: null,
-    carrera: null,
+    carrera: "",
     estado: "",
     nombre: "",
     apellido: "",
@@ -71,7 +71,7 @@ export default function RegistroPostulante() {
     useState({}); // Para controlar los errores de validación
 
   const schemaDatosAcademicos = yup.object().shape({
-    estudios: yup.string().optional(),
+    estudios: yup.string().required("Campo requerido"),
     carrera: yup.string().optional(),
     cantMaterias: yup
       .number()
