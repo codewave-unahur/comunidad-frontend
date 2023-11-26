@@ -7,12 +7,27 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 
 import { getCarreras } from "../../../services/carreras_service";
 import { getEstudios } from "../../../services/estudios_service";
+
+const idiomas = [
+  { id: 1, idioma: "Chino" },
+  { id: 2, idioma: "Inglés" },
+  { id: 3, idioma: "Portugués" },
+  { id: 4, idioma: "Alemán" },
+  { id: 5, idioma: "Francés" },
+];
+
+const niveles = [
+  { id: 1, nivel: "Inicial" },
+  { id: 2, nivel: "Intermedio" },
+  { id: 3, nivel: "Avanzado" },
+  { id: 4, nivel: "Nativo" },
+];
 
 export default function DatosAcademicos({
   postulante,
@@ -32,6 +47,7 @@ export default function DatosAcademicos({
   const [carreras, setCarreras] = useState([]);
   const [estudios, setEstudios] = useState([]);
   const [carreraEnabled, setCarreraEnabled] = useState(false);
+  const [idiomasElegidos, setIdiomasElegidos] = useState([]);
 
   useEffect(() => {
     const getCarrerasData = async () => {
@@ -55,13 +71,13 @@ export default function DatosAcademicos({
         carrera: null, // Desselecciona Carrera
       });
     }
-  
+
     // Actualiza el resto de los campos
     setPostulante({
       ...postulante,
       [e.target.name]: e.target.value,
     });
-  
+
     try {
       schema.validateSyncAt(e.target.name, {
         [e.target.name]: e.target.value,
@@ -78,24 +94,57 @@ export default function DatosAcademicos({
     }
   };
 
-  const [idiomas, setIdiomas] = useState([
-    { idioma: "", nivelOral: "", nivelEscrito: "" },
-  ]);
-
   const agregarNuevoIdioma = () => {
-    setIdiomas([
-      ...idiomas,
-      { id: idiomas.length, idioma: "", nivelOral: "", nivelEscrito: "" },
+    setIdiomasElegidos([
+      ...idiomasElegidos,
+      {
+        nombre_idioma: "",
+        nivel_oral: "",
+        nivel_escrito: "",
+      },
     ]);
   };
 
-  const quitarIdioma = (index) => {
-    setIdiomas(idiomas.filter((idioma) => idioma.id !== index));
+  const handleIdiomaChange = (e, index) => {
+    const { value } = e.target;
+    setIdiomasElegidos((prevIdiomas) => {
+      const nuevosIdiomas = [...prevIdiomas];
+      nuevosIdiomas[index] = { ...nuevosIdiomas[index], nombre_idioma: value };
+      return nuevosIdiomas;
+    });
+  };
+
+  const handleNivelOralChange = (e, index) => {
+    const { value } = e.target;
+    setIdiomasElegidos((prevIdiomas) => {
+      const nuevosIdiomas = [...prevIdiomas];
+      nuevosIdiomas[index] = { ...nuevosIdiomas[index], nivel_oral: value };
+      return nuevosIdiomas;
+    });
+  };
+
+  const handleNivelEscritoChange = (e, index) => {
+    const { value } = e.target;
+    setIdiomasElegidos((prevIdiomas) => {
+      const nuevosIdiomas = [...prevIdiomas];
+      nuevosIdiomas[index] = { ...nuevosIdiomas[index], nivel_escrito: value };
+      return nuevosIdiomas;
+    });
+  };
+
+  const handleDescartarIdioma = (index) => {
+    return () => {
+      setIdiomasElegidos((prevIdiomas) => {
+        const nuevosIdiomas = [...prevIdiomas];
+        nuevosIdiomas.splice(index, 1);
+        return nuevosIdiomas;
+      });
+    };
   };
 
   return (
     <>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom sx={{ marginY: 2 }}>
         Datos académicos
       </Typography>
       <Grid container spacing={3}>
@@ -164,49 +213,109 @@ export default function DatosAcademicos({
           />
         </Grid>
       </Grid>
-      <Grid container spacing={3} paddingTop={3}>
-        <Grid item xs={12} sm={12} md={12}>
-          <Typography variant="h5" gutterBottom>
-            Idiomas
-          </Typography>
-          {idiomas.map((idioma, index) => (
-            <Grid container spacing={2} paddingY={2} key={index}>
-              <Grid item xs={12} sm={4} md={4}>
-                <TextField
-                  label="Idioma"
-                  variant="outlined"
-                  value={idioma.idioma}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={4}>
-                <TextField
-                  label="Nivel oral"
-                  variant="outlined"
-                  value={idioma.nivelOral}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={4}>
-                <TextField
-                  label="Nivel escrito"
-                  variant="outlined"
-                  value={idioma.nivelEscrito}
-                  fullWidth
-                />
-              </Grid>
-              {index === 0 ? null : (
-                <Button
-                  disableElevation
-                  variant="contained"
-                  onClick={() => quitarIdioma(index)}
-                  sx={{ marginTop: 1, marginLeft: 2 }}
-                >
-                  Quitar idioma
-                </Button>
-              )}
+      <Typography variant="h5" gutterBottom sx={{ marginY: 2 }}>
+        Idiomas
+      </Typography>
+      <Grid container spacing={3}>
+        {idiomasElegidos.map((idiomaElegido, index) => (
+          <Fragment key={index}>
+            <Grid item xs={12} sm={3} md={3}>
+              <TextField
+                select
+                label="Idioma"
+                variant="outlined"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
+                value={idiomaElegido.nombre_idioma || ""}
+                onChange={(e) => handleIdiomaChange(e, index)}
+              >
+                <MenuItem value="" disabled>
+                  Selecciona un idioma
+                </MenuItem>
+                {idiomas.map((idioma) => (
+                  <MenuItem key={idioma.id} value={idioma.idioma}>
+                    {idioma.idioma}
+                  </MenuItem>
+                ))}
+              </TextField>
             </Grid>
-          ))}
+            <Grid item xs={12} sm={3} md={3}>
+              <TextField
+                select
+                label="Nivel oral"
+                variant="outlined"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
+                value={idiomaElegido.nivel_oral || ""}
+                onChange={(e) => handleNivelOralChange(e, index)}
+              >
+                <MenuItem value="" disabled>
+                  Selecciona un nivel oral
+                </MenuItem>
+                {niveles.map((nivel) => (
+                  <MenuItem key={nivel.id} value={nivel.nivel}>
+                    {nivel.nivel}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            <Grid item xs={12} sm={3} md={3}>
+              <TextField
+                select
+                label="Nivel escrito"
+                variant="outlined"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
+                value={idiomaElegido.nivel_escrito || ""}
+                onChange={(e) => handleNivelEscritoChange(e, index)}
+              >
+                <MenuItem value="" disabled>
+                  Selecciona un nivel escrito
+                </MenuItem>
+                {niveles.map((nivel) => (
+                  <MenuItem key={nivel.id} value={nivel.nivel}>
+                    {nivel.nivel}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
+            <Grid item xs={12} sm={3} md={3}>
+              <Button
+                disableElevation
+                variant="outlined"
+                color="error"
+                sx={{ marginTop: 1 }}
+                fullWidth
+                onClick={handleDescartarIdioma(index)}
+              >
+                Eliminar idioma
+              </Button>
+            </Grid>
+          </Fragment>
+        ))}
+        <Grid item xs={12}>
           <Button
             disableElevation
             variant="contained"

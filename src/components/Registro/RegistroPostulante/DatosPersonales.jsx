@@ -287,6 +287,26 @@ export default function DatosPersonales({
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
+            label="Segundo teléfono"
+            id="segundoTelefono"
+            name="segundoTelefono"
+            variant="outlined"
+            fullWidth
+            value={postulante.segundoTelefono || ""}
+            InputLabelProps={{
+              shrink: postulante.segundoTelefono ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.segundoTelefono)}
+            helperText={
+              validarErrores.segundoTelefono
+                ? validarErrores.segundoTelefono
+                : ""
+            }
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
             label="Presentación"
             id="presentacion"
             name="presentacion"
@@ -318,8 +338,58 @@ export default function DatosPersonales({
             multiline
             onChange={(e) => handleChange(e)}
             error={Boolean(validarErrores.genero)}
+            helperText={validarErrores.genero ? validarErrores.genero : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Discapacidad"
+            id="discapacidad"
+            name="discapacidad"
+            variant="outlined"
+            fullWidth
+            value={postulante.discapacidad || ""}
+            InputLabelProps={{
+              shrink: postulante.discapacidad ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.discapacidad)}
             helperText={
-              validarErrores.presentacion ? validarErrores.genero : ""
+              validarErrores.discapacidad ? validarErrores.discapacidad : ""
+            }
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="LinkedIn"
+            id="linkedIn"
+            name="linkedIn"
+            variant="outlined"
+            fullWidth
+            value={postulante.linkedIn || ""}
+            InputLabelProps={{
+              shrink: postulante.linkedIn ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.linkedIn)}
+            helperText={validarErrores.linkedIn ? validarErrores.linkedIn : ""}
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Portfolio o red social"
+            id="portfolio"
+            name="portfolio"
+            variant="outlined"
+            fullWidth
+            value={postulante.portfolio || ""}
+            InputLabelProps={{
+              shrink: postulante.portfolio ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.portfolio)}
+            helperText={
+              validarErrores.portfolio ? validarErrores.portfolio : ""
             }
           />
         </Grid>

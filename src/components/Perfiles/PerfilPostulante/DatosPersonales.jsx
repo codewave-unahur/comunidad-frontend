@@ -138,16 +138,16 @@ const DatosPersonales = () => {
           tipoDocumento: usuario.tipo_documento,
           documento: usuario.documento,
           telefono: usuario.telefono,
+          segundoTelefono: usuario.segundoTelefono,
           nacionalidad: usuario.nacionalidad,
           provincia: usuario.provincia,
           ciudad: usuario.ciudad,
           cp: usuario.cp,
-          calle: usuario.calle,
-          nro: usuario.nro,
           foto: usuario.foto,
-          piso: usuario.piso,
-          depto: usuario.depto,
           presentacion: usuario.presentacion,
+          discapacidad: usuario.discapacidad,
+          linkedIn: usuario.linkedIn,
+          portfolio: usuario.portfolio,
           Usuario: {
             usuario: usuario.Usuario.usuario,
           },
@@ -182,20 +182,23 @@ const DatosPersonales = () => {
     id: yup.string().required("El número de documento es obligatorio"),
     nombre: yup.string().required("El nombre es obligatorio"),
     apellido: yup.string().required("El apellido es obligatorio"),
-    // email: yup.string().email("Ingrese un correo electrónico válido"),
     fecha_nac: yup.date("La fecha de nacimiento es obligatoria").nullable(),
     tipo_documento: yup.string(),
-    // documento: yup.string(),
     telefono: yup
       .number()
       .typeError("Ingrese un número de teléfono válido")
       .required("El número de teléfono es obligatorio")
       .positive("El número de teléfono debe ser positivo")
       .integer("El número de teléfono debe ser un número entero"),
+    segundoTelefono: yup
+      .number()
+      .typeError("Ingrese un número de teléfono válido")
+      .nullable()
+      .positive("El número de teléfono debe ser positivo")
+      .integer("El número de teléfono debe ser un número entero"),
     nacionalidad: yup.string(),
     provincia: yup.string(),
     ciudad: yup.string(),
-    genero: yup.string(),
     cp: yup
       .number()
       .typeError("El código postal debe ser un número")
@@ -203,20 +206,15 @@ const DatosPersonales = () => {
       .integer("El código postal debe ser un número entero")
       .positive("El código postal debe ser un número positivo")
       .max(9999, "El código postal debe tener como máximo 4 dígitos"),
-    calle: yup.string(),
-    nro: yup
-      .number()
-      .typeError("El número de calle debe ser un número")
-      .integer("El número de calle debe ser un número entero")
-      .positive("El número de calle debe ser un número positivo")
-      .nullable(),
-    piso: yup
-      .number()
-      .typeError("El piso debe ser un número")
-      .integer("El piso debe ser un número entero")
-      .nullable(),
-    depto: yup.string().nullable(),
     presentacion: yup.string().nullable(),
+    genero: yup.string().optional(),
+    discapacidad: yup.string().optional().nullable(),
+    linkedIn: yup.string().optional().nullable().url("Debe ser una URL válida"),
+    portfolio: yup
+      .string()
+      .optional()
+      .nullable()
+      .url("Debe ser una URL válida"),
     Usuario: yup.object().shape({
       usuario: yup.string(),
     }),
@@ -519,6 +517,33 @@ const DatosPersonales = () => {
                     color: "rgba(0, 0, 0, 0.80)",
                   },
                 }}
+                label="Segundo número de teléfono"
+                variant="outlined"
+                value={usuario.segundoTelefono || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  handleInputChange("segundoTelefono", e.target.value)
+                }
+                error={Boolean(validarErrores.segundoTelefono)}
+                helperText={
+                  isSubmitting && validarErrores.segundoTelefono
+                    ? validarErrores.segundoTelefono
+                    : null
+                }
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
                 label="Nacionalidad"
                 variant="outlined"
                 value={usuario.nacionalidad || ""}
@@ -671,6 +696,71 @@ const DatosPersonales = () => {
                 onChange={(e) => handleInputChange("genero", e.target.value)}
                 error={Boolean(validarErrores.genero)}
                 helperText={validarErrores.genero}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
+                label="Discapacidad"
+                variant="outlined"
+                value={usuario.discapacidad || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  handleInputChange("discapacidad", e.target.value)
+                }
+                error={Boolean(validarErrores.discapacidad)}
+                helperText={validarErrores.discapacidad}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
+                label="LinkedIn"
+                variant="outlined"
+                value={usuario.linkedIn || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) => handleInputChange("linkedIn", e.target.value)}
+                error={Boolean(validarErrores.linkedIn)}
+                helperText={validarErrores.linkedIn}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
+                label="Portfolio o red social"
+                variant="outlined"
+                value={usuario.portfolio || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) => handleInputChange("portfolio", e.target.value)}
+                error={Boolean(validarErrores.portfolio)}
+                helperText={validarErrores.portfolio}
               />
             </Grid>
 

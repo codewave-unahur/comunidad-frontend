@@ -76,13 +76,7 @@ const DatosAcademicos = () => {
   const isFieldDisabled = !edit;
   const [carreras, setCarreras] = useState([]);
   const [estudios, setEstudios] = useState([]);
-  const [idiomasElegidos, setIdiomasElegidos] = useState([
-    {
-      nombre_idioma: "",
-      nivel_oral: "",
-      nivel_escrito: "",
-    },
-  ]);
+  const [idiomasElegidos, setIdiomasElegidos] = useState([]);
   const [usuario, setUsuario] = useState({
     carrera: "",
     fk_id_carrera: "",
@@ -112,14 +106,6 @@ const DatosAcademicos = () => {
     getEstudiosData();
     getCarrerasData();
   }, []);
-
-  useEffect(() => {
-    const getIdiomasData = async () => {
-      // const response = await getIdiomasPostulante(datosUsuario.id);
-      // setIdiomas(response.idiomas);
-    };
-    getIdiomasData();
-  }, [datosUsuario.id]);
 
   const handleEdit = () => {
     setEdit(true);
@@ -232,6 +218,8 @@ const DatosAcademicos = () => {
         });
         setValidarErrores(errores);
         setIsSubmitting(true);
+        console.log("Errores: ", errores);
+        console.log("Error: ", error);
         toast.error("Error al actualizar los datos");
       });
   };
@@ -248,15 +236,6 @@ const DatosAcademicos = () => {
       .integer("Debe ingresar un número entero")
       .nullable(),
     alumno_unahur: yup.boolean(),
-    Idiomas: yup.array().of(
-      yup.object().shape({
-        nombre_idioma: yup.string().required("Debe seleccionar un idioma"),
-        nivel_oral: yup.string().required("Debe seleccionar un nivel oral"),
-        nivel_escrito: yup
-          .string()
-          .required("Debe seleccionar un nivel escrito"),
-      })
-    ),
   });
 
   return (
@@ -433,7 +412,6 @@ const DatosAcademicos = () => {
               <Grid container spacing={2} paddingY={2}>
                 {usuario.Idiomas?.map((idioma, index) => (
                   <Fragment key={index}>
-                    {/* {console.log(usuario.Idiomas[index].id)} */}
                     <Grid
                       item
                       xs={12}

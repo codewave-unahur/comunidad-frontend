@@ -29,12 +29,16 @@ export default function RegistroPostulante() {
     ciudad: null,
     cp: "",
     telefono: null,
+    segundoTelefono: null,
     cantMaterias: null,
     alumnoUnahur: false,
     presentacion: "",
     cv: "",
     foto: "",
     genero: "",
+    discapacidad: null,
+    linkedIn: "",
+    portfolio: "",
   });
 
   const [validarErroresDatosPersonales, setValidarErroresDatosPersonales] =
@@ -63,8 +67,18 @@ export default function RegistroPostulante() {
       .integer("El teléfono debe ser un número entero")
       .positive("El teléfono debe ser un número positivo")
       .max(9999999999, "El teléfono debe tener como máximo 10 dígitos"),
+    segundoTelefono: yup
+      .number()
+      .typeError("El teléfono debe ser un número")
+      .nullable()
+      .integer("El teléfono debe ser un número entero")
+      .positive("El teléfono debe ser un número positivo")
+      .max(9999999999, "El teléfono debe tener como máximo 10 dígitos"),
     presentacion: yup.string().optional(),
     genero: yup.string().optional(),
+    discapacidad: yup.string().optional().nullable(),
+    linkedIn: yup.string().optional().url("Debe ser una URL válida"),
+    portfolio: yup.string().optional().url("Debe ser una URL válida"),
   });
 
   const [validarErroresDatosAcademicos, setValidarErroresDatosAcademicos] =
