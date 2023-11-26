@@ -223,21 +223,6 @@ const Postulante = () => {
                       secondary="Email"
                     />
                   </ListItem>
-                  {postulante.segundoTelefono && (
-                    <ListItem>
-                      <LocalPhoneOutlinedIcon
-                        color="primary"
-                        fontSize="large"
-                        sx={{
-                          marginRight: "0.5rem",
-                        }}
-                      />
-                      <ListItemText
-                        primary={postulante.segundoTelefono}
-                        secondary="Teléfono"
-                      />
-                    </ListItem>
-                  )}
                   <ListItem>
                     <LocalPhoneOutlinedIcon
                       color="primary"
@@ -251,6 +236,21 @@ const Postulante = () => {
                       secondary="Teléfono"
                     />
                   </ListItem>
+                  {postulante.segundoTelefono && (
+                    <ListItem>
+                      <LocalPhoneOutlinedIcon
+                        color="primary"
+                        fontSize="large"
+                        sx={{
+                          marginRight: "0.5rem",
+                        }}
+                      />
+                      <ListItemText
+                        primary={postulante.segundoTelefono}
+                        secondary="Segundo teléfono"
+                      />
+                    </ListItem>
+                  )}
                   <ListItem>
                     <CalendarMonth
                       color="primary"
