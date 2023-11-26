@@ -433,56 +433,67 @@ const Postulante = () => {
                     />
                   </ListItem>
                 </List>
-                <Divider sx={{ marginTop: "1rem" }} />
-                <Typography
-                  variant="h5"
-                  color="primary"
-                  sx={{ marginTop: "1rem" }}
-                >
-                  Idiomas
-                </Typography>
-                <Grid container spacing={2}>
-                  {postulante.Idiomas?.map((idioma, index) => (
-                    <Grid item key={index} xs={12} sm={6}>
-                      <Card variant="outlined" sx={{ marginTop: "1rem" }}>
-                        <CardContent>
-                          <Typography
-                            variant="h6"
-                            sx={{
-                              marginBottom: "1rem",
-                            }}
-                          >
-                            {idioma["Idiomas del postulante"].nombre_idioma}
-                          </Typography>
-                          <Typography>
-                            Nivel escrito:{" "}
-                            {idioma["Idiomas del postulante"].nivel_escrito}
-                          </Typography>
-                          <Typography>
-                            Nivel oral:{" "}
-                            {idioma["Idiomas del postulante"].nivel_oral}
-                          </Typography>
-                        </CardContent>
-                      </Card>
+                {postulante.Idiomas?.length > 0 && (
+                  <>
+                    <Divider sx={{ marginTop: "1rem" }} />
+                    <Typography
+                      variant="h5"
+                      color="primary"
+                      sx={{ marginTop: "1rem" }}
+                    >
+                      Idiomas
+                    </Typography>
+                    <Grid container spacing={2}>
+                      {postulante.Idiomas?.map((idioma, index) => (
+                        <Grid item key={index} xs={12} sm={6}>
+                          <Card variant="outlined" sx={{ marginTop: "1rem" }}>
+                            <CardContent>
+                              <Typography
+                                variant="h6"
+                                sx={{
+                                  marginBottom: "1rem",
+                                }}
+                              >
+                                {idioma["Idiomas del postulante"].nombre_idioma}
+                              </Typography>
+                              <Typography>
+                                Nivel escrito:{" "}
+                                {idioma["Idiomas del postulante"].nivel_escrito}
+                              </Typography>
+                              <Typography>
+                                Nivel oral:{" "}
+                                {idioma["Idiomas del postulante"].nivel_oral}
+                              </Typography>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
                     </Grid>
-                  ))}
-                </Grid>
-                <Divider sx={{ marginTop: "1rem" }} />
-                <Typography
-                  variant="h5"
-                  color="primary"
-                  sx={{ marginTop: "1rem" }}
-                >
-                  Aptitudes
-                </Typography>
-                <Stack direction="row" spacing={2} paddingY={2}>
-                  {postulante.Aptitudes?.map((aptitud) => (
-                    <Chip
-                      key={aptitud["Aptitudes del postulante"].id}
-                      label={aptitud["Aptitudes del postulante"].nombre_aptitud}
-                    />
-                  ))}
-                </Stack>
+                  </>
+                )}
+
+                {postulante.Aptitudes?.length > 0 && (
+                  <>
+                    <Divider sx={{ marginTop: "1rem" }} />
+                    <Typography
+                      variant="h5"
+                      color="primary"
+                      sx={{ marginTop: "1rem" }}
+                    >
+                      Aptitudes
+                    </Typography>
+                    <Stack direction="row" spacing={2} paddingY={2}>
+                      {postulante.Aptitudes?.map((aptitud) => (
+                        <Chip
+                          key={aptitud["Aptitudes del postulante"].id}
+                          label={
+                            aptitud["Aptitudes del postulante"].nombre_aptitud
+                          }
+                        />
+                      ))}
+                    </Stack>
+                  </>
+                )}
               </>
             )}
           </CardContent>
