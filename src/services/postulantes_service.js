@@ -20,6 +20,22 @@ export async function getPostulantes(
   }
 }
 
+export async function getPostulantesBaseUnahur(
+  pagina,
+  limite,
+  ordenar,
+  buscarPostulante
+) {
+  try {
+    const response = await axios.get(
+      `${config.apiUrl}/postulantes/baseConstante?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&buscarPostulante=${buscarPostulante}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // Trae un postulante por id de usuario
 
 export async function getPostulanteById(id) {

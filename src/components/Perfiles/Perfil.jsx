@@ -43,7 +43,9 @@ import Empresas from "./PerfilAdministrador/Empresas";
 import { getPostulanteById } from "../../services/postulantes_service";
 import { getEmpresaByIdUsuario } from "../../services/empresas_service";
 import { forwardRef, useEffect, useState } from "react";
-import { Toaster, toast } from "sonner";
+import { postularseBaseConstante } from "../../services/postulaciones_service";
+import { uploadCV } from "../../services/files_service";
+import { Toaster, toast }  from "sonner";
 import BaseUNAHUR from "./PerfilAdministrador/BaseUNAHUR";
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -155,6 +157,8 @@ function Perfil() {
   const [searchParams, setSearchParams] = useSearchParams();
   const tipoUsuario = sessionStorage.getItem("tipoUsuario");
   const idUsuario = sessionStorage.getItem("idUsuario");
+  const token = sessionStorage.getItem("token");
+
   const [usuario, setUsuario] = useState({
     nombre: "",
     apellido: "",
@@ -177,6 +181,12 @@ function Perfil() {
 
   const handleSubirCV = () => {
     toast.success("Su curriculum vitae se subió con éxito.");
+    postularseBaseConstante(idUsuario).then(
+      (response) => {
+        console.log(response);
+        uploadCV(cvSeleccionado, response.idPostulante,token);
+      }
+    );
     handleClose();
   };
 

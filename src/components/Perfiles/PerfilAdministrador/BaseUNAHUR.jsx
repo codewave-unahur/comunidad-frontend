@@ -13,7 +13,7 @@ import {
   IconButton,
 } from "@mui/material";
 
-import { getPostulantes } from "../../../services/postulantes_service";
+import { getPostulantesBaseUnahur } from "../../../services/postulantes_service";
 import { useEffect, useState } from "react";
 import Buscador from "../../Buscador/Buscador";
 import Paginacion from "../../Paginacion/Paginacion";
@@ -27,7 +27,7 @@ const BaseUNAHUR = () => {
 
   useEffect(() => {
     const traerPostulantes = async () => {
-      const response = await getPostulantes(paginaActual - 1, limite, "id", "");
+      const response = await getPostulantesBaseUnahur(paginaActual - 1, limite, "id", "");
       setPostulantes(response.postulantes.rows);
       setTotalPaginas(response.totalPaginas);
     };
@@ -37,7 +37,7 @@ const BaseUNAHUR = () => {
   const handleSubmit = async (e, buscador) => {
     e.preventDefault();
     setPaginaActual(1);
-    const response = await getPostulantes(0, limite, "id", buscador);
+    const response = await getPostulantesBaseUnahur(0, limite, "id", buscador);
     setPostulantes(response.postulantes.rows);
     setTotalPaginas(response.totalPaginas);
   };

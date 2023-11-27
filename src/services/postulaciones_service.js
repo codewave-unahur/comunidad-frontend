@@ -63,3 +63,16 @@ export async function deletePostulacion(idPostulacion, token) {
     console.error(error);
   }
 }
+
+// POST postularse base UNAHUR
+
+export async function postularseBaseConstante(idUsuario) {
+  try {
+    const response = await axios.post(
+      `${config.apiUrl}/postulaciones/baseconstante/${idUsuario}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
