@@ -100,3 +100,92 @@ export async function deletePostulante(id, token) {
     console.error(error);
   }
 }
+
+// Post de preferencias
+
+export async function agregarPreferencias(id, preferencias) {
+  try {
+    const response = await axios.post(
+      `${config.apiUrl}/postulantes/preferencias${id}`,
+      preferencias
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Post de idiomas
+
+export async function agregarIdiomas(id, idiomas) {
+  try {
+    const response = await axios.post(
+      `${config.apiUrl}/postulantes/idiomas/${id}`,
+      {
+        idiomas,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Delete idioma
+
+export async function eliminarIdioma(id) {
+  try {
+    const response = await axios.delete(
+      `${config.apiUrl}/postulantes/idiomas/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Delete preferencias
+
+export async function eliminarPreferencias(idPostulante, idPreferencia) {
+  try {
+    const response = await axios.delete(
+      `${config.apiUrl}/postulantes/preferencias/${idPostulante}`,
+      {
+        idPreferencia,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Post de aptitudes
+
+export async function agregarAptitudes(idUsuario, aptitudes) {
+  try {
+    const response = await axios.post(
+      `${config.apiUrl}/postulantes/aptitudes/${idUsuario}`,
+      aptitudes
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Delete aptitudes
+
+export async function eliminarAptitudes(idUsuario, idAptitud) {
+  try {
+    const response = await axios.delete(
+      `${config.apiUrl}/postulantes/aptitudes/${idUsuario}`,
+      {
+        idAptitud,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}

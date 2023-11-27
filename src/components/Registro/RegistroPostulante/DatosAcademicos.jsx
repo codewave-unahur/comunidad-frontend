@@ -1,5 +1,4 @@
 import {
-  Button,
   Checkbox,
   FormControlLabel,
   MenuItem,
@@ -31,6 +30,7 @@ export default function DatosAcademicos({
 
   const [carreras, setCarreras] = useState([]);
   const [estudios, setEstudios] = useState([]);
+  const [carreraEnabled, setCarreraEnabled] = useState(false);
 
   useEffect(() => {
     const getCarrerasData = async () => {
@@ -46,6 +46,16 @@ export default function DatosAcademicos({
   }, []);
 
   const handleChange = (e) => {
+    // Si se cambia la opción de Estudios, deshabilita Carrera y deselecciónala
+    if (e.target.name === "estudios") {
+      setCarreraEnabled(e.target.value === 7 || e.target.value === 8);
+      setPostulante({
+        ...postulante,
+        carrera: null, // Desselecciona Carrera
+      });
+    }
+
+    // Actualiza el resto de los campos
     setPostulante({
       ...postulante,
       [e.target.name]: e.target.value,
@@ -67,24 +77,9 @@ export default function DatosAcademicos({
     }
   };
 
-  const [idiomas, setIdiomas] = useState([
-    { idioma: "", nivelOral: "", nivelEscrito: "" },
-  ]);
-
-  const agregarNuevoIdioma = () => {
-    setIdiomas([
-      ...idiomas,
-      { id: idiomas.length, idioma: "", nivelOral: "", nivelEscrito: "" },
-    ]);
-  };
-
-  const quitarIdioma = (index) => {
-    setIdiomas(idiomas.filter((idioma) => idioma.id !== index));
-  };
-
   return (
     <>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom sx={{ marginY: 2 }}>
         Datos académicos
       </Typography>
       <Grid container spacing={3}>
@@ -104,7 +99,9 @@ export default function DatosAcademicos({
             error={Boolean(validarErrores.estudios)}
             helperText={validarErrores.estudios ? validarErrores.estudios : ""}
           >
-            <MenuItem value="">Seleccione una opción</MenuItem>
+            <MenuItem value="" disabled>
+              Seleccione una opción
+            </MenuItem>
             {estudios.map((estudio) => (
               <MenuItem key={estudio.id} value={estudio.id}>
                 {estudio.nombre_estudio_estado}
@@ -127,8 +124,11 @@ export default function DatosAcademicos({
             onChange={(e) => handleChange(e)}
             error={Boolean(validarErrores.carrera)}
             helperText={validarErrores.carrera ? validarErrores.carrera : ""}
+            disabled={!carreraEnabled}
           >
-            <MenuItem value="">Seleccione una opción</MenuItem>
+            <MenuItem value="" disabled>
+              Seleccione una opción
+            </MenuItem>
             {carreras.map((carrera) => (
               <MenuItem key={carrera.id} value={carrera.id}>
                 {carrera.nombre_carrera}
@@ -143,68 +143,16 @@ export default function DatosAcademicos({
             name="cantMaterias"
             variant="outlined"
             fullWidth
-            value={parseInt(postulante.cantMaterias) || null}
+            value={parseInt(postulante.cantMaterias) || ""}
             onChange={(e) => handleChange(e)}
             error={Boolean(validarErrores.cantMaterias)}
             helperText={
-              validarErrores.cantMaterias ? validarErrores.cantMaterias : null
+              validarErrores.cantMaterias ? validarErrores.cantMaterias : ""
             }
           />
         </Grid>
       </Grid>
-      <Grid container spacing={3} paddingTop={3}>
-        <Grid item xs={12} sm={12} md={12}>
-          <Typography variant="h5" gutterBottom>
-            Idiomas
-          </Typography>
-          {idiomas.map((idioma, index) => (
-            <Grid container spacing={2} paddingY={2} key={index}>
-              <Grid item xs={12} sm={4} md={4}>
-                <TextField
-                  label="Idioma"
-                  variant="outlined"
-                  value={idioma.idioma}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={4}>
-                <TextField
-                  label="Nivel oral"
-                  variant="outlined"
-                  value={idioma.nivelOral}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={12} sm={4} md={4}>
-                <TextField
-                  label="Nivel escrito"
-                  variant="outlined"
-                  value={idioma.nivelEscrito}
-                  fullWidth
-                />
-              </Grid>
-              {index === 0 ? null : (
-                <Button
-                  disableElevation
-                  variant="contained"
-                  onClick={() => quitarIdioma(index)}
-                  sx={{ marginTop: 1, marginLeft: 2 }}
-                >
-                  Quitar idioma
-                </Button>
-              )}
-            </Grid>
-          ))}
-          <Button
-            disableElevation
-            variant="contained"
-            onClick={agregarNuevoIdioma}
-            sx={{ marginTop: 1 }}
-          >
-            Agregar nuevo idioma
-          </Button>
-        </Grid>
-
+      <Grid container spacing={3} sx={{ marginY: 2 }}>
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox />}

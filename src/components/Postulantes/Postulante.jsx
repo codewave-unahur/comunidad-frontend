@@ -13,12 +13,20 @@ import {
   Avatar,
   Skeleton,
   Box,
+  Grid,
+  Stack,
+  Chip,
 } from "@mui/material";
 
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import CalendarMonth from "@mui/icons-material/CalendarMonth";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
+import MarkunreadMailboxOutlinedIcon from "@mui/icons-material/MarkunreadMailboxOutlined";
+import TransgenderIcon from "@mui/icons-material/Transgender";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import LanguageIcon from "@mui/icons-material/Language";
+import AccessibilityIcon from "@mui/icons-material/Accessibility";
 
 import { getPostulanteByDni } from "../../services/postulantes_service";
 
@@ -186,7 +194,7 @@ const Postulante = () => {
             ) : (
               <>
                 <Typography
-                  variant="h6"
+                  variant="h5"
                   color="primary"
                   sx={{ marginTop: "1rem" }}
                 >
@@ -228,6 +236,21 @@ const Postulante = () => {
                       secondary="Teléfono"
                     />
                   </ListItem>
+                  {postulante.segundoTelefono && (
+                    <ListItem>
+                      <LocalPhoneOutlinedIcon
+                        color="primary"
+                        fontSize="large"
+                        sx={{
+                          marginRight: "0.5rem",
+                        }}
+                      />
+                      <ListItemText
+                        primary={postulante.segundoTelefono}
+                        secondary="Segundo teléfono"
+                      />
+                    </ListItem>
+                  )}
                   <ListItem>
                     <CalendarMonth
                       color="primary"
@@ -258,10 +281,118 @@ const Postulante = () => {
                       secondary="Lugar de residencia"
                     />
                   </ListItem>
+                  <ListItem>
+                    <MarkunreadMailboxOutlinedIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={postulante.cp}
+                      secondary="Código postal"
+                    />
+                  </ListItem>
+                  {postulante.genero && (
+                    <ListItem>
+                      <TransgenderIcon
+                        color="primary"
+                        fontSize="large"
+                        sx={{
+                          marginRight: "0.5rem",
+                        }}
+                      />
+                      <ListItemText
+                        primary={postulante.genero}
+                        secondary="Género"
+                      />
+                    </ListItem>
+                  )}
+                  {postulante.linkedIn && (
+                    <ListItem>
+                      <LinkedInIcon
+                        color="primary"
+                        fontSize="large"
+                        sx={{
+                          marginRight: "0.5rem",
+                        }}
+                      />
+                      <ListItemText
+                        primary={
+                          <a
+                            href={postulante.linkedIn}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {postulante.linkedIn}
+                          </a>
+                        }
+                        secondary="LinkedIn"
+                      />
+                    </ListItem>
+                  )}
+                  {postulante.portfolio && (
+                    <ListItem>
+                      <LanguageIcon
+                        color="primary"
+                        fontSize="large"
+                        sx={{
+                          marginRight: "0.5rem",
+                        }}
+                      />
+                      <ListItemText
+                        primary={
+                          <a
+                            href={postulante.portfolio}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {postulante.portfolio}
+                          </a>
+                        }
+                        secondary="Portfolio o red social"
+                      />
+                    </ListItem>
+                  )}
+                  {postulante.discapacidad && (
+                    <ListItem>
+                      <AccessibilityIcon
+                        color="primary"
+                        fontSize="large"
+                        sx={{
+                          marginRight: "0.5rem",
+                        }}
+                      />
+                      <ListItemText
+                        primary={postulante.discapacidad}
+                        secondary="Discapacidad"
+                      />
+                    </ListItem>
+                  )}
                 </List>
+                {postulante.presentacion && (
+                  <Grid container spacing={2} sx={{ marginTop: "1rem" }}>
+                    <Grid item xs={12} sm={12}>
+                      <Typography
+                        variant="h5"
+                        color="primary"
+                        sx={{ marginTop: "1rem" }}
+                      >
+                        Presentación
+                      </Typography>
+                      <Typography
+                        variant="body1"
+                        sx={{ marginTop: "1rem", marginBottom: "1rem" }}
+                      >
+                        {postulante.presentacion}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                )}
                 <Divider sx={{ marginTop: "1rem" }} />
                 <Typography
-                  variant="h6"
+                  variant="h5"
                   color="primary"
                   sx={{ marginTop: "1rem" }}
                 >
@@ -302,6 +433,67 @@ const Postulante = () => {
                     />
                   </ListItem>
                 </List>
+                {postulante.Idiomas?.length > 0 && (
+                  <>
+                    <Divider sx={{ marginTop: "1rem" }} />
+                    <Typography
+                      variant="h5"
+                      color="primary"
+                      sx={{ marginTop: "1rem" }}
+                    >
+                      Idiomas
+                    </Typography>
+                    <Grid container spacing={2}>
+                      {postulante.Idiomas?.map((idioma, index) => (
+                        <Grid item key={index} xs={12} sm={6}>
+                          <Card variant="outlined" sx={{ marginTop: "1rem" }}>
+                            <CardContent>
+                              <Typography
+                                variant="h6"
+                                sx={{
+                                  marginBottom: "1rem",
+                                }}
+                              >
+                                {idioma["Idiomas del postulante"].nombre_idioma}
+                              </Typography>
+                              <Typography>
+                                Nivel escrito:{" "}
+                                {idioma["Idiomas del postulante"].nivel_escrito}
+                              </Typography>
+                              <Typography>
+                                Nivel oral:{" "}
+                                {idioma["Idiomas del postulante"].nivel_oral}
+                              </Typography>
+                            </CardContent>
+                          </Card>
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </>
+                )}
+
+                {postulante.Aptitudes?.length > 0 && (
+                  <>
+                    <Divider sx={{ marginTop: "1rem" }} />
+                    <Typography
+                      variant="h5"
+                      color="primary"
+                      sx={{ marginTop: "1rem" }}
+                    >
+                      Aptitudes
+                    </Typography>
+                    <Stack direction="row" spacing={2} paddingY={2}>
+                      {postulante.Aptitudes?.map((aptitud) => (
+                        <Chip
+                          key={aptitud["Aptitudes del postulante"].id}
+                          label={
+                            aptitud["Aptitudes del postulante"].nombre_aptitud
+                          }
+                        />
+                      ))}
+                    </Stack>
+                  </>
+                )}
               </>
             )}
           </CardContent>
