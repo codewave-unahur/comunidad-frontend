@@ -14,6 +14,8 @@ export async function getPostulacionesPorIdOferta(pagina, limite, id) {
   }
 }
 
+// Trae todas las postulaciones por id de la oferta
+
 export async function getPostulacionesPorIdOfertaTodas(pagina, limite, id) {
   try {
     const response = await axios.get(
@@ -24,6 +26,8 @@ export async function getPostulacionesPorIdOfertaTodas(pagina, limite, id) {
     console.error(error);
   }
 }
+
+// Activa una postulación a una oferta
 
 export async function activarPostulacion(id) {
   try {
@@ -36,10 +40,38 @@ export async function activarPostulacion(id) {
   }
 }
 
+// Desactiva una postulación a una oferta
+
+export async function desactivarPostulacion(id) {
+  try {
+    const response = await axios.put(
+      `${config.apiUrl}/postulaciones/desactivar/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Marca como contactado a un postulante
+
 export async function marcarContactado(id) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/postulaciones/contactado/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Marca como no contactado a un postulante
+
+export async function marcarNoContactado(id) {
+  try {
+    const response = await axios.put(
+      `${config.apiUrl}/postulaciones/noContactado/${id}`
     );
     return response.data;
   } catch (error) {

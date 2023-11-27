@@ -18,8 +18,6 @@ import {
   DialogActions,
 } from "@mui/material";
 
-import CircleIcon from "@mui/icons-material/Circle";
-
 import { getPostulacionesPorIdPostulante } from "../../../services/postulacionesId_service";
 import { getPostulanteById } from "../../../services/postulantes_service";
 import { deletePostulacion } from "../../../services/postulaciones_service";
@@ -150,9 +148,6 @@ const MisPostulaciones = () => {
               <TableCell align="center" sx={{ width: "20%" }}>
                 <Typography variant="h5">Empresa</Typography>
               </TableCell>
-              <TableCell align="center" sx={{ width: "20%" }}>
-                <Typography variant="h5">Estado</Typography>
-              </TableCell>
               <TableCell align="center" sx={{ width: "30%" }}>
                 <Typography variant="h5">Acciones</Typography>
               </TableCell>
@@ -172,26 +167,6 @@ const MisPostulaciones = () => {
                 <TableCell align="center">
                   <Typography variant="subtitle1">
                     {oferta.Empresa?.nombre_empresa}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Typography
-                    variant="subtitle1"
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <CircleIcon
-                      fontSize="small"
-                      sx={{
-                        color: oferta.contactado === true ? "green" : "red",
-                      }}
-                    />
-                    {oferta.contactado === true
-                      ? "Contactado"
-                      : "No contactado"}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">

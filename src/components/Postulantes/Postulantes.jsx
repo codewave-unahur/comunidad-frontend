@@ -33,7 +33,9 @@ import {
   getPostulacionesPorIdOferta,
   getPostulacionesPorIdOfertaTodas,
   activarPostulacion,
+  desactivarPostulacion,
   marcarContactado,
+  marcarNoContactado,
 } from "../../services/postulacionesId_service";
 import { getOfertaById } from "../../services/ofertas_service";
 
@@ -46,6 +48,7 @@ const Postulantes = () => {
   const idOferta = window.location.pathname.split("/")[2];
 
   const [open, setOpen] = useState(false);
+  const [botonOpen, setBotonOpen] = useState("");
   const [postulaciones, setPostulaciones] = useState([]);
   const [idPostulacion, setIdPostulacion] = useState("");
   const [nombreOferta, setNombreOferta] = useState("");
@@ -91,28 +94,52 @@ const Postulantes = () => {
   const handleClickAction = async (id) => {
     if (tipoUsuario === "empresa") {
       try {
-        const response = await marcarContactado(id);
-        if (response) {
-          toast.success("Postulante evaluado correctamente");
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+        if (botonOpen === "aceptar") {
+          const response = await marcarContactado(id);
+          if (response) {
+            toast.success("Postulante evaluado correctamente");
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            toast.error("Error al evaluar postulante");
+          }
         } else {
-          toast.error("Error al evaluar postulante");
+          const response = await marcarNoContactado(id);
+          if (response) {
+            toast.success("Postulante evaluado correctamente");
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            toast.error("Error al evaluar postulante");
+          }
         }
       } catch (error) {
         console.log(error);
       }
     } else {
       try {
-        const response = await activarPostulacion(id);
-        if (response) {
-          toast.success("Postulación aceptada correctamente");
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+        if (botonOpen === "aceptar") {
+          const response = await activarPostulacion(id);
+          if (response) {
+            toast.success("Postulación aceptada correctamente");
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            toast.error("Error al evaluar postulante");
+          }
         } else {
-          toast.error("Error al evaluar postulante");
+          const response = await desactivarPostulacion(id);
+          if (response) {
+            toast.success("Postulación rechazada correctamente");
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          } else {
+            toast.error("Error al evaluar postulante");
+          }
         }
       } catch (error) {
         console.log(error);
@@ -280,6 +307,7 @@ const Postulantes = () => {
                         }}
                         onClick={() => {
                           setIdPostulacion(postulacion.id);
+                          setBotonOpen("aceptar");
                           handleClickOpen();
                         }}
                         disabled={
@@ -301,6 +329,11 @@ const Postulantes = () => {
                         color="error"
                         sx={{
                           margin: 1,
+                        }}
+                        onClick={() => {
+                          setIdPostulacion(postulacion.id);
+                          setBotonOpen("rechazar");
+                          handleClickOpen();
                         }}
                         disabled={
                           tipoUsuario === "empresa"
@@ -337,27 +370,37 @@ const Postulantes = () => {
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
           >
-            <DialogTitle>
-              {tipoUsuario === "empresa"
-                ? "¿Está seguro que desea evaluar a este postulante?"
-                : "¿Está seguro que desea aceptar esta postulación?"}
-            </DialogTitle>
+            {botonOpen === "aceptar" ? (
+              <DialogTitle>
+                {tipoUsuario === "empresa"
+                  ? "¿Está seguro que desea evaluar a este postulante?"
+                  : "¿Está seguro que desea aceptar esta postulación?"}
+              </DialogTitle>
+            ) : (
+              <DialogTitle>
+                {tipoUsuario === "empresa"
+                  ? "¿Está seguro que desea rechazar a este postulante?"
+                  : "¿Está seguro que desea rechazar esta postulación?"}
+              </DialogTitle>
+            )}
             <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                Algún texto de confirmación
-              </DialogContentText>
+              <DialogContentText id="alert-dialog-slide-description"></DialogContentText>
             </DialogContent>
             <DialogActions>
-              <Button color="error" onClick={handleClose}>
-                Cancelar
-              </Button>
+              <Button onClick={handleClose}>Cancelar</Button>
               <Button
-                color="success"
+                color={botonOpen === "aceptar" ? "success" : "error"}
                 onClick={() => {
                   handleClickAction(idPostulacion);
                 }}
               >
-                {tipoUsuario === "empresa" ? "Evaluar" : "Aceptar postulacion"}
+                {botonOpen === "aceptar"
+                  ? tipoUsuario === "empresa"
+                    ? "Evaluar postulante"
+                    : "Aceptar postulacion"
+                  : tipoUsuario === "empresa"
+                  ? "Rechazar postulante"
+                  : "Rechazar postulacion"}
               </Button>
             </DialogActions>
           </Dialog>
