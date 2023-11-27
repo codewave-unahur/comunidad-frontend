@@ -1,27 +1,6 @@
 {
-  "rewrites": [
-    { "source": "/perfil", "destination": "/perfil" },
-    { "source": "/oferta/:id", "destination": "/oferta/:id" },
-    { "source": "/oferta/editar/:id", "destination": "/oferta/editar/:id" },
-    { "source": "/empresa/:id", "destination": "/empresa/:id" },
-    { "source": "/postulante/:id", "destination": "/postulante/:id" },
-    { "source": "/postulantes/:id", "destination": "/postulantes/:id" },
-    { "source": "/login", "destination": "/login" },
-    {
-      "source": "/registro/postulante/:id",
-      "destination": "/registro/postulante/:id"
-    },
-    {
-      "source": "/registro/empresa/:id",
-      "destination": "/registro/empresa/:id"
-    },
-    {
-      "source": "/restablecimientoContraseña",
-      "destination": "/restablecimientoContraseña"
-    },
-    {
-      "source": "/restablecimientoContraseña/nuevaContraseña/:id",
-      "destination": "/restablecimientoContraseña/nuevaContraseña/:id"
-    }
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
