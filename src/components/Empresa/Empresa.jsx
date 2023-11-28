@@ -143,14 +143,23 @@ const Empresa = () => {
                 <Typography
                   variant="h6"
                   color="primary"
-                  sx={{ marginTop: "1rem" }}
+                  sx={{ marginY: "1rem" }}
                 >
                   Información de la empresa
                 </Typography>
-                <List>
-                  <ListItem>
-                    <ListItemText primary={empresa.descripcion} />
-                  </ListItem>
+                <ListItem>
+                  <ListItemText primary={empresa.descripcion} />
+                </ListItem>
+                <List
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "repeat(1, 1fr)",
+                      sm: "repeat(2, 1fr)",
+                    },
+                    gap: "1rem",
+                  }}
+                >
                   <ListItem>
                     <ListItemText
                       primary={
@@ -161,6 +170,12 @@ const Empresa = () => {
                         empresa.Ciudad?.nombre
                       }
                       secondary="Lugar de la empresa"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={empresa.cp}
+                      secondary="Código postal"
                     />
                   </ListItem>
                   <ListItem>
@@ -241,7 +256,11 @@ const Empresa = () => {
                       }}
                     />
                     <ListItemText
-                      primary={empresa.web}
+                      primary={
+                        <a href={empresa.web} target="_blank" rel="noreferrer">
+                          {empresa.nombre_empresa}
+                        </a>
+                      }
                       secondary="Sitio web de la empresa"
                     />
                   </ListItem>
