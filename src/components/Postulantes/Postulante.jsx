@@ -14,7 +14,6 @@ import {
   Skeleton,
   Box,
   Grid,
-  Stack,
   Chip,
 } from "@mui/material";
 
@@ -27,6 +26,7 @@ import TransgenderIcon from "@mui/icons-material/Transgender";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
+import TranslateIcon from "@mui/icons-material/Translate";
 
 import { getPostulanteByDni } from "../../services/postulantes_service";
 
@@ -325,7 +325,7 @@ const Postulante = () => {
                             target="_blank"
                             rel="noreferrer"
                           >
-                            {postulante.linkedIn}
+                            {postulante.nombre + " " + postulante.apellido}
                           </a>
                         }
                         secondary="LinkedIn"
@@ -348,7 +348,15 @@ const Postulante = () => {
                             target="_blank"
                             rel="noreferrer"
                           >
-                            {postulante.portfolio}
+                            {postulante.portfolio
+                              .split("/")[2]
+                              .split(".")[0]
+                              .charAt(0)
+                              .toUpperCase() +
+                              postulante.portfolio
+                                .split("/")[2]
+                                .split(".")[0]
+                                .slice(1)}
                           </a>
                         }
                         secondary="Portfolio o red social"
@@ -446,7 +454,10 @@ const Postulante = () => {
                     <Grid container spacing={2}>
                       {postulante.Idiomas?.map((idioma, index) => (
                         <Grid item key={index} xs={12} sm={6}>
-                          <Card variant="outlined" sx={{ marginTop: "1rem" }}>
+                          <Card
+                            variant="outlined"
+                            sx={{ marginTop: "1rem", position: "relative" }}
+                          >
                             <CardContent>
                               <Typography
                                 variant="h6"
@@ -464,6 +475,18 @@ const Postulante = () => {
                                 Nivel oral:{" "}
                                 {idioma["Idiomas del postulante"].nivel_oral}
                               </Typography>
+                              <TranslateIcon
+                                color="primary"
+                                sx={{
+                                  position: "absolute",
+                                  top: {
+                                    xs: "25%",
+                                    sm: "50%",
+                                  },
+                                  right: "2rem",
+                                  transform: "translateY(-50%)",
+                                }}
+                              />
                             </CardContent>
                           </Card>
                         </Grid>
@@ -482,16 +505,18 @@ const Postulante = () => {
                     >
                       Aptitudes
                     </Typography>
-                    <Stack direction="row" spacing={2} paddingY={2}>
-                      {postulante.Aptitudes?.map((aptitud) => (
-                        <Chip
-                          key={aptitud["Aptitudes del postulante"].id}
-                          label={
-                            aptitud["Aptitudes del postulante"].nombre_aptitud
-                          }
-                        />
+                    <Grid container spacing={1} sx={{ marginTop: "0.5rem" }}>
+                      {postulante.Aptitudes?.map((aptitud, index) => (
+                        <Grid item key={index}>
+                          <Chip
+                            label={
+                              aptitud["Aptitudes del postulante"].nombre_aptitud
+                            }
+                            sx={{ marginRight: "0.5rem" }}
+                          />
+                        </Grid>
                       ))}
-                    </Stack>
+                    </Grid>
                   </>
                 )}
               </>

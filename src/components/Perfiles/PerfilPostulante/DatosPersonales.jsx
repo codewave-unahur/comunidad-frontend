@@ -665,30 +665,6 @@ const DatosPersonales = () => {
                     color: "rgba(0, 0, 0, 0.80)",
                   },
                 }}
-                label="Presentación"
-                variant="outlined"
-                multiline
-                value={usuario.presentacion || ""}
-                InputLabelProps={{ shrink: true }}
-                onChange={(e) =>
-                  handleInputChange("presentacion", e.target.value)
-                }
-                error={Boolean(validarErrores.presentacion)}
-                helperText={validarErrores.presentacion}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <TextField
-                fullWidth
-                disabled={isFieldDisabled}
-                sx={{
-                  "& .MuiInputBase-input.Mui-disabled": {
-                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
-                  },
-                  "&& .MuiFormLabel-root.Mui-disabled": {
-                    color: "rgba(0, 0, 0, 0.80)",
-                  },
-                }}
                 label="Género"
                 variant="outlined"
                 value={usuario.genero || ""}
@@ -761,6 +737,30 @@ const DatosPersonales = () => {
                 onChange={(e) => handleInputChange("portfolio", e.target.value)}
                 error={Boolean(validarErrores.portfolio)}
                 helperText={validarErrores.portfolio}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
+                label="Presentación"
+                variant="outlined"
+                multiline
+                value={usuario.presentacion || ""}
+                InputLabelProps={{ shrink: true }}
+                onChange={(e) =>
+                  handleInputChange("presentacion", e.target.value)
+                }
+                error={Boolean(validarErrores.presentacion)}
+                helperText={validarErrores.presentacion}
               />
             </Grid>
 

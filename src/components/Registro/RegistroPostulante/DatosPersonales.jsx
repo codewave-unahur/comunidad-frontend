@@ -307,25 +307,6 @@ export default function DatosPersonales({
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
-            label="Presentación"
-            id="presentacion"
-            name="presentacion"
-            variant="outlined"
-            fullWidth
-            value={postulante.presentacion || ""}
-            InputLabelProps={{
-              shrink: postulante.presentacion ? true : false,
-            }}
-            multiline
-            onChange={(e) => handleChange(e)}
-            error={Boolean(validarErrores.presentacion)}
-            helperText={
-              validarErrores.presentacion ? validarErrores.presentacion : ""
-            }
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
             label="Género"
             id="genero"
             name="genero"
@@ -390,6 +371,25 @@ export default function DatosPersonales({
             error={Boolean(validarErrores.portfolio)}
             helperText={
               validarErrores.portfolio ? validarErrores.portfolio : ""
+            }
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Presentación"
+            id="presentacion"
+            name="presentacion"
+            variant="outlined"
+            fullWidth
+            value={postulante.presentacion || ""}
+            InputLabelProps={{
+              shrink: postulante.presentacion ? true : false,
+            }}
+            multiline
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.presentacion)}
+            helperText={
+              validarErrores.presentacion ? validarErrores.presentacion : ""
             }
           />
         </Grid>
