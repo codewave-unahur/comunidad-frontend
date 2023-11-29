@@ -123,6 +123,7 @@ const Postulantes = () => {
                   <Typography variant="subtitle1">
                     <IconButton
                       href={postulante.cv}
+                      disabled={postulante.cv === null}
                       target="_blank"
                       sx={{
                         color: "green",

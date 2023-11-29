@@ -35,19 +35,41 @@ export async function getOfertasSinFiltros() {
 
 export async function getOfertaById(id) {
   try {
-    const response = await axios.get(`${config.apiUrl}/ofertas/${id}`);
+    const response = await axios.get(
+      `${config.apiUrl}/ofertas/individual/${id}`
+    );
     return response.data;
   } catch (error) {
     console.error(error);
   }
 }
 
-// Trae una oferta por id de la empresa
+// Trae ofertas por id de la empresa
 
 export async function getOfertaByCuit(pagina, limite, cuit, buscarTitulo) {
   try {
     const response = await axios.get(
       `${config.apiUrl}/ofertas/cuit/${cuit}?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Trae ofertas por filtros de aptitudes y preferencias
+
+export async function getOfertasPorFiltrosRecomendados(
+  pagina,
+  limite,
+  buscarTitulo,
+  ordenar,
+  estado,
+  idUsuario
+) {
+  try {
+    const response = await axios.get(
+      `${config.apiUrl}/ofertas/recomendado/?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}&ordenar=${ordenar}&estado=${estado}&id=${idUsuario}`
     );
     return response.data;
   } catch (error) {
