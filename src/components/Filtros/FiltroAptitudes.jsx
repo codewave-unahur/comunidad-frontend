@@ -8,8 +8,8 @@ import {
   Select,
 } from "@mui/material";
 
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { getAptitudes } from "../../services/aptitudes_service";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -21,28 +21,34 @@ const MenuProps = {
   },
 };
 
-const aptitudes = [
-  "HTML",
-  "CSS",
-  "Javascript",
-  "React",
-  "Node",
-  "Express",
-  "MongoDB",
-  "PostgreSQL",
-  "Sequelize",
-  "Redux",
-  "Material UI",
-  "Bootstrap",
-  "Git",
-  "GitHub",
-  "SCRUM",
-  "Metodologías ágiles",
-  "Trello",
-];
 
-export default function FiltroAptitudes() {
-  const [aptitud, setAptitud] = useState([]);
+
+export default function FiltroAptitudes( { postulantes, setPostulantes, traerPostulantes, aptitud, setAptitud, preferencia } ) {
+  const [aptitudesDB, setAptitudesDB] = useState([])
+
+  useEffect(() => {
+    const obtenerAptitudes = async () => {
+      const response = await getAptitudes();
+      console.log(response)
+      const data = await response.json();
+      setAptitudesDB(data);
+    };
+    obtenerAptitudes();
+  }, []);
+  
+  let post = postulantes
+
+  function filterPostulantesByAptitudes(postulantes, aptitudes) {
+    const postulantesTotales = JSON.parse(sessionStorage.getItem("postulantesTotales"))
+    console.log(postulantesTotales)
+    return postulantesTotales.filter((postulante) => {
+      const preferenciasPostulante = postulante.Preferencias.map((preferencia) => preferencia['Preferencias del postulante'].nombre_preferencia)
+      const aptitudesPostulante = postulante.Aptitudes.map((aptitud) => aptitud['Aptitudes del postulante'].nombre_aptitud)
+      const valorDeVerdadPreferencias = preferencia.some((pref) => preferenciasPostulante.includes(pref)) 
+      const valorDeVerdadAptitudes = aptitudes.some((apt) => aptitudesPostulante.includes(apt))
+      return valorDeVerdadAptitudes || valorDeVerdadPreferencias
+    }
+    )}
 
   const handleChange = (event) => {
     const {
@@ -52,6 +58,12 @@ export default function FiltroAptitudes() {
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
+    if (value.length === 0 && preferencia.length === 0) {
+      traerPostulantes()
+      return
+    } else {
+      setPostulantes(filterPostulantesByAptitudes(post, value))
+    }
   };
 
   return (

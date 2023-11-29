@@ -28,6 +28,23 @@ const Postulantes = () => {
   const [totalPaginas, setTotalPaginas] = useState(0);
   const limite = 6;
   const [postulantes, setPostulantes] = useState([]);
+  const [preferencia, setPreferencia] = useState([]);
+  const [aptitud, setAptitud] = useState([]);
+
+
+  const traerPostulantes = async () => {
+    const response = await getPostulantes(paginaActual - 1, limite, "id", "");
+    setPostulantes(response.postulantes.rows);
+    setTotalPaginas(response.totalPaginas);
+  };
+
+  const almacenarPostulantes = async () => {
+    const response = await getPostulantes(paginaActual - 1, 40, "id", "");
+    sessionStorage.setItem("postulantesTotales", JSON.stringify(response.postulantes.rows));
+  };
+  useEffect(() => {
+    almacenarPostulantes();
+  }, []);
 
   useEffect(() => {
     const traerPostulantes = async () => {
@@ -35,6 +52,7 @@ const Postulantes = () => {
       setPostulantes(response.postulantes.rows);
       setTotalPaginas(response.totalPaginas);
     };
+    
     traerPostulantes();
   }, [paginaActual]);
 
@@ -72,10 +90,22 @@ const Postulantes = () => {
         }}
       >
         <Grid item xs={12} sm={6}>
-          <FiltroAptitudes />
+          <FiltroAptitudes 
+          postulantes={postulantes} 
+          setPostulantes={setPostulantes} 
+          traerPostulantes={traerPostulantes}
+          aptitud={aptitud}
+          setAptitud={setAptitud}
+          preferencia={preferencia} />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <FiltroPreferencias />
+          <FiltroPreferencias 
+            postulantes={postulantes} 
+            setPostulantes={setPostulantes} 
+            traerPostulantes={traerPostulantes} 
+            preferencia={preferencia} 
+            setPreferencia={setPreferencia} 
+            aptitud={aptitud}/>
         </Grid>
       </Grid>
 

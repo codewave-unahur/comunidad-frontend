@@ -8,7 +8,9 @@ import {
   Select,
 } from "@mui/material";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPreferencias } from "../../services/aptitudes_service";
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -21,18 +23,34 @@ const MenuProps = {
   },
 };
 
-const preferencias = [
-  "Trabajo remoto",
-  "Trabajo presencial",
-  "Full time",
-  "Part time",
-  "Junior",
-  "Semi-senior",
-  "Senior",
-];
+export default function FiltroPreferencias( { postulantes, setPostulantes, traerPostulantes, preferencia, setPreferencia, aptitud }) {
+  const [preferenciasDB, setPreferenciasDB] = useState([])
 
-export default function FiltroPreferencias() {
-  const [preferencia, setPreferencia] = useState([]);
+  useEffect(() => {
+    const obtenerPreferencias = async () => {
+      const response = await getPreferencias();
+      console.log(response)
+      const data = await response.json();
+      setPreferenciasDB(data);
+    };
+    obtenerPreferencias();
+  }, []);
+
+  let post = postulantes
+
+
+  function filterPostulantesByPreferencias(postulantes, preferencias) {
+    const postulantesTotales = JSON.parse(sessionStorage.getItem("postulantesTotales"))
+    return postulantesTotales.filter((postulante) => {
+      const preferenciasPostulante = postulante.Preferencias.map((preferencia) => preferencia['Preferencias del postulante'].nombre_preferencia)
+      const aptitudesPostulante = postulante.Aptitudes.map((aptitud) => aptitud['Aptitudes del postulante'].nombre_aptitud)
+      const valorDeVerdadPreferencias = preferencias.some((pref) => preferenciasPostulante.includes(pref)) 
+      const valorDeVerdadAptitudes = aptitud.some((apt) => aptitudesPostulante.includes(apt))
+      return valorDeVerdadAptitudes || valorDeVerdadPreferencias
+    }
+  )}
+
+  
 
   const handleChange = (event) => {
     const {
@@ -42,6 +60,13 @@ export default function FiltroPreferencias() {
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
+    if (value.length === 0 && aptitud.length === 0) {
+      traerPostulantes()
+      return
+    } else {
+      setPostulantes(filterPostulantesByPreferencias(post, value))
+    }
+    console.log(postulantes)
   };
 
   return (
@@ -71,7 +96,7 @@ export default function FiltroPreferencias() {
           )}
           MenuProps={MenuProps}
         >
-          {preferencias.map((preferencia) => (
+          {preferenciasDB.map((preferencia) => (
             <MenuItem key={preferencia} value={preferencia}>
               {preferencia}
             </MenuItem>
