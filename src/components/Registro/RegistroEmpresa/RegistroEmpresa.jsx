@@ -95,7 +95,9 @@ export default function RegistroPostulante() {
 
       if (response) {
         toast.success("Empresa registrada con éxito");
-        window.location.href = "/login";
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 5000);
       } else {
         toast.error("Error al registrar la empresa");
       }
