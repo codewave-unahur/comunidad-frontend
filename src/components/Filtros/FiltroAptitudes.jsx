@@ -29,9 +29,8 @@ export default function FiltroAptitudes( { postulantes, setPostulantes, traerPos
   useEffect(() => {
     const obtenerAptitudes = async () => {
       const response = await getAptitudes();
-      console.log(response)
-      const data = await response.json();
-      setAptitudesDB(data);
+      const apt = response.aptitudes.map((aptitud) => aptitud.nombre_aptitud)
+      setAptitudesDB(apt);
     };
     obtenerAptitudes();
   }, []);
@@ -40,7 +39,6 @@ export default function FiltroAptitudes( { postulantes, setPostulantes, traerPos
 
   function filterPostulantesByAptitudes(postulantes, aptitudes) {
     const postulantesTotales = JSON.parse(sessionStorage.getItem("postulantesTotales"))
-    console.log(postulantesTotales)
     return postulantesTotales.filter((postulante) => {
       const preferenciasPostulante = postulante.Preferencias.map((preferencia) => preferencia['Preferencias del postulante'].nombre_preferencia)
       const aptitudesPostulante = postulante.Aptitudes.map((aptitud) => aptitud['Aptitudes del postulante'].nombre_aptitud)
@@ -93,7 +91,7 @@ export default function FiltroAptitudes( { postulantes, setPostulantes, traerPos
           )}
           MenuProps={MenuProps}
         >
-          {aptitudes.map((aptitud) => (
+          {aptitudesDB.map((aptitud) => (
             <MenuItem key={aptitud} value={aptitud}>
               {aptitud}
             </MenuItem>

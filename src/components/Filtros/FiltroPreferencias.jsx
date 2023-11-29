@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 
 import { useEffect, useState } from "react";
-import { getPreferencias } from "../../services/aptitudes_service";
+import { getPreferencias } from "../../services/preferencias_service";
 
 
 const ITEM_HEIGHT = 48;
@@ -29,9 +29,8 @@ export default function FiltroPreferencias( { postulantes, setPostulantes, traer
   useEffect(() => {
     const obtenerPreferencias = async () => {
       const response = await getPreferencias();
-      console.log(response)
-      const data = await response.json();
-      setPreferenciasDB(data);
+      const pref = response.preferencias.map((preferencia) => preferencia.nombre_preferencia)
+      setPreferenciasDB(pref);
     };
     obtenerPreferencias();
   }, []);
