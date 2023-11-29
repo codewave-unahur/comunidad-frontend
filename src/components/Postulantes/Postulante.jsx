@@ -519,6 +519,32 @@ const Postulante = () => {
                     </Grid>
                   </>
                 )}
+
+                {postulante.Preferencias?.length > 0 && (
+                  <>
+                    <Divider sx={{ marginTop: "1rem" }} />
+                    <Typography
+                      variant="h5"
+                      color="primary"
+                      sx={{ marginTop: "1rem" }}
+                    >
+                      Preferencias
+                    </Typography>
+                    <Grid container spacing={1} sx={{ marginTop: "0.5rem" }}>
+                      {postulante.Preferencias?.map((preferencia, index) => (
+                        <Grid item key={index}>
+                          <Chip
+                            label={
+                              preferencia["Preferencias del postulante"]
+                                .nombre_preferencia
+                            }
+                            sx={{ marginRight: "0.5rem" }}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </>
+                )}
               </>
             )}
           </CardContent>
