@@ -20,6 +20,8 @@ import {
   Avatar,
   Skeleton,
   Box,
+  Grid,
+  Chip,
 } from "@mui/material";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ScheduleIcon from "@mui/icons-material/Schedule";
@@ -353,6 +355,55 @@ const Oferta = () => {
                     />
                   </ListItem>
                 </List>
+                {oferta.Aptitudes?.length > 0 && (
+                  <>
+                    <Divider sx={{ marginTop: "1rem" }} />
+                    <Typography
+                      variant="h6"
+                      color="primary"
+                      sx={{ marginTop: "1rem" }}
+                    >
+                      Aptitudes
+                    </Typography>
+                    <Grid container spacing={1} sx={{ marginTop: "0.5rem" }}>
+                      {oferta.Aptitudes?.map((aptitud, index) => (
+                        <Grid item key={index}>
+                          <Chip
+                            label={
+                              aptitud["Aptitudes de oferta"].nombre_aptitud
+                            }
+                            sx={{ marginRight: "0.5rem" }}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </>
+                )}
+                {oferta.Preferencias?.length > 0 && (
+                  <>
+                    <Divider sx={{ marginTop: "1rem" }} />
+                    <Typography
+                      variant="h6"
+                      color="primary"
+                      sx={{ marginTop: "1rem" }}
+                    >
+                      Preferencias
+                    </Typography>
+                    <Grid container spacing={1} sx={{ marginTop: "0.5rem" }}>
+                      {oferta.Preferencias?.map((preferencia, index) => (
+                        <Grid item key={index}>
+                          <Chip
+                            label={
+                              preferencia["Preferencia de oferta"]
+                                .nombre_preferencia
+                            }
+                            sx={{ marginRight: "0.5rem" }}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  </>
+                )}
                 <Divider sx={{ marginTop: "1rem" }} />
                 <Typography
                   variant="h6"
