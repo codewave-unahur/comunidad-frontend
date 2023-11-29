@@ -134,7 +134,9 @@ export default function RegistroPostulante() {
 
       if (response) {
         toast.success("Tu cuenta fue creada con éxito");
-        window.location.href = "/login";
+        setTimeout(() => {
+          window.location.href = "/login";
+        }, 5000);
       } else {
         toast.error("Hubo un error al crear tu cuenta");
       }
