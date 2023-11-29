@@ -106,8 +106,10 @@ export async function deletePostulante(id, token) {
 export async function agregarPreferencias(id, preferencias) {
   try {
     const response = await axios.post(
-      `${config.apiUrl}/postulantes/preferencias${id}`,
-      preferencias
+      `${config.apiUrl}/postulantes/preferencias/${id}`,
+      {
+        preferencias,
+      }
     );
     return response.data;
   } catch (error) {
@@ -146,13 +148,10 @@ export async function eliminarIdioma(id) {
 
 // Delete preferencias
 
-export async function eliminarPreferencias(idPostulante, idPreferencia) {
+export async function eliminarPreferencias(id) {
   try {
     const response = await axios.delete(
-      `${config.apiUrl}/postulantes/preferencias/${idPostulante}`,
-      {
-        idPreferencia,
-      }
+      `${config.apiUrl}/postulantes/preferencias/${id}`
     );
     return response.data;
   } catch (error) {
@@ -162,11 +161,13 @@ export async function eliminarPreferencias(idPostulante, idPreferencia) {
 
 // Post de aptitudes
 
-export async function agregarAptitudes(idUsuario, aptitudes) {
+export async function agregarAptitudes(idPostulante, aptitudes) {
   try {
     const response = await axios.post(
-      `${config.apiUrl}/postulantes/aptitudes/${idUsuario}`,
-      aptitudes
+      `${config.apiUrl}/postulantes/aptitudes/${idPostulante}`,
+      {
+        aptitudes,
+      }
     );
     return response.data;
   } catch (error) {
@@ -176,13 +177,10 @@ export async function agregarAptitudes(idUsuario, aptitudes) {
 
 // Delete aptitudes
 
-export async function eliminarAptitudes(idUsuario, idAptitud) {
+export async function eliminarAptitudes(id) {
   try {
     const response = await axios.delete(
-      `${config.apiUrl}/postulantes/aptitudes/${idUsuario}`,
-      {
-        idAptitud,
-      }
+      `${config.apiUrl}/postulantes/aptitudes/${id}`
     );
     return response.data;
   } catch (error) {
