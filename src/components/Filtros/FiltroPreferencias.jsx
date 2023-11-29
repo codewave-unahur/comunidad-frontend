@@ -73,7 +73,7 @@ export default function FiltroPreferencias( { postulantes, setPostulantes, traer
     <div>
       <FormControl sx={{ m: 1, width: "100%" }}>
         <InputLabel id="demo-multiple-chip-label">
-          Filtrar por referencias
+          Filtrar por preferencias
         </InputLabel>
         <Select
           labelId="demo-multiple-chip-label"
@@ -84,7 +84,7 @@ export default function FiltroPreferencias( { postulantes, setPostulantes, traer
           input={
             <OutlinedInput
               id="select-multiple-chip"
-              label="Filtrar por referencias"
+              label="Filtrar por preferencias"
             />
           }
           renderValue={(selected) => (

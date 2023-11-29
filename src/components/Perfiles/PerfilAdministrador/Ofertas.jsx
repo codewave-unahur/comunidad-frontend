@@ -281,6 +281,22 @@ const Ofertas = () => {
               borderColor: "green",
             },
           }}
+          href={`/postulantes/${oferta.id}`}
+        >
+          Ver postulantes
+        </Button>
+        <Button
+          variant="outlined"
+          sx={{
+            margin: 1,
+            color: "green",
+            borderColor: "green",
+            "&:hover": {
+              backgroundColor: "lightgrey",
+              color: "black",
+              borderColor: "green",
+            },
+          }}
           onClick={() => handleClickOpen(oferta.id, "cierre")}
         >
           Motivos de cierre

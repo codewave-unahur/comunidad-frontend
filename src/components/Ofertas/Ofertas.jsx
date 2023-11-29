@@ -10,14 +10,18 @@ import {
   Typography,
 } from "@mui/material";
 
-import { getOfertas } from "../../services/ofertas_service";
-import { getOfertaByCuit } from "../../services/ofertas_service";
+import {
+  getOfertas,
+  getOfertaByCuit,
+  getOfertasPorFiltrosRecomendados,
+} from "../../services/ofertas_service";
 import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_service";
 import PropTypes from "prop-types";
 
 const Ofertas = (props) => {
   const tipoUsuario = sessionStorage.getItem("tipoUsuario");
   const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+  const idUsuario = sessionStorage.getItem("idUsuario");
   const { ofertas, setOfertas, paginaActual, setTotalPaginas } = props;
   const scrollRef = useRef({});
   const nombreBusqueda = window.location.search.split("=")[1] || "";
@@ -34,6 +38,15 @@ const Ofertas = (props) => {
           limite,
           datosUsuario.id,
           nombreBusqueda
+        );
+      } else if (tipoUsuario === "postulante") {
+        response = await getOfertasPorFiltrosRecomendados(
+          paginaActual - 1,
+          limite,
+          nombreBusqueda,
+          "id",
+          "Activa",
+          idUsuario
         );
       } else {
         response = await getOfertas(

@@ -3,8 +3,12 @@ import {
   Button,
   Card,
   CardHeader,
+  Chip,
+  FormControl,
   Grid,
   MenuItem,
+  OutlinedInput,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -22,9 +26,13 @@ import {
   agregarIdiomas,
   putPostulante,
   eliminarIdioma,
+  agregarAptitudes,
+  agregarPreferencias,
 } from "../../../services/postulantes_service";
 import { getCarreras } from "../../../services/carreras_service";
 import { getEstudios } from "../../../services/estudios_service";
+import { getAptitudes } from "../../../services/aptitudes_service";
+import { getPreferencias } from "../../../services/preferencias_service";
 // import { getIdiomasPostulante } from "../../../services/idiomasPostulantes_service";
 
 import { Fragment, useEffect, useState } from "react";
@@ -49,22 +57,6 @@ const niveles = [
   { id: 4, nivel: "Nativo" },
 ];
 
-const aptitudes = [
-  { key: 0, label: "JavaScript" },
-  { key: 1, label: "Material UI" },
-  { key: 2, label: "React" },
-  { key: 3, label: "PostgreSQL" },
-  { key: 4, label: "NodeJS" },
-];
-
-const preferencias = [
-  { key: 0, label: "Analista funcional" },
-  { key: 1, label: "Desarrollador web" },
-  { key: 2, label: "Diseño gráfico" },
-  { key: 3, label: "Kinesiología" },
-  { key: 4, label: "Diseño industrial" },
-];
-
 const DatosAcademicos = () => {
   const idUsuario = sessionStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
@@ -76,6 +68,10 @@ const DatosAcademicos = () => {
   const isFieldDisabled = !edit;
   const [carreras, setCarreras] = useState([]);
   const [estudios, setEstudios] = useState([]);
+  const [aptitudes, setAptitudes] = useState([]);
+  const [aptitudesElegidas, setAptitudesElegidas] = useState([]);
+  const [preferencias, setPreferencias] = useState([]);
+  const [preferenciasElegidas, setPreferenciasElegidas] = useState([]);
   const [idiomasElegidos, setIdiomasElegidos] = useState([]);
   const [usuario, setUsuario] = useState({
     carrera: "",
@@ -103,13 +99,66 @@ const DatosAcademicos = () => {
       const response = await getEstudios();
       setEstudios(response.estudios);
     };
+    const getAptitudesData = async () => {
+      const response = await getAptitudes();
+      setAptitudes(response.aptitudes);
+    };
+    const getPreferenciasData = async () => {
+      const response = await getPreferencias();
+      setPreferencias(response.preferencias);
+    };
     getEstudiosData();
     getCarrerasData();
+    getAptitudesData();
+    getPreferenciasData();
   }, []);
 
   const handleEdit = () => {
     setEdit(true);
     setIsSubmitting(false);
+  };
+
+  const handleChangeAptitudes = (event) => {
+    setAptitudesElegidas(event.target.value);
+  };
+
+  const agregarNuevasAptitudes = async (aptitudes) => {
+    const apt = [
+      ...aptitudesElegidas.map((aptitud) => ({
+        id: aptitudes.find((apt) => apt.nombre_aptitud === aptitud).id,
+      })),
+    ];
+    const response = await agregarAptitudes(datosUsuario.id, apt);
+    if (response) {
+      toast.success("Aptitudes agregadas con éxito");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } else {
+      toast.error("Error al agregar las aptitudes");
+    }
+  };
+
+  const handleChangePreferencias = (event) => {
+    setPreferenciasElegidas(event.target.value);
+  };
+
+  const agregarNuevasPreferencias = async (preferencias) => {
+    const pref = [
+      ...preferenciasElegidas.map((preferencia) => ({
+        id: preferencias.find((pref) => pref.nombre_preferencia === preferencia)
+          .id,
+      })),
+    ];
+    const response = await agregarPreferencias(datosUsuario.id, pref);
+    if (response) {
+      toast.success("Preferencias agregadas con éxito");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } else {
+      toast.error("Error al agregar las preferencias");
+    }
   };
 
   const agregarNuevoIdioma = () => {
@@ -668,36 +717,73 @@ const DatosAcademicos = () => {
               </Typography>
               <Grid container spacing={2} paddingY={1}>
                 <Grid item xs={12} sm={4} md={4}>
-                  <AptitudesOferta edit={edit} />
-                  {edit && (
-                    <TextField
-                      select
-                      label="Aptitudes"
-                      variant="outlined"
-                      fullWidth
-                      disabled={isFieldDisabled}
-                    >
-                      <MenuItem value="" disabled>
-                        Selecciona una aptitud
-                      </MenuItem>
-                      {aptitudes.map((aptitud) => (
-                        <MenuItem key={aptitud.key} value={aptitud.key}>
-                          {aptitud.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  )}
+                  <FormControl sx={{ width: "100%" }}>
+                    <AptitudesOferta
+                      edit={edit}
+                      aptitudes={usuario?.Aptitudes}
+                    />
+                    {edit && (
+                      <>
+                        <Select
+                          labelId="aptitudes-chip-label"
+                          id="aptitudes-chip"
+                          multiple
+                          value={aptitudesElegidas || []}
+                          onChange={handleChangeAptitudes}
+                          input={
+                            <OutlinedInput
+                              id="select-aptitudes-chip"
+                              label="Aptitudes"
+                            />
+                          }
+                          renderValue={(selected) => (
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: 0.5,
+                              }}
+                            >
+                              {selected.map((value) => (
+                                <Chip key={value} label={value} />
+                              ))}
+                            </Box>
+                          )}
+                        >
+                          <MenuItem value="" disabled>
+                            Selecciona una aptitud
+                          </MenuItem>
+                          {aptitudes
+                            .filter(
+                              (aptitud) =>
+                                !usuario.Aptitudes.find(
+                                  (apt) =>
+                                    apt["Aptitudes del postulante"].id ===
+                                    aptitud.id
+                                )
+                            )
+                            .map((aptitud) => (
+                              <MenuItem
+                                key={aptitud.id}
+                                value={aptitud.nombre_aptitud}
+                              >
+                                {aptitud.nombre_aptitud}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
-
               {edit && (
                 <Button
                   disableElevation
                   variant="contained"
-                  // onClick={agregarNuevoIdioma}
+                  onClick={() => agregarNuevasAptitudes(aptitudes)}
                   sx={{ marginTop: 1 }}
                 >
-                  Agregar una nueva aptitud
+                  Agregar aptitudes
                 </Button>
               )}
             </Grid>
@@ -707,25 +793,63 @@ const DatosAcademicos = () => {
               </Typography>
               <Grid container spacing={2} paddingY={1}>
                 <Grid item xs={12} sm={4} md={4}>
-                  <PreferenciasOferta edit={edit} />
-                  {edit && (
-                    <TextField
-                      select
-                      label="Preferencias"
-                      variant="outlined"
-                      fullWidth
-                      disabled={isFieldDisabled}
-                    >
-                      <MenuItem value="" disabled>
-                        Selecciona una preferencia
-                      </MenuItem>
-                      {preferencias.map((preferencia) => (
-                        <MenuItem key={preferencia.key} value={preferencia.key}>
-                          {preferencia.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  )}
+                  <FormControl sx={{ width: "100%" }}>
+                    <PreferenciasOferta
+                      edit={edit}
+                      preferencias={usuario?.Preferencias}
+                    />
+                    {edit && (
+                      <>
+                        <Select
+                          labelId="preferencias-chip-label"
+                          id="preferencias-chip"
+                          multiple
+                          value={preferenciasElegidas || []}
+                          onChange={handleChangePreferencias}
+                          input={
+                            <OutlinedInput
+                              id="select-preferencias-chip"
+                              label="Preferencias"
+                            />
+                          }
+                          renderValue={(selected) => (
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexWrap: "wrap",
+                                gap: 0.5,
+                              }}
+                            >
+                              {selected.map((value) => (
+                                <Chip key={value} label={value} />
+                              ))}
+                            </Box>
+                          )}
+                        >
+                          <MenuItem value="" disabled>
+                            Selecciona una preferencia
+                          </MenuItem>
+                          {preferencias
+                            .filter(
+                              (preferencia) =>
+                                !usuario.Preferencias.find(
+                                  (pref) =>
+                                    pref["Preferencias del postulante"].id ===
+                                    preferencia.id
+                                )
+                            )
+                            .map((preferencia) => (
+                              <MenuItem
+                                key={preferencia.id}
+                                value={preferencia.nombre_preferencia}
+                              >
+                                {preferencia.nombre_preferencia}
+                              </MenuItem>
+                            ))}
+                        </Select>
+                      </>
+                    )}
+                  </FormControl>
                 </Grid>
               </Grid>
 
@@ -733,10 +857,10 @@ const DatosAcademicos = () => {
                 <Button
                   disableElevation
                   variant="contained"
-                  // onClick={agregarNuevoIdioma}
+                  onClick={() => agregarNuevasPreferencias(preferencias)}
                   sx={{ marginTop: 1 }}
                 >
-                  Agregar una nueva preferencia
+                  Agregar preferencias
                 </Button>
               )}
             </Grid>
