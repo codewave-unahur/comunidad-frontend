@@ -26,6 +26,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import BusinessIcon from "@mui/icons-material/Business";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import StorageIcon from "@mui/icons-material/Storage";
+import WorkIcon from "@mui/icons-material/Work";
 
 import Header from "../Header/Header";
 import DatosPersonales from "./PerfilPostulante/DatosPersonales";
@@ -47,6 +48,8 @@ import { postularseBaseConstante } from "../../services/postulaciones_service";
 import { uploadCV } from "../../services/files_service";
 import { Toaster, toast } from "sonner";
 import BaseUNAHUR from "./PerfilAdministrador/BaseUNAHUR";
+
+import enProceso from "../../assets/Processing-bro.svg";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -70,13 +73,21 @@ const menuOptionsPostulante = [
   {
     id: "3",
     name: "formacion",
-    Icon: SchoolIcon,
+    Icon: WorkIcon,
     text: "Formación",
     renderSection: (
-      <p>
-        Acá iría lo que propuso Carolina sobre los cursos o demás experiencia.
-        No sé como se llamaría la sección.
-      </p>
+      <img
+        src={enProceso}
+        alt="En proceso"
+        style={{
+          width: "60%",
+          height: "60%",
+          margin: "auto",
+          display: "block",
+          marginTop: "10",
+          marginBottom: "10",
+        }}
+      />
     ),
   },
   {
