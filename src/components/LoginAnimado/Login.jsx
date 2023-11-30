@@ -181,7 +181,7 @@ const Login = () => {
         fontSize: "14px",
         fontFamily: "Poppins, sans-serif",
         boxSizing: "border-box",
-        minHeight: "100vh",
+        minHeight: "95vh",
       }}
     >
       <Box
@@ -550,17 +550,6 @@ const Login = () => {
 
         <Box className="intros-container">
           <Box className="intro-control signin-intro">
-            {/* <Box
-              component="img"
-              src={logoUNAHUR}
-              alt="Logo UNAHUR"
-              sx={{
-                width: "100px",
-                margin: "0px auto",
-                paddingTop: "20px",
-                paddingBottom: "30px",
-              }}
-            /> */}
             <Box className="intro-control__inner">
               <Typography
                 variant="h2"
@@ -573,7 +562,7 @@ const Login = () => {
                   lineHeight: "1.4",
                 }}
               >
-                ¡Bienvenido de nuevo a la comunidad de trabajo de la UNAHUR!
+                ¡Bienvenido de nuevo a la bolsa de empleo de la UNAHUR!
               </Typography>
               <Typography
                 variant="body2"
@@ -628,8 +617,7 @@ const Login = () => {
                   lineHeight: "1.4",
                 }}
               >
-                ¡Unite a la comunidad de trabajo de la UNAHUR en 3 simples
-                pasos!
+                ¡Sumate a nuestra bolsa de empleo abierta a la comunidad!
               </Typography>
               <Typography
                 variant="body2"
@@ -638,8 +626,8 @@ const Login = () => {
                   margin: "10px 0px",
                 }}
               >
-                Bienvenido a la comunidad de trabajo mas grande de Argentina.
-                Encontrá el trabajo que buscas o publica tu oferta laboral.
+                Recordá revisar periódicamente las ofertas laborales que se
+                publican en la plataforma.
               </Typography>
               <Button
                 variant="contained"
