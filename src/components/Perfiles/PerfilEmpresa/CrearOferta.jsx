@@ -223,11 +223,6 @@ const CrearOferta = () => {
   };
 
   const handleSubmit = () => {
-    setOferta({
-      ...oferta,
-      idiomas: idiomasElegidos,
-    });
-
     schema
       .validate(oferta, { abortEarly: false })
       .then(async () => {
@@ -250,6 +245,11 @@ const CrearOferta = () => {
         setValidarErrores(errores);
       });
   };
+
+  useEffect(() => {
+    setOferta({ ...oferta, idiomas: idiomasElegidos });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idiomasElegidos]);
 
   const schema = yup.object().shape({
     tituloOferta: yup.string().required("El nombre es obligatorio"),
