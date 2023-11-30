@@ -37,10 +37,8 @@ import { getPreferencias } from "../../../services/preferencias_service";
 
 import { Fragment, useEffect, useState } from "react";
 
-import {
-  PreferenciasOferta,
-  AptitudesOferta,
-} from "../../Ofertas/PreferenciasOferta";
+import { PreferenciasPostulante } from "../../Preferencias/PreferenciasPostulante";
+import { AptitudesPostulante } from "../../Aptitudes/AptitudesPostulate";
 
 const idiomas = [
   { id: 1, idioma: "Chino" },
@@ -718,7 +716,7 @@ const DatosAcademicos = () => {
               <Grid container spacing={2} paddingY={1}>
                 <Grid item xs={12} sm={4} md={4}>
                   <FormControl sx={{ width: "100%" }}>
-                    <AptitudesOferta
+                    <AptitudesPostulante
                       edit={edit}
                       aptitudes={usuario?.Aptitudes}
                     />
@@ -794,7 +792,7 @@ const DatosAcademicos = () => {
               <Grid container spacing={2} paddingY={1}>
                 <Grid item xs={12} sm={4} md={4}>
                   <FormControl sx={{ width: "100%" }}>
-                    <PreferenciasOferta
+                    <PreferenciasPostulante
                       edit={edit}
                       preferencias={usuario?.Preferencias}
                     />

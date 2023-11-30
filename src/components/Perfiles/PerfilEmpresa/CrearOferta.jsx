@@ -7,13 +7,18 @@ import {
   Card,
   TextField,
   MenuItem,
+  Typography,
+  Chip,
+  OutlinedInput,
+  Select,
+  FormControl,
 } from "@mui/material";
 
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 import * as yup from "yup";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 
 import { getEstudios } from "../../../services/estudios_service";
 import { getCarreras } from "../../../services/carreras_service";
@@ -21,6 +26,8 @@ import { getJornadas } from "../../../services/jornadas_service";
 import { getTiposContratos } from "../../../services/contratos_service";
 import { postOferta } from "../../../services/ofertas_service";
 import { Toaster, toast } from "sonner";
+import { getAptitudes } from "../../../services/aptitudes_service";
+import { getPreferencias } from "../../../services/preferencias_service";
 
 const modalidadDeTrabajo = [
   {
@@ -37,6 +44,21 @@ const modalidadDeTrabajo = [
   },
 ];
 
+const idiomas = [
+  { id: 1, idioma: "Chino" },
+  { id: 2, idioma: "Inglés" },
+  { id: 3, idioma: "Portugués" },
+  { id: 4, idioma: "Alemán" },
+  { id: 5, idioma: "Francés" },
+];
+
+const niveles = [
+  { id: 1, nivel: "Inicial" },
+  { id: 2, nivel: "Intermedio" },
+  { id: 3, nivel: "Avanzado" },
+  { id: 4, nivel: "Nativo" },
+];
+
 const CrearOferta = () => {
   const token = sessionStorage.getItem("token");
   const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
@@ -47,6 +69,11 @@ const CrearOferta = () => {
   const [carreras, setCarreras] = useState([]);
   const [jornadas, setJornadas] = useState([]);
   const [contratos, setContratos] = useState([]);
+  const [aptitudes, setAptitudes] = useState([]);
+  const [aptitudesElegidas, setAptitudesElegidas] = useState([]);
+  const [preferencias, setPreferencias] = useState([]);
+  const [preferenciasElegidas, setPreferenciasElegidas] = useState([]);
+  const [idiomasElegidos, setIdiomasElegidos] = useState([]);
 
   const [oferta, setOferta] = useState({
     tituloOferta: "",
@@ -69,6 +96,23 @@ const CrearOferta = () => {
     idEmpresa: idEmpresa,
     modalidadDeTrabajo: "",
     tareasARealizar: "",
+    idiomas: [
+      {
+        nombre_idioma: "",
+        nivel_oral: "",
+        nivel_escrito: "",
+      },
+    ],
+    preferencias: [
+      {
+        id: "",
+      },
+    ],
+    aptitudes: [
+      {
+        id: "",
+      },
+    ],
   });
 
   useEffect(() => {
@@ -88,13 +132,102 @@ const CrearOferta = () => {
       const response = await getTiposContratos();
       setContratos(response.contratos);
     };
+    const getAptitudesData = async () => {
+      const response = await getAptitudes();
+      setAptitudes(response.aptitudes);
+    };
+    const getPreferenciasData = async () => {
+      const response = await getPreferencias();
+      setPreferencias(response.preferencias);
+    };
     fetchEstudios();
     fetchCarreras();
     fetchJornadas();
     fetchContratos();
+    getAptitudesData();
+    getPreferenciasData();
   }, []);
 
+  const handleChangeAptitudes = (event) => {
+    const idsAptitudes = [];
+    event.target.value.forEach((aptitud) => {
+      aptitudes.forEach((a) => {
+        if (a.nombre_aptitud === aptitud) {
+          idsAptitudes.push({ id: a.id });
+        }
+      });
+    });
+    setAptitudesElegidas(event.target.value);
+    setOferta({ ...oferta, aptitudes: idsAptitudes });
+  };
+
+  const handleChangePreferencias = (event) => {
+    const idsPreferencias = [];
+    event.target.value.forEach((preferencia) => {
+      preferencias.forEach((p) => {
+        if (p.nombre_preferencia === preferencia) {
+          idsPreferencias.push({ id: p.id });
+        }
+      });
+    });
+    setPreferenciasElegidas(event.target.value);
+    setOferta({ ...oferta, preferencias: idsPreferencias });
+  };
+
+  const agregarNuevoIdioma = () => {
+    setIdiomasElegidos([
+      ...idiomasElegidos,
+      {
+        nombre_idioma: "",
+        nivel_oral: "",
+        nivel_escrito: "",
+      },
+    ]);
+  };
+
+  const handleIdiomaChange = (e, index) => {
+    const { value } = e.target;
+    setIdiomasElegidos((prevIdiomas) => {
+      const nuevosIdiomas = [...prevIdiomas];
+      nuevosIdiomas[index] = { ...nuevosIdiomas[index], nombre_idioma: value };
+      return nuevosIdiomas;
+    });
+  };
+
+  const handleNivelOralChange = (e, index) => {
+    const { value } = e.target;
+    setIdiomasElegidos((prevIdiomas) => {
+      const nuevosIdiomas = [...prevIdiomas];
+      nuevosIdiomas[index] = { ...nuevosIdiomas[index], nivel_oral: value };
+      return nuevosIdiomas;
+    });
+  };
+
+  const handleNivelEscritoChange = (e, index) => {
+    const { value } = e.target;
+    setIdiomasElegidos((prevIdiomas) => {
+      const nuevosIdiomas = [...prevIdiomas];
+      nuevosIdiomas[index] = { ...nuevosIdiomas[index], nivel_escrito: value };
+      return nuevosIdiomas;
+    });
+  };
+
+  const handleDescartarIdioma = (index) => {
+    return () => {
+      setIdiomasElegidos((prevIdiomas) => {
+        const nuevosIdiomas = [...prevIdiomas];
+        nuevosIdiomas.splice(index, 1);
+        return nuevosIdiomas;
+      });
+    };
+  };
+
   const handleSubmit = () => {
+    setOferta({
+      ...oferta,
+      idiomas: idiomasElegidos,
+    });
+
     schema
       .validate(oferta, { abortEarly: false })
       .then(async () => {
@@ -102,9 +235,9 @@ const CrearOferta = () => {
         if (response) {
           toast.success("Oferta creada con éxito");
           toast("A la brevedad será revisada por un administrador");
-          setTimeout(() => {
-            window.location.reload();
-          }, 3000);
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 3000);
         } else {
           toast.error("Error al crear la oferta");
         }
@@ -501,6 +634,220 @@ const CrearOferta = () => {
                 error={Boolean(validarErrores.tareasARealizar)}
                 helperText={validarErrores.tareasARealizar}
               />
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography variant="h5" gutterBottom>
+                Idiomas requeridos
+              </Typography>
+              <Grid container spacing={2} paddingY={2}>
+                {idiomasElegidos.map((idiomaElegido, index) => (
+                  <Fragment key={index}>
+                    <Grid item xs={12} md={3}>
+                      <TextField
+                        select
+                        label="Idioma"
+                        variant="outlined"
+                        fullWidth
+                        sx={{
+                          "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                          },
+                          "&& .MuiFormLabel-root.Mui-disabled": {
+                            color: "rgba(0, 0, 0, 0.80)",
+                          },
+                        }}
+                        value={idiomaElegido.nombre_idioma || ""}
+                        onChange={(e) => handleIdiomaChange(e, index)}
+                      >
+                        <MenuItem value="" disabled>
+                          Selecciona un idioma
+                        </MenuItem>
+                        {idiomas.map((idioma) => (
+                          <MenuItem key={idioma.id} value={idioma.idioma}>
+                            {idioma.idioma}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <TextField
+                        select
+                        label="Nivel oral"
+                        variant="outlined"
+                        fullWidth
+                        sx={{
+                          "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                          },
+                          "&& .MuiFormLabel-root.Mui-disabled": {
+                            color: "rgba(0, 0, 0, 0.80)",
+                          },
+                        }}
+                        value={idiomaElegido.nivel_oral || ""}
+                        onChange={(e) => handleNivelOralChange(e, index)}
+                      >
+                        <MenuItem value="" disabled>
+                          Selecciona un nivel oral
+                        </MenuItem>
+                        {niveles.map((nivel) => (
+                          <MenuItem key={nivel.id} value={nivel.nivel}>
+                            {nivel.nivel}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </Grid>
+                    <Grid item xs={12} md={3}>
+                      <TextField
+                        select
+                        label="Nivel escrito"
+                        variant="outlined"
+                        fullWidth
+                        sx={{
+                          "& .MuiInputBase-input.Mui-disabled": {
+                            WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                          },
+                          "&& .MuiFormLabel-root.Mui-disabled": {
+                            color: "rgba(0, 0, 0, 0.80)",
+                          },
+                        }}
+                        value={idiomaElegido.nivel_escrito || ""}
+                        onChange={(e) => handleNivelEscritoChange(e, index)}
+                      >
+                        <MenuItem value="" disabled>
+                          Selecciona un nivel escrito
+                        </MenuItem>
+                        {niveles.map((nivel) => (
+                          <MenuItem key={nivel.id} value={nivel.nivel}>
+                            {nivel.nivel}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </Grid>
+                    <Grid item xs={12} sm={3} md={3}>
+                      <Button
+                        disableElevation
+                        variant="outlined"
+                        color="error"
+                        sx={{ marginTop: 1 }}
+                        fullWidth
+                        onClick={handleDescartarIdioma(index)}
+                      >
+                        Eliminar idioma
+                      </Button>
+                    </Grid>
+                  </Fragment>
+                ))}
+              </Grid>
+              <Button
+                disableElevation
+                variant="contained"
+                onClick={agregarNuevoIdioma}
+                sx={{ marginTop: 1 }}
+              >
+                Agregar nuevo idioma
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography variant="h5" gutterBottom>
+                Aptitudes
+              </Typography>
+              <Grid container spacing={2} paddingY={1}>
+                <Grid item xs={12} sm={4} md={4}>
+                  <FormControl sx={{ width: "100%" }}>
+                    <>
+                      <Select
+                        labelId="aptitudes-chip-label"
+                        id="aptitudes-chip"
+                        multiple
+                        value={aptitudesElegidas || []}
+                        onChange={handleChangeAptitudes}
+                        input={
+                          <OutlinedInput
+                            id="select-aptitudes-chip"
+                            label="Aptitudes"
+                          />
+                        }
+                        renderValue={(selected) => (
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexWrap: "wrap",
+                              gap: 0.5,
+                            }}
+                          >
+                            {selected.map((value) => (
+                              <Chip key={value} label={value} />
+                            ))}
+                          </Box>
+                        )}
+                      >
+                        <MenuItem value="" disabled>
+                          Selecciona una aptitud
+                        </MenuItem>
+                        {aptitudes.map((aptitud) => (
+                          <MenuItem
+                            key={aptitud.id}
+                            value={aptitud.nombre_aptitud}
+                          >
+                            {aptitud.nombre_aptitud}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </>
+                  </FormControl>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography variant="h5" gutterBottom>
+                Preferencias
+              </Typography>
+              <Grid container spacing={2} paddingY={1}>
+                <Grid item xs={12} sm={4} md={4}>
+                  <FormControl sx={{ width: "100%" }}>
+                    <>
+                      <Select
+                        labelId="preferencias-chip-label"
+                        id="preferencias-chip"
+                        multiple
+                        value={preferenciasElegidas || []}
+                        onChange={handleChangePreferencias}
+                        input={
+                          <OutlinedInput
+                            id="select-preferencias-chip"
+                            label="Preferencias"
+                          />
+                        }
+                        renderValue={(selected) => (
+                          <Box
+                            sx={{
+                              display: "flex",
+                              flexWrap: "wrap",
+                              gap: 0.5,
+                            }}
+                          >
+                            {selected.map((value) => (
+                              <Chip key={value} label={value} />
+                            ))}
+                          </Box>
+                        )}
+                      >
+                        <MenuItem value="" disabled>
+                          Selecciona una preferencia
+                        </MenuItem>
+                        {preferencias.map((preferencia) => (
+                          <MenuItem
+                            key={preferencia.id}
+                            value={preferencia.nombre_preferencia}
+                          >
+                            {preferencia.nombre_preferencia}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </>
+                  </FormControl>
+                </Grid>
+              </Grid>
             </Grid>
 
             <Grid item xs={12} sm={12} md={12}>

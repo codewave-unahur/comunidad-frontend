@@ -354,6 +354,25 @@ const Oferta = () => {
                       }
                     />
                   </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={
+                        "Idiomas: " +
+                        ((oferta.Idiomas?.length > 0 &&
+                          oferta.Idiomas?.map(
+                            (idioma) =>
+                              " " +
+                              idioma["Idiomas de oferta"].nombre_idioma +
+                              " (Nivel oral: " +
+                              idioma["Idiomas de oferta"].nivel_oral +
+                              " - Nivel escrito: " +
+                              idioma["Idiomas de oferta"].nivel_escrito +
+                              ")"
+                          )) ||
+                          "No especificado")
+                      }
+                    />
+                  </ListItem>
                 </List>
                 {oferta.Aptitudes?.length > 0 && (
                   <>

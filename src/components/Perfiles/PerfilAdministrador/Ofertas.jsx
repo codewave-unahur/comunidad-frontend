@@ -77,7 +77,7 @@ const Ofertas = () => {
     setOpen(false);
   };
 
-  const handleFinalizarOferta = (idOferta) => async () => {
+  const handleFinalizarOferta = async (idOferta) => {
     let idEstado =
       action === "finalizar"
         ? "Finalizada"
