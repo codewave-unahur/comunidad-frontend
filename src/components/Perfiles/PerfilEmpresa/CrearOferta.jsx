@@ -230,9 +230,9 @@ const CrearOferta = () => {
         if (response) {
           toast.success("Oferta creada con éxito");
           toast("A la brevedad será revisada por un administrador");
-          // setTimeout(() => {
-          //   window.location.reload();
-          // }, 3000);
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000);
         } else {
           toast.error("Error al crear la oferta");
         }
