@@ -258,15 +258,7 @@ function Perfil() {
         textTransform="uppercase"
         paddingX={2}
       >
-        <Typography
-          variant="h5"
-          fontSize={18}
-          borderLeft={5}
-          borderColor="primary.main"
-          pl={1.5}
-        >
-          Tu Perfil
-        </Typography>
+        
 
         <IconButton
           onClick={() => (window.location.href = "/")}
@@ -280,6 +272,15 @@ function Perfil() {
           <ArrowBackIcon />
           Volver
         </IconButton>
+        <Typography
+          variant="h5"
+          fontSize={18}
+          borderLeft={5}
+          borderColor="primary.main"
+          pl={1.5}
+        >
+          Tu Perfil
+        </Typography>
       </Stack>
       <Grid container rowSpacing={2} columnSpacing={4} paddingX={2}>
         <Grid item xs={12} sm={4} md={3}>
