@@ -24,6 +24,7 @@ export default function DatosPersonales({
   const [tiposDocumentos, setTiposDocumentos] = useState([]);
   const [provincias, setProvincias] = useState([]);
   const [ciudades, setCiudades] = useState([]);
+  const [generos, setGeneros] = useState(["Masculino", "Femenino", "X", "Prefiero no decirlo"]);
 
   useEffect(() => {
     async function fetchData() {
@@ -320,7 +321,12 @@ export default function DatosPersonales({
             onChange={(e) => handleChange(e)}
             error={Boolean(validarErrores.genero)}
             helperText={validarErrores.genero ? validarErrores.genero : ""}
-          />
+            
+          />{generos.map((genero) => ( 
+            <MenuItem key={genero.id} value={genero.id}>
+              {genero}
+            </MenuItem>
+          ))}
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
