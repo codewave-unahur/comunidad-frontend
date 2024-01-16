@@ -88,7 +88,7 @@ const NuevaContraseña = () => {
             <Avatar
               sx={{
                 margin: "auto",
-                background: "#5FA92C",
+                background: "#00404F",
               }}
             >
               <LockOutlinedIcon />

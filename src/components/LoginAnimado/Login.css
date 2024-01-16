@@ -49,7 +49,7 @@
   flex-direction: column;
   height: 520px;
   color: #fff;
-  background: linear-gradient(170deg, #34d399, #5fa92c);
+  background: linear-gradient(170deg, #00404F,#15BCE4);
   transition: all 0.5s ease-in;
 }
 .container .intros-container .intro-control .intro-control__inner {
@@ -78,7 +78,7 @@
 }
 .change .intros-container .intro-control {
   transform: translateX(-100%);
-  background: linear-gradient(170deg, #3b82f6, #3aa4cc);
+  background: linear-gradient(170deg,  #15BCE4, #00404F);
 }
 .change .intros-container .intro-control #signin-btn {
   background-color: #3aa4cc;

@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import IconUser from "./IconUser";
-
+import logoDvt from "../../assets/logoDvt.png";
 import { getOfertas } from "../../services/ofertas_service";
 import PropTypes from "prop-types";
 
@@ -98,7 +98,7 @@ const Header = (props) => {
         <AppBar position="static">
           <Toolbar
             sx={{
-              background: "linear-gradient(90deg, #34d399, #5fa92c)",
+              background: "linear-gradient(90deg, #15BCE4, #00404F)",
               color: "#fff",
               padding: "10px",
             }}
@@ -115,10 +115,10 @@ const Header = (props) => {
             >
               <Link href="/">
                 <img
-                  src="https://cdn.discordapp.com/attachments/956988369693454466/989600731369709669/Logoblanco.png"
+                  src={logoDvt}
                   alt="Logo comunidad de trabajo"
                   style={{
-                    height: "60px",
+                    height: "80px",
                     width: "auto",
                     padding: "5px",
                     marginTop: "5px",
