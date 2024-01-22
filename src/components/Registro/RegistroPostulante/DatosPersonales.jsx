@@ -308,6 +308,7 @@ export default function DatosPersonales({
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
+            required
             label="Género"
             id="genero"
             name="genero"
@@ -317,16 +318,17 @@ export default function DatosPersonales({
             InputLabelProps={{
               shrink: postulante.genero ? true : false,
             }}
-            multiline
+            select
             onChange={(e) => handleChange(e)}
             error={Boolean(validarErrores.genero)}
             helperText={validarErrores.genero ? validarErrores.genero : ""}
-            
-          />{generos.map((genero) => ( 
-            <MenuItem key={genero.id} value={genero.id}>
-              {genero}
-            </MenuItem>
-          ))}
+          >
+            {generos.map((genero) => (
+              <MenuItem key={genero} value={genero}>
+                {genero}
+              </MenuItem>
+            ))}
+          </TextField>
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
