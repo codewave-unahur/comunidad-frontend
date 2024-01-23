@@ -6,7 +6,7 @@ import { config } from "../config/config";
 export async function getCiudades(idProvincia) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ciudades/?idProvincia=${idProvincia}`
+      `${config.apiUrl}/ciudades/${idProvincia}`
     );
     return response.data;
   } catch (error) {
