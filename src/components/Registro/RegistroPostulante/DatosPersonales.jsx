@@ -308,25 +308,25 @@ export default function DatosPersonales({
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
+            select
+            required
             label="Género"
             id="genero"
             name="genero"
             variant="outlined"
             fullWidth
             value={postulante.genero || ""}
-            InputLabelProps={{
-              shrink: postulante.genero ? true : false,
-            }}
-            multiline
             onChange={(e) => handleChange(e)}
             error={Boolean(validarErrores.genero)}
             helperText={validarErrores.genero ? validarErrores.genero : ""}
-            
-          />{generos.map((genero) => ( 
-            <MenuItem key={genero.id} value={genero.id}>
-              {genero}
-            </MenuItem>
-          ))}
+          >
+            <MenuItem value="">Selecciona un género</MenuItem>
+            {generos.map((genero) => (
+              <MenuItem key={genero} value={genero}>
+                {genero}
+              </MenuItem>
+            ))}
+          </TextField>
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
