@@ -331,7 +331,7 @@ const DatosPersonales = () => {
                 value={usuario.nombre || ""}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
-                disabled={isFieldDisabled}
+                disabled
                 sx={{
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
@@ -356,7 +356,7 @@ const DatosPersonales = () => {
                 value={usuario.apellido || ""}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
-                disabled={isFieldDisabled}
+                disabled
                 sx={{
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
@@ -382,7 +382,7 @@ const DatosPersonales = () => {
                 value={usuario.Usuario.usuario || ""}
                 InputLabelProps={{ shrink: true }}
                 fullWidth
-                disabled={isFieldDisabled}
+                disabled
                 sx={{
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
@@ -403,7 +403,7 @@ const DatosPersonales = () => {
               <TextField
                 fullWidth
                 type="date"
-                disabled={isFieldDisabled}
+                disabled
                 sx={{
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
@@ -424,7 +424,7 @@ const DatosPersonales = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
-                disabled={isFieldDisabled}
+                disabled
                 sx={{
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
@@ -462,7 +462,7 @@ const DatosPersonales = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
-                disabled={isFieldDisabled}
+                disabled
                 sx={{
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
