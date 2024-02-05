@@ -711,7 +711,7 @@ const DatosAcademicos = () => {
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
               <Typography variant="h5" gutterBottom>
-                Aptitudes
+                Habilidades
               </Typography>
               <Grid container spacing={2} paddingY={1}>
                 <Grid item xs={12} sm={4} md={4}>
@@ -749,7 +749,7 @@ const DatosAcademicos = () => {
                           )}
                         >
                           <MenuItem value="" disabled>
-                            Selecciona una aptitud
+                            Selecciona una habilidad
                           </MenuItem>
                           {aptitudes
                             .filter(
@@ -781,7 +781,7 @@ const DatosAcademicos = () => {
                   onClick={() => agregarNuevasAptitudes(aptitudes)}
                   sx={{ marginTop: 1 }}
                 >
-                  Agregar aptitudes
+                  Agregar habilidades
                 </Button>
               )}
             </Grid>
