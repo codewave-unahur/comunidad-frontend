@@ -36,7 +36,7 @@ export async function getOfertasSinFiltros() {
 export async function getOfertaById(id) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/individual/${id}`
+      `${config.apiUrl}/ofertas/idOferta/${id}`
     );
     return response.data;
   } catch (error) {
