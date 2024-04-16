@@ -155,7 +155,6 @@ export default function RegistroPostulante() {
 
   return (
     <>
-      {/* <Header /> */}
       <Registro
         steps={steps}
         getStepContent={getStepContent}
@@ -164,7 +163,6 @@ export default function RegistroPostulante() {
         schema={schemaDatosPersonales}
         setValidarErrores={setValidarErroresDatosPersonales}
       />
-      ;
     </>
   );
 }
