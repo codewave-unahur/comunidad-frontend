@@ -19,7 +19,7 @@ export default function RegistroPostulante() {
     idUsuario: idUsuario,
     estudios: null,
     carrera: "",
-    estado: "",
+    estado: 1,
     nombre: "",
     apellido: "",
     nacionalidad: "",
