@@ -61,6 +61,7 @@ export async function getEmpresaByIdUsuario(id) {
 
 export async function postEmpresa(empresa) {
   try {
+    console.log(empresa)
     const response = await axios.post(`${config.apiUrl}/empresas`, empresa);
     return response.data;
   } catch (error) {

@@ -374,7 +374,7 @@ const Oferta = () => {
                     />
                   </ListItem>
                 </List>
-                {oferta.Aptitudes?.length > 0 && (
+                {/*oferta.Aptitudes?.length > 0 && (
                   <>
                     <Divider sx={{ marginTop: "1rem" }} />
                     <Typography
@@ -397,8 +397,8 @@ const Oferta = () => {
                       ))}
                     </Grid>
                   </>
-                )}
-                {oferta.Preferencias?.length > 0 && (
+                )*/}
+                {/*oferta.Preferencias?.length > 0 && (
                   <>
                     <Divider sx={{ marginTop: "1rem" }} />
                     <Typography
@@ -422,7 +422,7 @@ const Oferta = () => {
                       ))}
                     </Grid>
                   </>
-                )}
+                )*/}
                 <Divider sx={{ marginTop: "1rem" }} />
                 <Typography
                   variant="h6"

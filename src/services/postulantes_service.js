@@ -64,6 +64,7 @@ export async function getPostulanteByDni(dni) {
 
 export async function postPostulante(postulante) {
   try {
+    console.log(postulante);
     const response = await axios.post(
       `${config.apiUrl}/postulantes`,
       postulante
