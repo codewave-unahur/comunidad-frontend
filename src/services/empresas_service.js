@@ -12,7 +12,7 @@ export async function getEmpresas(
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/empresas/?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&nombreEmpresa=${nombreEmpresa}&estado=${estado}`
+      `${config.apiUrl}/empresas/?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&nombreEmpresa=${nombreEmpresa}&idEstado=${estado}`
     );
     return response.data;
   } catch (error) {
