@@ -12,6 +12,16 @@ export async function getUsuarios() {
   }
 }
 
+// Put de usuario
+export async function putUsuario(id) {
+  try {
+    const response = await axios.put(`${config.apiUrl}/usuarios/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 // Sign in de usuario
 export async function signIn(usuario) {
   try {
