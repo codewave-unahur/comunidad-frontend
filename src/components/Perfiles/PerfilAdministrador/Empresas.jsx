@@ -22,7 +22,6 @@ import {
 import { getEmpresas, putEmpresa } from "../../../services/empresas_service";
 import { useEffect, useState, forwardRef } from "react";
 import Buscador from "../../Buscador/Buscador";
-import { putUsuario } from "../../../services/usuarios_service";
 
 import { Toaster, toast } from "sonner";
 import Paginacion from "../../Paginacion/Paginacion";
@@ -79,18 +78,11 @@ const Empresas = () => {
       idEstado: 1,
     };
 
-    const usuarioActivo = {
-      estado: true,
-    }
-   
     try {
       const response = await putEmpresa(id, estadoActivo, token);
-      const activarUsuario = await putUsuario(id, usuarioActivo, token)
-
       if (response) {
         toast.success("La empresa fue activada con éxito.");
-        setEmpresas(empresas.filter((empresa) => empresa.id !== id), estadoActivo);
-        setUsuario(empresas.map((empresa) => empresa.Usuario.id !== id), usuarioActivo);
+        setEmpresas(empresas.filter((empresa) => empresa.id !== id));
         setOpen(false);
       } else {
         toast.error("No se pudo activar la empresa.");
@@ -99,19 +91,6 @@ const Empresas = () => {
       toast.error("No se pudo activar la empresa.");
     }
   };
-
-  const activarUsuario = (id) => async () => {
-    const estadoActivo = {
-      estado: true,
-    };
-
-    try {
-      const response = await setUsuario(id, estadoActivo, token);
-
-      if (response) {
-        toast.success("El usuario fue activado con éxito.");
-        
-
 
   const handleSubmit = async (e, buscador) => {
     e.preventDefault();
