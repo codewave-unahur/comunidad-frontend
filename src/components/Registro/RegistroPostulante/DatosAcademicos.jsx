@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 
-import { getCarreras } from "../../../services/carreras_service";
 import { getEstudios } from "../../../services/estudios_service";
 
 export default function DatosAcademicos({
@@ -28,21 +27,16 @@ export default function DatosAcademicos({
     setValidarErrores: PropTypes.func.isRequired,
   };
 
-  const [carreras, setCarreras] = useState([]);
   const [estudios, setEstudios] = useState([]);
   const [carreraEnabled, setCarreraEnabled] = useState(false);
 
   useEffect(() => {
-    const getCarrerasData = async () => {
-      const response = await getCarreras();
-      setCarreras(response.carreras);
-    };
+    
     const getEstudiosData = async () => {
       const response = await getEstudios();
       setEstudios(response.estudios);
     };
     getEstudiosData();
-    getCarrerasData();
   }, []);
 
   const handleChange = (e) => {
@@ -111,30 +105,17 @@ export default function DatosAcademicos({
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-            select
             label="Carrera"
             id="carrera"
             name="carrera"
             variant="outlined"
             fullWidth
-            value={
-              carreras.find((carrera) => carrera.id === postulante.carrera)
-                ?.id || ""
-            }
+            value={postulante.carrera || ""}
             onChange={(e) => handleChange(e)}
             error={Boolean(validarErrores.carrera)}
             helperText={validarErrores.carrera ? validarErrores.carrera : ""}
             disabled={!carreraEnabled}
-          >
-            <MenuItem value="" disabled>
-              Seleccione una opción
-            </MenuItem>
-            {carreras.map((carrera) => (
-              <MenuItem key={carrera.id} value={carrera.id}>
-                {carrera.nombre_carrera}
-              </MenuItem>
-            ))}
-          </TextField>
+          />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
