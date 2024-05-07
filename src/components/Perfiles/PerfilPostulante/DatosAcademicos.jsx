@@ -372,7 +372,7 @@ const DatosAcademicos = () => {
                 <MenuItem value="">Selecciona un nivel académico</MenuItem>
                 {estudios.map((estudio) => (
                   <MenuItem key={estudio.id} value={estudio.id}>
-                    {estudio.nombre_estudio_estado}
+                    {estudio.nombre_estudio} {estudio.estado_estudio}
                   </MenuItem>
                 ))}
               </TextField>
