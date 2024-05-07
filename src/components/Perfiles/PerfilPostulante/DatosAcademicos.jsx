@@ -29,7 +29,6 @@ import {
   agregarAptitudes,
   agregarPreferencias,
 } from "../../../services/postulantes_service";
-import { getCarreras } from "../../../services/carreras_service";
 import { getEstudios } from "../../../services/estudios_service";
 import { getAptitudes } from "../../../services/aptitudes_service";
 import { getPreferencias } from "../../../services/preferencias_service";
@@ -64,7 +63,6 @@ const DatosAcademicos = () => {
   const [isSubmitting, setIsSubmitting] = useState(false); // Para validar el formulario
   const [edit, setEdit] = useState(false); // Para habilitar los campos de edición
   const isFieldDisabled = !edit;
-  const [carreras, setCarreras] = useState([]);
   const [estudios, setEstudios] = useState([]);
   const [aptitudes, setAptitudes] = useState([]);
   const [aptitudesElegidas, setAptitudesElegidas] = useState([]);
@@ -73,7 +71,6 @@ const DatosAcademicos = () => {
   const [idiomasElegidos, setIdiomasElegidos] = useState([]);
   const [usuario, setUsuario] = useState({
     carrera: "",
-    fk_id_carrera: "",
     estudios: "",
     fk_id_estudios: "",
     cant_materias: "",
@@ -89,10 +86,7 @@ const DatosAcademicos = () => {
   }, [idUsuario]);
 
   useEffect(() => {
-    const getCarrerasData = async () => {
-      const response = await getCarreras();
-      setCarreras(response.carreras);
-    };
+    
     const getEstudiosData = async () => {
       const response = await getEstudios();
       setEstudios(response.estudios);
@@ -106,7 +100,6 @@ const DatosAcademicos = () => {
       setPreferencias(response.preferencias);
     };
     getEstudiosData();
-    getCarrerasData();
     getAptitudesData();
     getPreferenciasData();
   }, []);
@@ -227,7 +220,6 @@ const DatosAcademicos = () => {
       .then(async () => {
         const datosActualizados = {
           carrera: usuario.carrera,
-          fk_id_carrera: usuario.fk_id_carrera,
           estudios: usuario.estudios,
           fk_id_estudios: usuario.fk_id_estudios,
           cantMaterias: usuario.cant_materias,
@@ -273,7 +265,6 @@ const DatosAcademicos = () => {
 
   const schema = yup.object().shape({
     carrera: yup.string(),
-    fk_id_carrera: yup.string(),
     estudios: yup.string(),
     fk_id_estudios: yup.string(),
     cant_materias: yup
@@ -296,13 +287,12 @@ const DatosAcademicos = () => {
                 label="Carrera"
                 variant="outlined"
                 value={
-                  carreras.find(
-                    (carrera) => carrera.id === usuario.fk_id_carrera
-                  )?.id || ""
+                  usuario.carrera === null
+                    ? ""
+                    : usuario.carrera || ""
                 }
                 InputLabelProps={{ shrink: true }}
                 fullWidth
-                select
                 disabled={isFieldDisabled}
                 sx={{
                   "& .MuiInputBase-input.Mui-disabled": {
@@ -315,24 +305,19 @@ const DatosAcademicos = () => {
                 onChange={(e) => {
                   setUsuario({
                     ...usuario,
-                    carrera: e.target.value,
-                    fk_id_carrera: e.target.value,
+                    carrera:
+                      e.target.value === "" ? null : e.target.value,
                   });
                 }}
-                error={Boolean(validarErrores.fk_id_carrera)}
+                error={Boolean(validarErrores.carrera)}
                 helperText={
-                  isSubmitting && validarErrores.fk_id_carrera
-                    ? validarErrores.fk_id_carrera
+                  isSubmitting && validarErrores.carrera
+                    ? validarErrores.carrera
                     : ""
                 }
-              >
-                <MenuItem value="">Selecciona una carrera</MenuItem>
-                {carreras.map((carrera) => (
-                  <MenuItem key={carrera.id} value={carrera.id}>
-                    {carrera.nombre_carrera}
-                  </MenuItem>
-                ))}
-              </TextField>
+              />
+                
+              
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
               <TextField
