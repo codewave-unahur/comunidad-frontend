@@ -656,7 +656,7 @@ const DatosPersonales = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
-                disabled={isFieldDisabled}
+                disabled
                 sx={{
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
@@ -672,6 +672,7 @@ const DatosPersonales = () => {
                 onChange={(e) => handleInputChange("genero", e.target.value)}
                 error={Boolean(validarErrores.genero)}
                 helperText={validarErrores.genero}
+                
               />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
