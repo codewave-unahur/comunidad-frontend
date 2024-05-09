@@ -232,10 +232,10 @@ const Login = () => {
                       backgroundColor: "#efefef",
                     },
                     "&.Mui-selected": {
-                      backgroundColor: "#5fa92c",
+                      backgroundColor: "#00496d",
                       color: "#fff",
                       "&:hover": {
-                        backgroundColor: "#4b7f1f",
+                        backgroundColor: "#00759b",
                       },
                     },
                   },
@@ -352,13 +352,13 @@ const Login = () => {
                 sx={{
                   padding: "10px",
                   marginTop: "5px",
-                  backgroundColor: "#5fa92c",
+                  backgroundColor: "#00496d",
                   borderRadius: "5px",
                   color: "#fff",
                   textTransform: "none",
                   fontSize: "1rem",
                   "&:hover": {
-                    backgroundColor: "#4b7f1f",
+                    backgroundColor: "#00759b",
                   },
                 }}
               >

@@ -3,7 +3,7 @@ import { config } from "../config/config";
 
 export async function uploadLogo(logo, id) {
   const formData = new FormData();
-  formData.append("uploadLogo", logo);
+  formData.append("img", logo);
 
   const pedido = {
     method: "post",
@@ -28,7 +28,7 @@ export async function uploadLogo(logo, id) {
 
 export async function uploadFoto(foto, id, token) {
   const formData = new FormData();
-  formData.append("uploadFoto", foto);
+  formData.append("img", foto);
 
   const pedido = {
     method: "post",
@@ -52,7 +52,7 @@ export async function uploadFoto(foto, id, token) {
 
 export async function uploadCV(cv, id, token) {
   const formData = new FormData();
-  formData.append("uploadCV", cv);
+  formData.append("img", cv);
 
   const pedido = {
     method: "post",
