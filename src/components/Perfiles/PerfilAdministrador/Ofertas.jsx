@@ -50,13 +50,13 @@ const Ofertas = () => {
 
   let estado =
     estadoOferta === "Ofertas activas"
-      ? "Activa"
+      ? 1
       : estadoOferta === "Ofertas pendientes"
-      ? "Pendiente"
+      ? 2
       : estadoOferta === "Ofertas en revisión"
-      ? "Observada"
+      ? 3
       : estadoOferta === "Ofertas finalizadas"
-      ? "Finalizada"
+      ? 4
       : null;
 
   const handleClickOpen = (ofertaID, action) => {
@@ -149,6 +149,7 @@ const Ofertas = () => {
       setTotalPaginas(response.totalPaginas);
     };
     traerOfertas();
+    console.log(ofertas)
   }, [estado, paginaActual]);
 
   const handleSubmit = async (e, buscador) => {
@@ -162,6 +163,7 @@ const Ofertas = () => {
   const handleChangeEstadoOferta = (e) => {
     setEstadoOferta(e.target.textContent);
     setPaginaActual(1);
+    console.log(ofertas)
   };
 
   const botonVer = (oferta) => {
@@ -306,22 +308,22 @@ const Ofertas = () => {
   };
 
   const estadoMap = {
-    Activa: {
+    activa: {
       name: "Ofertas activas",
       color: "green",
       actions: accionesOfertasActivas,
     },
-    Pendiente: {
+    pendiente: {
       name: "Ofertas pendientes",
       color: "orange",
       actions: accionesOfertasPendientes,
     },
-    Observada: {
+    observada: {
       name: "Ofertas en revisión",
       color: "red",
       actions: accionesOfertasEnRevision,
     },
-    Finalizada: {
+    finalizada: {
       name: "Ofertas finalizadas",
       color: "black",
       actions: accionesOfertasFinalizadas,
@@ -404,7 +406,7 @@ const Ofertas = () => {
                   </Typography>
                 </TableCell>
                 <TableCell align="center">
-                  {estadoMap[oferta.estado].actions(oferta)}
+                  {estadoMap[oferta.Estado.nombre_estado].actions(oferta)}
                 </TableCell>
               </TableRow>
             ))}
