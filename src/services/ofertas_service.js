@@ -12,7 +12,7 @@ export async function getOfertas(
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/?pagina=${pagina}&limite=${limite}10&ordenar=${ordenar}&buscarTitulo=${buscarTitulo}&estado=${estado}`
+      `${config.apiUrl}/ofertas/?pagina=${pagina}&limite=${limite}10&ordenar=${ordenar}&buscarTitulo=${buscarTitulo}&idEstado=${estado}`
     );
     return response.data;
   } catch (error) {
