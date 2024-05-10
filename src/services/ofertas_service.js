@@ -69,7 +69,7 @@ export async function getOfertasPorFiltrosRecomendados(
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/recomendado/?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}&ordenar=${ordenar}&estado=${estado}&id=${idUsuario}`
+      `${config.apiUrl}/ofertas/?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}&ordenar=${ordenar}&estado=${estado}&id=${idUsuario}`
     );
     return response.data;
   } catch (error) {

@@ -18,8 +18,6 @@ import { getPostulantes } from "../../../services/postulantes_service";
 import { useEffect, useState } from "react";
 import Buscador from "../../Buscador/Buscador";
 import Paginacion from "../../Paginacion/Paginacion";
-import FiltroAptitudes from "../../Filtros/FiltroAptitudes";
-import FiltroPreferencias from "../../Filtros/FiltroPreferencias";
 
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
@@ -89,24 +87,7 @@ const Postulantes = () => {
           paddingY: 1,
         }}
       >
-        <Grid item xs={12} sm={6}>
-          <FiltroAptitudes 
-          postulantes={postulantes} 
-          setPostulantes={setPostulantes} 
-          traerPostulantes={traerPostulantes}
-          aptitud={aptitud}
-          setAptitud={setAptitud}
-          preferencia={preferencia} />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FiltroPreferencias 
-            postulantes={postulantes} 
-            setPostulantes={setPostulantes} 
-            traerPostulantes={traerPostulantes} 
-            preferencia={preferencia} 
-            setPreferencia={setPreferencia} 
-            aptitud={aptitud}/>
-        </Grid>
+        
       </Grid>
 
       <TableContainer component={Paper}>
