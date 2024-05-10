@@ -66,7 +66,6 @@ const CrearOferta = () => {
 
   const [validarErrores, setValidarErrores] = useState({}); // Para controlar los errores
   const [estudios, setEstudios] = useState([]);
-  const [carreras, setCarreras] = useState([]);
   const [jornadas, setJornadas] = useState([]);
   const [contratos, setContratos] = useState([]);
   const [aptitudes, setAptitudes] = useState([]);
@@ -90,7 +89,7 @@ const CrearOferta = () => {
     beneficios: "",
     remuneracion: null,
     idEstudio: "",
-    idCarrera: "",
+    carrera: "",
     idJornada: "",
     idContrato: "",
     idEmpresa: idEmpresa,
@@ -120,10 +119,6 @@ const CrearOferta = () => {
       const response = await getEstudios();
       setEstudios(response.estudios);
     };
-    const fetchCarreras = async () => {
-      const response = await getCarreras();
-      setCarreras(response.carreras);
-    };
     const fetchJornadas = async () => {
       const response = await getJornadas();
       setJornadas(response.jornadas);
@@ -141,7 +136,6 @@ const CrearOferta = () => {
       setPreferencias(response.preferencias);
     };
     fetchEstudios();
-    fetchCarreras();
     fetchJornadas();
     fetchContratos();
     getAptitudesData();
@@ -293,7 +287,6 @@ const CrearOferta = () => {
       .integer("La remuneración debe ser un número entero")
       .nullable(),
     idEstudio: yup.string().required("El estudio es obligatorio"),
-    idCarrera: yup.string().required("La carrera es obligatoria"),
     idJornada: yup.string().required("La jornada es obligatoria"),
     idContrato: yup.string().required("El contrato es obligatorio"),
     modalidadDeTrabajo: yup.string().required("La modalidad es obligatoria"),
@@ -521,33 +514,26 @@ const CrearOferta = () => {
               >
                 {estudios.map((estudio) => (
                   <MenuItem key={estudio.id} value={estudio.id}>
-                    {estudio.nombre_estudio_estado}
+                    {estudio.nombre_estudio} {estudio.estado_estudio}
                   </MenuItem>
                 ))}
               </TextField>
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
               <TextField
-                select
                 fullWidth
                 label="Carrera"
                 variant="outlined"
-                value={oferta.idCarrera || ""}
+                value={oferta.carrera || ""}
                 onChange={(e) => {
                   setOferta({
                     ...oferta,
-                    idCarrera: e.target.value,
+                    carrera: e.target.value,
                   });
                 }}
-                error={Boolean(validarErrores.idCarrera)}
-                helperText={validarErrores.idCarrera}
-              >
-                {carreras.map((carrera) => (
-                  <MenuItem key={carrera.id} value={carrera.id}>
-                    {carrera.nombre_carrera}
-                  </MenuItem>
-                ))}
-              </TextField>
+                error={Boolean(validarErrores.carrera)}
+                helperText={validarErrores.carrera}
+              />
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
               <TextField
