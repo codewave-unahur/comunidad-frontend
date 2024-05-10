@@ -52,7 +52,7 @@ export async function uploadFoto(foto, id, token) {
 
 export async function uploadCV(cv, id, token) {
   const formData = new FormData();
-  formData.append("img", cv);
+  formData.append("cv", cv);
 
   const pedido = {
     method: "post",
