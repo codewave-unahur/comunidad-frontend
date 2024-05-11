@@ -348,15 +348,7 @@ const Postulante = () => {
                             target="_blank"
                             rel="noreferrer"
                           >
-                            {postulante.portfolio
-                              .split("/")[2]
-                              .split(".")[0]
-                              .charAt(0)
-                              .toUpperCase() +
-                              postulante.portfolio
-                                .split("/")[2]
-                                .split(".")[0]
-                                .slice(1)}
+                            {postulante.portfolio}
                           </a>
                         }
                         secondary="Portfolio o red social"
