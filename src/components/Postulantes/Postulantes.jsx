@@ -60,7 +60,7 @@ const Postulantes = () => {
           const response = await getPostulacionesPorIdOferta(0, 20, idOferta);
           setPostulaciones(response.postulaciones.rows);
         } else {
-          const response = await getPostulacionesPorIdOfertaTodas(
+          const response = await getPostulacionesPorIdOferta(
             0,
             20,
             idOferta

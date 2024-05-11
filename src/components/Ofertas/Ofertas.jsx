@@ -58,14 +58,6 @@ const Ofertas = (props) => {
         );
       }
       if (tipoUsuario === "postulante") {
-        const ofertasFiltradas = response.ofertas.rows.filter((oferta) => {
-          return !postulaciones.some(
-            (postulacion) => postulacion.fk_id_oferta === oferta.id
-          );
-        });
-        setTotalPaginas(response.totalPaginas);
-        setOfertas(ofertasFiltradas);
-      } else {
         setOfertas(response.ofertas.rows);
         setTotalPaginas(response.totalPaginas);
       }
