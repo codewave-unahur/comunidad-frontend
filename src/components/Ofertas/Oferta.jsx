@@ -93,10 +93,19 @@ const Oferta = () => {
   const publicadoHace = (fecha) => {
     const fechaPublicacion = new Date(fecha);
     const fechaActual = new Date();
-    const diferencia = fechaActual.getTime() - fechaPublicacion.getTime();
+    const diferencia = fechaActual - fechaPublicacion;
     const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-    return dias;
+    const horas = Math.floor(diferencia / (1000 * 60 * 60));
+    const minutos = Math.floor(diferencia / (1000 * 60));
+
+    if (dias > 0) {
+      return dias === 1 ? "1 día" : `${dias} días`;
+    } else if (horas > 0) {
+      return horas === 1 ? "1 hora" : `${horas} horas`;
+    }
+    return minutos === 1 ? "1 minuto" : `${minutos} minutos`;
   };
+
 
   const handleClickOpen = () => {
     estaLogueado === "true" ? setOpen(true) : (window.location.href = "/login");
@@ -263,7 +272,7 @@ const Oferta = () => {
                       marginRight: "0.5rem",
                     }}
                   />
-                  Publicado hace {publicadoHace(oferta.createdAt)} días
+                  Publicado hace {publicadoHace(oferta.createdAt)}
                 </Typography>
                 <Typography
                   variant="h6"

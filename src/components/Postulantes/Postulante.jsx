@@ -410,13 +410,13 @@ const Postulante = () => {
                 >
                   <ListItem>
                     <ListItemText
-                      primary={postulante.Estudios?.nombre_estudio_estado}
+                      primary= {postulante.Estudios?.nombre_estudio} 
                       secondary="Estudios"
                     />
                   </ListItem>
                   <ListItem>
                     <ListItemText
-                      primary={postulante.Carrera?.nombre_carrera}
+                      primary={postulante.carrera}
                       secondary="Carrera"
                     />
                   </ListItem>

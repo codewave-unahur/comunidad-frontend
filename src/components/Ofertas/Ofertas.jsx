@@ -110,9 +110,17 @@ const Ofertas = (props) => {
   const publicadoHace = (fecha) => {
     const fechaPublicacion = new Date(fecha);
     const fechaActual = new Date();
-    const diferencia = fechaActual.getTime() - fechaPublicacion.getTime();
+    const diferencia = fechaActual - fechaPublicacion;
     const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-    return dias;
+    const horas = Math.floor(diferencia / (1000 * 60 * 60));
+    const minutos = Math.floor(diferencia / (1000 * 60));
+
+    if (dias > 0) {
+      return dias === 1 ? "1 día" : `${dias} días`;
+    } else if (horas > 0) {
+      return horas === 1 ? "1 hora" : `${horas} horas`;
+    }
+    return minutos === 1 ? "1 minuto" : `${minutos} minutos`;
   };
 
   return (
@@ -170,7 +178,7 @@ const Ofertas = (props) => {
               title={oferta.titulo_oferta}
               subheader={`Publicado hace ${publicadoHace(
                 oferta.createdAt
-              )} días`}
+              )}`}
               sx={{
                 "& .css-et1ao3-MuiTypography-root": {
                   fontSize: "1.4rem",
