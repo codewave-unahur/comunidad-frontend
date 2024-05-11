@@ -30,48 +30,63 @@ const Ofertas = (props) => {
   const limite = 12;
 
   useEffect(() => {
-    const traerOfertas = async () => {
-      let response;
-      if (tipoUsuario === "empresa") {
-        response = await getOfertaByCuit(
-          paginaActual - 1,
-          limite,
-          datosUsuario.id,
-          nombreBusqueda
-        );
-      } else if (tipoUsuario === "postulante") {
-        response = await getOfertasPorFiltrosRecomendados(
-          paginaActual - 1,
-          limite,
-          nombreBusqueda,
-          "id",
-          "Activa",
-          idUsuario
-        );
-      } else {
-        response = await getOfertas(
-          paginaActual - 1,
-          limite,
-          nombreBusqueda,
-          "id",
-          "Activa"
-        );
+    if (tipoUsuario === "empresa") {
+      const traerOfertas = async () => {
+        try {
+          const response = await getOfertaByCuit(
+            paginaActual - 1,
+            limite,
+            datosUsuario.cuit,
+            nombreBusqueda
+          );
+          setOfertas(response.ofertas.rows);
+          setTotalPaginas(response.totalPaginas);
+        } catch (error) {
+          console.log(error);
+        }
       }
-      if (tipoUsuario === "postulante") {
-        setOfertas(response.ofertas.rows);
-        setTotalPaginas(response.totalPaginas);
+      traerOfertas();
+    }
+    else if (tipoUsuario === "postulante") {
+      const traerOfertas = async () => {
+        try {
+          const response = await getOfertasPorFiltrosRecomendados(
+            paginaActual - 1,
+            limite,
+            nombreBusqueda,
+            "id",
+            1,
+            idUsuario
+          );
+          setOfertas(response.ofertas.rows);
+          setTotalPaginas(response.totalPaginas);
+        } catch (error) {
+          console.log(error);
+        }
       }
-    };
-    traerOfertas();
-  }, [
-    setOfertas,
-    nombreBusqueda,
-    tipoUsuario,
-    datosUsuario?.id,
-    postulaciones,
-    setTotalPaginas,
-    paginaActual,
-  ]);
+      traerOfertas();
+    }
+    else {
+      const traerOfertas = async () => {
+        try {
+          const response = await getOfertas(
+            paginaActual - 1,
+            limite,
+            nombreBusqueda,
+            "id",
+            1,
+          );
+          setOfertas(response.ofertas.rows);
+          setTotalPaginas(response.totalPaginas);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      traerOfertas();
+    }
+  }, [tipoUsuario, datosUsuario?.cuit, paginaActual, nombreBusqueda]);
+
+
 
   useEffect(() => {
     if (tipoUsuario === "postulante") {
