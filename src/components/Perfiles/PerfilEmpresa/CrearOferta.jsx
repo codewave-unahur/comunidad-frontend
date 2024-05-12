@@ -26,8 +26,6 @@ import { getJornadas } from "../../../services/jornadas_service";
 import { getTiposContratos } from "../../../services/contratos_service";
 import { postOferta } from "../../../services/ofertas_service";
 import { Toaster, toast } from "sonner";
-import { getAptitudes } from "../../../services/aptitudes_service";
-import { getPreferencias } from "../../../services/preferencias_service";
 
 const modalidadDeTrabajo = [
   {
@@ -68,10 +66,6 @@ const CrearOferta = () => {
   const [estudios, setEstudios] = useState([]);
   const [jornadas, setJornadas] = useState([]);
   const [contratos, setContratos] = useState([]);
-  const [aptitudes, setAptitudes] = useState([]);
-  const [aptitudesElegidas, setAptitudesElegidas] = useState([]);
-  const [preferencias, setPreferencias] = useState([]);
-  const [preferenciasElegidas, setPreferenciasElegidas] = useState([]);
   const [idiomasElegidos, setIdiomasElegidos] = useState([]);
 
   const [oferta, setOferta] = useState({
