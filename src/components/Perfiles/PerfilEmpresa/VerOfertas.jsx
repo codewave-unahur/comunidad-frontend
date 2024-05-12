@@ -185,16 +185,16 @@ const VerOfertas = () => {
                       sx={{
                         verticalAlign: "middle",
                         color:
-                          oferta.estado === "Activa"
+                          oferta.Estado.nombre_estado === "activa"
                             ? "green"
-                            : oferta.estado === "Observada"
+                            : oferta.Estado.nombre_estado === "observada"
                             ? "red"
-                            : oferta.estado === "Pendiente"
+                            : oferta.Estado.nombre_estado === "pendiente"
                             ? "orange"
                             : "black",
                       }}
                     />
-                    {oferta.estado[0].toUpperCase() + oferta.estado.slice(1)}
+                    {oferta.Estado.nombre_estado}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">
