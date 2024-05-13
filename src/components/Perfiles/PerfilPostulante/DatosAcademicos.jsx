@@ -220,10 +220,9 @@ const DatosAcademicos = () => {
       .then(async () => {
         const datosActualizados = {
           carrera: usuario.carrera,
-          fk_id_estudios: usuario.fk_id_estudios,
-          cant_materias: usuario.cant_materias,
-          alumno_unahur: usuario.alumno_unahur,
-          
+          estudios: usuario.fk_id_estudios,
+          cantMaterias: usuario.cant_materias,
+          alumnoUnahur: usuario.alumno_unahur,
         };
 
 
