@@ -78,62 +78,30 @@ const Ofertas = () => {
   };
 
   const handleFinalizarOferta = async (idOferta) => {
-    let idEstado =
-      action === "finalizar"
-        ? "Finalizada"
-        : action === "activar"
-        ? "Activa"
-        : action === "suspender"
-        ? "Observada"
-        : null;
-
-    try {
-      const response = await putOferta(idOferta, { estado: idEstado }, token);
-      if (response === "OK") {
-        toast.success(
-          `La oferta se ha ${
-            action === "finalizar"
-              ? "finalizado"
-              : action === "activar"
-              ? "activado"
-              : action === "suspender"
-              ? "suspendido"
-              : null
-          } correctamente`
-        );
+    
+    if (action === "finalizar") {
+      const response = await putOferta(idOferta, { idEstado: 4 }, token);
+      if (response) {
+        toast.success("Oferta finalizada con éxito");
         handleClose();
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
-      } else {
-        toast.error(
-          `No se ha podido ${
-            action === "finalizar"
-              ? "finalizar"
-              : action === "activar"
-              ? "activar"
-              : action === "suspender"
-              ? "suspender"
-              : null
-          } la oferta`
-        );
-        handleClose();
+        setPaginaActual(1);
       }
-    } catch (error) {
-      console.log("error", error);
-      toast.error(
-        `No se ha podido ${
-          action === "finalizar"
-            ? "finalizar"
-            : action === "activar"
-            ? "activar"
-            : action === "suspender"
-            ? "suspender"
-            : null
-        } la oferta`
-      );
-      handleClose();
+    } else if (action === "activar") {
+      const response = await putOferta(idOferta, { idEstado: 1 }, token);
+      if (response) {
+        toast.success("Oferta activada con éxito");
+        handleClose();
+        setPaginaActual(1);
+      }
+    } else if (action === "suspender") {
+      const response = await putOferta(idOferta, { idEstado: 2 }, token);
+      if (response) {
+        toast.success("Oferta suspendida con éxito");
+        handleClose();
+        setPaginaActual(1);
+      }
     }
+    window.location.reload();
   };
 
   useEffect(() => {
