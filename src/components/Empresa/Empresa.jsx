@@ -178,14 +178,14 @@ const Empresa = () => {
                       secondary="Código postal"
                     />
                   </ListItem>
-                  <ListItem>
+                  {/*<ListItem>
                     <ListItemText
                       primary={empresa.Rubro?.nombre_rubro
                         .toLowerCase()
                         .replace(/\b[a-z]/g, (c) => c.toUpperCase())}
                       secondary="Rubro de la empresa"
                     />
-                  </ListItem>
+                      </ListItem>*/}
                 </List>
                 <Divider sx={{ marginTop: "1rem" }} />
                 <Typography
