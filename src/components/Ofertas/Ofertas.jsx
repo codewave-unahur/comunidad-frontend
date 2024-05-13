@@ -223,7 +223,7 @@ const Ofertas = (props) => {
                 justifyContent: "center",
               }}
             >
-              <Button variant="contained" href={`/oferta/${oferta.id}`}>
+              <Button variant="contained" sx={{backgroundColor:"#00404f"}} href={`/oferta/${oferta.id}`}>
                 Ver oferta
               </Button>
             </CardActions>
