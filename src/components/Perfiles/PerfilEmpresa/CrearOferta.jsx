@@ -727,7 +727,7 @@ const CrearOferta = () => {
                 Agregar nuevo idioma
               </Button>
             </Grid>
-            <Grid item xs={12} sm={12} md={12}>
+            {/*<Grid item xs={12} sm={12} md={12}>
               <Typography variant="h5" gutterBottom>
                 Aptitudes
               </Typography>
@@ -777,8 +777,8 @@ const CrearOferta = () => {
                   </FormControl>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item xs={12} sm={12} md={12}>
+                      </Grid>*/}
+            {/*<Grid item xs={12} sm={12} md={12}>
               <Typography variant="h5" gutterBottom>
                 Preferencias
               </Typography>
@@ -828,7 +828,7 @@ const CrearOferta = () => {
                   </FormControl>
                 </Grid>
               </Grid>
-            </Grid>
+                      </Grid>*/}
 
             <Grid item xs={12} sm={12} md={12}>
               <Button

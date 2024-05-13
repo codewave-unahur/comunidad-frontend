@@ -36,7 +36,7 @@ const Ofertas = (props) => {
           const response = await getOfertaByCuit(
             paginaActual - 1,
             limite,
-            datosUsuario.cuit,
+            datosUsuario.id,
             nombreBusqueda
           );
           setOfertas(response.ofertas.rows);
