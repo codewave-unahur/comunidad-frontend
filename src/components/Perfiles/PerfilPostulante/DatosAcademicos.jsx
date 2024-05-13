@@ -220,13 +220,12 @@ const DatosAcademicos = () => {
       .then(async () => {
         const datosActualizados = {
           carrera: usuario.carrera,
-          estudios: usuario.estudios,
           fk_id_estudios: usuario.fk_id_estudios,
-          cantMaterias: usuario.cant_materias,
           cant_materias: usuario.cant_materias,
           alumno_unahur: usuario.alumno_unahur,
-          alumnoUnahur: usuario.alumno_unahur,
+          
         };
+
 
         const response = await putPostulante(
           usuario.id,
@@ -238,7 +237,7 @@ const DatosAcademicos = () => {
           idiomasElegidos
         );
 
-        if (response && responseIdiomas) {
+        if (response || responseIdiomas) {
           setEdit(false);
           setUsuario(datosActualizados);
           setIsSubmitting(false);
