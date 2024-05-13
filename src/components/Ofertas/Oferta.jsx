@@ -302,7 +302,7 @@ const Oferta = () => {
                     <ListItemText primary={oferta.descripcion} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText
+                    {/*<ListItemText
                       primary={
                         <>
                           Tareas a realizar:
@@ -310,7 +310,7 @@ const Oferta = () => {
                           {oferta.tareasARealizar || "No especificado"}
                         </>
                       }
-                    />
+                    />*/}
                   </ListItem>
                 </List>
                 <Divider sx={{ marginTop: "1rem" }} />
@@ -351,7 +351,7 @@ const Oferta = () => {
                     <ListItemText
                       primary={
                         "Estudios mínimos: " +
-                        oferta.Estudio?.nombre_estudio_estado
+                        oferta.Estudio?.nombre_estudio
                       }
                     />
                   </ListItem>
@@ -359,7 +359,7 @@ const Oferta = () => {
                     <ListItemText
                       primary={
                         "Carrera: " +
-                        (oferta.Carrera?.nombre_carrera || "No especificado")
+                        (oferta.carrera || "No especificado")
                       }
                     />
                   </ListItem>
