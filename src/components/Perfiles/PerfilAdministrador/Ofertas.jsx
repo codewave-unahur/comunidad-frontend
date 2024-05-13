@@ -54,9 +54,9 @@ const Ofertas = () => {
       : estadoOferta === "Ofertas pendientes"
       ? 2
       : estadoOferta === "Ofertas en revisión"
-      ? 3
-      : estadoOferta === "Ofertas finalizadas"
       ? 4
+      : estadoOferta === "Ofertas finalizadas"
+      ? 5
       : null;
 
   const handleClickOpen = (ofertaID, action) => {
@@ -80,7 +80,7 @@ const Ofertas = () => {
   const handleFinalizarOferta = async (idOferta) => {
     
     if (action === "finalizar") {
-      const response = await putOferta(idOferta, { idEstado: 4 }, token);
+      const response = await putOferta(idOferta, { idEstado: 5 }, token);
       if (response) {
         toast.success("Oferta finalizada con éxito");
         handleClose();
@@ -94,7 +94,7 @@ const Ofertas = () => {
         setPaginaActual(1);
       }
     } else if (action === "suspender") {
-      const response = await putOferta(idOferta, { idEstado: 2 }, token);
+      const response = await putOferta(idOferta, { idEstado: 4 }, token);
       if (response) {
         toast.success("Oferta suspendida con éxito");
         handleClose();

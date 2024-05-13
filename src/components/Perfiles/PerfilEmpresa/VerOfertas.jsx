@@ -78,7 +78,7 @@ const VerOfertas = () => {
     try {
       const response = await putOferta(
         idOferta,
-        { estado: "Finalizada", cierre: motivo, check: motivoCheck },
+        { idEstado:5, cierre: motivo, check: motivoCheck },
         token
       );
       if (response === "OK") {
