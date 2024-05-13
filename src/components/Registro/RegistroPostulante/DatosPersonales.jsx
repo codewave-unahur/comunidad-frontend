@@ -328,7 +328,7 @@ export default function DatosPersonales({
             ))}
           </TextField>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        {/*<Grid item xs={12} sm={4}>
           <TextField
             label="Discapacidad"
             id="discapacidad"
@@ -361,7 +361,7 @@ export default function DatosPersonales({
             error={Boolean(validarErrores.linkedIn)}
             helperText={validarErrores.linkedIn ? validarErrores.linkedIn : ""}
           />
-        </Grid>
+          </Grid>*/}
         <Grid item xs={12} sm={4}>
           <TextField
             label="Portfolio o red social"

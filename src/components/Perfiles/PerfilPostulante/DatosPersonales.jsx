@@ -666,7 +666,7 @@ const DatosPersonales = () => {
                 
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
+           {/* <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
                 disabled={isFieldDisabled}
@@ -687,7 +687,7 @@ const DatosPersonales = () => {
                 }
                 error={Boolean(validarErrores.discapacidad)}
                 helperText={validarErrores.discapacidad}
-              />
+              />*}
             </Grid>
             {/*<Grid item xs={12} sm={6} md={6}>
               <TextField
