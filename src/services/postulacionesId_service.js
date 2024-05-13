@@ -32,7 +32,7 @@ export async function getPostulacionesPorIdOfertaTodas(pagina, limite, id) {
 export async function activarPostulacion(id) {
   try {
     const response = await axios.put(
-      `${config.apiUrl}/postulaciones/activar/${id}`
+      `${config.apiUrl}/postulaciones/aceptar/${id}`
     );
     return response.data;
   } catch (error) {

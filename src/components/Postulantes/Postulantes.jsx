@@ -25,7 +25,9 @@ import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
-
+import {
+  putPostulacion,
+} from "../../services/postulaciones_service";
 import { Toaster, toast } from "sonner";
 
 // import PreferenciasOferta from "./PreferenciasOferta";
@@ -121,6 +123,7 @@ const Postulantes = () => {
     } else {
       try {
         if (botonOpen === "aceptar") {
+
           const response = await activarPostulacion(id);
           if (response) {
             toast.success("Postulación aceptada correctamente");
@@ -263,13 +266,13 @@ const Postulantes = () => {
                               }}
                             />
                           )
-                        ) : postulacion.estado_postulacion === true ? (
+                        ) : postulacion.Estado.id === 1 ? (
                           <CheckOutlinedIcon
                             sx={{
                               color: "green",
                             }}
                           />
-                        ) : postulacion.estado_postulacion === false ? (
+                        ) : postulacion.Estado.id === 3 ? (
                           <CloseOutlinedIcon
                             sx={{
                               color: "red",
