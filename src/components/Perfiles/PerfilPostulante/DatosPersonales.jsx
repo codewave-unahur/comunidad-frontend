@@ -10,6 +10,7 @@ import {
   Card,
   TextField,
   MenuItem,
+  Tooltip,
 } from "@mui/material";
 
 import * as yup from "yup";
@@ -299,6 +300,7 @@ const DatosPersonales = () => {
               />
             </Button>
             {isImageSelected && (
+              <>
               <Button
                 onClick={() =>
                   handleSaveFoto(imagenSeleccionada, usuario.id, token)
@@ -312,6 +314,12 @@ const DatosPersonales = () => {
               >
                 Confirmar imagen
               </Button>
+              <Tooltip>
+                <Typography variant="caption" color="textSecondary">
+                    Para cambiar la imagen, presione el botón "Confirmar imagen".
+                </Typography>
+              </Tooltip>
+              </>
             )}
           </Box>
         </Stack>

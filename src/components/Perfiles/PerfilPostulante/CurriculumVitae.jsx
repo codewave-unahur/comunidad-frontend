@@ -3,7 +3,7 @@ import { Button, CardHeader, Grid, Card, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { uploadCV } from "../../../services/files_service";
-
+import {Tooltip} from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Toaster, toast } from "sonner";
@@ -100,6 +100,7 @@ const CurriculumVitae = () => {
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
           {isCVSelected && (
+            <>
             <Button
               onClick={() =>
                 handleSaveCV(cvSeleccionado, datosUsuario.id, token)
@@ -114,6 +115,12 @@ const CurriculumVitae = () => {
             >
               Subir {cvSeleccionado.name}
             </Button>
+            <Tooltip>
+                <Typography variant="caption" color="textSecondary">
+                    Para cambiar el Currículum Vitae, presione el botón "Subir ${cvSeleccionado.name}".
+                </Typography>
+              </Tooltip>
+            </>
           )}
         </Grid>
       </Grid>
