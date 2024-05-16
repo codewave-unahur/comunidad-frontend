@@ -110,6 +110,8 @@ const DatosEmpresa = () => {
           nombre_empresa: empresa.nombre_empresa,
           nombreEmpresa: empresa.nombre_empresa,
           descripcion: empresa.descripcion,
+          rol_representante: empresa.rol_representante,
+          rolRepresentante: empresa.rol_representante,
           nombre_representante: empresa.nombre_representante,
           nombreRepresentante: empresa.nombre_representante,
           email_representante: empresa.email_representante,
@@ -157,6 +159,7 @@ const DatosEmpresa = () => {
   const schema = yup.object().shape({
     nombre_empresa: yup.string().required("El nombre es obligatorio"),
     descripcion: yup.string().required("La descripción es obligatoria"),
+    rol_representante: yup.string().required("El rol es obligatorio"),
     nombre_representante: yup
       .string()
       .required("El nombre del representante es obligatorio"),
@@ -351,6 +354,37 @@ const DatosEmpresa = () => {
                 helperText={
                   isSubmitting && validarErrores.descripcion
                     ? validarErrores.descripcion
+                    : ""
+                }
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                label="Rol del representante"
+                variant="outlined"
+                value={empresa.rol_representante || ""}
+                InputLabelProps={{ shrink: true }}
+                fullWidth
+                disabled={isFieldDisabled}
+                sx={{
+                  "& .MuiInputBase-input.Mui-disabled": {
+                    WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
+                  },
+                  "&& .MuiFormLabel-root.Mui-disabled": {
+                    color: "rgba(0, 0, 0, 0.80)",
+                  },
+                }}
+                onChange={(e) =>
+                  setEmpresa({
+                    ...empresa,
+                    rol_representante: e.target.value,
+                    rolRepresentante: e.target.value,
+                  })
+                }
+                error={isSubmitting && validarErrores.rol_representante}
+                helperText={
+                  isSubmitting && validarErrores.rol_representante
+                    ? validarErrores.rol_representante
                     : ""
                 }
               />
