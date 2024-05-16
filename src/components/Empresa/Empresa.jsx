@@ -19,7 +19,7 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocalPhoneOutlinedIcon from "@mui/icons-material/LocalPhoneOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-
+import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
 import { getEmpresaByCuit } from "../../services/empresas_service";
 
 const Empresa = () => {
@@ -210,7 +210,7 @@ const Empresa = () => {
                 >
                   
                   <ListItem>
-                    <PersonOutlineOutlinedIcon
+                    <SupervisorAccountOutlinedIcon
                       color="primary"
                       fontSize="large"
                       sx={{
