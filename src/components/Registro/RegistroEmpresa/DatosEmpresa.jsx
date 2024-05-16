@@ -317,6 +317,27 @@ export default function DatosPersonales({
         <Grid item xs={12} sm={4}>
           <TextField
             required
+            label="Rol del representante"
+            id="rol_representante"
+            name="rol_representante"
+            variant="outlined"
+            fullWidth
+            value={empresa.rol_representante || ""}
+            InputLabelProps={{
+              shrink: empresa.rol_representante ? true : false,
+            }}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.rol_representante)}
+            helperText={
+              validarErrores.rol_representante
+                ? validarErrores.rol_representante
+                : ""
+            }
+          />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            required
             label="Nombre del representante"
             id="nombreRepresentante"
             name="nombreRepresentante"
