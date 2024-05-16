@@ -28,6 +28,7 @@ export default function RegistroPostulante() {
     cp: "",
     telefono: null,
     web: "",
+    rol_representante: "",
     nombreRepresentante: "",
     emailRepresentante: "",
   });
@@ -63,6 +64,7 @@ export default function RegistroPostulante() {
       .positive("El teléfono debe ser un número positivo")
       .max(999999999999999, "El teléfono debe tener como máximo 15 dígitos"),
     web: yup.string().required("Campo requerido"),
+    rol_representante: yup.string().required("Campo requerido"),
     nombreRepresentante: yup.string().required("Campo requerido"),
     emailRepresentante: yup
       .string()
