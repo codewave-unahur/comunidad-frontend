@@ -75,7 +75,7 @@ export default function RegistroPostulante() {
       .positive("El teléfono debe ser un número positivo")
       .max(9999999999, "El teléfono debe tener como máximo 10 dígitos"),
     presentacion: yup.string().required("Campo requerido").max(255, "Máximo 255 caracteres"),
-    genero: yup.string().optional(),
+    genero: yup.string().required("Campo requerido"),
     discapacidad: yup.string().optional().nullable(),
     linkedIn: yup.string().optional().url("Debe ser una URL válida"),
     portfolio: yup.string().optional().url("Debe ser una URL válida"),

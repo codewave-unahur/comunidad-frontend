@@ -10,6 +10,7 @@ import {
   Card,
   TextField,
   MenuItem,
+  Tooltip,
 } from "@mui/material";
 
 import EditIcon from "@mui/icons-material/Edit";
@@ -273,6 +274,7 @@ const DatosEmpresa = () => {
               />
             </Button>
             {isImageSelected && (
+              <>
               <Button
                 onClick={() => handleSaveLogo(imagenSeleccionada, empresa.id)}
                 sx={{
@@ -284,6 +286,12 @@ const DatosEmpresa = () => {
               >
                 Confirmar imagen
               </Button>
+              <Tooltip>
+                <Typography variant="caption" color="textSecondary">
+                    Para cambiar la imagen, presione el botón "Confirmar imagen".
+                </Typography>
+              </Tooltip>
+              </>
             )}
           </Box>
         </Stack>
