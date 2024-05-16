@@ -148,8 +148,12 @@ const Empresa = () => {
                   Información de la empresa
                 </Typography>
                 <ListItem>
+                  <ListItemText primary={empresa.id} secondary="CUIT" />
+                </ListItem>
+                <ListItem>
                   <ListItemText primary={empresa.descripcion} />
                 </ListItem>
+
                 <List
                   sx={{
                     display: "grid",
@@ -160,18 +164,26 @@ const Empresa = () => {
                     gap: "1rem",
                   }}
                 >
+                  
+                  <ListItem>
+                    <ListItemText
+                      primary={empresa.calle + " " + empresa.nro}
+                      secondary="Dirección de la empresa"
+                    />
+                  </ListItem>
                   <ListItem>
                     <ListItemText
                       primary={
-                        empresa.pais +
+                        empresa.Ciudad?.nombre +
                         ", " +
                         empresa.Provincia?.nombre +
                         ", " +
-                        empresa.Ciudad?.nombre
+                        empresa.pais
                       }
                       secondary="Lugar de la empresa"
                     />
                   </ListItem>
+
                   <ListItem>
                     <ListItemText
                       primary={empresa.cp}
