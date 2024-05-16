@@ -208,6 +208,20 @@ const Empresa = () => {
                     gap: "1rem",
                   }}
                 >
+                  
+                  <ListItem>
+                    <PersonOutlineOutlinedIcon
+                      color="primary"
+                      fontSize="large"
+                      sx={{
+                        marginRight: "0.5rem",
+                      }}
+                    />
+                    <ListItemText
+                      primary={empresa.rol_representante}
+                      secondary="Rol del representante de la empresa"
+                    />
+                  </ListItem>
                   <ListItem>
                     <PersonOutlineOutlinedIcon
                       color="primary"
