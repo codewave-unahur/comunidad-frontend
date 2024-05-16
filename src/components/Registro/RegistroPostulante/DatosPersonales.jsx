@@ -1,4 +1,4 @@
-import { MenuItem, Grid, TextField, Typography } from "@mui/material";
+import { MenuItem, Grid, TextField, Typography, Tooltip } from "@mui/material";
 
 import PropTypes from "prop-types";
 
@@ -379,6 +379,11 @@ export default function DatosPersonales({
               validarErrores.portfolio ? validarErrores.portfolio : ""
             }
           />
+          <Tooltip>
+            <Typography variant="caption" color="textSecondary">
+              Link de tu portfolio o red social (LinkedIn, Github, Behance, etc.)
+            </Typography>
+          </Tooltip>
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField
@@ -397,7 +402,12 @@ export default function DatosPersonales({
             helperText={
               validarErrores.presentacion ? validarErrores.presentacion : ""
             }
-          />
+          /> 
+          <Tooltip>
+            <Typography variant="caption" color="textSecondary">
+              Breve descripción de tu perfil y/o link de presentacion audiovisual (Máximo 255 caracteres)
+            </Typography>
+          </Tooltip>
         </Grid>
       </Grid>
     </>
