@@ -38,6 +38,7 @@ import { Toaster, toast } from "sonner";
 
 // import PreferenciasOferta from "./PreferenciasOferta";
 import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_service";
+import Footer from "../Footer/Footer";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -617,6 +618,7 @@ const Oferta = () => {
       </Dialog>
 
       <Toaster richColors closeButton />
+      <Footer/>
     </>
   );
 };
