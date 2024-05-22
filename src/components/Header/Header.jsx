@@ -17,6 +17,7 @@ import IconUser from "./IconUser";
 import logoDvt from "../../assets/logoDvt.png";
 import { getOfertas } from "../../services/ofertas_service";
 import PropTypes from "prop-types";
+import logouni from "../../assets/logo-cpyme-uni.svg";
 
 const Header = (props) => {
   const { setOfertas } = props;
@@ -98,9 +99,9 @@ const Header = (props) => {
         <AppBar position="static">
           <Toolbar
             sx={{
-              background: "linear-gradient(90deg, #15BCE4, #00404F)",
+              background: "#ffffff",
               color: "#fff",
-              padding: "10px",
+              padding: "20px",
             }}
           >
             <Grid
@@ -108,22 +109,16 @@ const Header = (props) => {
               item
               xs={false}
               sm={3}
-              display={{ xs: "none", sm: "block" }}
+              display={{ xs: "none", sm: "block"}}
               justifyContent="flex-start"
               alignItems="center"
-              alignContent="center"
             >
               <Link href="/">
                 <img
-                  src={logoDvt}
-                  alt="Logo comunidad de trabajo"
-                  style={{
-                    height: "80px",
-                    width: "auto",
-                    padding: "5px",
-                    marginTop: "5px",
-                    alignContent: "center",
-                  }}
+                  src={logouni}
+                  alt="UNAHUR-DVT"
+                  style={{ width: "auto" }}
+                  
                 />
               </Link>
             </Grid>
@@ -132,7 +127,7 @@ const Header = (props) => {
               item
               xs={8}
               sm={6}
-              margin={{ xs: 1, sm: 0 }}
+              margin={{ xs: 1, sm: 2 }}
               justifyContent="center"
               alignItems="center"
             >
@@ -150,13 +145,15 @@ const Header = (props) => {
                 <IconUser />
               ) : (
                 <Button
-                  variant="outlined"
-                  color="inherit"
+                  variant="contained"
                   href="/login"
                   size="large"
+                  
                   sx={{
                     borderRadius: "5px",
                     borderWidth: "2px",
+                    backgroundColor: "#00404f",
+                    color: "#ffffff",
                   }}
                 >
                   Ingresá
