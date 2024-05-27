@@ -188,9 +188,9 @@ const Login = () => {
         sx={{
           boxShadow: "0 14px 28px rgba(0, 0, 0, 0.5)",
         }}
-        className={`container ${isSignup ? "change" : ""}`}
+        className={`containerLogin ${isSignup ? "change" : ""}`}
       >
-        <Box className="forms-container">
+        <Box className="forms-containerLogin">
           {/* Registro */}
           <Box className="form-control signup-form">
             <Box
@@ -548,7 +548,7 @@ const Login = () => {
 
         {/* ---------- Textos ---------- */}
 
-        <Box className="intros-container">
+        <Box className="intros-containerLogin">
           <Box className="intro-control signin-intro">
             <Box className="intro-control__inner">
               <Typography

@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css");
 
-.container {
+.containerLogin {
   background-color: #fff;
   width: 850px;
   max-width: "100vw";
@@ -10,12 +10,12 @@
   overflow-x: hidden;
   border-radius: 12px;
 }
-.container .forms-container {
+.containerLogin .forms-containerLogin {
   position: relative;
   width: 50%;
   text-align: center;
 }
-.container .forms-container .form-control {
+.containerLogin .forms-containerLogin .form-control {
   position: absolute;
   width: 100%;
   display: flex;
@@ -25,23 +25,23 @@
   transition: all 0.5s ease-in;
 }
 
-.container .forms-container .form-control.signup-form {
+.containerLogin .forms-containerLogin .form-control.signup-form {
   opacity: 0;
   z-index: 1;
   left: 200%;
 }
-.container .forms-container .form-control.signin-form {
+.containerLogin .forms-containerLogin .form-control.signin-form {
   opacity: 1;
   z-index: 2;
   left: 0%;
 }
-.container .intros-container {
+.containerLogin .intros-containerLogin {
   position: relative;
   left: 50%;
   width: 50%;
   text-align: center;
 }
-.container .intros-container .intro-control {
+.containerLogin .intros-containerLogin .intro-control {
   position: absolute;
   width: 100%;
   display: flex;
@@ -52,83 +52,83 @@
   background: linear-gradient(170deg, #00404F,#15BCE4);
   transition: all 0.5s ease-in;
 }
-.container .intros-container .intro-control .intro-control__inner {
+.containerLogin .intros-containerLogin .intro-control .intro-control__inner {
   margin: 0px 30px;
 }
 
-.container .intros-container .intro-control.signin-intro {
+.containerLogin .intros-containerLogin .intro-control.signin-intro {
   opacity: 1;
   z-index: 2;
 }
-.container .intros-container .intro-control.signup-intro {
+.containerLogin .intros-containerLogin .intro-control.signup-intro {
   opacity: 0;
   z-index: 1;
 }
 
-.change .forms-container .form-control.signup-form {
+.change .forms-containerLogin .form-control.signup-form {
   opacity: 1;
   z-index: 2;
   transform: translateX(-100%);
 }
 
-.change .forms-container .form-control.signin-form {
+.change .forms-containerLogin .form-control.signin-form {
   opacity: 0;
   z-index: 1;
   transform: translateX(-100%);
 }
-.change .intros-container .intro-control {
+.change .intros-containerLogin .intro-control {
   transform: translateX(-100%);
   background: linear-gradient(170deg,  #15BCE4, #00404F);
 }
-.change .intros-container .intro-control #signin-btn {
+.change .intros-containerLogin .intro-control #signin-btn {
   background-color: #3aa4cc;
 }
-.change .intros-container .intro-control.signin-intro {
+.change .intros-containerLogin .intro-control.signin-intro {
   opacity: 0;
   z-index: 1;
 }
-.change .intros-container .intro-control.signup-intro {
+.change .intros-containerLogin .intro-control.signup-intro {
   opacity: 1;
   z-index: 2;
 }
 
 @media screen and (max-width: 480px) {
-  .container {
+  .containerLogin {
     height: 100vh;
     display: flex;
     flex-direction: column;
   }
-  .container .forms-container {
+  .containerLogin .forms-containerLogin {
     order: 2;
     width: 100%;
     height: 50vh;
   }
-  .container .forms-container .form-control {
+  .containerLogin .forms-containerLogin .form-control {
     position: absolute;
     height: 100vh;
   }
-  .container .forms-container .form-control.signup-form {
+  .containerLogin .forms-containerLogin .form-control.signup-form {
     left: 0%;
     margin-top: 20px;
   }
-  .container .intros-container {
+  .containerLogin .intros-containerLogin {
     order: 1;
     width: 100%;
     left: 0%;
     height: 70vh;
   }
-  .container .intros-container .intro-control {
+  .containerLogin .intros-containerLogin .intro-control {
     position: absolute;
     height: 70vh;
   }
 
-  .change .forms-container .form-control.signup-form {
+  .change .forms-containerLogin .form-control.signup-form {
     transform: translateX(0%);
   }
-  .change .forms-container .form-control.signin-form {
+  .change .forms-containerLogin .form-control.signin-form {
     transform: translateX(0%);
   }
-  .change .intros-container .intro-control {
+  .change .intros-containerLogin .intro-control {
     transform: translateX(0%);
   }
 }
