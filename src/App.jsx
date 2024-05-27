@@ -11,6 +11,7 @@ import Postulante from "./components/Postulantes/Postulante";
 import Empresa from "./components/Empresa/Empresa";
 import NuevaContraseña from "./components/RestablecerContraseña/NuevaContraseña.jsx";
 import EdicionOferta from "./components/Ofertas/EdicionOferta.jsx";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
