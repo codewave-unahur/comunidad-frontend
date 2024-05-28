@@ -365,7 +365,7 @@ const Login = () => {
                 Siguiente
               </Button>
             </Box>
-            <Typography
+            {/*<Typography
               variant="caption"
               fontFamily={"Poppins, sans-serif"}
               fontSize="0.8rem"
@@ -385,8 +385,8 @@ const Login = () => {
               <IconButton>
                 <LinkedInIcon />
               </IconButton>
+            </Box>*/}
             </Box>
-          </Box>
           {/* Inicio de sesión */}
           <Box className="form-control signin-form">
             <Box
@@ -516,7 +516,7 @@ const Login = () => {
                 Iniciar sesión
               </Button>
             </Box>
-            <Typography
+            {/*<Typography
               variant="caption"
               fontFamily={"Poppins, sans-serif"}
               fontSize="0.8rem"
@@ -542,7 +542,7 @@ const Login = () => {
               <IconButton>
                 <LinkedInIcon />
               </IconButton>
-            </Box>
+            </Box>*/}
           </Box>
         </Box>
 
