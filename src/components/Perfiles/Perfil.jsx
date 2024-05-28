@@ -27,7 +27,6 @@ import BusinessIcon from "@mui/icons-material/Business";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import StorageIcon from "@mui/icons-material/Storage";
 import WorkIcon from "@mui/icons-material/Work";
-
 import Header from "../Header/Header";
 import DatosPersonales from "./PerfilPostulante/DatosPersonales";
 import DatosAcademicos from "./PerfilPostulante/DatosAcademicos";
@@ -40,7 +39,7 @@ import Postulantes from "./PerfilAdministrador/Postulantes";
 import Ofertas from "./PerfilAdministrador/Ofertas";
 import Empresas from "./PerfilAdministrador/Empresas";
 // import Base from "./PerfilPostulante/Base";
-
+import Galeria from "./PerfilAdministrador/Galeria";
 import { getPostulanteById } from "../../services/postulantes_service";
 import { getEmpresaByIdUsuario } from "../../services/empresas_service";
 import { forwardRef, useEffect, useState } from "react";
@@ -153,7 +152,14 @@ const menuOptionsAdmin = [
     renderSection: <Empresas />,
   },
   {
-    id: "4",
+    id:"4",
+    name: "galeria",
+    Icon: StorageIcon,
+    text: "Galería",
+    renderSection: <Galeria />
+  },
+  {
+    id: "5",
     name: "base",
     Icon: StorageIcon,
     text: "Base UNAHUR",
