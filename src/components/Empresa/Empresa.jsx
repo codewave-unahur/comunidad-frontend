@@ -151,7 +151,7 @@ const Empresa = () => {
                   <ListItemText primary={empresa.id} secondary="CUIT" />
                 </ListItem>
                 <ListItem>
-                  <ListItemText primary={empresa.descripcion} />
+                  <ListItemText primary={empresa.descripcion} secondary="Descripción"/>
                 </ListItem>
 
                 <List
@@ -164,7 +164,18 @@ const Empresa = () => {
                     gap: "1rem",
                   }}
                 >
-                  
+                  <ListItem>
+                    <ListItemText
+                      primary={empresa.Rubro.nombre_rubro}
+                      secondary="Rubro"
+                    />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemText
+                      primary={empresa.CadenaValor.nombre}
+                      secondary="Cadena de valor"
+                    />
+                  </ListItem>
                   <ListItem>
                     <ListItemText
                       primary={empresa.calle + " " + empresa.nro}
