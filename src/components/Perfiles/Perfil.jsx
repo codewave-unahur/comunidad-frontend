@@ -26,6 +26,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import BusinessIcon from "@mui/icons-material/Business";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import StorageIcon from "@mui/icons-material/Storage";
+import CollectionsIcon from "@mui/icons-material/Collections";
 import WorkIcon from "@mui/icons-material/Work";
 import Header from "../Header/Header";
 import DatosPersonales from "./PerfilPostulante/DatosPersonales";
@@ -154,7 +155,7 @@ const menuOptionsAdmin = [
   {
     id:"4",
     name: "galeria",
-    Icon: StorageIcon,
+    Icon: CollectionsIcon,
     text: "Galería",
     renderSection: <Galeria />
   },
