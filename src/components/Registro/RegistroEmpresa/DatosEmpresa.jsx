@@ -2,7 +2,8 @@ import { MenuItem, Grid, TextField, Typography } from "@mui/material";
 
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-
+import { getRubros } from "../../../services/rubros_service";
+import { getCadenaValor } from "../../../services/cadenaValor_service";
 import { getProvincias } from "../../../services/provincias_service";
 import { getCiudades } from "../../../services/ciudades_service";
 
@@ -22,6 +23,8 @@ export default function DatosPersonales({
   };
   const [provincias, setProvincias] = useState([]);
   const [ciudades, setCiudades] = useState([]);
+  const [rubros, setRubros] = useState([]);
+  const [cadenaValor, setCadenaValor] = useState([]);
 
   useEffect(() => {
     const traerProvincias = async () => {
@@ -31,6 +34,16 @@ export default function DatosPersonales({
       }
     };
     traerProvincias();
+  }, []);
+
+  useEffect(() => {
+    const traerRubros = async () => {
+      const response = await getRubros();
+      if (response) {
+        setRubros(response.rubros);
+      }
+    };
+    traerRubros();
   }, []);
 
   useEffect(() => {
@@ -45,6 +58,18 @@ export default function DatosPersonales({
       traerCiudades();
     }
   }, [empresa.provincia]);
+
+  
+
+  useEffect(() => {
+    const traerCadenaValor = async () => {
+      const response = await getCadenaValor();
+      if (response) {
+        setCadenaValor(response.cadena_valor);
+      }
+    };
+    traerCadenaValor();
+  }, []);
 
   const handleChange = (e) => {
     setEmpresa({
@@ -96,7 +121,7 @@ export default function DatosPersonales({
         <Grid item xs={12} sm={4}>
           <TextField
             required
-            label="Cuit"
+            label="CUIT"
             id="cuit"
             name="cuit"
             variant="outlined"
@@ -146,6 +171,50 @@ export default function DatosPersonales({
             error={Boolean(validarErrores.pais)}
             helperText={validarErrores.pais ? validarErrores.pais : ""}
           />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            select
+            required
+            label="Rubro"
+            id="idRubro"
+            name="idRubro"
+            variant="outlined"
+            fullWidth
+            value={empresa.idRubro || ""}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.idRubro)}
+            helperText={validarErrores.idRubro ? validarErrores.idRubro : ""}
+          >
+            {rubros.map((rubro) => (
+              <MenuItem key={rubro.id} value={rubro.id}>
+                {rubro.nombre_rubro}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField
+            select
+            required
+            label="Cadena de valor"
+            id="idCadenaValor"
+            name="idCadenaValor"
+            variant="outlined"
+            fullWidth
+            value={empresa.idCadenaValor || ""}
+            onChange={(e) => handleChange(e)}
+            error={Boolean(validarErrores.idCadenaValor)}
+            helperText={
+              validarErrores.idCadenaValor ? validarErrores.idCadenaValor : ""
+            }
+          >
+            {cadenaValor.map((cadena) => (
+              <MenuItem key={cadena.id} value={cadena.id}>
+                {cadena.nombre}
+              </MenuItem>
+            ))}
+          </TextField>
         </Grid>
         <Grid item xs={12} sm={4}>
           <TextField

@@ -16,6 +16,7 @@ export default function RegistroPostulante() {
     cuit: null,
     idUsuario: idUsuario,
     idRubro: null,
+    idCadenaValor: null,
     nombreEmpresa: "",
     descripcion: "",
     pais: "",
@@ -44,6 +45,8 @@ export default function RegistroPostulante() {
     nombreEmpresa: yup.string().required("Campo requerido"),
     descripcion: yup.string().required("Campo requerido"),
     pais: yup.string().required("Campo requerido"),
+    idRubro: yup.number().required("Campo requerido"),
+    idCadenaValor: yup.number().required("Campo requerido"),
     provincia: yup.number().required("Campo requerido"),
     ciudad: yup.number().required("Campo requerido"),
     calle: yup.string().required("Campo requerido"),
@@ -95,13 +98,17 @@ export default function RegistroPostulante() {
 
       const response = await postEmpresa(usuario);
 
+      console.log(usuario)
       if (response) {
         toast.success("Empresa registrada con éxito");
         setTimeout(() => {
           window.location.href = "/login";
         }, 5000);
       } else {
+        console.log(usuario)
         toast.error("Error al registrar la empresa");
+        
+
       }
     } catch (error) {
       const errors = {};
