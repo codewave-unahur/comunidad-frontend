@@ -137,7 +137,7 @@ export default function DatosAcademicos({
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox />}
-            label="Alumno de la UNAHUR"
+            label="¿Es estudiante de UNAHUR?"
             name="alumnoUnahur"
             checked={postulante.alumnoUnahur}
             onChange={(e) =>

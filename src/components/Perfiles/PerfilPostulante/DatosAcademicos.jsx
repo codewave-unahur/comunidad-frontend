@@ -399,7 +399,7 @@ const DatosAcademicos = () => {
               <TextField
                 select
                 fullWidth
-                label="¿Es alumno UNAHUR"
+                label="¿Es estudiante de UNAHUR?"
                 variant="outlined"
                 value={
                   usuario.alumno_unahur === null
