@@ -1,7 +1,8 @@
 import { Box, Button, Card, CardHeader } from '@mui/material'
 import React, { useEffect } from 'react'
 import { uploadImage } from '../../../services/galeria_service'
-
+import { useState } from 'react'
+import { getGaleria } from '../../../services/galeria_service'
 
 export default function Galeria() {
 
@@ -42,7 +43,11 @@ export default function Galeria() {
     <>
       <Card type="section" elevation={8}>
         <CardHeader title="Galería" />
-
+        <Box>
+          {galeria.map((image, index) => ( 
+            <img key={index} src={image.imageUrl} alt="imagen" style={{ width: "100px", height: "100px" }} />
+          ))}
+        </Box>
 
         
 
