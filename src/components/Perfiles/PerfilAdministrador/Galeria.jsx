@@ -3,6 +3,8 @@ import React, { useEffect } from 'react'
 import { uploadImage } from '../../../services/galeria_service'
 import { useState } from 'react'
 import { getGaleria } from '../../../services/galeria_service'
+import { deleteGaleria } from '../../../services/galeria_service'
+import { toast } from 'sonner'
 
 export default function Galeria() {
 
@@ -26,7 +28,7 @@ export default function Galeria() {
     try {
       const response = await uploadImage(image)
       if (response) {
-        console.log("Imagen subida correctamente")
+        toast.success("Imagen subida correctamente")
       }
     }
     catch (error) {
@@ -34,6 +36,18 @@ export default function Galeria() {
     }
   }
 
+  const handleDeleteImage = async (id) => {
+    try {
+      const response = await deleteGaleria(id)
+      if (response) {
+        toast.success("Imagen eliminada correctamente")
+        setGaleria(galeria.filter(image => image.id !== id))
+      }
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
 
 
 
@@ -45,7 +59,11 @@ export default function Galeria() {
         <CardHeader title="Galería" />
         <Box>
           {galeria.map((image, index) => ( 
-            <img key={index} src={image.imageUrl} alt="imagen" style={{ width: "100px", height: "100px" }} />
+            <Box key={index}>
+              <img src={image.imageUrl} alt="imagen" style={{width: '100px'}} />
+              <Button onClick={() => handleDeleteImage(image.id)}>Eliminar</Button>
+            </Box>
+
           ))}
         </Box>
 
