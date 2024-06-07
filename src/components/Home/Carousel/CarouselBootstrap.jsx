@@ -1,34 +1,34 @@
 import Carousel from "react-bootstrap/Carousel";
+import { useState, useEffect } from "react";
+import { getGaleria } from "../../../services/galeria_service";
 
 
 const CarouselBootstrap = () => {
+
+  const [galeria, setGaleria] = useState([]);
+  useEffect(() => {
+    const fetchGaleria = async () => {
+      const response = await getGaleria();
+      if (response) {
+        setGaleria(response.carouselImages);
+      }
+    };
+    fetchGaleria();
+  }, []);
+  
+
   return (
 
     <Carousel className="d-flex justify-content-center">
-      <Carousel.Item>
-        <img
-          className="d-block w-100 " 
-          src="https://campus.unahur.edu.ar/wp-content/uploads/slider/cache/73e4073787e3f71b03a981d7db81a660/abanderadocampus.jpg"
-          alt="First slide"
-        />
-        
-      </Carousel.Item>
-
-      <Carousel.Item>
-        <img
-          className="d-block w-100 "
-          src="https://campus.unahur.edu.ar/wp-content/uploads/slider/cache/c25002faae1e80623ff82afc991fc897/clases-de-apoyo-campus_nuevo.jpg"
-          alt="Second slide"
-        />
-      </Carousel.Item>
-      <Carousel.Item>
-        <img
-          className="d-block w-100 "
-          src="https://campus.unahur.edu.ar/wp-content/uploads/slider/cache/e4a64014ee84273e7e562fa76905ff4e/dudas-gestion-estudiantilcampus-1.jpg"
-          alt="Third slide"
-        />
-        
-      </Carousel.Item>
+      {galeria.map((imagen) => (
+        <Carousel.Item key={imagen.id}>
+          <img
+            className="d-block w-100"
+            src={imagen.imageUrl}
+            alt={imagen.id}
+          />
+        </Carousel.Item>
+      ))}
 
     </Carousel>
   );
