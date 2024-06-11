@@ -112,7 +112,6 @@ const DatosAcademicos = () => {
     getAptitudesData();
     getPreferenciasData();
 
-    console.log("idiomas cargados: ", idiomasPostulante)
   }, []);
 
   const handleEdit = () => {
