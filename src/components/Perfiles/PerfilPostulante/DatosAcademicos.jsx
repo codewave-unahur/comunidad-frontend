@@ -186,20 +186,31 @@ const DatosAcademicos = () => {
   };
 
   const handleAgregarIdioma = async () => {
-    const response = await postIdiomasPostulantes(
-      datosUsuario.id,
-      idiomaSeleccionado,
-      nivelSeleccionado
-    );
-    if (response) {
-      toast.success("Idioma agregado con éxito");
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+
+    if (idiomasPostulante.length < 4) {
+      const response = await postIdiomasPostulantes(
+        datosUsuario.id,
+        idiomaSeleccionado,
+        nivelSeleccionado
+      );
+      if (response) {
+        toast.success("Idioma agregado con éxito");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error("Error al agregar el idioma");
+      }
     } else {
-      toast.error("Error al agregar el idioma");
+      toast.error("No se pueden agregar más de 4 idiomas");
     }
   };
+
+  const cancelarEdicion = () => {
+    setEdit(false);
+    setIsSubmitting(false);
+  };
+
 
 
   const handleSave = () => {
@@ -661,6 +672,21 @@ const DatosAcademicos = () => {
               )}
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
+              {
+                edit && (
+                  <Button
+                    disableElevation
+                    variant="outlined"
+                    onClick={cancelarEdicion}
+                    color="error"
+                    sx={{
+                      float: "left",
+                    }}
+                  >
+                    Cancelar
+                  </Button>
+                )
+              }
               <Button
                 disableElevation
                 variant="contained"
