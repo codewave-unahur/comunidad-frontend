@@ -185,6 +185,22 @@ const DatosAcademicos = () => {
     }
   };
 
+  const handleAgregarIdioma = async () => {
+    const response = await postIdiomasPostulantes(
+      datosUsuario.id,
+      idiomaSeleccionado,
+      nivelSeleccionado
+    );
+    if (response) {
+      toast.success("Idioma agregado con éxito");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } else {
+      toast.error("Error al agregar el idioma");
+    }
+  };
+
 
   const handleSave = () => {
     schema
@@ -436,6 +452,7 @@ const DatosAcademicos = () => {
                             ? validarErrores.idioma
                             : ""
                         }
+                        
                       >
                         <MenuItem value="" disabled>
                           Selecciona un idioma
@@ -462,6 +479,7 @@ const DatosAcademicos = () => {
                             ? validarErrores.nivel
                             : ""
                         }
+                        
                       >
                         <MenuItem value="" disabled>
                           Selecciona un nivel
@@ -476,6 +494,17 @@ const DatosAcademicos = () => {
                     
                   </Grid>
                     
+                  <Grid item xs={12} sm={4} md={4}>
+                    <Button
+                      disableElevation
+                      variant="contained"
+                      onClick={handleAgregarIdioma}
+                      sx={{ marginTop: 1 }}
+                      disabled={!idiomaSeleccionado || !nivelSeleccionado}
+                    >
+                      Agregar idioma
+                    </Button>
+                  </Grid>
                 </Grid>
            )}
             <Grid item xs={12} sm={12} md={12}>
