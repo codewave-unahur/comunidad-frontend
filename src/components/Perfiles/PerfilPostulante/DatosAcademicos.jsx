@@ -32,6 +32,7 @@ import { getAptitudes } from "../../../services/aptitudes_service";
 import { getPreferencias } from "../../../services/preferencias_service";
 import { getIdiomasPostulante } from "../../../services/idiomasPostulantes_service";
 import { postIdiomasPostulantes } from "../../../services/idiomasPostulantes_service";
+import { deleteIdioma } from "../../../services/idiomasPostulantes_service";
 
 import { Fragment, useEffect, useState } from "react";
 
@@ -42,8 +43,8 @@ const idiomas = [
   { id: 1, idioma: "Español" },
   { id: 2, idioma: "Inglés" },
   { id: 3, idioma: "Portugués" },
-  { id: 4, idioma: "Alemán" },
-  { id: 5, idioma: "Francés" },
+  { id: 4, idioma: "Francés" },
+  { id: 5, idioma: "Alemán" },
 ];
 
 const niveles = [
@@ -68,7 +69,7 @@ const DatosAcademicos = () => {
   const [preferenciasElegidas, setPreferenciasElegidas] = useState([]);
   const [idiomaSeleccionado, setIdiomaSeleccionado] = useState(null);
   const [nivelSeleccionado, setNivelSeleccionado] = useState(null);
-
+  const [idiomasPostulante, setIdiomasPostulante] = useState([]);
   const [usuario, setUsuario] = useState({
     carrera: "",
     estudios: "",
@@ -91,6 +92,11 @@ const DatosAcademicos = () => {
       const response = await getEstudios();
       setEstudios(response.estudios);
     };
+    const getIdiomasData = async () => {
+      const response = await getIdiomasPostulante(datosUsuario.id);
+      setIdiomasPostulante(response);
+    }
+
     const getAptitudesData = async () => {
       const response = await getAptitudes();
       setAptitudes(response.aptitudes);
@@ -99,10 +105,14 @@ const DatosAcademicos = () => {
       const response = await getPreferencias();
       setPreferencias(response.preferencias);
     };
+
+    
     getEstudiosData();
+    getIdiomasData();
     getAptitudesData();
     getPreferenciasData();
 
+    console.log("idiomas cargados: ", idiomasPostulante)
   }, []);
 
   const handleEdit = () => {
@@ -163,7 +173,18 @@ const DatosAcademicos = () => {
     setNivelSeleccionado(event.target.value);
   };
 
-  
+  const handleDeleteIdioma = async (id) => {
+    const response = await deleteIdioma(id);
+    if (response) {
+      toast.success("Idioma eliminado con éxito");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } else {
+      toast.error("Error al eliminar el idioma");
+    }
+  };
+
 
   const handleSave = () => {
     schema
@@ -183,11 +204,7 @@ const DatosAcademicos = () => {
           token
         );
 
-        const responseIdiomas = await postIdiomasPostulantes(
-          datosUsuario.id,
-          idiomaSeleccionado,
-          nivelSeleccionado
-        );
+        
 
         if (response || responseIdiomas) {
           setEdit(false);
@@ -392,6 +409,16 @@ const DatosAcademicos = () => {
               <Typography variant="h5" gutterBottom>
                 Idiomas
               </Typography>
+              <Box>
+                {idiomasPostulante.map((idioma) => (
+                  <Chip 
+                    key={idioma.id} 
+                    label={idioma.Idioma.nombre_idioma + " " + idioma.Nivel.nivel} 
+                    color="success"
+                    onDelete={edit ? () => handleDeleteIdioma(idioma.id) : undefined}
+                  />
+                ))}
+              </Box>
               {edit && (
                 <Grid container spacing={2} paddingY={1}>
 
