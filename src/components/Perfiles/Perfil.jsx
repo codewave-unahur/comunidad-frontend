@@ -48,7 +48,7 @@ import { postularseBaseConstante } from "../../services/postulaciones_service";
 import { uploadCV } from "../../services/files_service";
 import { Toaster, toast } from "sonner";
 import BaseUNAHUR from "./PerfilAdministrador/BaseUNAHUR";
-
+import ExperienciaLaboral from "./PerfilPostulante/ExperienciaLaboral";
 import enProceso from "../../assets/Processing-bro.svg";
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -72,23 +72,10 @@ const menuOptionsPostulante = [
   },
   {
     id: "3",
-    name: "formacion",
+    name: "experiencia",
     Icon: WorkIcon,
-    text: "Formación",
-    renderSection: (
-      <img
-        src={enProceso}
-        alt="En proceso"
-        style={{
-          width: "60%",
-          height: "60%",
-          margin: "auto",
-          display: "block",
-          marginTop: "10",
-          marginBottom: "10",
-        }}
-      />
-    ),
+    text: "Experiencia laboral",
+    renderSection: <ExperienciaLaboral />,
   },
   {
     id: "4",

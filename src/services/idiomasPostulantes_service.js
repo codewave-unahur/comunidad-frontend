@@ -27,13 +27,29 @@ export async function getIdiomasPostulante(id) {
   }
 }
 
-// Post de idiomas (No recibe nada? Con que info se hace el post?)
+// Post de idiomas
 
-export async function postIdiomasPostulantes() {
+export async function postIdiomasPostulantes(id, idIdioma, idNivel){
   try {
-    const response = await axios.post(`${config.apiUrl}/idiomasPostulantes`);
+    const response = await axios.post(`${config.apiUrl}/idiomasPostulantes`, {
+      idIdioma: idIdioma,
+      idPostulante: id,
+      idNivel: idNivel
+    });
     return response.data;
   } catch (error) {
     console.error(error);
   }
 }
+
+export async function deleteIdioma(id) {
+  try {
+    const response = await axios.delete(
+      `${config.apiUrl}/idiomasPostulantes/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
