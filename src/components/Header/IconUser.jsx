@@ -56,7 +56,7 @@ export default function IconUser() {
                   : tipoUsuario === "empresa"
                   ? usuarioData.logo
                   : tipoUsuario === "admin"
-                  ? "https://scontent.faep23-1.fna.fbcdn.net/v/t1.18169-9/28056735_771988882991315_1789625042987329751_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEN-nGZW-Tdq_QyZo6zrz_Zr8Q0elIdaYmvxDR6Uh1piXEMixzZD32cTCiv-alfTBITq-GESF81R97FLxCLyO0a&_nc_ohc=FyYlMSFoFzgQ7kNvgFS7zqa&_nc_ht=scontent.faep23-1.fna&oh=00_AYA4p2y8LID7VF4UUdfoLDqiwFRgh8G_y1mTa-AgfXVTDQ&oe=6665A125"
+                  ? "https://unahur.edu.ar/wp-content/uploads/2018/07/articles_vinc.jpg"
                   : ""
               }
             />
