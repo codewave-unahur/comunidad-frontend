@@ -23,16 +23,15 @@ import SaveIcon from "@mui/icons-material/Save";
 
 import {
   getPostulanteById,
-  agregarIdiomas,
   putPostulante,
-  eliminarIdioma,
   agregarAptitudes,
   agregarPreferencias,
 } from "../../../services/postulantes_service";
 import { getEstudios } from "../../../services/estudios_service";
 import { getAptitudes } from "../../../services/aptitudes_service";
 import { getPreferencias } from "../../../services/preferencias_service";
-// import { getIdiomasPostulante } from "../../../services/idiomasPostulantes_service";
+import { getIdiomasPostulante } from "../../../services/idiomasPostulantes_service";
+import { postIdiomasPostulantes } from "../../../services/idiomasPostulantes_service";
 
 import { Fragment, useEffect, useState } from "react";
 
@@ -40,7 +39,7 @@ import { PreferenciasPostulante } from "../../Preferencias/PreferenciasPostulant
 import { AptitudesPostulante } from "../../Aptitudes/AptitudesPostulate";
 
 const idiomas = [
-  { id: 1, idioma: "Chino" },
+  { id: 1, idioma: "Español" },
   { id: 2, idioma: "Inglés" },
   { id: 3, idioma: "Portugués" },
   { id: 4, idioma: "Alemán" },
@@ -50,8 +49,7 @@ const idiomas = [
 const niveles = [
   { id: 1, nivel: "Inicial" },
   { id: 2, nivel: "Intermedio" },
-  { id: 3, nivel: "Avanzado" },
-  { id: 4, nivel: "Nativo" },
+  { id: 3, nivel: "Avanzado" }
 ];
 
 const DatosAcademicos = () => {
@@ -68,7 +66,9 @@ const DatosAcademicos = () => {
   const [aptitudesElegidas, setAptitudesElegidas] = useState([]);
   const [preferencias, setPreferencias] = useState([]);
   const [preferenciasElegidas, setPreferenciasElegidas] = useState([]);
-  const [idiomasElegidos, setIdiomasElegidos] = useState([]);
+  const [idiomaSeleccionado, setIdiomaSeleccionado] = useState(null);
+  const [nivelSeleccionado, setNivelSeleccionado] = useState(null);
+
   const [usuario, setUsuario] = useState({
     carrera: "",
     estudios: "",
@@ -102,6 +102,7 @@ const DatosAcademicos = () => {
     getEstudiosData();
     getAptitudesData();
     getPreferenciasData();
+
   }, []);
 
   const handleEdit = () => {
@@ -152,67 +153,17 @@ const DatosAcademicos = () => {
     }
   };
 
-  const agregarNuevoIdioma = () => {
-    setIdiomasElegidos([
-      ...idiomasElegidos,
-      {
-        nombre_idioma: "",
-        nivel_oral: "",
-        nivel_escrito: "",
-      },
-    ]);
+  
+
+  const handleIdiomaSeleccionado = (event) => {
+    setIdiomaSeleccionado(event.target.value);
   };
 
-  const handleIdiomaChange = (e, index) => {
-    const { value } = e.target;
-    setIdiomasElegidos((prevIdiomas) => {
-      const nuevosIdiomas = [...prevIdiomas];
-      nuevosIdiomas[index] = { ...nuevosIdiomas[index], nombre_idioma: value };
-      return nuevosIdiomas;
-    });
+  const handleNivelSeleccionado = (event) => {
+    setNivelSeleccionado(event.target.value);
   };
 
-  const handleNivelOralChange = (e, index) => {
-    const { value } = e.target;
-    setIdiomasElegidos((prevIdiomas) => {
-      const nuevosIdiomas = [...prevIdiomas];
-      nuevosIdiomas[index] = { ...nuevosIdiomas[index], nivel_oral: value };
-      return nuevosIdiomas;
-    });
-  };
-
-  const handleNivelEscritoChange = (e, index) => {
-    const { value } = e.target;
-    setIdiomasElegidos((prevIdiomas) => {
-      const nuevosIdiomas = [...prevIdiomas];
-      nuevosIdiomas[index] = { ...nuevosIdiomas[index], nivel_escrito: value };
-      return nuevosIdiomas;
-    });
-  };
-
-  const handleEliminarIdioma = async (e, index) => {
-    e.preventDefault();
-    const response = await eliminarIdioma(usuario.Idiomas[index].id);
-
-    if (response) {
-      toast.success("Idioma eliminado con éxito");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-    } else {
-      toast.error("Error al eliminar el idioma");
-    }
-  };
-
-  const handleDescartarIdioma = (index) => {
-    return () => {
-      setIdiomasElegidos((prevIdiomas) => {
-        const nuevosIdiomas = [...prevIdiomas];
-        nuevosIdiomas.splice(index, 1);
-        return nuevosIdiomas;
-      });
-    };
-  };
+  
 
   const handleSave = () => {
     schema
@@ -231,9 +182,11 @@ const DatosAcademicos = () => {
           datosActualizados,
           token
         );
-        const responseIdiomas = await agregarIdiomas(
+
+        const responseIdiomas = await postIdiomasPostulantes(
           datosUsuario.id,
-          idiomasElegidos
+          idiomaSeleccionado,
+          nivelSeleccionado
         );
 
         if (response || responseIdiomas) {
@@ -241,9 +194,9 @@ const DatosAcademicos = () => {
           setUsuario(datosActualizados);
           setIsSubmitting(false);
           toast.success("Datos actualizados con éxito");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
+         // setTimeout(() => {
+          //  window.location.reload();
+          //}, 1500);
         } else {
           toast.error("Error al actualizar los datos");
         }
@@ -439,259 +392,65 @@ const DatosAcademicos = () => {
               <Typography variant="h5" gutterBottom>
                 Idiomas
               </Typography>
-              <Grid container spacing={2} paddingY={2}>
-                {usuario.Idiomas?.map((idioma, index) => (
-                  <Fragment key={index}>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={isFieldDisabled ? 4 : 3}
-                      md={isFieldDisabled ? 4 : 3}
-                    >
-                      <TextField
+              {edit && (
+                <Grid container spacing={2} paddingY={1}>
+
+                  <Grid item xs={12} sm={4} md={4}>
+                    <FormControl sx={{ width: "100%"}}>
+                      <TextField 
                         select
                         label="Idioma"
                         variant="outlined"
-                        fullWidth
-                        disabled={isFieldDisabled}
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
-                          },
-                          "&& .MuiFormLabel-root.Mui-disabled": {
-                            color: "rgba(0, 0, 0, 0.80)",
-                          },
-                        }}
-                        value={
-                          idioma["Idiomas del postulante"].nombre_idioma || ""
+                        value={idiomaSeleccionado || ""}
+                        onChange={handleIdiomaSeleccionado}
+                        error={Boolean(validarErrores.idioma)}
+                        helperText={
+                          isSubmitting && validarErrores.idioma
+                            ? validarErrores.idioma
+                            : ""
                         }
-                        onChange={(e) => handleIdiomaChange(e, index)}
                       >
                         <MenuItem value="" disabled>
                           Selecciona un idioma
                         </MenuItem>
                         {idiomas.map((idioma) => (
-                          <MenuItem key={idioma.id} value={idioma.idioma}>
+                          <MenuItem key={idioma.id} value={idioma.id}>
                             {idioma.idioma}
                           </MenuItem>
                         ))}
                       </TextField>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={isFieldDisabled ? 4 : 3}
-                      md={isFieldDisabled ? 4 : 3}
-                    >
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={4} md={4}>
+                    <FormControl sx={{ width: "100%" }}>
                       <TextField
                         select
-                        label="Nivel oral"
+                        label="Nivel"
                         variant="outlined"
-                        fullWidth
-                        disabled={isFieldDisabled}
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
-                          },
-                          "&& .MuiFormLabel-root.Mui-disabled": {
-                            color: "rgba(0, 0, 0, 0.80)",
-                          },
-                        }}
-                        value={
-                          idioma["Idiomas del postulante"].nivel_oral || ""
+                        value={nivelSeleccionado || ""}
+                        onChange={handleNivelSeleccionado}
+                        error={Boolean(validarErrores.nivel)}
+                        helperText={
+                          isSubmitting && validarErrores.nivel
+                            ? validarErrores.nivel
+                            : ""
                         }
-                        onChange={(e) => handleNivelOralChange(e, index)}
                       >
                         <MenuItem value="" disabled>
-                          Selecciona un nivel oral
+                          Selecciona un nivel
                         </MenuItem>
                         {niveles.map((nivel) => (
-                          <MenuItem key={nivel.id} value={nivel.nivel}>
+                          <MenuItem key={nivel.id} value={nivel.id}>
                             {nivel.nivel}
                           </MenuItem>
                         ))}
                       </TextField>
-                    </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      sm={isFieldDisabled ? 4 : 3}
-                      md={isFieldDisabled ? 4 : 3}
-                    >
-                      <TextField
-                        select
-                        label="Nivel escrito"
-                        variant="outlined"
-                        fullWidth
-                        disabled={isFieldDisabled}
-                        sx={{
-                          "& .MuiInputBase-input.Mui-disabled": {
-                            WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
-                          },
-                          "&& .MuiFormLabel-root.Mui-disabled": {
-                            color: "rgba(0, 0, 0, 0.80)",
-                          },
-                        }}
-                        value={
-                          idioma["Idiomas del postulante"].nivel_escrito || ""
-                        }
-                        onChange={(e) => handleNivelEscritoChange(e, index)}
-                      >
-                        <MenuItem value="" disabled>
-                          Selecciona un nivel escrito
-                        </MenuItem>
-                        {niveles.map((nivel) => (
-                          <MenuItem key={nivel.id} value={nivel.nivel}>
-                            {nivel.nivel}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </Grid>
-                    {edit && (
-                      <Grid item xs={12} sm={3} md={3}>
-                        <Button
-                          disableElevation
-                          variant="outlined"
-                          color="error"
-                          sx={{ marginTop: 1 }}
-                          fullWidth
-                          onClick={(e) => handleEliminarIdioma(e, index)}
-                        >
-                          Eliminar idioma
-                        </Button>
-                      </Grid>
-                    )}
-                  </Fragment>
-                ))}
-                {edit &&
-                  idiomasElegidos.map((idiomaElegido, index) => (
-                    <Fragment key={index}>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={isFieldDisabled ? 4 : 3}
-                        md={isFieldDisabled ? 4 : 3}
-                      >
-                        <TextField
-                          select
-                          label="Idioma"
-                          variant="outlined"
-                          fullWidth
-                          disabled={isFieldDisabled}
-                          sx={{
-                            "& .MuiInputBase-input.Mui-disabled": {
-                              WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
-                            },
-                            "&& .MuiFormLabel-root.Mui-disabled": {
-                              color: "rgba(0, 0, 0, 0.80)",
-                            },
-                          }}
-                          value={idiomaElegido.nombre_idioma || ""}
-                          onChange={(e) => handleIdiomaChange(e, index)}
-                        >
-                          <MenuItem value="" disabled>
-                            Selecciona un idioma
-                          </MenuItem>
-                          {idiomas.map((idioma) => (
-                            <MenuItem key={idioma.id} value={idioma.idioma}>
-                              {idioma.idioma}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={isFieldDisabled ? 4 : 3}
-                        md={isFieldDisabled ? 4 : 3}
-                      >
-                        <TextField
-                          select
-                          label="Nivel oral"
-                          variant="outlined"
-                          fullWidth
-                          disabled={isFieldDisabled}
-                          sx={{
-                            "& .MuiInputBase-input.Mui-disabled": {
-                              WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
-                            },
-                            "&& .MuiFormLabel-root.Mui-disabled": {
-                              color: "rgba(0, 0, 0, 0.80)",
-                            },
-                          }}
-                          value={idiomaElegido.nivel_oral || ""}
-                          onChange={(e) => handleNivelOralChange(e, index)}
-                        >
-                          <MenuItem value="" disabled>
-                            Selecciona un nivel oral
-                          </MenuItem>
-                          {niveles.map((nivel) => (
-                            <MenuItem key={nivel.id} value={nivel.nivel}>
-                              {nivel.nivel}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sm={isFieldDisabled ? 4 : 3}
-                        md={isFieldDisabled ? 4 : 3}
-                      >
-                        <TextField
-                          select
-                          label="Nivel escrito"
-                          variant="outlined"
-                          fullWidth
-                          disabled={isFieldDisabled}
-                          sx={{
-                            "& .MuiInputBase-input.Mui-disabled": {
-                              WebkitTextFillColor: "rgba(0, 0, 0, 0.80)",
-                            },
-                            "&& .MuiFormLabel-root.Mui-disabled": {
-                              color: "rgba(0, 0, 0, 0.80)",
-                            },
-                          }}
-                          value={idiomaElegido.nivel_escrito || ""}
-                          onChange={(e) => handleNivelEscritoChange(e, index)}
-                        >
-                          <MenuItem value="" disabled>
-                            Selecciona un nivel escrito
-                          </MenuItem>
-                          {niveles.map((nivel) => (
-                            <MenuItem key={nivel.id} value={nivel.nivel}>
-                              {nivel.nivel}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      </Grid>
-                      <Grid item xs={12} sm={3} md={3}>
-                        <Button
-                          disableElevation
-                          variant="outlined"
-                          color="error"
-                          sx={{ marginTop: 1 }}
-                          fullWidth
-                          onClick={handleDescartarIdioma(index)}
-                        >
-                          Eliminar idioma
-                        </Button>
-                      </Grid>
-                    </Fragment>
-                  ))}
-              </Grid>
-
-              {edit && (
-                <Button
-                  disableElevation
-                  variant="contained"
-                  onClick={agregarNuevoIdioma}
-                  sx={{ marginTop: 1 }}
-                >
-                  Agregar nuevo idioma
-                </Button>
-              )}
-            </Grid>
+                    </FormControl>
+                    
+                  </Grid>
+                    
+                </Grid>
+           )}
             <Grid item xs={12} sm={12} md={12}>
               <Typography variant="h5" gutterBottom>
                 Habilidades
@@ -833,7 +592,7 @@ const DatosAcademicos = () => {
                   </FormControl>
                 </Grid>
               </Grid>
-
+</Grid>
               {edit && (
                 <Button
                   disableElevation
