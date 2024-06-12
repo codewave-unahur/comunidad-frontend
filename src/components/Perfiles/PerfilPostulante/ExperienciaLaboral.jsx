@@ -1,6 +1,6 @@
-import { Button, Box, TextField, Card, CardHeader, Grid, Stack } from '@mui/material';
+import { Button, Box, TextField, Card, CardHeader, Grid, Stack, List, ListItem, Typography, ListItemText } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { getExperienciaLaboral, postExperienciaLaboral } from '../../../services/experienciaLaboral_service';
+import { getExperienciaLaboral, postExperienciaLaboral, deleteExperienciaLaboral } from '../../../services/experienciaLaboral_service';
 import { toast } from 'sonner';
 
 
@@ -63,6 +63,19 @@ const ExperienciaLaboral = () => {
         setIsSubmitting(false);
     } 
 
+    const handleDelete = (idExperiencia) => {
+        const response = deleteExperienciaLaboral(idExperiencia);
+        if (response) {
+            toast.success("Experiencia laboral eliminada con éxito");
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
+        } else {
+            toast.error("Error al eliminar la experiencia laboral");
+        }
+    }
+
+
     const handleAgregarExpereinciaLaboral = () => {
         if (experienciaLaboralPostulante.length < 3) {
             const response = postExperienciaLaboral(
@@ -93,6 +106,31 @@ const ExperienciaLaboral = () => {
 
     }
 
+    const calcularTiempo = (fechaInicio, fechaFin) => {
+        // calcula el tiempo entre dos fechas, en años y meses redondeados (si el año es 0 no se muestra)
+        // si el mes es 1 se muestra "1 mes" y si es mayor a 1 "n meses"
+        const fechaInicioDate = new Date(fechaInicio);
+        const fechaFinDate = new Date(fechaFin);
+        let años = fechaFinDate.getFullYear() - fechaInicioDate.getFullYear();
+        let meses = fechaFinDate.getMonth() - fechaInicioDate.getMonth();
+        if (meses < 0) {
+          años--;
+          meses = 12 + meses;
+        }
+        if (años === 0) {
+          if (meses === 1) {
+            return meses + " mes";
+          } else {
+            return meses + " meses";
+          }
+        } else {
+          if (meses === 0) {
+            return años + " años";
+          } else {
+            return años + " años y " + meses + " meses";
+          }
+        }
+      }
 
 
     return ( 
@@ -102,57 +140,58 @@ const ExperienciaLaboral = () => {
                 title="Experiencia Laboral"
             />
             <Stack spacing={6} paddingX={2} paddingBottom={3}>
+                <List>
                 {experienciaLaboralPostulante.map((experienciaLaboral) => (
-                    <Box key={experienciaLaboral.id}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Puesto"
-                                    variant="outlined"
-                                    value={experienciaLaboral.puesto}
-                                    disabled
-                                />
+                    <Box key={experienciaLaboral.id}
+                    sx={{
+                        border: 1,
+                        borderColor: 'divider',
+                        borderRadius: 1,
+                        bgcolor: 'background.paper',
+                        boxShadow: 1,
+                        p: 2,
+                        m: 1,
+                    
+                    }}>
+                        <ListItem>
+                            <Grid container spacing={2}>
+                                <Grid item xs={12} sm={6}>
+                                    <ListItemText primary={experienciaLaboral.puesto} secondary="Puesto" />
+                                    
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <ListItemText primary={experienciaLaboral.empresa} secondary="Empresa" />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <ListItemText primary={experienciaLaboral.descripcion} secondary="Descripción" />
+                                </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <ListItemText primary={convertirFecha(experienciaLaboral.fecha_inicio) +
+                                         " - " + convertirFecha(experienciaLaboral.fecha_fin) + 
+                                         " (" + calcularTiempo(experienciaLaboral.fecha_inicio, experienciaLaboral.fecha_fin) + ")"} 
+                                         secondary="Tiempo" 
+                                             
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Button
+                                        disableElevation
+                                        variant="outlined"
+                                        color="error"
+                                        onClick={() => handleDelete(experienciaLaboral.id)}
+                                        sx={{
+                                            float:"right",
+                                        }}
+
+                                    >
+                                        Eliminar
+                                    </Button>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Empresa"
-                                    variant="outlined"
-                                    value={experienciaLaboral.empresa}
-                                    disabled
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    label="Descripción"
-                                    variant="outlined"
-                                    value={experienciaLaboral.descripcion}
-                                    disabled
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Fecha de inicio"
-                                    variant="outlined"
-                                    value={convertirFecha(experienciaLaboral.fecha_inicio)}
-                                    disabled
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label="Fecha de fin"
-                                    variant="outlined"
-                                    value={convertirFecha(experienciaLaboral.fecha_fin)}
-                                    disabled
-                                />
-                            </Grid>
-                        </Grid>
+                        </ListItem>
                     </Box>
                 ))}
+                </List>
                 <Box>
                     {edit && (
                                             <Grid container spacing={2}>
@@ -237,8 +276,10 @@ const ExperienciaLaboral = () => {
                             float:"right",
                         }}
                         onClick={edit ? handleAgregarExpereinciaLaboral : handleEdit}
+                        disabled={edit && (!puestoElegido || !empresaElegida || !descripcionElegida || !fechaInicioElegida || !fechaFinElegida)}
+
                     >
-                        {edit ? "Agregar" : "Editar"}
+                        {edit ? "Agregar" : "Agregar experiencia laboral"}
                     </Button>
                 </Grid>
             </Stack>
