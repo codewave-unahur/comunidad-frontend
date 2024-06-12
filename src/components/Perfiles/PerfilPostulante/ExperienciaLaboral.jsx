@@ -1,4 +1,4 @@
-import { Button, Box, TextField, Card, CardHeader, Grid, Stack, List, ListItem, Typography, ListItemText } from '@mui/material';
+import { Button, Box, TextField, Tooltip, Card, CardHeader, Grid, Stack, List, ListItem, Typography, ListItemText } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getExperienciaLaboral, postExperienciaLaboral, deleteExperienciaLaboral } from '../../../services/experienciaLaboral_service';
 import { toast } from 'sonner';
@@ -224,7 +224,13 @@ const ExperienciaLaboral = () => {
                                                     onChange={handleChangeDescripcion}
                                                     disabled={isFieldDisabled}
                                                 />
+                                                <Tooltip>
+                                                    <Typography variant="caption" color="textSecondary">
+                                                        Máximo 255 caracteres
+                                                    </Typography>
+                                                </Tooltip>
                                             </Grid>
+                                            
                                             <Grid item xs={12} sm={6}>
                                                 <TextField
                                                     type='date'
