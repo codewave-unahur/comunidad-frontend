@@ -91,24 +91,13 @@ const Postulante = () => {
     return edad;
   };
 
-  const formatoFecha = (fecha) => {
-    // dia/mes/año
-    const fechaNacimiento = new Date(fecha);
-    let dia = fechaNacimiento.getDate() + 1;
-    let mes = fechaNacimiento.getMonth() + 1;
-    const año = fechaNacimiento.getFullYear();
-    if (dia < 10) {
-      dia = "0" + dia;
-    }
-    if (mes < 10) {
-      mes = "0" + mes;
-    }
-    return dia + "/" + mes + "/" + año;
-  };
+  const convertirFecha = (fecha) => {
+    const fechaDate = new Date(fecha);
+    fechaDate.setDate(fechaDate.getDate() + 1);
+    return fechaDate.toLocaleDateString();
+}
 
   const calcularTiempo = (fechaInicio, fechaFin) => {
-    // calcula el tiempo entre dos fechas, en años y meses redondeados (si el año es 0 no se muestra)
-    // si el mes es 1 se muestra "1 mes" y si es mayor a 1 "n meses"
     const fechaInicioDate = new Date(fechaInicio);
     const fechaFinDate = new Date(fechaFin);
     let años = fechaFinDate.getFullYear() - fechaInicioDate.getFullYear();
@@ -127,7 +116,11 @@ const Postulante = () => {
       if (meses === 0) {
         return años + " años";
       } else {
-        return años + " años y " + meses + " meses";
+        if (años === 1) {
+          return años + " año y " + meses + " meses";
+        } else {
+          return años + " años y " + meses + " meses";
+        }
       }
     }
   }
@@ -311,7 +304,7 @@ const Postulante = () => {
                       }}
                     />
                     <ListItemText
-                      primary={formatoFecha(postulante.fecha_nac)}
+                      primary={convertirFecha(postulante.fecha_nac)}
                       secondary="Fecha de nacimiento"
                     />
                   </ListItem>
@@ -583,9 +576,9 @@ const Postulante = () => {
                                 color="textSecondary"
                                 sx={{  }}
                               >
-                                {formatoFecha(experiencia.fecha_inicio) +
+                                {convertirFecha(experiencia.fecha_inicio) +
                                   " - " +
-                                  formatoFecha(experiencia.fecha_fin) + " (" + calcularTiempo(experiencia.fecha_inicio, experiencia.fecha_fin) + ")"} 
+                                  convertirFecha(experiencia.fecha_fin) + " ("  +  calcularTiempo(experiencia.fecha_inicio, experiencia.fecha_fin) +")"} 
                               </Typography>
                               
                               <Typography variant="body1" color="textPrimary" sx={{  }}>
