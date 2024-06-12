@@ -27,13 +27,16 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LanguageIcon from "@mui/icons-material/Language";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import TranslateIcon from "@mui/icons-material/Translate";
-
+import { getIdiomasPostulante } from "../../services/idiomasPostulantes_service";
+import { getExperienciaLaboral } from "../../services/experienciaLaboral_service";
 import { getPostulanteByDni } from "../../services/postulantes_service";
 
 const Postulante = () => {
   const idPostulante = parseInt(window.location.pathname.split("/")[2]);
 
   const [postulante, setPostulante] = useState({});
+  const [idiomasPostulante, setIdiomasPostulante] = useState([]);
+  const [experienciaLaboral, setExperienciaLaboral] = useState([]);
   const isLoading = Object.keys(postulante).length === 0;
 
   useEffect(() => {
@@ -45,7 +48,29 @@ const Postulante = () => {
         console.log(error);
       }
     };
+
+    const traerIdiomasPostulante = async () => {
+      try {
+        const response = await getIdiomasPostulante(idPostulante);
+        setIdiomasPostulante(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const traerExperienciaLaboral = async () => {
+      try {
+        const response = await getExperienciaLaboral(idPostulante);
+        setExperienciaLaboral(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     traerPostulante();
+    traerIdiomasPostulante();
+    traerExperienciaLaboral();
+
   }, [idPostulante]);
 
   useEffect(() => {
@@ -80,6 +105,32 @@ const Postulante = () => {
     }
     return dia + "/" + mes + "/" + año;
   };
+
+  const calcularTiempo = (fechaInicio, fechaFin) => {
+    // calcula el tiempo entre dos fechas, en años y meses redondeados (si el año es 0 no se muestra)
+    // si el mes es 1 se muestra "1 mes" y si es mayor a 1 "n meses"
+    const fechaInicioDate = new Date(fechaInicio);
+    const fechaFinDate = new Date(fechaFin);
+    let años = fechaFinDate.getFullYear() - fechaInicioDate.getFullYear();
+    let meses = fechaFinDate.getMonth() - fechaInicioDate.getMonth();
+    if (meses < 0) {
+      años--;
+      meses = 12 + meses;
+    }
+    if (años === 0) {
+      if (meses === 1) {
+        return meses + " mes";
+      } else {
+        return meses + " meses";
+      }
+    } else {
+      if (meses === 0) {
+        return años + " años";
+      } else {
+        return años + " años y " + meses + " meses";
+      }
+    }
+  }
 
   return (
     <>
@@ -433,7 +484,7 @@ const Postulante = () => {
                     />
                   </ListItem>
                 </List>
-                {postulante.Idiomas?.length > 0 && (
+                {idiomasPostulante?.length > 0 && (
                   <>
                     <Divider sx={{ marginTop: "1rem" }} />
                     <Typography
@@ -444,43 +495,13 @@ const Postulante = () => {
                       Idiomas
                     </Typography>
                     <Grid container spacing={2}>
-                      {postulante.Idiomas?.map((idioma, index) => (
-                        <Grid item key={index} xs={12} sm={6}>
-                          <Card
-                            variant="outlined"
-                            sx={{ marginTop: "1rem", position: "relative" }}
-                          >
-                            <CardContent>
-                              <Typography
-                                variant="h6"
-                                sx={{
-                                  marginBottom: "1rem",
-                                }}
-                              >
-                                {idioma["Idiomas del postulante"].nombre_idioma}
-                              </Typography>
-                              <Typography>
-                                Nivel escrito:{" "}
-                                {idioma["Idiomas del postulante"].nivel_escrito}
-                              </Typography>
-                              <Typography>
-                                Nivel oral:{" "}
-                                {idioma["Idiomas del postulante"].nivel_oral}
-                              </Typography>
-                              <TranslateIcon
-                                color="primary"
-                                sx={{
-                                  position: "absolute",
-                                  top: {
-                                    xs: "25%",
-                                    sm: "50%",
-                                  },
-                                  right: "2rem",
-                                  transform: "translateY(-50%)",
-                                }}
-                              />
-                            </CardContent>
-                          </Card>
+                      {idiomasPostulante.map(idioma => (
+                        <Grid item key={idioma.id}>
+                          <Chip
+                            label={idioma.Idioma.nombre_idioma + " - " + idioma.Nivel.nivel}
+                            icon={<TranslateIcon />}
+                            sx={{ marginRight: "0.5rem" }}
+                          />
                         </Grid>
                       ))}
                     </Grid>
@@ -537,6 +558,48 @@ const Postulante = () => {
                     </Grid>
                   </>
                 )}
+
+                {
+                  experienciaLaboral.length > 0 && (
+                    <>
+                      <Divider sx={{ marginTop: "1rem" }} />
+                      <Typography
+                        variant="h5"
+                        color="primary"
+                        sx={{ marginTop: "1rem" }}
+                      >
+                        Experiencia laboral
+                      </Typography>
+                      <List>
+                        {experienciaLaboral.map( experiencia => (
+                          <ListItem key={experiencia.id}>
+                            <Box sx={{ display: "flex", flexDirection:"column"}}>
+                              <ListItemText
+                                primary={experiencia.puesto}
+                                secondary={experiencia.empresa}
+                              />
+                              <Typography
+                                variant="body2"
+                                color="textSecondary"
+                                sx={{  }}
+                              >
+                                {formatoFecha(experiencia.fecha_inicio) +
+                                  " - " +
+                                  formatoFecha(experiencia.fecha_fin) + " (" + calcularTiempo(experiencia.fecha_inicio, experiencia.fecha_fin) + ")"} 
+                              </Typography>
+                              
+                              <Typography variant="body1" color="textPrimary" sx={{  }}>
+                                {experiencia.descripcion}
+                              </Typography>
+                            
+
+                            </Box>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </>
+                  )
+                }
               </>
             )}
           </CardContent>
