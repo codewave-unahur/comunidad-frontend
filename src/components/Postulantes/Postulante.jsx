@@ -454,7 +454,7 @@ const Postulante = () => {
                 >
                   <ListItem>
                     <ListItemText
-                      primary= {postulante.Estudios?.nombre_estudio}
+                      primary= {postulante.Estudios?.nombre_estudio + " " + postulante.Estudios?.estado_estudio}
                       secondary="Estudios"
                     />
                   </ListItem>
