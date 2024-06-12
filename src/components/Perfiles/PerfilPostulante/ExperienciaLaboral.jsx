@@ -101,14 +101,14 @@ const ExperienciaLaboral = () => {
     };
 
     const convertirFecha = (fecha) => {
-        const fechaConvertida = new Date(fecha);
-        return fechaConvertida.toLocaleDateString();
+        
+        const fechaDate = new Date(fecha);
+        fechaDate.setDate(fechaDate.getDate() + 1);
+        return fechaDate.toLocaleDateString();
 
     }
 
     const calcularTiempo = (fechaInicio, fechaFin) => {
-        // calcula el tiempo entre dos fechas, en años y meses redondeados (si el año es 0 no se muestra)
-        // si el mes es 1 se muestra "1 mes" y si es mayor a 1 "n meses"
         const fechaInicioDate = new Date(fechaInicio);
         const fechaFinDate = new Date(fechaFin);
         let años = fechaFinDate.getFullYear() - fechaInicioDate.getFullYear();
@@ -227,26 +227,28 @@ const ExperienciaLaboral = () => {
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
                                                 <TextField
-                                                    fullWidth
-                                                    label="Fecha de inicio"
-                                                    variant="outlined"
                                                     type='date'
+                                                    fullWidth
+                                                    variant="outlined"
                                                     value={fechaInicioElegida}
                                                     onChange={handleChangeFechaInicio}
                                                     disabled={isFieldDisabled}
                                                     onError={validarErrores.fechaInicio}
+                                                    label="Fecha de inicio"
+                                                    InputLabelProps={{ shrink: true}}
                                                 />
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
                                                 <TextField
                                                     fullWidth
-                                                    label="Fecha de fin"
                                                     variant="outlined"
                                                     type='date'
                                                     value={fechaFinElegida}
                                                     onChange={handleChangeFechaFin}
                                                     disabled={isFieldDisabled}
                                                     onError={validarErrores.fechaFin}
+                                                    label="Fecha de fin"
+                                                    InputLabelProps={{ shrink: true}}
                                                 />
                                             </Grid>
                                         </Grid>
