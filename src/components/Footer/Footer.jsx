@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Link } from "@mui/material";
+import { Box, Divider, Grid, Link, Typography } from "@mui/material";
 import React from "react";
 import logodvt from "../../assets/logoDvt.png";
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -109,26 +109,26 @@ export default function Footer() {
               </Box>
             </Grid>
             <Grid item xs={12} sm={3}>
-              <Box>
+              <Box sx={{ display:"flex", flexDirection:"column"}}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <PlaceIcon sx={{ color: "#5C5A5E" }} />
-                  <p style={{ color: "#636664", fontSize: "11.6px" }}>
+                  <Typography sx={{ color: "#636664", fontSize: "11.6px" }}>
                     Ausebione 8, B1688 Villa Tesei, Provincia de Buenos Aires
-                  </p>
+                  </Typography>
                 </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems:"center" }}>
                   <EmailIcon sx={{ color: "#5C5A5E" }} />
-                  <p style={{ color: "#636664", fontSize: "11.6px" }}>
+                  <Typography sx={{ color: "#636664", fontSize: "11.6px", textAlign:"center"}}>
                     empleabilidad@unahur.edu.ar
-                  </p>
+                  </Typography>
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <EmailIcon sx={{ color: "#5C5A5E" }} />
-                  <p style={{ color: "#636664", fontSize: "11.6px" }}>
+                  <Typography sx={{ color: "#636664", fontSize: "11.6px" }}>
                     dvt@unahur.edu.ar
-                  </p>
+                  </Typography>
                 </Box>
               </Box>
             </Grid>
