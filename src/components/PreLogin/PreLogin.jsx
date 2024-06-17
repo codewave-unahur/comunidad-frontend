@@ -1,7 +1,8 @@
-import { Box, FormControl, Button, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import logoVinculacion from '../../assets/logoVinculacion.svg';
+import logoUnahur from '../../assets/logoUnahur.svg';
 import  {Toaster, toast }  from 'sonner';
 
 
@@ -64,12 +65,25 @@ const PreLogin = () => {
                     maxWidth: '380px',
                     
                 }}>
-                    <img src={logoVinculacion} alt="Logo Vinculación" style={{ 
+                    <Box sx={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 2,
+                        justifyContent: 'center',
+                        maxWidth: '380px',
+                        
+                    }}>
+                    <img src={logoUnahur} alt="Logo Unahur" style={{
                         width: '200px',
-                        height: '200px',
-                        marginBottom: '20px'
+                        height: '100px',
+                    }} />
+                    <img src={logoVinculacion} alt="Logo Vinculación" style={{ 
+                        width: '100px',
+                        height: '100px',
                      }} />
-                     
+                    
+                    </Box>
                     <Box sx={{ 
                         padding: '1rem 1rem',
                         backgroundColor: '#fff3cd',
@@ -124,6 +138,9 @@ const PreLogin = () => {
                             textAlign: 'center',
                             verticalAlign: 'middle',
                             border: '1px solid transparent',
+                            ":hover": {
+                                backgroundColor: '#4c8c2b'
+                            }
                         }}
                         size='large'
 
