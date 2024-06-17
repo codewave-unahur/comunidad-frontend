@@ -112,13 +112,13 @@ const Header = (props) => {
               item
               xs={false}
               sm={3}
-              
               sx={{
                 display: { xs: "none", sm: "block"},
                 justifyContent: "flex-start",
                 flexDirection: "row",
                 
               }}
+              
             >
               <Link href="/home">
                 {/*<img
@@ -132,7 +132,8 @@ const Header = (props) => {
                   alt="Universidad Nacional de Hurlingham"
                   style={{
                     width: "auto",
-                    height: "100px",
+                    height: "85px",
+                    marginRight: "4px",
                   }}
                   
                 />
@@ -142,6 +143,7 @@ const Header = (props) => {
                   style={{
                     width: "auto",
                     height: "85px",
+                    marginRight: "4px",
                   }}
                 />
               </Link>
