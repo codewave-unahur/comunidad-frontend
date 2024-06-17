@@ -1,7 +1,8 @@
-import { Box, FormControl, Button, TextField } from '@mui/material';
+import { Box, FormControl, Button, TextField, Typography } from '@mui/material';
 import React from 'react';
-import { toast } from 'sonner';
 import { useState } from 'react';
+import logoVinculacion from '../../assets/logoVinculacion.svg';
+import { toast } from "sonner";
 
 
 
@@ -10,8 +11,7 @@ const PreLogin = () => {
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     const invitado = sessionStorage.getItem('invitado');
-    const usuario = import.meta.env.USER_PRELOGIN
-    const contrasena = import.meta.env.PASSWORD_PRELOGIN
+
 
 
     const handleUser = (e) => {
@@ -31,6 +31,7 @@ const PreLogin = () => {
         }
         else {
             console.log('Usuario o contraseña incorrectos');
+            toast.error('Usuario o contraseña incorrectos');
         }
     }
 
@@ -42,55 +43,97 @@ const PreLogin = () => {
 
     return ( 
         <>
-            <Box>
-                <h1>PreLogin</h1>
-            </Box>
-            
+        <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '100vh',
+            backgroundColor: '#f4f4f4'
+        }}>
             {
                 !invitado ? (
                 <>
-                <Box>
-                <FormControl>
-                    <TextField
-                        label="Usuario"
-                        variant="outlined"
-                        value={user}
-                        onChange={handleUser}
-                        type='text'
-                    />
-                </FormControl>
-            </Box>
-            <Box>
-                <FormControl>
-                    <TextField
-                        label="Contraseña"
-                        variant="outlined"
-                        value={password}
-                        onChange={handlePassword}
-                        type="text"
-                    />
-                </FormControl>
-            </Box>
-            <Box>
-                <Button
-                    variant="contained"
-                    onClick={handleLogin}
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: 2,
+                    justifyContent: 'center',
+                    padding: '40px',
+                    maxWidth: '330px',
                     
-                >
-                    Ingresar
-                </Button>
-            </Box>
+                }}>
+                    <img src={logoVinculacion} alt="Logo Vinculación" style={{ 
+                        width: '200px',
+                        height: '200px',
+                        marginBottom: '20px'
+                     }} />
+                     
+                    <Box sx={{ 
+                        padding: '1rem 1rem',
+                        backgroundColor: '#fff3cd',
+                        border : '1px solid transparent',
+                        borderRadius: '.25rem',
+                        borderColor: '#ffecb5',
+                     }}>
+                        <Typography 
+                            variant="h4" 
+                            align='center' 
+                            sx={{
+                                color: "#664d03",
+                                fontSize: '1rem',
+                                fontWeight: 400,
+                                lineHeight: 1.5,
+                                fontFamily: 'Roboto, sans-serif'
+
+                            }} >
+                            Para acceder primero debes loguearte.
+                        </Typography>
+                    </Box>
+                        <TextField
+                            label="Usuario"
+                            variant="outlined"
+                            onChange={handleUser}
+                            width="330px" 
+                            fullWidth
+                            sx={{
+                                backgroundColor: '#fff',
+                            }}
+                        />
+                    
+                        <TextField
+                            label="Contraseña"
+                            variant="outlined"
+                            type="password"
+                            onChange={handlePassword}
+                            fullWidth 
+                            sx={{
+                                backgroundColor: '#fff',
+                            }}
+                        />
+                    <Button
+                        variant="contained"
+                        onClick={handleLogin}
+                        color='success'
+                        fullWidth
+                    >
+                        Iniciar sesión
+                    </Button>
+                    
+                </Box>
             </>) : (<Box>
                 <h2>Ya estás logueado</h2>
                 <Button
                     variant="contained"
                     onClick={handleLogout}
+                    
+                    
                 >
                     Cerrar sesión
                 </Button>
             </Box>)
             }
-                
+             </Box>   
         </>
      );
 }
