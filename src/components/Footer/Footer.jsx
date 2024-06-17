@@ -25,7 +25,7 @@ export default function Footer() {
             justifyContent: "space-between",
             alignItems: "center",
             backgroundColor: "#F4F4F4",
-            padding: { xs: 2, sm: "60px", md: "120px" },
+            padding: { xs: 2, sm: "60px", md: "160px" },
           }}
         >
           <Grid
