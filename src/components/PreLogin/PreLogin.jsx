@@ -111,6 +111,7 @@ const PreLogin = () => {
                             onChange={handleUser}
                             width="330px" 
                             fullWidth
+                            color='success'
                             sx={{
                                 backgroundColor: '#fff',
                             }}
@@ -122,6 +123,7 @@ const PreLogin = () => {
                             type="password"
                             onChange={handlePassword}
                             fullWidth 
+                            color='success'
                             sx={{
                                 backgroundColor: '#fff',
                             }}
