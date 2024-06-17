@@ -10,6 +10,7 @@ import MapaCpyme from "./MapaCpyme";
 import PlaceIcon from "@mui/icons-material/Place";
 import EmailIcon from "@mui/icons-material/Email";
 import logocpyme from "../../assets/logo-cpyme.svg";
+import logoVinculacion from "../../assets/logoVinculacion.svg";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -35,21 +36,29 @@ export default function Footer() {
             <Grid item xs={12} sm={3}>
               <Box>
                 <img
-                  src={logocpyme}
+                  src={logoVinculacion}
                   alt="logo cpyme"
-                  style={{ width: "50%", height: "50%" }}
+                  style={{ 
+                    width: "100px",
+                    height: "100px",
+                    marginBottom: "20px", 
+                  }}
                 />
                 <p style={{ color: "#636664", fontSize: "11.6px" }}>
                   &copy; {year} Direccion de Vinculación Tecnológica - UNAHUR
                 </p>
-                <p style={{ color: "#636664", fontSize: "11.6px" }}>
+                <p style={{ 
+                  color: "#636664",
+                  fontSize: "11.6px" 
+                  }}
+                >
                   Todos los derechos reservados
                 </p>
 
-                <Link href="#" style={{ color: "#636664", fontSize: "11.6px" }}>
+                <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none" }}>
                   <p>Terminos legales</p>
                 </Link>
-                <Link href="#" style={{ color: "#636664", fontSize: "11.6px" }}>
+                <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none"}}>
                   <p>Aviso de cookies</p>
                 </Link>
 

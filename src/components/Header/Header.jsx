@@ -18,6 +18,9 @@ import logoDvt from "../../assets/logoDvt.png";
 import { getOfertas } from "../../services/ofertas_service";
 import PropTypes from "prop-types";
 import logouni from "../../assets/logo-cpyme-uni.svg";
+import logoVinculacion from "../../assets/logoVinculacion.svg";
+import logoUnahur from "../../assets/logoUnahur.svg";
+
 
 const Header = (props) => {
   const { setOfertas } = props;
@@ -109,16 +112,37 @@ const Header = (props) => {
               item
               xs={false}
               sm={3}
-              display={{ xs: "none", sm: "block"}}
-              justifyContent="flex-start"
-              alignItems="center"
+              
+              sx={{
+                display: { xs: "none", sm: "block"},
+                justifyContent: "flex-start",
+                flexDirection: "row",
+                
+              }}
             >
               <Link href="/home">
-                <img
+                {/*<img
                   src={logouni}
                   alt="UNAHUR-DVT"
                   style={{ width: "auto" }}
                   
+                />*/}
+                <img
+                  src={logoUnahur}
+                  alt="Universidad Nacional de Hurlingham"
+                  style={{
+                    width: "auto",
+                    height: "100px",
+                  }}
+                  
+                />
+                <img
+                  src={logoVinculacion}
+                  alt="Dirección de Vinculación Tecnológica"
+                  style={{
+                    width: "auto",
+                    height: "85px",
+                  }}
                 />
               </Link>
             </Grid>
