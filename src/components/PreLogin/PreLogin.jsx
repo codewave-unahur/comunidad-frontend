@@ -125,6 +125,8 @@ const PreLogin = () => {
                             verticalAlign: 'middle',
                             border: '1px solid transparent',
                         }}
+                        size='large'
+
                     >
                         Ingresar
                     </Button>
@@ -141,7 +143,7 @@ const PreLogin = () => {
                     Cerrar sesión
                 </Button>
             </Box>)
-            }
+            } 
              </Box>   
              <Toaster richColors />
         </>
