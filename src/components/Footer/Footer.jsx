@@ -120,7 +120,7 @@ export default function Footer() {
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <EmailIcon sx={{ color: "#5C5A5E" }} />
                   <p style={{ color: "#636664", fontSize: "11.6px" }}>
-                    empleabilidad@unahur.edu.aria
+                    empleabilidad@unahur.edu.ar
                   </p>
                 </Box>
 
