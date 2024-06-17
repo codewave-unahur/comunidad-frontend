@@ -22,7 +22,7 @@
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
-    "sonner": "^0.7.0",
+    "sonner": "^1.5.0",
     "styled-components": "^6.0.8",
     "yup": "^1.2.0"
   },

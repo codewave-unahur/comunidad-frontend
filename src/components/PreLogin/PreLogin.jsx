@@ -2,8 +2,7 @@ import { Box, FormControl, Button, TextField, Typography } from '@mui/material';
 import React from 'react';
 import { useState } from 'react';
 import logoVinculacion from '../../assets/logoVinculacion.svg';
-import { toast } from "sonner";
-
+import  {Toaster, toast }  from 'sonner';
 
 
 const PreLogin = () => {
@@ -25,14 +24,14 @@ const PreLogin = () => {
 
     const handleLogin = () => {
         if (user === import.meta.env.VITE_USER && password === import.meta.env.VITE_PASSWORD) {
-            console.log('Usuario y contraseña correctos');
             sessionStorage.setItem('invitado', true)
-            window.location.href = '/home';
+            toast.success('Te has logueado correctamente');
+            setTimeout(() => {
+                window.location.href = '/home';
+            }, 2000);
         }
         else {
-            console.log('Usuario o contraseña incorrectos');
-            toast.error('Usuario o contraseña incorrectos');
-        }
+            toast.error('Usuario o contraseña incorrectos');}
     }
 
     const handleLogout = () => {
@@ -40,6 +39,8 @@ const PreLogin = () => {
         window.location.reload()
     }
 
+
+   
 
     return ( 
         <>
@@ -60,7 +61,7 @@ const PreLogin = () => {
                     gap: 2,
                     justifyContent: 'center',
                     padding: '40px',
-                    maxWidth: '330px',
+                    maxWidth: '380px',
                     
                 }}>
                     <img src={logoVinculacion} alt="Logo Vinculación" style={{ 
@@ -114,10 +115,18 @@ const PreLogin = () => {
                     <Button
                         variant="contained"
                         onClick={handleLogin}
-                        color='success'
                         fullWidth
+                        sx={{
+                            backgroundColor: '#57A42D',
+                            fontWeight: 400,
+                            lineHeight: 1.5,
+                            display: 'inline-block',
+                            textAlign: 'center',
+                            verticalAlign: 'middle',
+                            border: '1px solid transparent',
+                        }}
                     >
-                        Iniciar sesión
+                        Ingresar
                     </Button>
                     
                 </Box>
@@ -134,6 +143,7 @@ const PreLogin = () => {
             </Box>)
             }
              </Box>   
+             <Toaster richColors />
         </>
      );
 }
