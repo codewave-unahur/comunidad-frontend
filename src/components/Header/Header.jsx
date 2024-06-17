@@ -113,7 +113,7 @@ const Header = (props) => {
               justifyContent="flex-start"
               alignItems="center"
             >
-              <Link href="/">
+              <Link href="/home">
                 <img
                   src={logouni}
                   alt="UNAHUR-DVT"

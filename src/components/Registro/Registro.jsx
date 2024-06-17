@@ -151,7 +151,7 @@ export default function Registro({
                     <Button onClick={handleClose}>No</Button>
                     <Button
                       onClick={() => {
-                        window.location.href = "/";
+                        window.location.href = "/home";
                       }}
                       autoFocus
                     >

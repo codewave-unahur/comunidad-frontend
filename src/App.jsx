@@ -12,25 +12,64 @@ import Empresa from "./components/Empresa/Empresa";
 import NuevaContraseña from "./components/RestablecerContraseña/NuevaContraseña.jsx";
 import EdicionOferta from "./components/Ofertas/EdicionOferta.jsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PreLogin from "./components/PreLogin/PreLogin.jsx";
+import NotFound from "./components/404/NotFound.jsx";
+import { checkInvitado } from "./components/PrivateRoute/PrivateRouteInvitado.jsx";
+
+
 
 function App() {
+
+
+
+
   return (
     <Routes>
-      <Route path="/" element={<Inicio />} />
-      <Route path="/perfil" element={<Perfil />} />
-      <Route path="/oferta/:id" element={<Oferta />} />
-      <Route path="/oferta/editar/:id" element={<EdicionOferta />} />
-      <Route path="/empresa/:id" element={<Empresa />} />
-      <Route path="/postulante/:id" element={<Postulante />} />
-      <Route path="/postulantes/:id" element={<Postulantes />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/registro/postulante/:id" element={<RegistroPostulante />} />
-      <Route path="/registro/empresa/:id" element={<RegistroEmpresa />} />
-      <Route path="/restablecimientoContraseña" element={<Email />} />
+      
+      <Route path="/" element={<PreLogin />} />
+      <Route path="/home" element={
+        checkInvitado(<Inicio />)
+      } />
+      <Route path="/perfil" element={
+        checkInvitado(<Perfil />)
+      } />
+      <Route path="/oferta/:id" element={
+        checkInvitado( <Oferta />)
+        } />
+      <Route path="/oferta/editar/:id" element={
+        checkInvitado( <EdicionOferta />)
+      } />
+      <Route path="/empresa/:id" element={
+        checkInvitado( <Empresa />)
+      } />
+      <Route path="/postulante/:id" element={
+        checkInvitado( <Postulante />)
+      } />
+      <Route path="/postulantes/:id" element={
+        checkInvitado( <Postulantes />)
+      } />
+      <Route path="/login" element={
+        checkInvitado( <Login />)
+      } />
+      <Route path="/registro/postulante/:id" element={
+        checkInvitado( <RegistroPostulante />)
+      } />
+      <Route path="/registro/empresa/:id" element={
+        checkInvitado( <RegistroEmpresa />)
+      } />
+      <Route path="/restablecimientoContraseña" element={
+        checkInvitado( <Email />)
+      } />
       <Route
         path="/restablecimientoContraseña/nuevaContraseña/:id"
-        element={<NuevaContraseña />}
+        element={
+          checkInvitado( <NuevaContraseña />)
+        }
       />
+      <Route path="*" element={
+        checkInvitado(<NotFound />)
+      } />
+      
     </Routes>
   );
 }

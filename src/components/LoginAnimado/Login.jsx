@@ -148,7 +148,7 @@ const Login = () => {
           sessionStorage.setItem("tipoUsuario", tipoUsuario);
           sessionStorage.setItem("token", response.token);
           sessionStorage.setItem("idUsuario", response.id);
-          window.location.href = "/";
+          window.location.href = "/home";
         }
       })
       .catch((err) => {

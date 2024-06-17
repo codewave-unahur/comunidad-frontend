@@ -255,7 +255,7 @@ function Perfil() {
         
 
         <IconButton
-          onClick={() => (window.location.href = "/")}
+          onClick={() => (window.location.href = "/home")}
           size="small"
           sx={{
             "&:hover": {

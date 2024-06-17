@@ -129,7 +129,7 @@ const Oferta = () => {
           if (response) {
             toast.success("Postulación exitosa");
             setTimeout(() => {
-              window.location.href = "/";
+              window.location.href = "/home";
             }, 1500);
           }
         } catch (error) {

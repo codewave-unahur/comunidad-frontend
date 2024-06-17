@@ -29,7 +29,7 @@ export default function IconUser() {
     sessionStorage.removeItem("datosUsuario");
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("idUsuario");
-    window.location.href = "/";
+    window.location.href = "/home";
   };
 
   const handlePerfil = () => {
