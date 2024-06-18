@@ -33,7 +33,7 @@ export default function Footer() {
             spacing={2}
             sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", gap: 2}}
           >
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <Box>
                 <img
                   src={logoVinculacion}
@@ -103,12 +103,82 @@ export default function Footer() {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={5}>
+            <Grid item xs={12} sm={2}>
+            <Box>
+                <img
+                  src={logoVinculacion}
+                  alt="logo cpyme"
+                  style={{ 
+                    width: "100px",
+                    height: "100px",
+                    marginBottom: "20px", 
+                  }}
+                />
+                <p style={{ color: "#636664", fontSize: "11.6px" }}>
+                  &copy; {year} Direccion de Vinculación Tecnológica - UNAHUR
+                </p>
+                <p style={{ 
+                  color: "#636664",
+                  fontSize: "11.6px" 
+                  }}
+                >
+                  Todos los derechos reservados
+                </p>
+
+                <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none" }}>
+                  <p>Terminos legales</p>
+                </Link>
+                <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none"}}>
+                  <p>Aviso de cookies</p>
+                </Link>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "start",
+                    alignItems: "center",
+                    gap: 1,
+                  }}
+                >
+                  <Link
+                    href="https://www.instagram.com/cpymeunahur/"
+                    target="__blank"
+                  >
+                    <InstagramIcon sx={{ color: "#5C5A5E" }} />
+                  </Link>
+                  <Link
+                    href="https://www.facebook.com/cpymeUNAHUR"
+                    target="__blank"
+                  >
+                    <FacebookIcon sx={{ color: "#5C5A5E" }} />
+                  </Link>
+                  <Link
+                    href="https://twitter.com/cpymeUNAHUR/"
+                    target="__blank"
+                  >
+                    <TwitterIcon sx={{ color: "#5C5A5E" }} />
+                  </Link>
+                  <Link
+                    href="https://www.linkedin.com/company/centro-pyme-unahur/"
+                    target="__blank"
+                  >
+                    <LinkedIn sx={{ color: "#5C5A5E" }} />
+                  </Link>
+                  <Link
+                    href="https://www.youtube.com/@cpymeunahur"
+                    target="__blank"
+                  >
+                    <YouTubeIcon sx={{ color: "#5C5A5E" }} />
+                  </Link>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={4}>
               <Box>
                 <MapaCpyme />
               </Box>
             </Grid>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={2}>
               <Box sx={{ display:"flex", flexDirection:"column"}}>
                 <Box sx={{ display: "flex", alignItems: "center" }}>
                   <PlaceIcon sx={{ color: "#5C5A5E" }} />
