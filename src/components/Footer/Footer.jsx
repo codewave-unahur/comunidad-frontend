@@ -11,6 +11,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import EmailIcon from "@mui/icons-material/Email";
 import logocpyme from "../../assets/logo-cpyme.svg";
 import logoVinculacion from "../../assets/logoVinculacion.svg";
+import logoCodewave from "../../assets/logoCodewave.svg";
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -44,22 +45,34 @@ export default function Footer() {
                     marginBottom: "20px", 
                   }}
                 />
-                <p style={{ color: "#636664", fontSize: "11.6px" }}>
+                <Typography sx={{
+                    color: "#636664",
+                    fontSize: "11.6px",
+                    marginBottom: "20px" 
+                   }}
+                >
                   &copy; {year} Direccion de Vinculación Tecnológica - UNAHUR
-                </p>
-                <p style={{ 
+                </Typography>
+                <Typography sx={{ 
                   color: "#636664",
-                  fontSize: "11.6px" 
+                  fontSize: "11.6px",
+                  marginBottom: "20px"  
                   }}
+                  
                 >
                   Todos los derechos reservados
-                </p>
+                </Typography>
 
-                <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none" }}>
-                  <p>Terminos legales</p>
+                <Link href="#" style={{textDecoration:"none" }}>
+                  <Typography sx={{
+                      color: "#636664", 
+                      fontSize: "11.6px",
+                      marginBottom: "20px",
+                      
+                    }}>Terminos legales</Typography>
                 </Link>
                 <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none"}}>
-                  <p>Aviso de cookies</p>
+                  <Typography>Aviso de cookies</Typography>
                 </Link>
 
                 <Box
@@ -106,30 +119,30 @@ export default function Footer() {
             <Grid item xs={12} sm={2}>
             <Box>
                 <img
-                  src={logoVinculacion}
+                  src={logoCodewave}
                   alt="logo cpyme"
                   style={{ 
-                    width: "100px",
-                    height: "100px",
-                    marginBottom: "20px", 
+                    width: "160px",
+                    height: "160px",
+
                   }}
                 />
-                <p style={{ color: "#636664", fontSize: "11.6px" }}>
+                <Typography style={{ color: "#636664", fontSize: "11.6px" }}>
                   &copy; {year} Direccion de Vinculación Tecnológica - UNAHUR
-                </p>
-                <p style={{ 
+                </Typography>
+                <Typography sx={{ 
                   color: "#636664",
                   fontSize: "11.6px" 
                   }}
                 >
                   Todos los derechos reservados
-                </p>
+                </Typography>
 
                 <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none" }}>
-                  <p>Terminos legales</p>
+                  <Typography>Terminos legales</Typography>
                 </Link>
                 <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none"}}>
-                  <p>Aviso de cookies</p>
+                  <Typography>Aviso de cookies</Typography>
                 </Link>
 
                 <Box
