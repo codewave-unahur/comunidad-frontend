@@ -38,7 +38,7 @@ export default function Footer() {
               <Box>
                 <img
                   src={logoVinculacion}
-                  alt="logo cpyme"
+                  alt="Direccion de Vinculacion Tecnologica"
                   style={{ 
                     width: "100px",
                     height: "100px",
@@ -72,7 +72,12 @@ export default function Footer() {
                     }}>Terminos legales</Typography>
                 </Link>
                 <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none"}}>
-                  <Typography>Aviso de cookies</Typography>
+                  <Typography sx={{
+                      color: "#636664",
+                      fontSize: "11.6px",
+                      marginBottom: "20px",
+                    }}>Aviso de cookies</Typography>
+                  
                 </Link>
 
                 <Box
@@ -120,70 +125,40 @@ export default function Footer() {
             <Box>
                 <img
                   src={logoCodewave}
-                  alt="logo cpyme"
+                  alt="Codewave S.A." 
                   style={{ 
                     width: "160px",
                     height: "160px",
 
                   }}
                 />
-                <Typography style={{ color: "#636664", fontSize: "11.6px" }}>
-                  &copy; {year} Direccion de Vinculación Tecnológica - UNAHUR
-                </Typography>
                 <Typography sx={{ 
-                  color: "#636664",
-                  fontSize: "11.6px" 
+                  color: "#636664", 
+                  fontSize: "11.6px",
+                  marginBottom:"20px" 
                   }}
                 >
-                  Todos los derechos reservados
+                  &copy; {year} Codewave S.A
+                </Typography>
+                
+                <Typography sx={{
+                  color: "#636664",
+                  fontSize: "11.6px",
+                  marginBottom:"20px"
+                  }}
+                >
+                  Éste sitio fue desarrollado por Codewave S.A.
                 </Typography>
 
-                <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none" }}>
-                  <Typography>Terminos legales</Typography>
+                <Link href="https://drive.google.com/file/d/1YkFotZV7rQC5KyzZOVnrQN-v4RjGbw3f/view" style={{textDecoration:"none"}}>
+                  <Typography sx={{
+                      color: "#636664",
+                      fontSize: "11.6px",
+                      marginBottom:"20px"
+                    }}>
+                      Conocé nuestras propuestas
+                    </Typography>
                 </Link>
-                <Link href="#" style={{ color: "#636664", fontSize: "11.6px", textDecoration:"none"}}>
-                  <Typography>Aviso de cookies</Typography>
-                </Link>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "start",
-                    alignItems: "center",
-                    gap: 1,
-                  }}
-                >
-                  <Link
-                    href="https://www.instagram.com/cpymeunahur/"
-                    target="__blank"
-                  >
-                    <InstagramIcon sx={{ color: "#5C5A5E" }} />
-                  </Link>
-                  <Link
-                    href="https://www.facebook.com/cpymeUNAHUR"
-                    target="__blank"
-                  >
-                    <FacebookIcon sx={{ color: "#5C5A5E" }} />
-                  </Link>
-                  <Link
-                    href="https://twitter.com/cpymeUNAHUR/"
-                    target="__blank"
-                  >
-                    <TwitterIcon sx={{ color: "#5C5A5E" }} />
-                  </Link>
-                  <Link
-                    href="https://www.linkedin.com/company/centro-pyme-unahur/"
-                    target="__blank"
-                  >
-                    <LinkedIn sx={{ color: "#5C5A5E" }} />
-                  </Link>
-                  <Link
-                    href="https://www.youtube.com/@cpymeunahur"
-                    target="__blank"
-                  >
-                    <YouTubeIcon sx={{ color: "#5C5A5E" }} />
-                  </Link>
-                </Box>
               </Box>
             </Grid>
             <Grid item xs={12} sm={4}>
