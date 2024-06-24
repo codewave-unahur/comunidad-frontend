@@ -16,12 +16,7 @@ import PreLogin from "./components/PreLogin/PreLogin.jsx";
 import NotFound from "./components/404/NotFound.jsx";
 import { checkInvitado } from "./components/PrivateRoute/PrivateRouteInvitado.jsx";
 
-
-
 function App() {
-
-
-
 
   return (
     <Routes>
