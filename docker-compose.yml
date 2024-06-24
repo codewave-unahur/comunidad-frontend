@@ -1,6 +1,7 @@
 services:
   frontend:
     image: bolsatrabajo
+    container_name: bolsatrabajo
     restart: always
     build:
       context: .
