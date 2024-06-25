@@ -3,9 +3,10 @@ import { config } from "../config/config";
 
 
 
-export async function uploadImage(galeria, id) {
+export async function uploadImage(galeria, links="undefined", id) {
     const formData = new FormData();
     formData.append("galeria", galeria);
+    formData.append("links", links);
   
     const pedido = {
       method: "post",
