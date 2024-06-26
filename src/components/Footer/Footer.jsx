@@ -147,7 +147,7 @@ export default function Footer() {
                   marginBottom:"20px"
                   }}
                 >
-                  Éste sitio fue desarrollado por Codewave S.A.
+                  Este sitio fue desarrollado por Codewave S.A.
                 </Typography>
 
                 <Link href="https://drive.google.com/file/d/1YkFotZV7rQC5KyzZOVnrQN-v4RjGbw3f/view" style={{textDecoration:"none"}}>
