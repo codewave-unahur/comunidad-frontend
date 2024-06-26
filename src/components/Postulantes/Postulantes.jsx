@@ -247,41 +247,41 @@ const Postulantes = () => {
                     <TableCell align="center">
                       <Icon>
                         {tipoUsuario === "empresa" ? (
-                          postulacion.contactado === true ? (
+                          postulacion.Estado.nombre_estado === "aceptado" ? (
                             <CheckOutlinedIcon
                               sx={{
                                 color: "green",
                               }}
                             />
-                          ) : postulacion.contactado === false ? (
-                            <CloseOutlinedIcon
-                              sx={{
-                                color: "red",
-                              }}
-                            />
-                          ) : (
+                          ) : postulacion.Estado.nombre_estado === "en proceso" ? (
                             <PendingActionsIcon
                               sx={{
                                 color: "orange",
                               }}
                             />
+                          ) : (
+                            <CloseOutlinedIcon
+                              sx={{
+                                color: "red",
+                              }}
+                            />
                           )
-                        ) : postulacion.Estado.id === 1 ? (
+                        ) : postulacion.Estado.nombre_estado === "en proceso" ? (
                           <CheckOutlinedIcon
                             sx={{
                               color: "green",
                             }}
                           />
-                        ) : postulacion.Estado.id === 3 ? (
-                          <CloseOutlinedIcon
-                            sx={{
-                              color: "red",
-                            }}
-                          />
-                        ) : (
+                        ) : postulacion.Estado.nombre_estado === "pendiente" ? (
                           <PendingActionsIcon
                             sx={{
                               color: "orange",
+                            }}
+                          />
+                        ) : (
+                          <CloseOutlinedIcon
+                            sx={{
+                              color: "red",
                             }}
                           />
                         )}
@@ -313,15 +313,7 @@ const Postulantes = () => {
                           setBotonOpen("aceptar");
                           handleClickOpen();
                         }}
-                        disabled={
-                          tipoUsuario === "empresa"
-                            ? postulacion.contactado === true
-                              ? true
-                              : false
-                            : postulacion.estado_postulacion === true
-                            ? true
-                            : false
-                        }
+                       
                       >
                         {tipoUsuario === "empresa"
                           ? "Evaluar"
@@ -338,15 +330,6 @@ const Postulantes = () => {
                           setBotonOpen("rechazar");
                           handleClickOpen();
                         }}
-                        disabled={
-                          tipoUsuario === "empresa"
-                            ? postulacion.contactado === false
-                              ? true
-                              : false
-                            : postulacion.estado_postulacion === false
-                            ? true
-                            : false
-                        }
                       >
                         {tipoUsuario === "empresa"
                           ? "Rechazar"
