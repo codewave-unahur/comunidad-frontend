@@ -26,7 +26,7 @@ COPY --from=build /app/dist /app/dist
 COPY --from=build /app/node_modules /app/node_modules
 COPY package.json .
 
-EXPOSE 8080
+EXPOSE $VITE_PORT
 
 USER $USER
 
