@@ -11,8 +11,14 @@ export async function getPostulantes(
   buscarPostulante
 ) {
   try {
+    // HACER EL GET CON EL TOKEN DEL PARAMETRO PASADO COMO HEADER BEARER 
     const response = await axios.get(
-      `${config.apiUrl}/postulantes/?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&buscarPostulante=${buscarPostulante}`
+      `${config.apiUrl}/postulantes?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&buscarPostulante=${buscarPostulante}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -28,8 +34,12 @@ export async function getPostulantesBaseUnahur(
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/postulantes/baseConstante?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&buscarPostulante=${buscarPostulante}`
-    );
+      `${config.apiUrl}/postulantes/baseConstante?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&buscarPostulante=${buscarPostulante}`,
+    {
+      headers: {
+        Authorization: `bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error(error);
@@ -41,7 +51,12 @@ export async function getPostulantesBaseUnahur(
 export async function getPostulanteById(id) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/postulantes/idUsuario/${id}`
+      `${config.apiUrl}/postulantes/idUsuario/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -53,7 +68,13 @@ export async function getPostulanteById(id) {
 
 export async function getPostulanteByDni(dni) {
   try {
-    const response = await axios.get(`${config.apiUrl}/postulantes/dni/${dni}`);
+    const response = await axios.get(`${config.apiUrl}/postulantes/dni/${dni}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -81,7 +102,12 @@ export async function putPostulante(id, postulante, token) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/postulantes/dni/${id}?authorization=${token}`,
-      postulante
+      postulante,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -94,7 +120,12 @@ export async function putPostulante(id, postulante, token) {
 export async function deletePostulante(id, token) {
   try {
     const response = await axios.delete(
-      `${config.apiUrl}/postulantes/dni/${id}?authorization=${token}`
+      `${config.apiUrl}/postulantes/dni/${id}?authorization=${token}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -110,6 +141,11 @@ export async function agregarPreferencias(id, preferencias) {
       `${config.apiUrl}/postulantes/preferencias/${id}`,
       {
         preferencias,
+        
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      
       }
     );
     return response.data;
@@ -126,6 +162,11 @@ export async function agregarIdiomas(id, idiomas) {
       `${config.apiUrl}/postulantes/idiomas/${id}`,
       {
         idiomas,
+      
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      
       }
     );
     return response.data;
@@ -139,7 +180,12 @@ export async function agregarIdiomas(id, idiomas) {
 export async function eliminarIdioma(id) {
   try {
     const response = await axios.delete(
-      `${config.apiUrl}/postulantes/idiomas/${id}`
+      `${config.apiUrl}/postulantes/idiomas/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -152,7 +198,12 @@ export async function eliminarIdioma(id) {
 export async function eliminarPreferencias(id) {
   try {
     const response = await axios.delete(
-      `${config.apiUrl}/postulantes/preferencias/${id}`
+      `${config.apiUrl}/postulantes/preferencias/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -168,6 +219,11 @@ export async function agregarAptitudes(idPostulante, aptitudes) {
       `${config.apiUrl}/postulantes/aptitudes/${idPostulante}`,
       {
         aptitudes,
+        
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+        
       }
     );
     return response.data;
@@ -181,7 +237,12 @@ export async function agregarAptitudes(idPostulante, aptitudes) {
 export async function eliminarAptitudes(id) {
   try {
     const response = await axios.delete(
-      `${config.apiUrl}/postulantes/aptitudes/${id}`
+      `${config.apiUrl}/postulantes/aptitudes/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
