@@ -6,7 +6,12 @@ import { config } from "../config/config";
 export async function getPostulacionesPorIdOferta(pagina, limite, id) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/postulacionesid/oferta/${id}/?pagina=${pagina}&limite=${limite}`
+      `${config.apiUrl}/postulacionesid/oferta/${id}/?pagina=${pagina}&limite=${limite}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -19,7 +24,12 @@ export async function getPostulacionesPorIdOferta(pagina, limite, id) {
 export async function getPostulacionesPorIdOfertaTodas(pagina, limite, id) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/postulaciones/ofertatodas/${id}/?pagina=${pagina}&limite=${limite}`
+      `${config.apiUrl}/postulaciones/ofertatodas/${id}/?pagina=${pagina}&limite=${limite}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -32,7 +42,12 @@ export async function getPostulacionesPorIdOfertaTodas(pagina, limite, id) {
 export async function activarPostulacion(id) {
   try {
     const response = await axios.put(
-      `${config.apiUrl}/postulaciones/aceptar/${id}`
+      `${config.apiUrl}/postulaciones/aceptar/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -45,7 +60,12 @@ export async function activarPostulacion(id) {
 export async function desactivarPostulacion(id) {
   try {
     const response = await axios.put(
-      `${config.apiUrl}/postulaciones/desactivar/${id}`
+      `${config.apiUrl}/postulaciones/desactivar/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -58,7 +78,12 @@ export async function desactivarPostulacion(id) {
 export async function marcarContactado(id) {
   try {
     const response = await axios.put(
-      `${config.apiUrl}/postulaciones/contactado/${id}`
+      `${config.apiUrl}/postulaciones/contactado/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -71,7 +96,12 @@ export async function marcarContactado(id) {
 export async function marcarNoContactado(id) {
   try {
     const response = await axios.put(
-      `${config.apiUrl}/postulaciones/noContactado/${id}`
+      `${config.apiUrl}/postulaciones/noContactado/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -89,7 +119,12 @@ export async function getPostulacionesPorIdPostulante(
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/postulacionesid/postulante/${id}/?pagina=${pagina}&limite=${limite}&nombreDeOferta=${nombreDeOferta}`
+      `${config.apiUrl}/postulacionesid/postulante/${id}/?pagina=${pagina}&limite=${limite}&nombreDeOferta=${nombreDeOferta}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
