@@ -12,13 +12,14 @@ export default function Galeria() {
   const [isImageSelected, setIsImageSelected] = useState(false);
   const [open, setOpen] = useState(false);
   const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
-
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const fetchGaleria = async () => {
       const response = await getGaleria();
       if (response) {
         setGaleria(response.carouselImages);
+        console.log(response.carouselImages)
       }
     };
     fetchGaleria();
@@ -95,6 +96,9 @@ export default function Galeria() {
                   <Typography variant="h5">ID</Typography>
                 </TableCell>
                 <TableCell align="center" sx={{ width: "20%" }}>
+                  <Typography variant="h5"> Link </Typography>
+                </TableCell>
+                <TableCell align="center" sx={{ width: "20%" }}>
                   <Typography variant="h5"> Fecha de subida </Typography>
                 </TableCell>
                 <TableCell align="center" sx={{ width: "20%" }}>
@@ -116,11 +120,17 @@ export default function Galeria() {
                     <Typography variant="h5">{image.id}</Typography>
                   </TableCell>
                   <TableCell align="center" sx={{ width: "20%" }}>
+                    <Typography variant="h5">{image.links === "undefined"? " " : image.links}</Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ width: "20%" }}>
                     <Typography variant="h5">
                       {convertirHora(image.createdAt)}
                     </Typography>
                   </TableCell>
                   <TableCell align="center" sx={{ width: "20%" }}>
+                    <Button variant="contained" color="warning" sx={{marginRight:"4px"}}>
+                      Editar
+                    </Button>
                     <Button onClick={() => handleDeleteImage(image.id)} variant="contained" color="error">
                       Eliminar
                     </Button>
@@ -152,7 +162,7 @@ export default function Galeria() {
           maxWidth="sm"
           fullWidth >
             <DialogTitle>
-              {"Por favor seleccione la imagen que desea subir a la galeria (max 1000x1000)"}
+              {"Por favor seleccione la imagen que desea subir a la galeria (Resolución: 1920x500)"}
             </DialogTitle>
             <DialogContent>
               <Stack
