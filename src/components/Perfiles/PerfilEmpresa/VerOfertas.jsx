@@ -224,6 +224,7 @@ const VerOfertas = () => {
                         borderColor: "green",
                       },
                     }}
+                    disabled={oferta.Estado.nombre_estado === "pendiente" || oferta.Estado.nombre_estado === "observada"}
                     href={`/postulantes/${oferta.id}`}
                   >
                     Ver postulantes
