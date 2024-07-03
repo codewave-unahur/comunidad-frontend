@@ -12,7 +12,12 @@ export async function getOfertas(
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&buscarTitulo=${buscarTitulo}&idEstado=${estado}`
+      `${config.apiUrl}/ofertas/?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&buscarTitulo=${buscarTitulo}&idEstado=${estado}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -24,7 +29,13 @@ export async function getOfertas(
 
 export async function getOfertasSinFiltros() {
   try {
-    const response = await axios.get(`${config.apiUrl}/ofertas/all`);
+    const response = await axios.get(`${config.apiUrl}/ofertas/all`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    ) 
     return response.data;
   } catch (error) {
     console.error(error);
@@ -36,7 +47,12 @@ export async function getOfertasSinFiltros() {
 export async function getOfertaById(id) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/idOferta/${id}`
+      `${config.apiUrl}/ofertas/idOferta/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -49,7 +65,12 @@ export async function getOfertaById(id) {
 export async function getOfertaByCuit(pagina, limite, cuit, buscarTitulo) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/cuit/${cuit}?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}`
+      `${config.apiUrl}/ofertas/cuit/${cuit}?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -69,8 +90,13 @@ export async function getOfertasPorFiltrosRecomendados(
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/ofertas/?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}&ordenar=${ordenar}&estado=${estado}&id=${idUsuario}`
-    );
+      `${config.apiUrl}/ofertas/?pagina=${pagina}&limite=${limite}&buscarTitulo=${buscarTitulo}&ordenar=${ordenar}&estado=${estado}&id=${idUsuario}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    )
     return response.data;
   } catch (error) {
     console.error(error);
@@ -83,7 +109,12 @@ export async function postOferta(oferta, token) {
   try {
     const response = await axios.post(
       `${config.apiUrl}/ofertas/?authorization=${token}`,
-      oferta
+      oferta,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -97,7 +128,12 @@ export async function putOferta(idOferta, oferta, token) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/ofertas/idOferta/${idOferta}?authorization=${token}`,
-      oferta
+      oferta,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -110,7 +146,12 @@ export async function putOferta(idOferta, oferta, token) {
 export async function deleteOferta(idOferta, token) {
   try {
     const response = await axios.delete(
-      `${config.apiUrl}/ofertas/idOferta/${idOferta}?authorization=${token}`
+      `${config.apiUrl}/ofertas/idOferta/${idOferta}?authorization=${token}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
