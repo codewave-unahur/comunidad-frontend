@@ -16,7 +16,13 @@ export async function getPostulaciones() {
 
 export async function getPostulacionById(id) {
   try {
-    const response = await axios.get(`${config.apiUrl}/postulaciones/${id}`);
+    const response = await axios.get(`${config.apiUrl}/postulaciones/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -29,7 +35,12 @@ export async function postPostulacion(postulacion, token) {
   try {
     const response = await axios.post(
       `${config.apiUrl}/postulaciones/?authorization=${token}`,
-      postulacion
+      postulacion,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -43,7 +54,12 @@ export async function putPostulacion(idPostulacion, postulacion, token) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/postulaciones/${idPostulacion}?authorization=${token}`,
-      postulacion
+      postulacion,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -56,7 +72,12 @@ export async function putPostulacion(idPostulacion, postulacion, token) {
 export async function deletePostulacion(idPostulacion, token) {
   try {
     const response = await axios.delete(
-      `${config.apiUrl}/postulaciones/${idPostulacion}?authorization=${token}`
+      `${config.apiUrl}/postulaciones/${idPostulacion}?authorization=${token}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -69,7 +90,12 @@ export async function deletePostulacion(idPostulacion, token) {
 export async function postularseBaseConstante(idUsuario) {
   try {
     const response = await axios.post(
-      `${config.apiUrl}/postulaciones/baseconstante/${idUsuario}`
+      `${config.apiUrl}/postulaciones/baseconstante/${idUsuario}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
