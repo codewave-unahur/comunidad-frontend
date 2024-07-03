@@ -24,15 +24,19 @@ const PreLogin = () => {
 
 
     const handleLogin = () => {
-        if (user === import.meta.env.VITE_USER && password === import.meta.env.VITE_PASSWORD) {
+        if (user === import.meta.env.VITE_EMPRESA_USER && password === import.meta.env.VITE_EMPRESA_PASSWORD
+            || user === import.meta.env.VITE_USER && password === import.meta.env.VITE_PASSWORD
+            || user === import.meta.env.VITE_POSTULANTE_USER && password === import.meta.env.VITE_POSTULANTE_PASSWORD
+        ) {
             sessionStorage.setItem('invitado', true)
             toast.success('Te has logueado correctamente');
             setTimeout(() => {
                 window.location.href = '/home';
-            }, 2000);
+            }, 500);
         }
         else {
-            toast.error('Usuario o contraseña incorrectos');}
+            toast.error('Usuario o contraseña incorrectos');
+        }
     }
 
     const handleLogout = () => {
