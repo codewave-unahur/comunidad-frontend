@@ -30,6 +30,7 @@ import TranslateIcon from "@mui/icons-material/Translate";
 import { getIdiomasPostulante } from "../../services/idiomasPostulantes_service";
 import { getExperienciaLaboral } from "../../services/experienciaLaboral_service";
 import { getPostulanteByDni } from "../../services/postulantes_service";
+import { getHabilidadesPostulante } from "../../services/habilidadesPostulante_service";
 
 const Postulante = () => {
   const idPostulante = parseInt(window.location.pathname.split("/")[2]);
@@ -37,6 +38,7 @@ const Postulante = () => {
   const [postulante, setPostulante] = useState({});
   const [idiomasPostulante, setIdiomasPostulante] = useState([]);
   const [experienciaLaboral, setExperienciaLaboral] = useState([]);
+  const [habilidadesPostulante, setHabilidadesPostulante] = useState([]);
   const isLoading = Object.keys(postulante).length === 0;
 
   useEffect(() => {
@@ -66,11 +68,20 @@ const Postulante = () => {
         console.log(error);
       }
     };
+    
+    const traerHabilidadesPostulante = async () => {
+      try {
+        const response = await getHabilidadesPostulante(idPostulante);
+        setHabilidadesPostulante(response);
+      } catch (error) {
+        console.log(error)
+      }
+    };
 
     traerPostulante();
     traerIdiomasPostulante();
     traerExperienciaLaboral();
-
+    traerHabilidadesPostulante();
   }, [idPostulante]);
 
   useEffect(() => {
@@ -501,32 +512,9 @@ const Postulante = () => {
                   </>
                 )}
 
-                {postulante.Aptitudes?.length > 0 && (
-                  <>
-                    <Divider sx={{ marginTop: "1rem" }} />
-                    <Typography
-                      variant="h5"
-                      color="primary"
-                      sx={{ marginTop: "1rem" }}
-                    >
-                      Aptitudes
-                    </Typography>
-                    <Grid container spacing={1} sx={{ marginTop: "0.5rem" }}>
-                      {postulante.Aptitudes?.map((aptitud, index) => (
-                        <Grid item key={index}>
-                          <Chip
-                            label={
-                              aptitud["Aptitudes del postulante"].nombre_aptitud
-                            }
-                            sx={{ marginRight: "0.5rem" }}
-                          />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </>
-                )}
+                
 
-                {postulante.Preferencias?.length > 0 && (
+                {habilidadesPostulante?.length > 0 && (
                   <>
                     <Divider sx={{ marginTop: "1rem" }} />
                     <Typography
@@ -534,16 +522,14 @@ const Postulante = () => {
                       color="primary"
                       sx={{ marginTop: "1rem" }}
                     >
-                      Preferencias
+                      Habilidades
                     </Typography>
-                    <Grid container spacing={1} sx={{ marginTop: "0.5rem" }}>
-                      {postulante.Preferencias?.map((preferencia, index) => (
-                        <Grid item key={index}>
+                    <Grid container spacing={2}>
+                      {habilidadesPostulante.map(habilidad => (
+                        <Grid item key={habilidad.id}>
                           <Chip
-                            label={
-                              preferencia["Preferencias del postulante"]
-                                .nombre_preferencia
-                            }
+                            label={habilidad.Aptitud.nombre_aptitud}
+                            icon={<AccessibilityIcon />}
                             sx={{ marginRight: "0.5rem" }}
                           />
                         </Grid>
