@@ -35,8 +35,7 @@ import { postIdiomasPostulantes } from "../../../services/idiomasPostulantes_ser
 import { deleteIdioma } from "../../../services/idiomasPostulantes_service";
 
 import { Fragment, useEffect, useState } from "react";
-
-import { PreferenciasPostulante } from "../../Preferencias/PreferenciasPostulante";
+import { getHabilidades } from "../../../services/habilidades_service";
 import { AptitudesPostulante } from "../../Aptitudes/AptitudesPostulate";
 
 const idiomas = [
@@ -70,6 +69,7 @@ const DatosAcademicos = () => {
   const [idiomaSeleccionado, setIdiomaSeleccionado] = useState(null);
   const [nivelSeleccionado, setNivelSeleccionado] = useState(null);
   const [idiomasPostulante, setIdiomasPostulante] = useState([]);
+  const [habilidades, setHabilidades] = useState([]);
   const [usuario, setUsuario] = useState({
     carrera: "",
     estudios: "",
@@ -106,11 +106,16 @@ const DatosAcademicos = () => {
       setPreferencias(response.preferencias);
     };
 
+    const getHabilidadesData = async () => {
+      const response = await getHabilidades();
+      setHabilidades(response.habilidades);
+    };
     
     getEstudiosData();
     getIdiomasData();
     getAptitudesData();
     getPreferenciasData();
+    getHabilidadesData();
 
   }, []);
 
@@ -593,82 +598,6 @@ const DatosAcademicos = () => {
                 </Button>
               )}
             </Grid>
-            <Grid item xs={12} sm={12} md={12}>
-              <Typography variant="h5" gutterBottom>
-                Preferencias
-              </Typography>
-              <Grid container spacing={2} paddingY={1}>
-                <Grid item xs={12} sm={4} md={4}>
-                  <FormControl sx={{ width: "100%" }}>
-                    <PreferenciasPostulante
-                      edit={edit}
-                      preferencias={usuario?.Preferencias}
-                    />
-                    {edit && (
-                      <>
-                        <Select
-                          labelId="preferencias-chip-label"
-                          id="preferencias-chip"
-                          multiple
-                          value={preferenciasElegidas || []}
-                          onChange={handleChangePreferencias}
-                          input={
-                            <OutlinedInput
-                              id="select-preferencias-chip"
-                              label="Preferencias"
-                            />
-                          }
-                          renderValue={(selected) => (
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: 0.5,
-                              }}
-                            >
-                              {selected.map((value) => (
-                                <Chip key={value} label={value} />
-                              ))}
-                            </Box>
-                          )}
-                        >
-                          <MenuItem value="" disabled>
-                            Selecciona una preferencia
-                          </MenuItem>
-                          {preferencias
-                            .filter(
-                              (preferencia) =>
-                                !usuario.Preferencias.find(
-                                  (pref) =>
-                                    pref["Preferencias del postulante"].id ===
-                                    preferencia.id
-                                )
-                            )
-                            .map((preferencia) => (
-                              <MenuItem
-                                key={preferencia.id}
-                                value={preferencia.nombre_preferencia}
-                              >
-                                {preferencia.nombre_preferencia}
-                              </MenuItem>
-                            ))}
-                        </Select>
-                      </>
-                    )}
-                  </FormControl>
-                </Grid>
-              </Grid>
-</Grid>
-              {edit && (
-                <Button
-                  disableElevation
-                  variant="contained"
-                  onClick={() => agregarNuevasPreferencias(preferencias)}
-                  sx={{ marginTop: 1 }}
-                >
-                  Agregar preferencias
-                </Button>
-              )}
             </Grid>
             <Grid item xs={12} sm={12} md={12}>
               {
