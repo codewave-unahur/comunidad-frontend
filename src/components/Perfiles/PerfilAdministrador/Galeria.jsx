@@ -1,9 +1,10 @@
-import { Box, Slide, Button, Card, MenuItem, ListItemIcon, CardHeader, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, Typography, Dialog, DialogTitle, DialogContent, Stack, DialogActions } from "@mui/material";
+import { Box, Slide, Button, Card, MenuItem, ListItemIcon, CardHeader, Table, TableCell, TableContainer, TableHead, TableRow, TableBody, TextField, Typography, Dialog, DialogTitle, DialogContent, Stack, DialogActions } from "@mui/material";
 import React, { useEffect, forwardRef } from "react";
 import { uploadImage } from "../../../services/galeria_service";
 import { useState } from "react";
 import { getGaleria } from "../../../services/galeria_service";
 import { deleteGaleria } from "../../../services/galeria_service";
+import { putGaleria } from "../../../services/galeria_service";
 import { Toaster, toast } from "sonner";
 import ImageIcon from '@mui/icons-material/Image';
 
@@ -13,6 +14,8 @@ export default function Galeria() {
   const [open, setOpen] = useState(false);
   const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
   const [edit, setEdit] = useState(false);
+  const [idImagen, setIdImagen] = useState(null);
+  const [links, setLinks] = useState("");
 
   useEffect(() => {
     const fetchGaleria = async () => {
@@ -74,6 +77,29 @@ export default function Galeria() {
     }
   };
 
+
+  const handleEditLink = async (id) => {
+    setEdit(true);
+    setIdImagen(id);
+  }
+
+  const handleSaveLink = async (id) => {
+    try {
+      const response = await putGaleria(id, links);
+      if (response) {
+        toast.success("Link actualizado correctamente");
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  
+ 
+
   const convertirHora = (hora) => {
     const date = new Date(hora);
     return date.toLocaleString();
@@ -120,7 +146,22 @@ export default function Galeria() {
                     <Typography variant="h5">{image.id}</Typography>
                   </TableCell>
                   <TableCell align="center" sx={{ width: "20%" }}>
-                    <Typography variant="h5">{image.links === "undefined"? " " : image.links}</Typography>
+                    {
+                     // crear input para editar link solo para el id seleccionado
+                     edit && idImagen === image.id ? (
+                      <TextField
+                        id="links"
+                        label="Link"
+                        variant="outlined"
+                        value={links}
+                        onChange={(e) => setLinks(e.target.value)}
+                      />
+                    ) : (
+                      <Typography variant="h5">{image.links}</Typography>
+                    )
+                    
+
+                    }
                   </TableCell>
                   <TableCell align="center" sx={{ width: "20%" }}>
                     <Typography variant="h5">
@@ -128,8 +169,8 @@ export default function Galeria() {
                     </Typography>
                   </TableCell>
                   <TableCell align="center" sx={{ width: "20%" }}>
-                    <Button variant="contained" color="warning" sx={{marginRight:"4px"}}>
-                      Editar
+                    <Button onClick={ edit ? () => handleSaveLink(image.id) : () => handleEditLink(image.id)} variant="contained" color={edit? "primary" : "warning"} sx={{marginRight:"4px"}}>
+                      {edit ? "Guardar" : "Editar"}
                     </Button>
                     <Button onClick={() => handleDeleteImage(image.id)} variant="contained" color="error">
                       Eliminar

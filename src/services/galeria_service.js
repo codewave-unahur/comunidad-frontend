@@ -45,12 +45,35 @@ export async function uploadImage(galeria, links="undefined", id) {
 
   export async function deleteGaleria(id){
     try{
-        const response = await axios.delete(`${config.apiUrl}/galeria/${id}`)
+        const response = await axios.delete(`${config.apiUrl}/galeria/${id}`,
+          {
+            headers: {
+              Authorization: `bearer ${sessionStorage.getItem("token")}`,
+          }
+        }
+        )
         return response.data
     } catch(error){
         console.error(error)
     }
   }
 
+  export async function putGaleria(id, links){
+    try{
+        const response = await axios.put(`${config.apiUrl}/galeria/${id}`,
+          
+          {links: links},
+          {
+            headers: {
+              Authorization: `bearer ${sessionStorage.getItem("token")}`,
+          }
+          }
+        )
+        return response.data
+    } catch(error){
+        console.error(error)
+    }
+  }
 
+ 
     
