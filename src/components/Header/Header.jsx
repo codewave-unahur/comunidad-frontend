@@ -41,7 +41,7 @@ const Header = (props) => {
       };
       traerOfertas();
 
-      window.location.href = `/?busqueda=${buscador}`;
+      window.location.href = `/home?busqueda=${buscador}`;
     };
 
     return (
