@@ -8,8 +8,7 @@ import LinkedIn from "@mui/icons-material/LinkedIn";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import MapaCpyme from "./MapaCpyme";
 import PlaceIcon from "@mui/icons-material/Place";
-import EmailIcon from "@mui/icons-material/Email";
-import logocpyme from "../../assets/logo-cpyme.svg";
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import logoVinculacion from "../../assets/logoVinculacion.svg";
 import logoCodewave from "../../assets/logoCodewave.svg";
 
@@ -168,7 +167,7 @@ export default function Footer() {
             </Grid>
             <Grid item xs={12} sm={2}>
               <Box sx={{ display:"flex", flexDirection:"column"}}>
-                <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", alignItems: "center", marginBottom:"1rem" }}>
                   <PlaceIcon sx={{ color: "#5C5A5E" }} />
                   <Typography sx={{ color: "#636664", fontSize: "11.6px" }}>
                     Ausebione 8, B1688 Villa Tesei, Provincia de Buenos Aires
@@ -176,18 +175,13 @@ export default function Footer() {
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems:"center" }}>
-                  <EmailIcon sx={{ color: "#5C5A5E" }} />
+                  <EmailOutlinedIcon sx={{ color: "#5C5A5E" }} />
                   <Typography sx={{ color: "#636664", fontSize: "11.6px", textAlign:"center"}}>
                     empleabilidad@unahur.edu.ar
                   </Typography>
                 </Box>
 
-                <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <EmailIcon sx={{ color: "#5C5A5E" }} />
-                  <Typography sx={{ color: "#636664", fontSize: "11.6px" }}>
-                    dvt@unahur.edu.ar
-                  </Typography>
-                </Box>
+                
               </Box>
             </Grid>
           </Grid>
