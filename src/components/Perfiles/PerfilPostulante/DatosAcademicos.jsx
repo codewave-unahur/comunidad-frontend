@@ -33,10 +33,10 @@ import { getPreferencias } from "../../../services/preferencias_service";
 import { getIdiomasPostulante } from "../../../services/idiomasPostulantes_service";
 import { postIdiomasPostulantes } from "../../../services/idiomasPostulantes_service";
 import { deleteIdioma } from "../../../services/idiomasPostulantes_service";
-
 import { Fragment, useEffect, useState } from "react";
+import { getHabilidadesPostulante, postHabilidadesPostulantes, deleteHabilidad } from "../../../services/habilidadesPostulante_service";
 import { getHabilidades } from "../../../services/habilidades_service";
-import { AptitudesPostulante } from "../../Aptitudes/AptitudesPostulate";
+
 
 const idiomas = [
   { id: 1, idioma: "Español" },
@@ -51,6 +51,8 @@ const niveles = [
   { id: 2, nivel: "Intermedio" },
   { id: 3, nivel: "Avanzado" }
 ];
+
+
 
 const DatosAcademicos = () => {
   const idUsuario = sessionStorage.getItem("idUsuario");
@@ -69,6 +71,8 @@ const DatosAcademicos = () => {
   const [idiomaSeleccionado, setIdiomaSeleccionado] = useState(null);
   const [nivelSeleccionado, setNivelSeleccionado] = useState(null);
   const [idiomasPostulante, setIdiomasPostulante] = useState([]);
+  const [habilidadSeleccionada, setHabilidadSeleccionada] = useState(null);
+  const [habilidadesPostulante, setHabilidadesPostulante] = useState([]);
   const [habilidades, setHabilidades] = useState([]);
   const [usuario, setUsuario] = useState({
     carrera: "",
@@ -107,14 +111,18 @@ const DatosAcademicos = () => {
     };
 
     const getHabilidadesData = async () => {
+      const response = await getHabilidadesPostulante(datosUsuario.id);
+      setHabilidadesPostulante(response);
+    };
+
+    const traerHabilidades = async () => {
       const response = await getHabilidades();
       setHabilidades(response.aptitudes);
     };
     
     getEstudiosData();
     getIdiomasData();
-    getAptitudesData();
-    getPreferenciasData();
+    traerHabilidades()
     getHabilidadesData();
 
   }, []);
@@ -124,50 +132,7 @@ const DatosAcademicos = () => {
     setIsSubmitting(false);
   };
 
-  const handleChangeAptitudes = (event) => {
-    setAptitudesElegidas(event.target.value);
-  };
 
-  const agregarNuevasAptitudes = async (aptitudes) => {
-    const apt = [
-      ...aptitudesElegidas.map((aptitud) => ({
-        id: aptitudes.find((apt) => apt.nombre_aptitud === aptitud).id,
-      })),
-    ];
-    const response = await agregarAptitudes(datosUsuario.id, apt);
-    if (response) {
-      toast.success("Aptitudes agregadas con éxito");
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    } else {
-      toast.error("Error al agregar las aptitudes");
-    }
-  };
-
-  const handleChangePreferencias = (event) => {
-    setPreferenciasElegidas(event.target.value);
-  };
-
-  const agregarNuevasPreferencias = async (preferencias) => {
-    const pref = [
-      ...preferenciasElegidas.map((preferencia) => ({
-        id: preferencias.find((pref) => pref.nombre_preferencia === preferencia)
-          .id,
-      })),
-    ];
-    const response = await agregarPreferencias(datosUsuario.id, pref);
-    if (response) {
-      toast.success("Preferencias agregadas con éxito");
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-    } else {
-      toast.error("Error al agregar las preferencias");
-    }
-  };
-
-  
 
   const handleIdiomaSeleccionado = (event) => {
     setIdiomaSeleccionado(event.target.value);
@@ -176,6 +141,12 @@ const DatosAcademicos = () => {
   const handleNivelSeleccionado = (event) => {
     setNivelSeleccionado(event.target.value);
   };
+
+  const handleHabilidadSeleccionada = (event) => {
+    setHabilidadSeleccionada(event.target.value);
+  };
+
+
 
   const handleDeleteIdioma = async (id) => {
     const response = await deleteIdioma(id);
@@ -186,6 +157,18 @@ const DatosAcademicos = () => {
       }, 2000);
     } else {
       toast.error("Error al eliminar el idioma");
+    }
+  };
+
+  const handleDeleteHabilidad = async (id) => {
+    const response = await deleteHabilidad(id);
+    if (response) {
+      toast.success("Habilidad eliminada con éxito");
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    } else {
+      toast.error("Error al eliminar la habilidad");
     }
   };
 
@@ -210,6 +193,25 @@ const DatosAcademicos = () => {
     }
   };
 
+  const handleAgregarHabilidad = async () => {
+    if (habilidadesPostulante.length < 4) {
+      const response = await postHabilidadesPostulantes(
+        datosUsuario.id,
+        habilidadSeleccionada
+      );
+      if (response) {
+        toast.success("Habilidad agregada con éxito");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error("Error al agregar la habilidad");
+      }
+    }
+    else {
+      toast.error("No se pueden agregar más de 4 habilidades");
+    }
+  };
   const cancelarEdicion = () => {
     setEdit(false);
     setIsSubmitting(false);
@@ -530,12 +532,12 @@ const DatosAcademicos = () => {
                 Habilidades
               </Typography>
               <Box>
-                {idiomasPostulante.map((idioma) => (
+                {habilidadesPostulante.map((habilidad) => (
                   <Chip 
-                    key={idioma.id} 
-                    label={idioma.Idioma.nombre_idioma + " " + idioma.Nivel.nivel} 
-                    color="success"
-                    onDelete={edit ? () => handleDeleteIdioma(idioma.id) : undefined}
+                    key={habilidad.id} 
+                    label={habilidad.Aptitud.nombre_aptitud} 
+                    color="primary"
+                    onDelete={edit ? () => handleDeleteHabilidad(habilidad.id) : undefined}
                   />
                 ))}
               </Box>
@@ -548,12 +550,12 @@ const DatosAcademicos = () => {
                         select
                         label="Habilidades"
                         variant="outlined"
-                        value={idiomaSeleccionado || ""}
-                        onChange={handleIdiomaSeleccionado}
-                        error={Boolean(validarErrores.idioma)}
+                        value={habilidadSeleccionada || ""}
+                        onChange={handleHabilidadSeleccionada}
+                        error={Boolean(validarErrores.habilidad)}
                         helperText={
-                          isSubmitting && validarErrores.idioma
-                            ? validarErrores.idioma
+                          isSubmitting && validarErrores.habilidad
+                            ? validarErrores.habilidad
                             : ""
                         }
                         
@@ -575,9 +577,9 @@ const DatosAcademicos = () => {
                     <Button
                       disableElevation
                       variant="contained"
-                      onClick={handleAgregarIdioma}
+                      onClick={handleAgregarHabilidad}
                       sx={{ marginTop: 1 }}
-                      disabled={!idiomaSeleccionado || !nivelSeleccionado}
+                      disabled={!habilidadSeleccionada}
                     >
                       Agregar habilidad
                     </Button>
@@ -622,6 +624,6 @@ const DatosAcademicos = () => {
       <Toaster richColors closeButton />
     </Card>
   );
-};
+}
 
 export default DatosAcademicos;
