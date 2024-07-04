@@ -108,7 +108,7 @@ const DatosAcademicos = () => {
 
     const getHabilidadesData = async () => {
       const response = await getHabilidades();
-      setHabilidades(response.habilidades);
+      setHabilidades(response.aptitudes);
     };
     
     getEstudiosData();
@@ -522,83 +522,72 @@ const DatosAcademicos = () => {
                   </Grid>
                 </Grid>
            )}
+           
+            
+            </Grid>
             <Grid item xs={12} sm={12} md={12}>
               <Typography variant="h5" gutterBottom>
                 Habilidades
               </Typography>
-              <Grid container spacing={2} paddingY={1}>
-                <Grid item xs={12} sm={4} md={4}>
-                  <FormControl sx={{ width: "100%" }}>
-                    <AptitudesPostulante
-                      edit={edit}
-                      aptitudes={usuario?.Aptitudes}
-                    />
-                    {edit && (
-                      <>
-                        <Select
-                          labelId="aptitudes-chip-label"
-                          id="aptitudes-chip"
-                          multiple
-                          value={aptitudesElegidas || []}
-                          onChange={handleChangeAptitudes}
-                          input={
-                            <OutlinedInput
-                              id="select-aptitudes-chip"
-                              label="Aptitudes"
-                            />
-                          }
-                          renderValue={(selected) => (
-                            <Box
-                              sx={{
-                                display: "flex",
-                                flexWrap: "wrap",
-                                gap: 0.5,
-                              }}
-                            >
-                              {selected.map((value) => (
-                                <Chip key={value} label={value} />
-                              ))}
-                            </Box>
-                          )}
-                        >
-                          <MenuItem value="" disabled>
-                            Selecciona una aptitud
-                          </MenuItem>
-                          {aptitudes
-                            .filter(
-                              (aptitud) =>
-                                !usuario.Aptitudes.find(
-                                  (apt) =>
-                                    apt["Aptitudes del postulante"].id ===
-                                    aptitud.id
-                                )
-                            )
-                            .map((aptitud) => (
-                              <MenuItem
-                                key={aptitud.id}
-                                value={aptitud.nombre_aptitud}
-                              >
-                                {aptitud.nombre_aptitud}
-                              </MenuItem>
-                            ))}
-                        </Select>
-                      </>
-                    )}
-                  </FormControl>
-                </Grid>
-              </Grid>
+              <Box>
+                {idiomasPostulante.map((idioma) => (
+                  <Chip 
+                    key={idioma.id} 
+                    label={idioma.Idioma.nombre_idioma + " " + idioma.Nivel.nivel} 
+                    color="success"
+                    onDelete={edit ? () => handleDeleteIdioma(idioma.id) : undefined}
+                  />
+                ))}
+              </Box>
               {edit && (
-                <Button
-                  disableElevation
-                  variant="contained"
-                  onClick={() => agregarNuevasAptitudes(aptitudes)}
-                  sx={{ marginTop: 1 }}
-                >
-                  Agregar habilidades
-                </Button>
-              )}
+                <Grid container spacing={2} paddingY={1}>
+
+                  <Grid item xs={12} sm={4} md={4}>
+                    <FormControl sx={{ width: "100%"}}>
+                      <TextField 
+                        select
+                        label="Habilidades"
+                        variant="outlined"
+                        value={idiomaSeleccionado || ""}
+                        onChange={handleIdiomaSeleccionado}
+                        error={Boolean(validarErrores.idioma)}
+                        helperText={
+                          isSubmitting && validarErrores.idioma
+                            ? validarErrores.idioma
+                            : ""
+                        }
+                        
+                      >
+                        <MenuItem value="" disabled>
+                          Selecciona una habilidad
+                        </MenuItem>
+                        {habilidades.map((habilidad) => (
+                          <MenuItem key={habilidad.id} value={habilidad.id}>
+                            {habilidad.nombre_aptitud}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </FormControl>
+                  </Grid>
+                 
+                    
+                  <Grid item xs={12} sm={4} md={4}>
+                    <Button
+                      disableElevation
+                      variant="contained"
+                      onClick={handleAgregarIdioma}
+                      sx={{ marginTop: 1 }}
+                      disabled={!idiomaSeleccionado || !nivelSeleccionado}
+                    >
+                      Agregar habilidad
+                    </Button>
+                  </Grid>
+                </Grid>
+           )}
+           
+            
             </Grid>
-            </Grid>
+            
             <Grid item xs={12} sm={12} md={12}>
               {
                 edit && (
