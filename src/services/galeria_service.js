@@ -15,7 +15,7 @@ export async function uploadImage(galeria, links="undefined", id) {
       headers: {
         //no se como pasar este token al env pero bueno, va en el env
         Authorization:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZqanJ4aGNlcmpqdGhqZ2xxcHRwIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5MzUyNjQ2NywiZXhwIjoyMDA5MTAyNDY3fQ.aJ54McCK2fK2Oac-hmGkXWfXZHYy5AiQ4GC_-W5ze8Y",
+          `bearer ${sessionStorage.getItem("token")}`,	
         id: id,
       },
       data: formData,
@@ -31,21 +31,49 @@ export async function uploadImage(galeria, links="undefined", id) {
 
   export async function getGaleria(){
     try{
-        const response = await axios.get(`${config.apiUrl}/galeria/`)
-        return response.data
-    } catch(error){
+        const response = await axios.get(`${config.apiUrl}/galeria/`,
+        {
+          headers: {
+            Authorization: `bearer ${sessionStorage.getItem("token")}`,
+          },
+        });
+        return response.data;
+       } catch(error){
         console.error(error)
     }
   }
 
   export async function deleteGaleria(id){
     try{
-        const response = await axios.delete(`${config.apiUrl}/galeria/${id}`)
+        const response = await axios.delete(`${config.apiUrl}/galeria/${id}`,
+          {
+            headers: {
+              Authorization: `bearer ${sessionStorage.getItem("token")}`,
+          }
+        }
+        )
         return response.data
     } catch(error){
         console.error(error)
     }
   }
 
+  export async function putGaleria(id, links){
+    try{
+        const response = await axios.put(`${config.apiUrl}/galeria/${id}`,
+          
+          {links: links},
+          {
+            headers: {
+              Authorization: `bearer ${sessionStorage.getItem("token")}`,
+          }
+          }
+        )
+        return response.data
+    } catch(error){
+        console.error(error)
+    }
+  }
 
+ 
     

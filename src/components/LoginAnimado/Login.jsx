@@ -116,18 +116,21 @@ const Login = () => {
       usuario: e.target.emailInicio.value,
       password: e.target.contraseñaInicio.value,
     });
-
+    
     schemaInicioSesion
       .validate({
         emailInicio: e.target.emailInicio.value,
         contraseñaInicio: e.target.contraseñaInicio.value,
       })
       .then(async () => {
-        if (response === undefined) {
+
+      
+        if (response === undefined){
           toast.error("Usuario o contraseña incorrectos");
         } else {
           let datosUsuario;
           let tipoUsuario;
+          sessionStorage.setItem("token", response.token);
 
           if (response.grupo === 1) {
             datosUsuario = await getPostulanteById(response.id);
@@ -146,7 +149,6 @@ const Login = () => {
           sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
           sessionStorage.setItem("estaLogueado", "true");
           sessionStorage.setItem("tipoUsuario", tipoUsuario);
-          sessionStorage.setItem("token", response.token);
           sessionStorage.setItem("idUsuario", response.id);
           window.location.href = "/home";
         }

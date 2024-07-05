@@ -12,7 +12,12 @@ export async function getEmpresas(
 ) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/empresas/?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&nombreEmpresa=${nombreEmpresa}&idEstado=${estado}`
+      `${config.apiUrl}/empresas/?pagina=${pagina}&limite=${limite}&ordenar=${ordenar}&nombreEmpresa=${nombreEmpresa}&idEstado=${estado}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -25,7 +30,12 @@ export async function getEmpresas(
 export async function getEmpresasSinFiltros(pagina, limite) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/empresas/all/?pagina=${pagina}&limite=${limite}`
+      `${config.apiUrl}/empresas/all/?pagina=${pagina}&limite=${limite}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -37,7 +47,13 @@ export async function getEmpresasSinFiltros(pagina, limite) {
 
 export async function getEmpresaByCuit(id) {
   try {
-    const response = await axios.get(`${config.apiUrl}/empresas/cuit/${id}`);
+    const response = await axios.get(`${config.apiUrl}/empresas/cuit/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -49,7 +65,12 @@ export async function getEmpresaByCuit(id) {
 export async function getEmpresaByIdUsuario(id) {
   try {
     const response = await axios.get(
-      `${config.apiUrl}/empresas/idUsuario/${id}`
+      `${config.apiUrl}/empresas/idUsuario/${id}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -62,7 +83,13 @@ export async function getEmpresaByIdUsuario(id) {
 export async function postEmpresa(empresa) {
   try {
     console.log(empresa)
-    const response = await axios.post(`${config.apiUrl}/empresas`, empresa);
+    const response = await axios.post(`${config.apiUrl}/empresas`, empresa,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    )
     return response.data;
   } catch (error) {
     console.error(error);
@@ -75,7 +102,12 @@ export async function putEmpresa(id, empresa, token) {
   try {
     const response = await axios.patch(
       `${config.apiUrl}/empresas/cuit/${id}?authorization=${token}`,
-      empresa
+      empresa,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
@@ -88,7 +120,12 @@ export async function putEmpresa(id, empresa, token) {
 export async function deleteEmpresa(id, token) {
   try {
     const response = await axios.delete(
-      `${config.apiUrl}/empresas/cuit/${id}?authorization=${token}`
+      `${config.apiUrl}/empresas/cuit/${id}?authorization=${token}`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {

@@ -23,7 +23,7 @@ const CarouselBootstrap = () => {
     <Carousel className="d-flex justify-content-center ">
       {galeria.map((imagen) => (
         <Carousel.Item key={imagen.id}>
-          <a href={imagen.links === "undefined" ? "https://unahur.edu.ar/pasantias" : "https://unahur.edu.ar/pasantias"}>
+          <a href={imagen.links === "undefined" ? "#" : imagen.links} target={imagen.links === "undefined" ? "_self" : "_blank"}>
             <img
               className="d-block "
               src={imagen.imageUrl}
