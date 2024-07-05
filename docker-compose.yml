@@ -19,12 +19,12 @@ services:
       - NODE_ENV=production
     networks:
       api_network:
-        - ipv4_address: 172.19.0.5
+        ipv4_address: 172.19.0.5
 networks:
-    api_network:
-        external: true
-        driver: bridge
-        ipam:
-          driver: default
-          config:
-            - subnet: 172.19.0.0/24
+  api_network:
+      external: true
+      driver: bridge
+      ipam:
+        driver: default
+        config:
+          - subnet: 172.19.0.0/24
