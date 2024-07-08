@@ -23,7 +23,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import { useEffect, useState } from "react";
 
 import { Toaster, toast } from "sonner";
-
+import { EncryptStorage } from "encrypt-storage";
 import { getPostulanteById } from "../../../services/postulantes_service";
 import { putPostulante } from "../../../services/postulantes_service";
 import { getTiposDocumentos } from "../../../services/tiposDocumentos_service";
@@ -32,7 +32,13 @@ import { getCiudades } from "../../../services/ciudades_service";
 import { uploadFoto } from "../../../services/files_service";
 
 const DatosPersonales = () => {
-  const idUsuario = sessionStorage.getItem("idUsuario");
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
+  const idUsuario = encryptStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
 
   const [validarErrores, setValidarErrores] = useState({}); // Para controlar los errores
@@ -111,9 +117,9 @@ const DatosPersonales = () => {
       const response = await uploadFoto(foto, id, token);
       if (response) {
         setUsuario({ ...usuario, foto: response });
-        const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+        const datosUsuario = encryptStorage.getItem("datosUsuario");
         datosUsuario.foto = response.url;
-        sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
+        encryptStorage.setItem("datosUsuario", (datosUsuario));
         toast.success("Foto actualizada con éxito");
         setTimeout(() => {
           window.location.reload();

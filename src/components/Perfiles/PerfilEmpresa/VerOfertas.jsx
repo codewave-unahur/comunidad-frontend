@@ -31,13 +31,17 @@ import { getOfertaByCuit, putOferta } from "../../../services/ofertas_service";
 import { Toaster, toast } from "sonner";
 import Buscador from "../../Buscador/Buscador";
 import Paginacion from "../../Paginacion/Paginacion";
-
+import { EncryptStorage } from "encrypt-storage";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const VerOfertas = () => {
-  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+  const datosUsuario = encryptStorage.getItem("datosUsuario");
   const token = sessionStorage.getItem("token");
 
   const [paginaActual, setPaginaActual] = useState(1);

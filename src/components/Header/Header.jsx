@@ -20,9 +20,17 @@ import PropTypes from "prop-types";
 import logouni from "../../assets/logo-cpyme-uni.svg";
 import logoVinculacion from "../../assets/logoVinculacion.svg";
 import logoUnahur from "../../assets/logoUnahur.svg";
+import { EncryptStorage } from 'encrypt-storage';
+
 
 
 const Header = (props) => {
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
   const { setOfertas } = props;
 
   const Buscador = () => {
@@ -90,7 +98,7 @@ const Header = (props) => {
   const [estaLogueado, setEstaLogueado] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem("estaLogueado") === "true") {
+    if (encryptStorage.getItem("estaLogueado")) {
       setEstaLogueado(true);
     }
   }, []);

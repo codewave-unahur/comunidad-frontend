@@ -40,13 +40,20 @@ import {
   marcarNoContactado,
 } from "../../services/postulacionesId_service";
 import { getOfertaById } from "../../services/ofertas_service";
+import { EncryptStorage } from "encrypt-storage";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
 const Postulantes = () => {
-  const tipoUsuario = sessionStorage.getItem("tipoUsuario");
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
+  const tipoUsuario = encryptStorage.getItem("tipoUsuario");
   const idOferta = window.location.pathname.split("/")[2];
 
   const [open, setOpen] = useState(false);

@@ -7,9 +7,14 @@ import {Tooltip} from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Toaster, toast } from "sonner";
+import { EncryptStorage } from "encrypt-storage";
 
 const CurriculumVitae = () => {
-  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+  const datosUsuario = encryptStorage.getItem("datosUsuario");
   const token = sessionStorage.getItem("token");
 
   const [cvSeleccionado, setCvSeleccionado] = useState(null); // Para guardar la imagen seleccionada en el input[type=file]
@@ -25,7 +30,7 @@ const CurriculumVitae = () => {
       const response = await uploadCV(cv, id, token);
       if (response) {
         datosUsuario.cv = response.url;
-        sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
+        encryptStorage.setItem("datosUsuario", datosUsuario);
         toast.success("Curriculum Vitae subido con éxito");
         setTimeout(() => {
           window.location.reload();
