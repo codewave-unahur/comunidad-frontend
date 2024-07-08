@@ -9,7 +9,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-
+import { EncryptStorage } from 'encrypt-storage';
 import {
   getOfertas,
   getOfertaByCuit,
@@ -19,9 +19,16 @@ import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_
 import PropTypes from "prop-types";
 
 const Ofertas = (props) => {
-  const tipoUsuario = sessionStorage.getItem("tipoUsuario");
-  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
-  const idUsuario = sessionStorage.getItem("idUsuario");
+
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
+  const tipoUsuario = encryptStorage.getItem("tipoUsuario");
+  const datosUsuario = encryptStorage.getItem("datosUsuario");
+  const idUsuario = encryptStorage.getItem("idUsuario");
   const { ofertas, setOfertas, paginaActual, setTotalPaginas } = props;
   const scrollRef = useRef({});
   const nombreBusqueda = window.location.search.split("=")[1] || "";

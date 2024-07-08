@@ -27,15 +27,23 @@ import { Toaster, toast } from "sonner";
 import { forwardRef, useEffect, useState } from "react";
 import Buscador from "../../Buscador/Buscador";
 import Paginacion from "../../Paginacion/Paginacion";
+import { EncryptStorage } from "encrypt-storage";
+
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const MisPostulaciones = () => {
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+  
   const [ofertas, setOfertas] = useState([]);
   const [postulante, setPostulante] = useState([]);
-  const idUsuario = sessionStorage.getItem("idUsuario");
+  const idUsuario = encryptStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
   const [open, setOpen] = useState(false);
   const [idOfertaParaEliminar, setIdOfertaParaEliminar] = useState(null);
@@ -198,7 +206,7 @@ const MisPostulaciones = () => {
                   >
                     Ver
                   </Button>
-                  <Button
+                  {/*<Button
                     variant="outlined"
                     sx={{
                       color: "red",
@@ -212,7 +220,7 @@ const MisPostulaciones = () => {
                     onClick={() => handleClickOpen(oferta.id)}
                   >
                     Eliminar
-                  </Button>
+                  </Button>*/}
                 </TableCell>
               </TableRow>
             ))}
@@ -242,12 +250,12 @@ const MisPostulaciones = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancelar</Button>
-          <Button
+          {<Button
             onClick={handleDeletePostulacion(idOfertaParaEliminar)}
             color="error"
           >
             Eliminar
-          </Button>
+          </Button>}
         </DialogActions>
       </Dialog>
       <Toaster richColors closeButton />

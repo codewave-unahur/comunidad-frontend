@@ -35,7 +35,7 @@ import { getOfertaById } from "../../services/ofertas_service";
 import { postPostulacion } from "../../services/postulaciones_service";
 
 import { Toaster, toast } from "sonner";
-
+import { EncryptStorage } from "encrypt-storage";
 // import PreferenciasOferta from "./PreferenciasOferta";
 import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_service";
 import Footer from "../Footer/Footer";
@@ -45,9 +45,16 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 const Oferta = () => {
-  const estaLogueado = sessionStorage.getItem("estaLogueado");
-  const tipoUsuario = sessionStorage.getItem("tipoUsuario");
-  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
+  const estaLogueado = encryptStorage.getItem("estaLogueado");
+  const tipoUsuario = encryptStorage.getItem("tipoUsuario");
+  const datosUsuario = encryptStorage.getItem("datosUsuario");
   const token = sessionStorage.getItem("token");
 
   const idOferta = parseInt(window.location.pathname.split("/")[2]);
@@ -109,7 +116,7 @@ const Oferta = () => {
 
 
   const handleClickOpen = () => {
-    estaLogueado === "true" ? setOpen(true) : (window.location.href = "/login");
+    estaLogueado ? setOpen(true) : (window.location.href = "/login");
   };
 
   const handleClose = () => {
@@ -117,7 +124,7 @@ const Oferta = () => {
   };
 
   const handlePostularme = async () => {
-    if (estaLogueado === "true") {
+    if (estaLogueado) {
       if (tipoUsuario === "postulante") {
         const postulacion = {
           postulante: datosUsuario.id,
@@ -129,7 +136,7 @@ const Oferta = () => {
           if (response) {
             toast.success("Postulación exitosa");
             setTimeout(() => {
-              window.location.href = "/home";
+              window.location.reload();
             }, 1500);
           }
         } catch (error) {

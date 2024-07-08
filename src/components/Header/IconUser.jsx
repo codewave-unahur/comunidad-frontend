@@ -9,12 +9,19 @@ import Tooltip from "@mui/material/Tooltip";
 import Logout from "@mui/icons-material/Logout";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { useState } from "react";
+import { EncryptStorage } from 'encrypt-storage';
+
 
 export default function IconUser() {
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+  
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const usuarioData = JSON.parse(sessionStorage.getItem("datosUsuario")) || "";
-  const tipoUsuario = sessionStorage.getItem("tipoUsuario");
+  const usuarioData = encryptStorage.getItem("datosUsuario") || "";
+  const tipoUsuario = encryptStorage.getItem("tipoUsuario");
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -24,11 +31,11 @@ export default function IconUser() {
   };
 
   const handleCerrarSesion = () => {
-    sessionStorage.setItem("estaLogueado", "false");
-    sessionStorage.removeItem("tipoUsuario");
-    sessionStorage.removeItem("datosUsuario");
+    encryptStorage.setItem("estaLogueado", "false");
+    encryptStorage.removeItem("tipoUsuario");
+    encryptStorage.removeItem("datosUsuario");
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("idUsuario");
+    encryptStorage.removeItem("idUsuario");
     window.location.href = "/home";
   };
 

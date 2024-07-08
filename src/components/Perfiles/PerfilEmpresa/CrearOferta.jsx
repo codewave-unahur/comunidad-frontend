@@ -26,6 +26,7 @@ import { getJornadas } from "../../../services/jornadas_service";
 import { getTiposContratos } from "../../../services/contratos_service";
 import { postOferta } from "../../../services/ofertas_service";
 import { Toaster, toast } from "sonner";
+import { EncryptStorage } from "encrypt-storage";
 
 const modalidadDeTrabajo = [
   {
@@ -58,8 +59,14 @@ const niveles = [
 ];
 
 const CrearOferta = () => {
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
   const token = sessionStorage.getItem("token");
-  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+  const datosUsuario = encryptStorage.getItem("datosUsuario");
   const idEmpresa = datosUsuario.id;
 
   const [validarErrores, setValidarErrores] = useState({}); // Para controlar los errores

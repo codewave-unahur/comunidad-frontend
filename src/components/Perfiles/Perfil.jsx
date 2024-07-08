@@ -50,6 +50,7 @@ import { Toaster, toast } from "sonner";
 import BaseUNAHUR from "./PerfilAdministrador/BaseUNAHUR";
 import ExperienciaLaboral from "./PerfilPostulante/ExperienciaLaboral";
 import enProceso from "../../assets/Processing-bro.svg";
+import { EncryptStorage } from "encrypt-storage";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -146,22 +147,22 @@ const menuOptionsAdmin = [
     text: "Galería",
     renderSection: <Galeria />
   },
-  {
-    id: "5",
-    name: "base",
-    Icon: StorageIcon,
-    text: "Base UNAHUR",
-    renderSection: <BaseUNAHUR />,
-  },
+ 
 ];
 
 function Perfil() {
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
   const [open, setOpen] = useState(false);
   const [cvSeleccionado, setCvSeleccionado] = useState(null); // Para guardar la imagen seleccionada en el input[type=file]
   const [isCVSelected, setIsCVSelected] = useState(false); // Para controlar si se seleccionó una imagen o no
   const [searchParams, setSearchParams] = useSearchParams();
-  const tipoUsuario = sessionStorage.getItem("tipoUsuario");
-  const idUsuario = sessionStorage.getItem("idUsuario");
+  const tipoUsuario = encryptStorage.getItem("tipoUsuario");
+  const idUsuario = encryptStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
 
   const [usuario, setUsuario] = useState({
@@ -316,7 +317,7 @@ function Perfil() {
                   {text}
                 </MenuItem>
               ))}
-              {tipoUsuario === "postulante" && [
+              {/*{tipoUsuario === "postulante" && [
                 <MenuItem
                   key="subirCvMenuItem"
                   onClick={() => {
@@ -407,7 +408,7 @@ function Perfil() {
                   </DialogActions>
                 </Dialog>,
                 <Toaster key="subirCvToaster" richColors closeButton />,
-              ]}
+              ]*/}
             </MenuList>
           </Card>
         </Grid>

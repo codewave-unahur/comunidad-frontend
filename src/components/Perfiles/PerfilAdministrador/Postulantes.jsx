@@ -18,10 +18,14 @@ import { getPostulantes } from "../../../services/postulantes_service";
 import { useEffect, useState } from "react";
 import Buscador from "../../Buscador/Buscador";
 import Paginacion from "../../Paginacion/Paginacion";
-
+import { EncryptStorage } from 'encrypt-storage';
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 const Postulantes = () => {
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
   const [paginaActual, setPaginaActual] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(0);
   const limite = 6;
@@ -38,7 +42,7 @@ const Postulantes = () => {
 
   const almacenarPostulantes = async () => {
     const response = await getPostulantes(paginaActual - 1, 40, "id", "");
-    sessionStorage.setItem("postulantesTotales", JSON.stringify(response.postulantes.rows));
+    encryptStorage.setItem("postulantesTotales", (response.postulantes.rows));
   };
   useEffect(() => {
     almacenarPostulantes();

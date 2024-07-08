@@ -36,6 +36,7 @@ import { deleteIdioma } from "../../../services/idiomasPostulantes_service";
 import { Fragment, useEffect, useState } from "react";
 import { getHabilidadesPostulante, postHabilidadesPostulantes, deleteHabilidad } from "../../../services/habilidadesPostulante_service";
 import { getHabilidades } from "../../../services/habilidades_service";
+import { EncryptStorage } from 'encrypt-storage';
 
 
 const idiomas = [
@@ -55,9 +56,15 @@ const niveles = [
 
 
 const DatosAcademicos = () => {
-  const idUsuario = sessionStorage.getItem("idUsuario");
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
+  const idUsuario = encryptStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
-  const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+  const datosUsuario = (encryptStorage.getItem("datosUsuario"));
 
   const [validarErrores, setValidarErrores] = useState({}); // Para controlar los errores
   const [isSubmitting, setIsSubmitting] = useState(false); // Para validar el formulario

@@ -2,13 +2,17 @@ import { Button, Box, TextField, Tooltip, Card, CardHeader, Grid, Stack, List, L
 import { useEffect, useState } from 'react';
 import { getExperienciaLaboral, postExperienciaLaboral, deleteExperienciaLaboral } from '../../../services/experienciaLaboral_service';
 import { toast } from 'sonner';
+import { EncryptStorage } from 'encrypt-storage';
 
 
 const ExperienciaLaboral = () => {
-
-    const idUsuario = sessionStorage.getItem("idUsuario");
+    const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+        doNotParseValues: false,
+        storageType: "sessionStorage",
+      });
+    const idUsuario = encryptStorage.getItem("idUsuario");
     const token = sessionStorage.getItem("token");
-    const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+    const datosUsuario = (encryptStorage.getItem("datosUsuario"));
 
 
     const [validarErrores, setValidadErrores] = useState({});

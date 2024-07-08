@@ -29,11 +29,18 @@ import { uploadLogo } from "../../../services/files_service";
 import { Toaster, toast } from "sonner";
 
 import * as yup from "yup";
-
+import { EncryptStorage } from "encrypt-storage";
 import { useEffect, useState } from "react";
 
 const DatosEmpresa = () => {
-  const idUsuario = sessionStorage.getItem("idUsuario");
+
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
+  const idUsuario = encryptStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
 
   const [validarErrores, setValidarErrores] = useState({}); // Para controlar los errores
@@ -88,9 +95,9 @@ const DatosEmpresa = () => {
           ...empresa,
           logo: response,
         });
-        const datosUsuario = JSON.parse(sessionStorage.getItem("datosUsuario"));
+        const datosUsuario = encryptStorage.getItem("datosUsuario");
         datosUsuario.logo = response.url;
-        sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
+        encryptStorage.setItem("datosUsuario", datosUsuario);
         toast.success("Logo actualizado correctamente");
         setTimeout(() => {
           window.location.reload();

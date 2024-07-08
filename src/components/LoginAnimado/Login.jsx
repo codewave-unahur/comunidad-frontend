@@ -22,12 +22,22 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import * as yup from "yup";
 import { Toaster, toast } from "sonner";
-
 import { signIn, signUp } from "../../services/usuarios_service";
 import { getPostulanteById } from "../../services/postulantes_service";
 import { getEmpresaByIdUsuario } from "../../services/empresas_service";
+import { EncryptStorage } from 'encrypt-storage';
+
+
+
+
 
 const Login = () => {
+
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
+
   const [isSignup, setIsSignup] = useState(false);
   const [tipoUsuario, setTipoUsuario] = useState("postulante");
   const [mostrarContraseñaInicio, setMostrarContraseñaInicio] = useState(false);
@@ -146,10 +156,10 @@ const Login = () => {
             return;
           }
 
-          sessionStorage.setItem("datosUsuario", JSON.stringify(datosUsuario));
-          sessionStorage.setItem("estaLogueado", "true");
-          sessionStorage.setItem("tipoUsuario", tipoUsuario);
-          sessionStorage.setItem("idUsuario", response.id);
+          encryptStorage.setItem("datosUsuario", datosUsuario);
+          encryptStorage.setItem("estaLogueado", "true");
+          encryptStorage.setItem("tipoUsuario", tipoUsuario);
+          encryptStorage.setItem("idUsuario", response.id);
           window.location.href = "/home";
         }
       })
