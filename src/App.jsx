@@ -49,10 +49,10 @@ function App() {
         checkInvitado( checkLogged( <Login />))
       } />
       <Route path="/registro/postulante/:id" element={
-        checkInvitado( <RegistroPostulante />)
+        checkInvitado( checkLogged(<RegistroPostulante />))
       } />
       <Route path="/registro/empresa/:id" element={
-        checkInvitado( <RegistroEmpresa />)
+        checkInvitado( checkLogged(<RegistroEmpresa />))
       } />
       <Route path="/restablecimientoContraseña" element={
         checkInvitado( <Email />)
