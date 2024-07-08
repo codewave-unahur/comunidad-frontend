@@ -15,6 +15,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import PreLogin from "./components/PreLogin/PreLogin.jsx";
 import NotFound from "./components/404/NotFound.jsx";
 import { checkInvitado } from "./components/PrivateRoute/PrivateRouteInvitado.jsx";
+import { checkLogged, checkRole } from "./components/PrivateRoute/PrivateRoute.jsx";
+
 
 function App() {
 
@@ -32,19 +34,19 @@ function App() {
         checkInvitado( <Oferta />)
         } />
       <Route path="/oferta/editar/:id" element={
-        checkInvitado( <EdicionOferta />)
+        checkInvitado( checkRole(<EdicionOferta />))
       } />
       <Route path="/empresa/:id" element={
-        checkInvitado( <Empresa />)
+        checkInvitado( checkRole(<Empresa />))
       } />
       <Route path="/postulante/:id" element={
-        checkInvitado( <Postulante />)
+        checkInvitado( checkRole(<Postulante />))
       } />
       <Route path="/postulantes/:id" element={
-        checkInvitado( <Postulantes />)
+        checkInvitado( checkRole( <Postulantes />))
       } />
       <Route path="/login" element={
-        checkInvitado( <Login />)
+        checkInvitado( checkLogged( <Login />))
       } />
       <Route path="/registro/postulante/:id" element={
         checkInvitado( <RegistroPostulante />)
