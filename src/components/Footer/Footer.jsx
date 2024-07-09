@@ -158,6 +158,15 @@ export default function Footer() {
                       Conocé nuestras propuestas
                     </Typography>
                 </Link>
+                <Link href="https://linktr.ee/codewavear" style={{textDecoration:"none"}}>
+                  <Typography sx={{
+                      color: "#636664",
+                      fontSize: "11.6px",
+                      marginBottom:"20px"
+                    }}>
+                      Seguinos en nuestras redes
+                    </Typography>
+                </Link>
               </Box>
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -174,13 +183,14 @@ export default function Footer() {
                   </Typography>
                 </Box>
 
-                <Box sx={{ display: "flex", alignItems:"center" }}>
+                <Link href="mailto:empleabilidad@unahur.edu.ar" style={{textDecoration:"none"}}>
+                <Box sx={{ display: "flex", alignItems:"center" }} >
                   <EmailOutlinedIcon sx={{ color: "#5C5A5E" }} />
                   <Typography sx={{ color: "#636664", fontSize: "11.6px", textAlign:"center"}}>
                     empleabilidad@unahur.edu.ar
                   </Typography>
                 </Box>
-
+                </Link>
                 
               </Box>
             </Grid>
