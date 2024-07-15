@@ -10,7 +10,7 @@ const PreLogin = () => {
 
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
-    const invitado = sessionStorage.getItem('invitado');
+    const invitado = localStorage.getItem('invitado');
 
 
 
@@ -28,7 +28,7 @@ const PreLogin = () => {
             || user === import.meta.env.VITE_USER && password === import.meta.env.VITE_PASSWORD
             || user === import.meta.env.VITE_POSTULANTE_USER && password === import.meta.env.VITE_POSTULANTE_PASSWORD
         ) {
-            sessionStorage.setItem('invitado', true)
+            localStorage.setItem('invitado', true)
             toast.success('Te has logueado correctamente');
             setTimeout(() => {
                 window.location.href = '/home';
@@ -40,7 +40,7 @@ const PreLogin = () => {
     }
 
     const handleLogout = () => {
-        sessionStorage.removeItem('invitado');
+        localStorage.removeItem('invitado');
         window.location.reload()
     }
 
@@ -155,12 +155,67 @@ const PreLogin = () => {
                     </Button>
                     
                 </Box>
-            </>) : (<Box>
-                <h2>Ya estás logueado</h2>
+            </>) : (<Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 2,
+                justifyContent: 'center',
+                padding: '40px',
+                maxWidth: '380px',
+                
+            }}>
+                <Typography 
+                    variant="h1" 
+                    align='center' 
+                    sx={{
+                        color: "#664d03",
+                        fontSize: '1.9rem',
+                        fontWeight: 400,
+                        lineHeight: 1.5,
+                        fontFamily: 'Roboto, sans-serif'
+
+                    }} >
+                    Ya has iniciado sesión
+                </Typography>
+                
+                <Button 
+                     variant="contained"
+                     onClick={() => window.location.href = '/home'}
+                     fullWidth
+                     sx={{
+                         backgroundColor: '#57A42D',
+                         fontWeight: 400,
+                         lineHeight: 1.5,
+                         display: 'inline-block',
+                         textAlign: 'center',
+                         verticalAlign: 'middle',
+                         border: '1px solid transparent',
+                         ":hover": {
+                             backgroundColor: '#4c8c2b'
+                         }
+                     }}
+                     size='large'
+                >
+                    Ir a Bolsa de Trabajo
+                </Button>
                 <Button
                     variant="contained"
                     onClick={handleLogout}
-                    
+                    fullWidth
+                    sx={{
+                        backgroundColor: '#a3263b',
+                        fontWeight: 400,
+                        lineHeight: 1.5,
+                        display: 'inline-block',
+                        textAlign: 'center',
+                        verticalAlign: 'middle',
+                        border: '1px solid transparent',
+                        ":hover": {
+                            backgroundColor: '#4c8c2b'
+                        }
+                    }}
+                    size='large'
                     
                 >
                     Cerrar sesión
