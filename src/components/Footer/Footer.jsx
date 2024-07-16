@@ -149,7 +149,7 @@ export default function Footer() {
                   Este sitio fue desarrollado por Codewave S.A.
                 </Typography>
 
-                <Link href="https://drive.google.com/file/d/1YkFotZV7rQC5KyzZOVnrQN-v4RjGbw3f/view" style={{textDecoration:"none"}}>
+                <Link href="https://drive.google.com/file/d/1YkFotZV7rQC5KyzZOVnrQN-v4RjGbw3f/view" target="_blank" style={{textDecoration:"none"}}>
                   <Typography sx={{
                       color: "#636664",
                       fontSize: "11.6px",
@@ -158,7 +158,7 @@ export default function Footer() {
                       Conocé nuestras propuestas
                     </Typography>
                 </Link>
-                <Link href="https://linktr.ee/codewavear" style={{textDecoration:"none"}}>
+                <Link href="https://linktr.ee/codewavear" target="_blank" style={{textDecoration:"none"}}>
                   <Typography sx={{
                       color: "#636664",
                       fontSize: "11.6px",
