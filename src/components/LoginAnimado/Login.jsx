@@ -583,7 +583,7 @@ const Login = () => {
                   margin: "10px 0px",
                 }}
               >
-                Que bueno verte de nuevo por acá. Inicia sesión para seguir
+                Inicia sesión para seguir
                 buscando trabajo o publicar tu oferta laboral.
               </Typography>
               <Button
