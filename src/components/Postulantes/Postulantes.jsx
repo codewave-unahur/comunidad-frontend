@@ -247,7 +247,7 @@ const Postulantes = () => {
                             color: "black",
                           },
                         }}
-                        disabled={postulacion.Postulante?.cv === null}
+                        disabled={!postulacion.Postulante?.cv}
                       >
                         <PictureAsPdfIcon />
                       </IconButton>
