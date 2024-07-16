@@ -43,35 +43,41 @@ export async function activarPostulacion(id) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/postulaciones/aceptar/${id}`,
+      {}, // Cuerpo de la solicitud, que puede ser un objeto vacío si no hay datos que enviar
       {
         headers: {
-          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       }
     );
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error; // Lanzar el error para que pueda ser manejado por quien llame a la función
   }
 }
 
 // Desactiva una postulación a una oferta
 
+
 export async function desactivarPostulacion(id) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/postulaciones/desactivar/${id}`,
+      {}, // Cuerpo de la solicitud, que puede ser un objeto vacío si no hay datos que enviar
       {
         headers: {
-          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       }
     );
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error; // Lanzar el error para que pueda ser manejado por quien llame a la función
   }
 }
+
 
 // Marca como contactado a un postulante
 
@@ -79,15 +85,17 @@ export async function marcarContactado(id) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/postulaciones/contactado/${id}`,
+      {}, // Cuerpo de la solicitud, que puede ser un objeto vacío si no hay datos que enviar
       {
         headers: {
-          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       }
     );
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error; // Lanzar el error para que pueda ser manejado por quien llame a la función
   }
 }
 
@@ -97,15 +105,17 @@ export async function marcarNoContactado(id) {
   try {
     const response = await axios.put(
       `${config.apiUrl}/postulaciones/noContactado/${id}`,
+      {}, // Cuerpo de la solicitud, que puede ser un objeto vacío si no hay datos que enviar
       {
         headers: {
-          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
       }
     );
     return response.data;
   } catch (error) {
     console.error(error);
+    throw error; // Lanzar el error para que pueda ser manejado por quien llame a la función
   }
 }
 
