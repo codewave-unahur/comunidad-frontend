@@ -310,15 +310,15 @@ const Oferta = () => {
                     <ListItemText primary={oferta.descripcion} />
                   </ListItem>
                   <ListItem>
-                    {/*<ListItemText
+                    <ListItemText
                       primary={
                         <>
                           Tareas a realizar:
                           <br />
-                          {oferta.tareasARealizar || "No especificado"}
+                          {oferta.otros_detalles || "No especificado"}
                         </>
                       }
-                    />*/}
+                    />
                   </ListItem>
                 </List>
                 <Divider sx={{ marginTop: "1rem" }} />
