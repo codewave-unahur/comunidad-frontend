@@ -10,7 +10,7 @@ const PreLogin = () => {
 
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
-    const invitado = localStorage.getItem('invitado');
+    const invitado = sessionStorage.getItem('invitado');
 
 
 
@@ -28,7 +28,7 @@ const PreLogin = () => {
             || user === import.meta.env.VITE_USER && password === import.meta.env.VITE_PASSWORD
             || user === import.meta.env.VITE_POSTULANTE_USER && password === import.meta.env.VITE_POSTULANTE_PASSWORD
         ) {
-            localStorage.setItem('invitado', true)
+            sessionStorage.setItem('invitado', true)
             toast.success('Te has logueado correctamente');
             setTimeout(() => {
                 window.location.href = '/home';
@@ -40,7 +40,7 @@ const PreLogin = () => {
     }
 
     const handleLogout = () => {
-        localStorage.removeItem('invitado');
+        sessionStorage.removeItem('invitado');
         window.location.reload()
     }
 
@@ -212,7 +212,7 @@ const PreLogin = () => {
                         verticalAlign: 'middle',
                         border: '1px solid transparent',
                         ":hover": {
-                            backgroundColor: '#4c8c2b'
+                            backgroundColor: '#8c2331'
                         }
                     }}
                     size='large'
