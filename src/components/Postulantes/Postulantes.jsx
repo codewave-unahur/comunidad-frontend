@@ -67,7 +67,7 @@ const Postulantes = () => {
       try {
         if (tipoUsuario === "empresa") {
           const response = await getPostulacionesPorIdOferta(0, 20, idOferta);
-          setPostulaciones(response.postulaciones.rows);
+          setPostulaciones(response.postulaciones.rows.filter((postulacion) => postulacion.Estado.id === 4 || postulacion.Estado.id === 5 || postulacion.Estado.id === 1));
         } else {
           const response = await getPostulacionesPorIdOferta(
             0,
