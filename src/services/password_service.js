@@ -6,14 +6,14 @@ import { config } from "../config/config";
 export async function postResetPasswordRequest(mail) {
   try {
     const response = await axios.post(
-      `${config.apiUrl}/password/auth/requestResetPassword`,
+      `${config.apiUrl}/reset-password`,
       {
         usuario: mail,
       }
     );
     return response.data;
   } catch (error) {
-    console.error(error, "aaaaaaaa");
+    console.error(error);
   }
 }
 
@@ -22,7 +22,7 @@ export async function postResetPasswordRequest(mail) {
 export async function postResetPassword(userId, token, password) {
   try {
     const response = await axios.post(
-      `${config.apiUrl}/password/auth/resetPassword`,
+      `${config.apiUrl}/reset-password/${token}`,
       {
         userId,
         token,
