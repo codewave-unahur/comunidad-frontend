@@ -138,7 +138,7 @@ const Postulantes = () => {
                   <Typography variant="subtitle1">
                     <IconButton
                       href={postulante.cv}
-                      disabled={postulante.cv === null}
+                      disabled={!postulante.cv}
                       target="_blank"
                       sx={{
                         color: "#cb3234",
