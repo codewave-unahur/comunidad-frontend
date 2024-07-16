@@ -205,9 +205,17 @@ const Postulantes = () => {
                   </TableCell>
                   <TableCell align="center">
                     <Typography variant="h5">
-                      Evaluación de postulante
+                      {tipoUsuario === "empresa" ? "Evaluación del postulante" : "Evaluación del administrador"}
                     </Typography>
                   </TableCell>
+                  {
+                    tipoUsuario === "admin" ? (
+                      <TableCell align="center">
+                        <Typography variant="h5">Evaluación de la empresa </Typography>
+                      </TableCell>
+                    ) : null
+                    
+                  }
                   <TableCell align="center">
                     <Typography variant="h5">Acciones</Typography>
                   </TableCell>
@@ -274,7 +282,7 @@ const Postulantes = () => {
                               }}
                             />
                           )
-                        ) : postulacion.Estado.nombre_estado === "en proceso" ? (
+                        ) : postulacion.Estado.nombre_estado === "aceptado" || postulacion.Estado.nombre_estado === "desestimado" || postulacion.Estado.nombre_estado === "en proceso" ? (
                           <CheckOutlinedIcon
                             sx={{
                               color: "green",
@@ -295,6 +303,30 @@ const Postulantes = () => {
                         )}
                       </Icon>
                     </TableCell>
+                    {tipoUsuario === "admin" ? 
+                    <TableCell align="center">
+                      {
+                        postulacion.Estado.nombre_estado === "aceptado" ? (
+                          <CheckOutlinedIcon
+                            sx={{
+                              color: "green",
+                            }}
+                          />
+                        ) : postulacion.Estado.nombre_estado === "en proceso" || postulacion.Estado.nombre_estado === "pendiente" ? (
+                          <PendingActionsIcon
+                            sx={{
+                              color: "orange",
+                            }}
+                          />
+                        ) : (
+                          <CloseOutlinedIcon
+                            sx={{
+                              color: "red",
+                            }}
+                          />
+                        )
+                      }
+                    </TableCell> : null}
                     <TableCell align="center">
                       <Button
                         variant="contained"
