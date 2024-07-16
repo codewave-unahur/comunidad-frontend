@@ -95,7 +95,6 @@ const CrearOferta = () => {
     idContrato: "",
     idEmpresa: idEmpresa,
     modalidadDeTrabajo: "",
-    tareasARealizar: "",
     idiomas: [
       {
         nombre_idioma: "",
@@ -139,8 +138,6 @@ const CrearOferta = () => {
     fetchEstudios();
     fetchJornadas();
     fetchContratos();
-    getAptitudesData();
-    getPreferenciasData();
   }, []);
 
   const handleChangeAptitudes = (event) => {
@@ -291,7 +288,7 @@ const CrearOferta = () => {
     idJornada: yup.string().required("La jornada es obligatoria"),
     idContrato: yup.string().required("El contrato es obligatorio"),
     modalidadDeTrabajo: yup.string().required("La modalidad es obligatoria"),
-    tareasARealizar: yup.string().required("Las tareas son obligatorias"),
+    
   });
 
   return (
@@ -334,21 +331,7 @@ const CrearOferta = () => {
                 helperText={validarErrores.descripcion}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <TextField
-                fullWidth
-                label="Fecha de vigencia"
-                InputLabelProps={{ shrink: true }}
-                type="date"
-                variant="outlined"
-                value={oferta.fechaVigencia || ""}
-                onChange={(e) => {
-                  setOferta({ ...oferta, fechaVigencia: e.target.value });
-                }}
-                error={Boolean(validarErrores.fechaVigencia)}
-                helperText={validarErrores.fechaVigencia}
-              />
-            </Grid>
+           
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 label="Horario laboral (desde)"
@@ -404,6 +387,21 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                label="Fecha de vigencia"
+                InputLabelProps={{ shrink: true }}
+                type="date"
+                variant="outlined"
+                value={oferta.fechaVigencia || ""}
+                onChange={(e) => {
+                  setOferta({ ...oferta, fechaVigencia: e.target.value });
+                }}
+                error={Boolean(validarErrores.fechaVigencia)}
+                helperText={validarErrores.fechaVigencia}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
                 label="Experiencia previa"
                 variant="outlined"
                 value={oferta.experienciaPreviaDesc || ""}
@@ -452,7 +450,7 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
-                label="Otros detalles"
+                label="Tareas a realizar"
                 variant="outlined"
                 value={oferta.otrosDetalles || ""}
                 onChange={(e) => {
@@ -605,24 +603,8 @@ const CrearOferta = () => {
                 ))}
               </TextField>
             </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <TextField
-                fullWidth
-                label="Tareas a realizar"
-                variant="outlined"
-                value={oferta.tareasARealizar || ""}
-                multiline
-                onChange={(e) => {
-                  setOferta({
-                    ...oferta,
-                    tareasARealizar: e.target.value,
-                  });
-                }}
-                error={Boolean(validarErrores.tareasARealizar)}
-                helperText={validarErrores.tareasARealizar}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12}>
+            
+            {/*<Grid item xs={12} sm={12} md={12}>
               <Typography variant="h5" gutterBottom>
                 Idiomas requeridos
               </Typography>
@@ -733,7 +715,7 @@ const CrearOferta = () => {
               >
                 Agregar nuevo idioma
               </Button>
-            </Grid>
+            </Grid>*/}
             {/*<Grid item xs={12} sm={12} md={12}>
               <Typography variant="h5" gutterBottom>
                 Aptitudes
