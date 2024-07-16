@@ -241,12 +241,13 @@ const Postulantes = () => {
                         href={postulacion.Postulante?.cv}
                         target="_blank"
                         sx={{
-                          color: "green",
+                          color: "#cb3234",
                           "&:hover": {
                             backgroundColor: "lightgrey",
                             color: "black",
                           },
                         }}
+                        disabled={postulacion.Postulante?.cv === null}
                       >
                         <PictureAsPdfIcon />
                       </IconButton>
