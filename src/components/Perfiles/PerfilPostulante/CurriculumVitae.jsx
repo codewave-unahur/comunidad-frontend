@@ -94,6 +94,10 @@ const CurriculumVitae = () => {
             endIcon={<DescriptionIcon />}
             sx={{
               marginTop: 3.6,
+              backgroundColor: datosUsuario.cv ? "#57A42D" : "#D3D3D3",
+              ":hover": {
+                backgroundColor: datosUsuario.cv ? "#4c8c2b" : "#D3D3D3",
+              },
             }}
             href={datosUsuario.cv}
             target="_blank"
