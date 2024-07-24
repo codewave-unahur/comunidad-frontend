@@ -237,21 +237,7 @@ const EdicionOferta = () => {
                     helperText={validarErrores.descripcion}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Fecha de vigencia"
-                    InputLabelProps={{ shrink: true }}
-                    type="date"
-                    variant="outlined"
-                    value={oferta.fechaVigencia || ""}
-                    onChange={(e) => {
-                      setOferta({ ...oferta, fechaVigencia: e.target.value });
-                    }}
-                    error={Boolean(validarErrores.fechaVigencia)}
-                    helperText={validarErrores.fechaVigencia}
-                  />
-                </Grid>
+                
                 <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     label="Horario laboral (desde)"
@@ -308,6 +294,21 @@ const EdicionOferta = () => {
                     }}
                     error={Boolean(validarErrores.edadHasta)}
                     helperText={validarErrores.edadHasta}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Fecha de vigencia"
+                    InputLabelProps={{ shrink: true }}
+                    type="date"
+                    variant="outlined"
+                    value={oferta.fechaVigencia || ""}
+                    onChange={(e) => {
+                      setOferta({ ...oferta, fechaVigencia: e.target.value });
+                    }}
+                    error={Boolean(validarErrores.fechaVigencia)}
+                    helperText={validarErrores.fechaVigencia}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
