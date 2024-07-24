@@ -532,7 +532,7 @@ const Oferta = () => {
                       }}
                     />
                     <ListItemText
-                      primary={oferta.modalidadDeTrabajo || "No especificado"}
+                      primary={oferta.modalidad_de_trabajo || "No especificado"}
                       secondary="Modalidad de trabajo"
                     />
                   </ListItem>
