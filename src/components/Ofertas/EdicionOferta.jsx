@@ -240,21 +240,7 @@ const EdicionOferta = () => {
                     helperText={validarErrores.descripcion}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Fecha de vigencia"
-                    InputLabelProps={{ shrink: true }}
-                    type="date"
-                    variant="outlined"
-                    value={oferta.fechaVigencia || ""}
-                    onChange={(e) => {
-                      setOferta({ ...oferta, fechaVigencia: e.target.value });
-                    }}
-                    error={Boolean(validarErrores.fechaVigencia)}
-                    helperText={validarErrores.fechaVigencia}
-                  />
-                </Grid>
+                
                 <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     label="Horario laboral (desde)"
@@ -316,6 +302,21 @@ const EdicionOferta = () => {
                 <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     fullWidth
+                    label="Fecha de vigencia"
+                    InputLabelProps={{ shrink: true }}
+                    type="date"
+                    variant="outlined"
+                    value={oferta.fechaVigencia || ""}
+                    onChange={(e) => {
+                      setOferta({ ...oferta, fechaVigencia: e.target.value });
+                    }}
+                    error={Boolean(validarErrores.fechaVigencia)}
+                    helperText={validarErrores.fechaVigencia}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6} md={6}>
+                  <TextField
+                    fullWidth
                     label="Experiencia previa"
                     variant="outlined"
                     value={oferta.experienciaPreviaDesc || ""}
@@ -364,7 +365,7 @@ const EdicionOferta = () => {
                 <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     fullWidth
-                    label="Otros detalles"
+                    label="Tareas a realizar"
                     variant="outlined"
                     value={oferta.otrosDetalles || ""}
                     onChange={(e) => {
@@ -514,23 +515,7 @@ const EdicionOferta = () => {
                     ))}
                   </TextField>
                 </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Tareas a realizar"
-                    variant="outlined"
-                    value={oferta.tareasARealizar || ""}
-                    multiline
-                    onChange={(e) => {
-                      setOferta({
-                        ...oferta,
-                        tareasARealizar: e.target.value,
-                      });
-                    }}
-                    error={Boolean(validarErrores.tareasARealizar)}
-                    helperText={validarErrores.tareasARealizar}
-                  />
-                </Grid>
+                
 
                 <Grid item xs={12} sm={12} md={12}>
                   <Button
