@@ -150,7 +150,7 @@ const EdicionOferta = () => {
       .required("La experiencia previa es obligatoria"),
     zonaTrabajo: yup.string().required("La zona de trabajo es obligatoria"),
     areasEstudio: yup.string().required("El área de estudio es obligatoria"),
-    otrosDetalles: yup.string().optional(),
+    otrosDetalles: yup.string().required("Las tareas a realizar son obligatorias"),
     beneficios: yup.string().optional(),
     remuneracion: yup
       .number()
