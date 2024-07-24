@@ -66,7 +66,6 @@ const EdicionOferta = () => {
     idJornada: "",
     idContrato: "",
     modalidadDeTrabajo: "",
-    tareasARealizar: "",
   });
 
   useEffect(() => {
@@ -112,7 +111,6 @@ const EdicionOferta = () => {
         idJornada: response.fk_id_jornada,
         idContrato: response.fk_id_contrato,
         modalidadDeTrabajo: response.modalidadDeTrabajo,
-        tareasARealizar: response.tareasARealizar,
         idEstado: 2
       });
     };
@@ -165,7 +163,6 @@ const EdicionOferta = () => {
     idJornada: yup.string().required("La jornada es obligatoria"),
     idContrato: yup.string().required("El contrato es obligatorio"),
     modalidadDeTrabajo: yup.string().required("La modalidad es obligatoria"),
-    tareasARealizar: yup.string().required("Las tareas son obligatorias"),
   });
 
   const handleSubmit = async () => {
@@ -240,7 +237,21 @@ const EdicionOferta = () => {
                     helperText={validarErrores.descripcion}
                   />
                 </Grid>
-                
+                <Grid item xs={12} sm={6} md={6}>
+                  <TextField
+                    fullWidth
+                    label="Fecha de vigencia"
+                    InputLabelProps={{ shrink: true }}
+                    type="date"
+                    variant="outlined"
+                    value={oferta.fechaVigencia || ""}
+                    onChange={(e) => {
+                      setOferta({ ...oferta, fechaVigencia: e.target.value });
+                    }}
+                    error={Boolean(validarErrores.fechaVigencia)}
+                    helperText={validarErrores.fechaVigencia}
+                  />
+                </Grid>
                 <Grid item xs={12} sm={6} md={6}>
                   <TextField
                     label="Horario laboral (desde)"
@@ -297,21 +308,6 @@ const EdicionOferta = () => {
                     }}
                     error={Boolean(validarErrores.edadHasta)}
                     helperText={validarErrores.edadHasta}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                  <TextField
-                    fullWidth
-                    label="Fecha de vigencia"
-                    InputLabelProps={{ shrink: true }}
-                    type="date"
-                    variant="outlined"
-                    value={oferta.fechaVigencia || ""}
-                    onChange={(e) => {
-                      setOferta({ ...oferta, fechaVigencia: e.target.value });
-                    }}
-                    error={Boolean(validarErrores.fechaVigencia)}
-                    helperText={validarErrores.fechaVigencia}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
