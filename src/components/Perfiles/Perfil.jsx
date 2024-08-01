@@ -51,6 +51,8 @@ import BaseUNAHUR from "./PerfilAdministrador/BaseUNAHUR";
 import ExperienciaLaboral from "./PerfilPostulante/ExperienciaLaboral";
 import enProceso from "../../assets/Processing-bro.svg";
 import { EncryptStorage } from "encrypt-storage";
+import LockIcon from '@mui/icons-material/Lock';
+import CambiarContraseña from "./CambiarContraseña";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -66,27 +68,34 @@ const menuOptionsPostulante = [
   },
   {
     id: "2",
+    name: "cambiarContraseña",
+    Icon: LockIcon,
+    text: "Cambiar contraseña",
+    renderSection: <CambiarContraseña />
+  },
+  {
+    id: "3",
     name: "datosAcademicos",
     Icon: SchoolIcon,
     text: "Datos académicos",
     renderSection: <DatosAcademicos />,
   },
   {
-    id: "3",
+    id: "4",
     name: "experiencia",
     Icon: WorkIcon,
     text: "Experiencia laboral",
     renderSection: <ExperienciaLaboral />,
   },
   {
-    id: "4",
+    id: "5",
     name: "curriculumVitae",
     Icon: DescriptionIcon,
     text: "Curriculum Vitae",
     renderSection: <CurriculumVitae />,
   },
   {
-    id: "5",
+    id: "6",
     name: "misPostulaciones",
     Icon: AssignmentIcon,
     text: "Mis postulaciones",
@@ -104,13 +113,20 @@ const menuOptionsEmpresa = [
   },
   {
     id: "2",
+    name: "CambiarContraseña",
+    Icon: LockIcon,
+    text: "Cambiar contraseña",
+    renderSection: <CambiarContraseña />
+  },
+  {
+    id: "3",
     name: "verOfertas",
     Icon: AssignmentIcon,
     text: "Ver ofertas",
     renderSection: <VerOfertas />,
   },
   {
-    id: "3",
+    id: "4",
     name: "crearOferta",
     Icon: PostAddIcon,
     text: "Crear oferta",
@@ -128,20 +144,27 @@ const menuOptionsAdmin = [
   },
   {
     id: "2",
+    name: "cambiarContraseña",
+    Icon: LockIcon,
+    text: "Cambiar contraseña",
+    renderSection: <CambiarContraseña />,
+  },
+  {
+    id: "3",
     name: "ofertas",
     Icon: AssignmentIcon,
     text: "Ofertas",
     renderSection: <Ofertas />,
   },
   {
-    id: "3",
+    id: "4",
     name: "empresas",
     Icon: BusinessIcon,
     text: "Empresas",
     renderSection: <Empresas />,
   },
   {
-    id:"4",
+    id:"5",
     name: "galeria",
     Icon: CollectionsIcon,
     text: "Galería",
