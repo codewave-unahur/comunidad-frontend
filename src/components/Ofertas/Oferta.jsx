@@ -554,7 +554,7 @@ const Oferta = () => {
               }}
             />
           ) : (
-            <Button
+           tipoUsuario === "admin" ? null : <Button
               variant="contained"
               color="primary"
               onClick={

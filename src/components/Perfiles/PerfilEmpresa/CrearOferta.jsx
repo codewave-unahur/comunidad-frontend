@@ -294,7 +294,7 @@ const CrearOferta = () => {
   return (
     <Card type="section" elevation={8}>
       <CardHeader title="Datos de la oferta" />
-      <Stack spacing={6}>
+      {datosUsuario.Estado.id === 2 ? null : <Stack spacing={6}>
         <Box>
           <Grid
             container
@@ -834,7 +834,7 @@ const CrearOferta = () => {
             </Grid>
           </Grid>
         </Box>
-      </Stack>
+      </Stack>}
       <Toaster richColors closeButton />
     </Card>
   );
