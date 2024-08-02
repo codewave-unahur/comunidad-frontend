@@ -41,6 +41,22 @@ export async function signUp(usuario) {
     const response = await axios.post(
       `${config.apiUrl}/usuarios/signup`,
       usuario
+    )
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function cambiarPassword(passwordActual, passwordNueva) {
+  try {
+    const response = await axios.put(
+      `${config.apiUrl}/usuarios/cambiar-password`,
+      { 
+        passwordActual,
+        passwordNueva
+      },
+      { headers: { Authorization: `bearer ${sessionStorage.getItem("token")}` } }
     );
     return response.data;
   } catch (error) {

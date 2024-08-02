@@ -2,7 +2,7 @@ import { Card, CardHeader, Stack, TextField, Button } from "@mui/material";
 import { EncryptStorage } from "encrypt-storage";
 import { useState } from "react";
 import { Toaster, toast } from "sonner";
-import * as yup from 'yup';
+import { cambiarPassword } from "../../services/usuarios_service";
 
 const CambiarContraseña = () => {
 
@@ -14,18 +14,9 @@ const CambiarContraseña = () => {
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [repeatNewPassword, setRepeatNewPassword] = useState('');
-    const [validarErrores, setValidarErrores] = useState({}); 
 
-    const idUsuario = encryptStorage.getItem('idUsuario');
     const token = sessionStorage.getItem('token');
 
-
-    const schema = yup.object().shape({
-        password: yup.string().required('La contraseña actual es requerida'),
-        newPassword: yup.string().required('La nueva contraseña es requerida'),
-        repeatNewPassword: yup.string().required('La confirmación de la nueva contraseña es requerida')
-    });
-    
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
     }
@@ -42,18 +33,18 @@ const CambiarContraseña = () => {
     
 
     
-
-    const handleSubmit =  () => {
-        if ( newPassword !== repeatNewPassword ) {
-            toast.error('Las contraseñas no coinciden');
-        
-        }  else {
-
-        }
-        
-        
+    const handleSubmit = async () => {
+        if (newPassword === repeatNewPassword) {
+            const response = await cambiarPassword(password, newPassword);
+            if (response) {
+                toast.success("Contraseña cambiada exitosamente");
+            } else {
+                toast.error("Error al cambiar la contraseña");
+            }
+        } else {
+            toast.error("Las contraseñas no coinciden");
     }
-    
+}
 
 
     return ( 
@@ -71,21 +62,18 @@ const CambiarContraseña = () => {
                             label="Contraseña actual"
                             variant="outlined"
                             type="password"
-                            error={Boolean(validarErrores.password)}
                             onChange={handleChangePassword}
                         />
                         <TextField
                             label="Nueva contraseña"
                             variant="outlined"
                             type="password"
-                            error={Boolean(validarErrores.newPassword)}
                             onChange={handleChangeNewPassword}
                         />
                         <TextField
                             label="Repetir nueva contraseña"
                             variant="outlined"
                             type="password"
-                            error={Boolean(validarErrores.repeatNewPassword)}
                             onChange={handleChangeRepeatNewPassword}
                         />
                     </Stack>
