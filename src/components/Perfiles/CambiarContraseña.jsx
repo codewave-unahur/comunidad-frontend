@@ -43,7 +43,14 @@ const CambiarContraseña = () => {
 
     
 
-    const handleSubmit = async () => {
+    const handleSubmit =  () => {
+        if ( newPassword !== repeatNewPassword ) {
+            toast.error('Las contraseñas no coinciden');
+        
+        }  else {
+
+        }
+        
         
     }
     
@@ -64,20 +71,22 @@ const CambiarContraseña = () => {
                             label="Contraseña actual"
                             variant="outlined"
                             type="password"
-                            error={validarErrores.password}
+                            error={Boolean(validarErrores.password)}
+                            onChange={handleChangePassword}
                         />
                         <TextField
                             label="Nueva contraseña"
                             variant="outlined"
                             type="password"
-                            error={validarErrores.newPassword}
-                            
+                            error={Boolean(validarErrores.newPassword)}
+                            onChange={handleChangeNewPassword}
                         />
                         <TextField
                             label="Repetir nueva contraseña"
                             variant="outlined"
                             type="password"
-                            error={validarErrores.repeatNewPassword}
+                            error={Boolean(validarErrores.repeatNewPassword)}
+                            onChange={handleChangeRepeatNewPassword}
                         />
                     </Stack>
                     <Button
@@ -89,7 +98,7 @@ const CambiarContraseña = () => {
                     </Button>
                 </Stack>
             </Card>
-            <Toaster />
+            <Toaster richColors/>
         </>
      );
 }
