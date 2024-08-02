@@ -182,10 +182,8 @@ const Ofertas = (props) => {
                   alt={oferta.Empresa?.nombre_empresa}
                 />
               }
-              title={oferta.titulo_oferta}
-              subheader={`Publicado hace ${publicadoHace(
-                oferta.createdAt
-              )}`}
+              title={oferta.Empresa?.nombre_empresa}
+              subheader={oferta.zona_trabajo}
               sx={{
                 "& .css-et1ao3-MuiTypography-root": {
                   fontSize: "1.4rem",
@@ -200,10 +198,10 @@ const Ofertas = (props) => {
             />
             <CardContent>
               <Typography variant="h6">
-                {oferta.Empresa?.nombre_empresa}
+                {oferta.titulo_oferta}
               </Typography>
               <Typography variant="subtitle2" color="text.secondary">
-                {oferta.zona_trabajo}
+                Publicado hace {publicadoHace(oferta.createdAt)}
               </Typography>
               <Typography
                 variant="body2"
