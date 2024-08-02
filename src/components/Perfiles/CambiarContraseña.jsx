@@ -1,4 +1,4 @@
-import { Card, CardHeader, Stack, TextField, Button } from "@mui/material";
+import { Card, CardHeader, Stack, TextField, Button, Box } from "@mui/material";
 import { EncryptStorage } from "encrypt-storage";
 import { useState } from "react";
 import { Toaster, toast } from "sonner";
@@ -6,16 +6,11 @@ import { cambiarPassword } from "../../services/usuarios_service";
 
 const CambiarContraseña = () => {
 
-    const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
-        doNotParseValues: false,
-        storageType: "sessionStorage"
-    });
 
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [repeatNewPassword, setRepeatNewPassword] = useState('');
 
-    const token = sessionStorage.getItem('token');
 
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
@@ -39,7 +34,7 @@ const CambiarContraseña = () => {
             if (response) {
                 toast.success("Contraseña cambiada exitosamente");
             } else {
-                toast.error("Error al cambiar la contraseña");
+                toast.error("Contraseña actual incorrecta");
             }
         } else {
             toast.error("Las contraseñas no coinciden");
@@ -55,35 +50,56 @@ const CambiarContraseña = () => {
                     <Stack 
                         direction='column'
                         spacing={2}
-                        justifyContent={{ xs: 'center', sm: 'flex-start' }}
-                        alignItems={{ xs: 'center', sm: 'flex-start' }}
+                        
                     >
-                        <TextField
-                            label="Contraseña actual"
-                            variant="outlined"
-                            type="password"
-                            onChange={handleChangePassword}
-                        />
-                        <TextField
-                            label="Nueva contraseña"
-                            variant="outlined"
-                            type="password"
-                            onChange={handleChangeNewPassword}
-                        />
-                        <TextField
-                            label="Repetir nueva contraseña"
-                            variant="outlined"
-                            type="password"
-                            onChange={handleChangeRepeatNewPassword}
-                        />
+                        
+                        <Box sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '1rem',
+                            width: '100%',
+                            padding: '1rem'
+                        }}>
+                            <TextField
+                                label="Contraseña Actual"
+                                variant="outlined"
+                                type="password"
+                                value={password}
+                                onChange={handleChangePassword}
+                            />
+                            <TextField
+                                label="Nueva Contraseña"
+                                variant="outlined"
+                                type="password"
+                                value={newPassword}
+                                onChange={handleChangeNewPassword}
+                            />
+                            <TextField
+                                label="Repetir Nueva Contraseña"
+                                variant="outlined"
+                                type="password"
+                                value={repeatNewPassword}
+                                onChange={handleChangeRepeatNewPassword}
+                            />
+                            <Button
+                                variant="contained"
+                                onClick={handleSubmit}
+                                sx={{
+                                    backgroundColor: '#00404f',
+                                    color: '#fff',
+                                    '&:hover': {
+                                        backgroundColor: '#00404f',
+                                        opacity: '0.8'
+                                    }
+                                }}
+                            >
+                                Cambiar Contraseña
+                            </Button>
+
+                        </Box>
+
                     </Stack>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleSubmit}
-                    >
-                        Cambiar contraseña
-                    </Button>
+                    
                 </Stack>
             </Card>
             <Toaster richColors/>
