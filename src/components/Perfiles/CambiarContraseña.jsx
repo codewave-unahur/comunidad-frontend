@@ -88,8 +88,7 @@ const CambiarContraseña = () => {
                                     backgroundColor: '#00404f',
                                     color: '#fff',
                                     '&:hover': {
-                                        backgroundColor: '#00404f',
-                                        opacity: '0.8'
+                                        backgroundColor: '#006064'
                                     }
                                 }}
                             >
