@@ -42,6 +42,7 @@ const DatosEmpresa = () => {
 
   const idUsuario = encryptStorage.getItem("idUsuario");
   const token = sessionStorage.getItem("token");
+  const datosUsuario = encryptStorage.getItem("datosUsuario");
 
   const [validarErrores, setValidarErrores] = useState({}); // Para controlar los errores
   const [isSubmitting, setIsSubmitting] = useState(false); // Para validar el formulario
@@ -300,7 +301,15 @@ const DatosEmpresa = () => {
               </Tooltip>
               </>
             )}
+            {
+              datosUsuario.Estado.id === 2 && !datosUsuario.logo ? (
+                <Typography variant="caption" color="error">
+                    Su cuenta aún no ha sido verificada. Para agilizar el proceso, por favor suba el logo de su empresa.
+                </Typography>
+              ) : null
+            }
           </Box>
+
         </Stack>
         <Divider />
         <Box>

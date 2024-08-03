@@ -21,11 +21,11 @@ import * as yup from "yup";
 import { useState, useEffect, Fragment } from "react";
 
 import { getEstudios } from "../../../services/estudios_service";
-import { getCarreras } from "../../../services/carreras_service";
 import { getJornadas } from "../../../services/jornadas_service";
 import { getTiposContratos } from "../../../services/contratos_service";
 import { postOferta } from "../../../services/ofertas_service";
 import { Toaster, toast } from "sonner";
+import LockIcon from "@mui/icons-material/Lock";
 import { EncryptStorage } from "encrypt-storage";
 
 const modalidadDeTrabajo = [
@@ -294,7 +294,25 @@ const CrearOferta = () => {
   return (
     <Card type="section" elevation={8}>
       <CardHeader title="Datos de la oferta" />
-      {datosUsuario.Estado.id === 2 ? null : <Stack spacing={6}>
+      {datosUsuario.Estado.id === 2 ? 
+      (
+        <>
+          <Box padding={2} sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 2
+          }}>
+            <LockIcon fontSize="large" sx={{
+              color: "#f44336"
+            }} />
+            <Typography variant="h5" gutterBottom>
+              No puedes crear ofertas si tu cuenta no ha sido verificada. Por favor, contacta al administrador.
+            </Typography>
+          </Box>
+        </>
+      ) : <Stack spacing={6}>
         <Box>
           <Grid
             container

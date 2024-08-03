@@ -49,7 +49,6 @@ import { uploadCV } from "../../services/files_service";
 import { Toaster, toast } from "sonner";
 import BaseUNAHUR from "./PerfilAdministrador/BaseUNAHUR";
 import ExperienciaLaboral from "./PerfilPostulante/ExperienciaLaboral";
-import enProceso from "../../assets/Processing-bro.svg";
 import { EncryptStorage } from "encrypt-storage";
 import LockIcon from '@mui/icons-material/Lock';
 import CambiarContraseña from "./CambiarContraseña";

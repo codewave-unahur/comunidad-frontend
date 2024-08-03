@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   CardHeader,
   Typography,
@@ -23,7 +24,7 @@ import {
 } from "@mui/material";
 
 import CircleIcon from "@mui/icons-material/Circle";
-
+import LockIcon from "@mui/icons-material/Lock";
 import { forwardRef, useEffect, useState } from "react";
 
 import { getOfertaByCuit, putOferta } from "../../../services/ofertas_service";
@@ -149,7 +150,26 @@ const VerOfertas = () => {
           },
         }}
       />
-      <TableContainer component={Paper}>
+
+      {datosUsuario.Estado.id === 2 ? 
+      (
+        <>
+          <Box padding={2} sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 2
+          }}>
+            <LockIcon fontSize="large" sx={{
+              color: "#f44336"
+            }} />
+            <Typography variant="h5" gutterBottom>
+              No puedes ver ofertas si tu cuenta no ha sido verificada. Por favor, contacta al administrador.
+            </Typography>
+          </Box>
+        </>
+      ) :<TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -259,7 +279,7 @@ const VerOfertas = () => {
           totalPaginas={totalPaginas}
           cambiarPagina={setPaginaActual}
         />
-      </TableContainer>
+      </TableContainer>}
       <Dialog
         open={open}
         TransitionComponent={Transition}
