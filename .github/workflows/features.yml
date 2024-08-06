@@ -14,7 +14,6 @@ jobs:
     strategy:
         matrix:
             node-version: [18.x, 20.x]
-            max-parallel: 2
 
     steps:
       - name: Checkout code
