@@ -1,4 +1,4 @@
-import { Box, Card, CardHeader, Grid, Typography} from "@mui/material";
+import { Box, Button, Card, CardHeader, Grid, TextField, Typography} from "@mui/material";
 import { useState, useEffect } from "react";
 import { getUsuarios } from "../../../services/usuarios_service";
 import { getEmpresasSinFiltros } from "../../../services/empresas_service";
@@ -18,6 +18,8 @@ const Estadisticas = () => {
     const [postulacionesRechazadasAdmin, setPostulacionesRechazadasAdmin] = useState([]);
     const [postulacionesAceptadasEmpresa, setPostulacionesAceptadasEmpresa] = useState([]);
     const [postulacionesRechazadasEmpresa, setPostulacionesRechazadasEmpresa] = useState([]);
+    const [fechaInicio, setFechaInicio] = useState("");
+    const [fechaFin, setFechaFin] = useState("");
 
 
     useEffect(() => {
@@ -82,8 +84,18 @@ const Estadisticas = () => {
     const porcentajePostulacionesAceptadasEmpresa = (postulacionesAceptadasEmpresa * 100) / postulacionesAceptadasAdmin;
     const porcentajePostulacionesRechazadasEmpresa = (postulacionesRechazadasEmpresa * 100) / postulacionesAceptadasAdmin;
 
+    const filtrarTodoPorFecha = async (e) => {
+        e.preventDefault();
+        const response = await getPostulaciones();
+        const response2 = await getUsuarios();
 
-    
+        setPostulaciones(response.postulaciones.filter(postulacion => postulacion.createdAt >= fechaInicio && postulacion.createdAt <= fechaFin).length);
+        setPostulacionesAceptadasAdmin(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "desestimado" || postulacion.Estado.nombre_estado === "en proceso" || postulacion.Estado.nombre_estado === "aceptado").length);
+        setPostulacionesRechazadasAdmin(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "rechazado").length);
+        setPostulacionesAceptadasEmpresa(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "aceptado").length);
+        setPostulacionesRechazadasEmpresa(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "desestimado").length);
+        setUsuarios(response2.usuarios.filter(usuario => usuario.createdAt >= fechaInicio && usuario.createdAt <= fechaFin).length);
+    }
 
 
 
@@ -99,6 +111,9 @@ const Estadisticas = () => {
                     alignItems: "center",
 
                 }}>
+                    <TextField type="date" label="Fecha de inicio" onChange={(e) => setFechaInicio(e.target.value)} />
+                    <TextField type="date" label="Fecha de fin" onChange={(e) => setFechaFin(e.target.value)}  />
+                    <Button onClick={filtrarTodoPorFecha}>Filtrar</Button>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={6}>
                             <Box>
