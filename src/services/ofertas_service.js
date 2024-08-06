@@ -29,7 +29,7 @@ export async function getOfertas(
 
 export async function getOfertasSinFiltros() {
   try {
-    const response = await axios.get(`${config.apiUrl}/ofertas/all`,
+    const response = await axios.get(`${config.apiUrl}/ofertas`,
       {
         headers: {
           Authorization: `bearer ${sessionStorage.getItem("token")}`,
