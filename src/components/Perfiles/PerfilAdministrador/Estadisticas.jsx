@@ -14,7 +14,11 @@ const Estadisticas = () => {
     const [postulantesUNAHUR, setPostulantesUNAHUR] = useState([]);
     const [postulaciones, setPostulaciones] = useState([]);
     const [ofertas, setOfertas] = useState([]);
-    
+    const [postulacionesAceptadasAdmin, setPostulacionesAceptadasAdmin] = useState([]);
+    const [postulacionesRechazadasAdmin, setPostulacionesRechazadas] = useState([]);
+    const [postulacionesAceptadasEmpresa, setPostulacionesAceptadasEmpresa] = useState([]);
+    const [postulacionesRechazadasEmpresa, setPostulacionesRechazadasEmpresa] = useState([]);
+
 
     useEffect(() => {
         const traerUsuarios = async () => {
@@ -47,6 +51,10 @@ const Estadisticas = () => {
             const response = await getPostulaciones();
             if (response) {
                 setPostulaciones(response.postulaciones.length);
+                setPostulacionesAceptadasAdmin(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado !== "pendiente" || postulacion.Estado.nombre_estado !== "rechazado").length);
+                setPostulacionesRechazadas(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "rechazado").length);
+                setPostulacionesAceptadasEmpresa(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "aceptado").length);
+                setPostulacionesRechazadasEmpresa(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "desestimado").length);
             }
         }
 
@@ -56,6 +64,9 @@ const Estadisticas = () => {
                 setOfertas(response.ofertas.count);
             }
         }
+
+        
+
             
         traerUsuarios();
         traerEmpresas();
@@ -66,6 +77,11 @@ const Estadisticas = () => {
     }, []);
 
     const porcentajePostulantesUNAHUR = (postulantesUNAHUR * 100) / postulantes;
+    const porcentajePostulacionesAceptadasAdmin = (postulacionesAceptadasAdmin * 100) / postulaciones;
+    const porcentajePostulacionesRechazadasAdmin = (postulacionesRechazadasAdmin * 100) / postulaciones;
+    const porcentajePostulacionesAceptadasEmpresa = (postulacionesAceptadasEmpresa * 100) / postulacionesAceptadasAdmin;
+    const porcentajePostulacionesRechazadasEmpresa = (postulacionesRechazadasEmpresa * 100) / postulacionesAceptadasAdmin;
+
 
 
 
@@ -108,14 +124,38 @@ const Estadisticas = () => {
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Box>
+                                <Typography variant = "h6">Ofertas creadas</Typography>
+                                <Typography variant = "h4">{ofertas}</Typography>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Box>
                                 <Typography variant = "h6">Postulaciones totales</Typography>
                                 <Typography variant = "h4">{postulaciones}</Typography>
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Box>
-                                <Typography variant = "h6">Ofertas creadas</Typography>
-                                <Typography variant = "h4">{ofertas}</Typography>
+                                <Typography variant = "h6">Postulaciones aceptadas por administrador</Typography>
+                                <Typography variant = "h4">{postulacionesAceptadasAdmin} ({porcentajePostulacionesAceptadasAdmin}%)</Typography>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Box>
+                                <Typography variant = "h6">Postulaciones rechazadas por administrador</Typography>
+                                <Typography variant = "h4">{postulacionesRechazadasAdmin} ({porcentajePostulacionesRechazadasAdmin}%)</Typography>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Box>
+                                <Typography variant = "h6">Postulaciones aceptadas por empresas</Typography>
+                                <Typography variant = "h4">{postulacionesAceptadasEmpresa} ({porcentajePostulacionesAceptadasEmpresa}%)</Typography>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Box>
+                                <Typography variant = "h6">Postulaciones rechazadas por empresas</Typography>
+                                <Typography variant = "h4">{postulacionesRechazadasEmpresa} ({porcentajePostulacionesRechazadasEmpresa}%)</Typography>
                             </Box>
                         </Grid>
                     </Grid>
