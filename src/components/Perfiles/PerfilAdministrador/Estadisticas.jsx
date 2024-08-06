@@ -15,7 +15,7 @@ const Estadisticas = () => {
     const [postulaciones, setPostulaciones] = useState([]);
     const [ofertas, setOfertas] = useState([]);
     const [postulacionesAceptadasAdmin, setPostulacionesAceptadasAdmin] = useState([]);
-    const [postulacionesRechazadasAdmin, setPostulacionesRechazadas] = useState([]);
+    const [postulacionesRechazadasAdmin, setPostulacionesRechazadasAdmin] = useState([]);
     const [postulacionesAceptadasEmpresa, setPostulacionesAceptadasEmpresa] = useState([]);
     const [postulacionesRechazadasEmpresa, setPostulacionesRechazadasEmpresa] = useState([]);
 
@@ -51,8 +51,8 @@ const Estadisticas = () => {
             const response = await getPostulaciones();
             if (response) {
                 setPostulaciones(response.postulaciones.length);
-                setPostulacionesAceptadasAdmin(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado !== "pendiente" || postulacion.Estado.nombre_estado !== "rechazado").length);
-                setPostulacionesRechazadas(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "rechazado").length);
+                setPostulacionesAceptadasAdmin(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "desestimado" || postulacion.Estado.nombre_estado === "en proceso" || postulacion.Estado.nombre_estado === "aceptado").length);
+                setPostulacionesRechazadasAdmin(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "rechazado").length);
                 setPostulacionesAceptadasEmpresa(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "aceptado").length);
                 setPostulacionesRechazadasEmpresa(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "desestimado").length);
             }
@@ -82,6 +82,8 @@ const Estadisticas = () => {
     const porcentajePostulacionesAceptadasEmpresa = (postulacionesAceptadasEmpresa * 100) / postulacionesAceptadasAdmin;
     const porcentajePostulacionesRechazadasEmpresa = (postulacionesRechazadasEmpresa * 100) / postulacionesAceptadasAdmin;
 
+
+    
 
 
 
