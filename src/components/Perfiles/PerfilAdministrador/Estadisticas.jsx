@@ -4,7 +4,7 @@ import { getUsuarios } from "../../../services/usuarios_service";
 import { getEmpresasSinFiltros } from "../../../services/empresas_service";
 import { getPostulantesSinFiltros } from "../../../services/postulantes_service";
 import { getPostulaciones } from "../../../services/postulaciones_service";
-import { getOfertasSinFiltros } from "../../../services/ofertas_service";
+import { getOfertas, getOfertasSinFiltros } from "../../../services/ofertas_service";
 
 const Estadisticas = () => {
 
@@ -88,6 +88,9 @@ const Estadisticas = () => {
         e.preventDefault();
         const response = await getPostulaciones();
         const response2 = await getUsuarios();
+        const response3 = await getOfertasSinFiltros();
+        const response4 = await getEmpresasSinFiltros();
+        const response5 = await getPostulantesSinFiltros();
 
         setPostulaciones(response.postulaciones.filter(postulacion => postulacion.createdAt >= fechaInicio && postulacion.createdAt <= fechaFin).length);
         setPostulacionesAceptadasAdmin(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "desestimado" || postulacion.Estado.nombre_estado === "en proceso" || postulacion.Estado.nombre_estado === "aceptado").length);
@@ -95,6 +98,9 @@ const Estadisticas = () => {
         setPostulacionesAceptadasEmpresa(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "aceptado").length);
         setPostulacionesRechazadasEmpresa(response.postulaciones.filter(postulacion => postulacion.Estado.nombre_estado === "desestimado").length);
         setUsuarios(response2.usuarios.filter(usuario => usuario.createdAt >= fechaInicio && usuario.createdAt <= fechaFin).length);
+        setOfertas(response3.ofertas.rows.filter(oferta => oferta.createdAt >= fechaInicio && oferta.createdAt <= fechaFin).length);
+        setEmpresas(response4.empresas.rows.filter(empresa => empresa.createdAt >= fechaInicio && empresa.createdAt <= fechaFin).length);
+        setPostulantes(response5.postulantes.rows.filter(postulante => postulante.createdAt >= fechaInicio && postulante.createdAt <= fechaFin).length);
     }
 
 
@@ -104,16 +110,26 @@ const Estadisticas = () => {
             <Card type="section" elevation={8}>
                 <CardHeader title="Estadísticas" />
                 <Box sx={{
-                    padding: 2,
                     display: "flex",
-                    justifyContent: "center",
                     flexDirection: "column",
-                    alignItems: "center",
-
+                    gap: 2,
+                    padding: 2,
+                    margin: 2,
+                    
                 }}>
-                    <TextField type="date" label="Fecha de inicio" onChange={(e) => setFechaInicio(e.target.value)} />
-                    <TextField type="date" label="Fecha de fin" onChange={(e) => setFechaFin(e.target.value)}  />
-                    <Button onClick={filtrarTodoPorFecha}>Filtrar</Button>
+                    <Typography variant="h5">Filtrar por fecha</Typography>
+                    <Box sx={{
+                        display: "flex",
+                        gap: 2,
+                        alignItems: "center",
+                        
+                    }}>
+                        <TextField type="date" label="Fecha de inicio" InputLabelProps={{shrink: true}} onChange={(e) => setFechaInicio(e.target.value)} />
+                        <TextField type="date" label="Fecha de fin" InputLabelProps={{shrink: true}} onChange={(e) => setFechaFin(e.target.value)}  />
+                        <Button onClick={filtrarTodoPorFecha} variant="contained" sx={{
+                            backgroundColor: "#",
+                        }}>Filtrar</Button>
+                    </Box>
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={6}>
                             <Box>
