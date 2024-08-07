@@ -36,7 +36,7 @@ jobs:
         run: npm ci
 
       - name: Run npm audit fix
-        run: npm audit fix --force
+        run: npm audit fix
 
       - name: Run npm audit
         run: |
