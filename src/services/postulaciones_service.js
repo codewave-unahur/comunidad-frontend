@@ -5,7 +5,13 @@ import { config } from "../config/config";
 
 export async function getPostulaciones() {
   try {
-    const response = await axios.get(`${config.apiUrl}/postulaciones/todas/`);
+    const response = await axios.get(`${config.apiUrl}/postulaciones/`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);

@@ -26,6 +26,24 @@ export async function getPostulantes(
   }
 }
 
+// Trae todos los postulantes sin filtros
+
+export async function getPostulantesSinFiltros() {
+  try {
+    const response = await axios.get(
+      `${config.apiUrl}/postulantes/`,
+      {
+        headers: {
+          Authorization: `bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export async function getPostulantesBaseUnahur(
   pagina,
   limite,
