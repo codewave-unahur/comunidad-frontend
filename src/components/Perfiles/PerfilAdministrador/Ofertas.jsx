@@ -278,22 +278,22 @@ const Ofertas = () => {
   const estadoMap = {
     activa: {
       name: "Ofertas activas",
-      color: "green",
+      color: "#28a745",
       actions: accionesOfertasActivas,
     },
     pendiente: {
       name: "Ofertas pendientes",
-      color: "orange",
+      color: "#ffc107",
       actions: accionesOfertasPendientes,
     },
     observada: {
       name: "Ofertas en revisión",
-      color: "red",
+      color: "#dc3545",
       actions: accionesOfertasEnRevision,
     },
     finalizada: {
       name: "Ofertas finalizadas",
-      color: "black",
+      color: "#6c757d",
       actions: accionesOfertasFinalizadas,
     },
   };
@@ -316,7 +316,7 @@ const Ofertas = () => {
         component="header"
         my={3}
         direction="row"
-        justifyContent="space-between"
+        justifyContent="flex-start"
         alignItems="center"
         flexWrap="wrap"
         textTransform="uppercase"
@@ -326,19 +326,20 @@ const Ofertas = () => {
           <Button
             key={key}
             variant="contained"
+            size="large"
             sx={{
-              color: "white",
               backgroundColor: color,
+              color: "white",
               "&:hover": {
                 backgroundColor: color,
                 color: "white",
+                opacity: 0.8,
               },
-              width: "200px",
               margin: 1,
             }}
             onClick={handleChangeEstadoOferta}
           >
-            {name}
+            {name} 
           </Button>
         ))}
       </Stack>
