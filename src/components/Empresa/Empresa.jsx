@@ -21,6 +21,7 @@ import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import SupervisorAccountOutlinedIcon from '@mui/icons-material/SupervisorAccountOutlined';
 import { getEmpresaByCuit } from "../../services/empresas_service";
+import { Link } from "react-router-dom";
 
 const Empresa = () => {
   const idEmpresa = parseInt(window.location.pathname.split("/")[2]);
@@ -294,9 +295,14 @@ const Empresa = () => {
                     />
                     <ListItemText
                       primary={
-                        <a href={empresa.web} target="_blank" rel="noreferrer">
+                        <a 
+                          href={//revisar si es necesario agregar https:// al principio 
+                            empresa.web.includes("http") ? empresa.web : "https://" + empresa.web
+                          }
+                          target="_blank"
+                          rel="noreferrer">
                           {empresa.nombre_empresa}
-                        </a>
+                          </a>
                       }
                       secondary="Sitio web de la empresa"
                     />
