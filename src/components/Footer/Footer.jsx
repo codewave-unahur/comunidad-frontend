@@ -50,7 +50,7 @@ export default function Footer() {
                     marginBottom: "20px" 
                    }}
                 >
-                  &copy; {year} Direccion de Vinculación Tecnológica - UNAHUR
+                  &copy; {year} UNAHUR
                 </Typography>
                 <Typography sx={{ 
                   color: "#636664",
@@ -59,10 +59,10 @@ export default function Footer() {
                   }}
                   
                 >
-                  Todos los derechos reservados
+                 Todos los derechos reservados
                 </Typography>
 
-                <Link href="#" style={{textDecoration:"none" }}>
+               {/*<Link href="#" style={{textDecoration:"none" }}>
                   <Typography sx={{
                       color: "#636664", 
                       fontSize: "11.6px",
@@ -77,7 +77,7 @@ export default function Footer() {
                       marginBottom: "20px",
                     }}>Aviso de cookies</Typography>
                   
-                </Link>
+                </Link>*/}
 
                 <Box
                   sx={{

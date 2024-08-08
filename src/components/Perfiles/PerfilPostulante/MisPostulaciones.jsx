@@ -196,9 +196,9 @@ const MisPostulaciones = () => {
                     sx={{
                       margin: 1,
                       color: "white",
-                      backgroundColor: "green",
+                      backgroundColor: "#28a745",
                       "&:hover": {
-                        backgroundColor: "green",
+                        backgroundColor: "#28a745",
                         color: "white",
                       },
                     }}

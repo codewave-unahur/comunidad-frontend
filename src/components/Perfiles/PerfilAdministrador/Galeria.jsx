@@ -169,7 +169,18 @@ export default function Galeria() {
                     </Typography>
                   </TableCell>
                   <TableCell align="center" sx={{ width: "20%" }}>
-                    <Button onClick={ edit ? () => handleSaveLink(image.id) : () => handleEditLink(image.id)} variant="contained" color={edit? "primary" : "warning"} sx={{marginRight:"4px"}}>
+                    <Button onClick={ edit ? () => handleSaveLink(image.id) : () => handleEditLink(image.id)} 
+                    variant="contained" 
+                    
+                    sx={{
+                      marginRight:"4px",
+                      backgroundColor: edit ? "#0056b3" : "#fd7e14",
+                      "&:hover": {
+                        backgroundColor: edit ? "#0056b3" : "#fd7e14",
+                        color: "white",
+                        opacity: 0.8,
+                      },
+                      }}>
                       {edit ? "Guardar" : "Editar"}
                     </Button>
                     <Button onClick={() => handleDeleteImage(image.id)} variant="contained" color="error">

@@ -140,10 +140,11 @@ const Ofertas = () => {
         variant="contained"
         sx={{
           color: "white",
-          backgroundColor: "green",
+          backgroundColor: "#28a745",
           "&:hover": {
-            backgroundColor: "green",
+            backgroundColor: "#28a745",
             color: "white",
+            opacity: 0.8,
           },
         }}
         href={`/oferta/${oferta.id}`}
@@ -161,12 +162,12 @@ const Ofertas = () => {
           variant="outlined"
           sx={{
             margin: 1,
-            color: "green",
-            borderColor: "green",
+            color: "#28a745",
+            borderColor: "#28a745",
             "&:hover": {
               backgroundColor: "lightgrey",
               color: "black",
-              borderColor: "green",
+              borderColor: "#28a745",
             },
           }}
           href={`/postulantes/${oferta.id}`}
@@ -176,12 +177,12 @@ const Ofertas = () => {
         <Button
           variant="outlined"
           sx={{
-            color: "red",
-            borderColor: "red",
+            color: "#dc3545",
+            borderColor: "#dc3545",
             "&:hover": {
-              backgroundColor: "red",
+              backgroundColor: "#dc3545",
               color: "white",
-              borderColor: "red",
+              borderColor: "#dc3545",
             },
           }}
           onClick={() => handleClickOpen(oferta.id, "finalizar")}
@@ -200,12 +201,12 @@ const Ofertas = () => {
           variant="outlined"
           sx={{
             margin: 1,
-            color: "green",
-            borderColor: "green",
+            color: "#28a745",
+            borderColor: "#28a745",
             "&:hover": {
               backgroundColor: "lightgrey",
               color: "black",
-              borderColor: "green",
+              borderColor: "#28a745",
             },
           }}
           onClick={() => handleClickOpen(oferta.id, "activar")}
@@ -243,12 +244,12 @@ const Ofertas = () => {
           variant="outlined"
           sx={{
             margin: 1,
-            color: "green",
-            borderColor: "green",
+            color: "#28a745",
+            borderColor: "#28a745",
             "&:hover": {
               backgroundColor: "lightgrey",
-              color: "black",
-              borderColor: "green",
+              color: "#28a745",
+              borderColor: "#28a745",
             },
           }}
           href={`/postulantes/${oferta.id}`}
@@ -259,12 +260,12 @@ const Ofertas = () => {
           variant="outlined"
           sx={{
             margin: 1,
-            color: "green",
-            borderColor: "green",
+            color: "#28a745",
+            borderColor: "#28a745",
             "&:hover": {
               backgroundColor: "lightgrey",
               color: "black",
-              borderColor: "green",
+              borderColor: "#28a745",
             },
           }}
           onClick={() => handleClickOpen(oferta.id, "cierre")}
@@ -278,22 +279,22 @@ const Ofertas = () => {
   const estadoMap = {
     activa: {
       name: "Ofertas activas",
-      color: "green",
+      color: "#28a745",
       actions: accionesOfertasActivas,
     },
     pendiente: {
       name: "Ofertas pendientes",
-      color: "orange",
+      color: "#f0ad4e",
       actions: accionesOfertasPendientes,
     },
     observada: {
       name: "Ofertas en revisión",
-      color: "red",
+      color: "#dc3545",
       actions: accionesOfertasEnRevision,
     },
     finalizada: {
       name: "Ofertas finalizadas",
-      color: "black",
+      color: "#6c757d",
       actions: accionesOfertasFinalizadas,
     },
   };
@@ -316,7 +317,7 @@ const Ofertas = () => {
         component="header"
         my={3}
         direction="row"
-        justifyContent="space-between"
+        justifyContent="flex-start"
         alignItems="center"
         flexWrap="wrap"
         textTransform="uppercase"
@@ -326,19 +327,20 @@ const Ofertas = () => {
           <Button
             key={key}
             variant="contained"
+            size="large"
             sx={{
-              color: "white",
               backgroundColor: color,
+              color: "white",
               "&:hover": {
                 backgroundColor: color,
                 color: "white",
+                opacity: 0.8,
               },
-              width: "200px",
               margin: 1,
             }}
             onClick={handleChangeEstadoOferta}
           >
-            {name}
+            {name} 
           </Button>
         ))}
       </Stack>

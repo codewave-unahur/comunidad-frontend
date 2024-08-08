@@ -151,7 +151,7 @@ const Estadisticas = () => {
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Box>
-                                <Typography variant = "h6">Alumnos UNAHUR</Typography>
+                                <Typography variant = "h6">Estudiantes UNAHUR</Typography>
                                 <Typography variant = "h4">{postulantesUNAHUR} ({porcentajePostulantesUNAHUR}%) </Typography>
                             </Box>
                         </Grid>

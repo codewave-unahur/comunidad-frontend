@@ -210,7 +210,7 @@ const VerOfertas = () => {
                         verticalAlign: "middle",
                         color:
                           oferta.Estado.nombre_estado === "activa"
-                            ? "green"
+                            ? "#28a745"
                             : oferta.Estado.nombre_estado === "observada"
                             ? "red"
                             : oferta.Estado.nombre_estado === "pendiente"
@@ -226,9 +226,9 @@ const VerOfertas = () => {
                     variant="contained"
                     sx={{
                       color: "white",
-                      backgroundColor: "green",
+                      backgroundColor: "#28a745",
                       "&:hover": {
-                        backgroundColor: "green",
+                        backgroundColor: "#28a745",
                         color: "white",
                       },
                     }}
@@ -240,12 +240,12 @@ const VerOfertas = () => {
                     variant="outlined"
                     sx={{
                       margin: 1,
-                      color: "green",
-                      borderColor: "green",
+                      color: "#28a745",
+                      borderColor: "#28a745",
                       "&:hover": {
                         backgroundColor: "lightgrey",
                         color: "black",
-                        borderColor: "green",
+                        borderColor: "#28a745",
                       },
                     }}
                     disabled={oferta.Estado.nombre_estado === "pendiente" || oferta.Estado.nombre_estado === "observada"}
