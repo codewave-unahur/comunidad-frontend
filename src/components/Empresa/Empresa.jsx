@@ -296,7 +296,7 @@ const Empresa = () => {
                     <ListItemText
                       primary={
                         <a 
-                          href={//revisar si es necesario agregar https:// al principio 
+                          href={
                             empresa.web.includes("http") ? empresa.web : "https://" + empresa.web
                           }
                           target="_blank"
