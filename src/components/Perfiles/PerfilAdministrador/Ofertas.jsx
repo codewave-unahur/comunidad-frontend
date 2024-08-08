@@ -144,6 +144,7 @@ const Ofertas = () => {
           "&:hover": {
             backgroundColor: "#28a745",
             color: "white",
+            opacity: 0.8,
           },
         }}
         href={`/oferta/${oferta.id}`}
@@ -200,12 +201,12 @@ const Ofertas = () => {
           variant="outlined"
           sx={{
             margin: 1,
-            color: "green",
-            borderColor: "green",
+            color: "#28a745",
+            borderColor: "#28a745",
             "&:hover": {
               backgroundColor: "lightgrey",
               color: "black",
-              borderColor: "green",
+              borderColor: "#28a745",
             },
           }}
           onClick={() => handleClickOpen(oferta.id, "activar")}
@@ -243,12 +244,12 @@ const Ofertas = () => {
           variant="outlined"
           sx={{
             margin: 1,
-            color: "green",
-            borderColor: "green",
+            color: "#28a745",
+            borderColor: "#28a745",
             "&:hover": {
               backgroundColor: "lightgrey",
-              color: "black",
-              borderColor: "green",
+              color: "#28a745",
+              borderColor: "#28a745",
             },
           }}
           href={`/postulantes/${oferta.id}`}
@@ -259,12 +260,12 @@ const Ofertas = () => {
           variant="outlined"
           sx={{
             margin: 1,
-            color: "green",
-            borderColor: "green",
+            color: "#28a745",
+            borderColor: "#28a745",
             "&:hover": {
               backgroundColor: "lightgrey",
               color: "black",
-              borderColor: "green",
+              borderColor: "#28a745",
             },
           }}
           onClick={() => handleClickOpen(oferta.id, "cierre")}
@@ -283,7 +284,7 @@ const Ofertas = () => {
     },
     pendiente: {
       name: "Ofertas pendientes",
-      color: "#ffc107",
+      color: "#f0ad4e",
       actions: accionesOfertasPendientes,
     },
     observada: {

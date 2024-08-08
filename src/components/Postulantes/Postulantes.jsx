@@ -266,7 +266,7 @@ const Postulantes = () => {
                           postulacion.Estado.nombre_estado === "aceptado" ? (
                             <CheckOutlinedIcon
                               sx={{
-                                color: "green",
+                                color: "#28a745",
                               }}
                             />
                           ) : postulacion.Estado.nombre_estado === "en proceso" ? (
@@ -285,7 +285,7 @@ const Postulantes = () => {
                         ) : postulacion.Estado.nombre_estado === "aceptado" || postulacion.Estado.nombre_estado === "desestimado" || postulacion.Estado.nombre_estado === "en proceso" ? (
                           <CheckOutlinedIcon
                             sx={{
-                              color: "green",
+                              color: "#28a745",
                             }}
                           />
                         ) : postulacion.Estado.nombre_estado === "pendiente" ? (
@@ -309,7 +309,7 @@ const Postulantes = () => {
                         postulacion.Estado.nombre_estado === "aceptado" ? (
                           <CheckOutlinedIcon
                             sx={{
-                              color: "green",
+                              color: "#28a745",
                             }}
                           />
                         ) : postulacion.Estado.nombre_estado === "en proceso" || postulacion.Estado.nombre_estado === "pendiente" ? (
@@ -332,9 +332,9 @@ const Postulantes = () => {
                         variant="contained"
                         sx={{
                           color: "white",
-                          backgroundColor: "green",
+                          backgroundColor: "#28a745",
                           "&:hover": {
-                            backgroundColor: "green",
+                            backgroundColor: "#28a745",
                             color: "white",
                           },
                         }}

@@ -157,12 +157,12 @@ const Postulantes = () => {
                     variant="outlined"
                     sx={{
                       margin: 1,
-                      color: "green",
-                      borderColor: "green",
+                      color: "#28a745",
+                      borderColor: "#28a745",
                       "&:hover": {
                         backgroundColor: "lightgrey",
                         color: "black",
-                        borderColor: "green",
+                        borderColor: "#28a745",
                       },
                     }}
                     href={`/postulante/${postulante.id}`}
