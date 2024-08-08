@@ -140,9 +140,9 @@ const Ofertas = () => {
         variant="contained"
         sx={{
           color: "white",
-          backgroundColor: "green",
+          backgroundColor: "#28a745",
           "&:hover": {
-            backgroundColor: "green",
+            backgroundColor: "#28a745",
             color: "white",
           },
         }}
@@ -161,12 +161,12 @@ const Ofertas = () => {
           variant="outlined"
           sx={{
             margin: 1,
-            color: "green",
-            borderColor: "green",
+            color: "#28a745",
+            borderColor: "#28a745",
             "&:hover": {
               backgroundColor: "lightgrey",
               color: "black",
-              borderColor: "green",
+              borderColor: "#28a745",
             },
           }}
           href={`/postulantes/${oferta.id}`}
@@ -176,12 +176,12 @@ const Ofertas = () => {
         <Button
           variant="outlined"
           sx={{
-            color: "red",
-            borderColor: "red",
+            color: "#dc3545",
+            borderColor: "#dc3545",
             "&:hover": {
-              backgroundColor: "red",
+              backgroundColor: "#dc3545",
               color: "white",
-              borderColor: "red",
+              borderColor: "#dc3545",
             },
           }}
           onClick={() => handleClickOpen(oferta.id, "finalizar")}
