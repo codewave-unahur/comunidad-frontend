@@ -25,7 +25,7 @@ export default function Footer() {
             justifyContent: "space-between",
             alignItems: "center",
             backgroundColor: "#F4F4F4",
-            padding: { xs: 2, sm: "60px", md: "160px" },
+            padding: { xs: 2, sm: "60px" },
           }}
         >
           <Grid
@@ -34,7 +34,13 @@ export default function Footer() {
             sx={{ display: "flex", justifyContent: "space-evenly", alignItems: "center", gap: 2}}
           >
             <Grid item xs={12} sm={2}>
-              <Box>
+              <Box sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: { xs: "center", sm: "start" },
+                justifyContent: "center",
+                gap: 2,
+              }}>
                 <img
                   src={logoVinculacion}
                   alt="Direccion de Vinculacion Tecnologica"
@@ -78,7 +84,6 @@ export default function Footer() {
                     }}>Aviso de cookies</Typography>
                   
                 </Link>*/}
-
                 <Box
                   sx={{
                     display: "flex",
@@ -121,13 +126,19 @@ export default function Footer() {
               </Box>
             </Grid>
             <Grid item xs={12} sm={2}>
-            <Box>
+            <Box sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: { xs: "center", sm: "start" },
+                justifyContent: "center",
+                gap: 1
+              }}>
                 <img
                   src={logoCodewave}
                   alt="Codewave S.A." 
                   style={{ 
-                    width: "160px",
-                    height: "160px",
+                    width: "180px",
+                    height: "180px",
 
                   }}
                 />
@@ -158,15 +169,42 @@ export default function Footer() {
                       Conocé nuestras propuestas
                     </Typography>
                 </Link>
-                <Link href="https://linktr.ee/codewavear" target="_blank" style={{textDecoration:"none"}}>
-                  <Typography sx={{
-                      color: "#636664",
-                      fontSize: "11.6px",
-                      marginBottom:"20px"
-                    }}>
-                      Seguinos en nuestras redes
-                    </Typography>
-                </Link>
+                
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "start",
+                    alignItems: "center",
+                    gap: 1,
+                    
+                  }}
+                >
+                  
+                  <Link
+                    href="https://instagram.com/codewavear"
+                    target="__blank"
+                  >
+                    <InstagramIcon sx={{ color: "#5C5A5E" }} />
+                  </Link>
+                  <Link
+                    href="https://www.facebook.com/codewavear"
+                    target="__blank"
+                  >
+                    <FacebookIcon sx={{ color: "#5C5A5E" }} />
+                  </Link>
+                  <Link
+                    href="https://x.com/codewavear/"
+                    target="__blank"
+                  >
+                    <TwitterIcon sx={{ color: "#5C5A5E" }} />
+                  </Link>
+                  <Link
+                    href="#"
+                    target="__blank"
+                  >
+                    <LinkedIn sx={{ color: "#5C5A5E" }} />
+                  </Link>
+                </Box>
               </Box>
             </Grid>
             <Grid item xs={12} sm={4}>
@@ -182,7 +220,7 @@ export default function Footer() {
                     Ausebione 8, B1688 Villa Tesei, Provincia de Buenos Aires
                   </Typography>
                 </Box>
-
+                <hr />
                 <Link href="mailto:empleabilidad@unahur.edu.ar" style={{textDecoration:"none"}}>
                 <Box sx={{ display: "flex", alignItems:"center" }} >
                   <EmailOutlinedIcon sx={{ color: "#5C5A5E" }} />
@@ -191,7 +229,6 @@ export default function Footer() {
                   </Typography>
                 </Box>
                 </Link>
-                
               </Box>
             </Grid>
           </Grid>
