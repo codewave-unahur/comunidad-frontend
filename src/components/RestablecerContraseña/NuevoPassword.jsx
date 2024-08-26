@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
     Avatar,
@@ -22,8 +22,15 @@ const NuevoPassword = () => {
     const [contraseña, setContraseña] = useState('');
     const [confirmarContraseña, setConfirmarContraseña] = useState('');
     const { token } = useParams();
-    console.log(token);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('resetPasswordToken');
+        if (!token) {
+            toast.error('No se encontró un token válido');
+            navigate('/login');
+        }
+    }, [navigate]);
 
     const schema = yup.object().shape({
         contraseña: yup
@@ -35,6 +42,8 @@ const NuevoPassword = () => {
             .oneOf([yup.ref("contraseña"), null], "Las contraseñas deben coincidir")
             .required("La confirmación de contraseña es requerida"),
     });
+
+
 
     const handleCambioContraseña = async (e) => {
         e.preventDefault();
