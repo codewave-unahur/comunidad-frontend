@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useState} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
     Avatar,
@@ -24,13 +24,6 @@ const NuevoPassword = () => {
     const { token } = useParams();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = localStorage.getItem('resetPasswordToken');
-        if (!token) {
-            toast.error('No se encontró un token válido');
-            navigate('/login');
-        }
-    }, [navigate]);
 
     const schema = yup.object().shape({
         contraseña: yup

@@ -19,6 +19,7 @@ import Header from "../Header/Header";
 const IngresarCodigo = () => {
     const [tokenReset, setTokenReset] = useState('');
     const { token } = useParams();
+    console.log(token);
 
     const navigate = useNavigate();
 
