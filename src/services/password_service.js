@@ -4,8 +4,11 @@ import { config } from "../config/config";
 export async function postResetPasswordRequest(usuario) {
     try {
         const response = await axios.post(
-            `${config.apiUrl}/restablecerPassword/solicitar-restablecimiento`,
-            { usuario }
+            `${config.apiUrl}/resetPassword/forgot-password`,
+            { usuario },
+            {
+                timeout: 5000
+            }
         );
         return response.data;
     } catch (error) {
@@ -20,11 +23,11 @@ export async function postResetPasswordRequest(usuario) {
     }
 }
 
-export async function verificarCodigo(token, codigo) {
+export async function verificarCodigo(token) {
     try {
-        const response = await axios.post(
-            `${config.apiUrl}/restablecerPassword/verificar-codigo`,
-            { token, codigo }
+
+        const response = await axios.get(
+            `${config.apiUrl}/resetPassword/forgot-password/validar-token/${token}`,
         );
         return response.data;
     } catch (error) {
@@ -42,18 +45,12 @@ export async function verificarCodigo(token, codigo) {
 export async function cambiarContrasena(token, nuevaContrasena) {
     try {
         const response = await axios.post(
-            `${config.apiUrl}/restablecerPassword/cambiar-contrasena`,
+            `${config.apiUrl}/resetPassword/new-password/${token}`,
             { token, nuevaContrasena }
         );
         return response.data;
     } catch (error) {
         console.error('Error en cambiarContrasena:', error);
-        if (error.response) {
-            throw new Error(error.response.data.error || 'Error al cambiar la contraseña');
-        } else if (error.request) {
-            throw new Error('No se recibió respuesta del servidor');
-        } else {
-            throw new Error('Error al configurar la solicitud');
-        }
+        throw new Error(error.response?.data?.message || 'Error al cambiar la contraseña');
     }
 }

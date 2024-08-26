@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
     Avatar,
@@ -17,14 +17,15 @@ import { verificarCodigo } from "../../services/password_service";
 import Header from "../Header/Header";
 
 const IngresarCodigo = () => {
-    const [codigo, setCodigo] = useState('');
+    const [tokenReset, setTokenReset] = useState('');
     const { token } = useParams();
+
     const navigate = useNavigate();
 
     const handleVerificarCodigo = async (e) => {
         e.preventDefault();
         try {
-            const response = await verificarCodigo(token, codigo);
+            const response = await verificarCodigo(tokenReset);
             if (response.message) {
                 toast.success(response.message);
                 navigate(`/restablecimientoContraseña/nuevaContraseña/${token}`);
@@ -88,8 +89,8 @@ const IngresarCodigo = () => {
                         label="Código de verificación"
                         id="codigo"
                         name="codigo"
-                        value={codigo}
-                        onChange={(e) => setCodigo(e.target.value)}
+                        value={tokenReset}
+                        onChange={(e) => setTokenReset(e.target.value)}
                         sx={{
                             mt: 2,
                         }}

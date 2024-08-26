@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
     Avatar,
@@ -22,6 +22,7 @@ const NuevoPassword = () => {
     const [contraseña, setContraseña] = useState('');
     const [confirmarContraseña, setConfirmarContraseña] = useState('');
     const { token } = useParams();
+    console.log(token);
     const navigate = useNavigate();
 
     const schema = yup.object().shape({
@@ -37,8 +38,6 @@ const NuevoPassword = () => {
 
     const handleCambioContraseña = async (e) => {
         e.preventDefault();
-        console.log('Token:', token);
-        console.log('Nueva contraseña:', contraseña);
 
         try {
             await schema.validate({ contraseña, confirmarContraseña }, { abortEarly: false });
