@@ -484,7 +484,7 @@ const Postulante = () => {
                   <ListItem>
                     <ListItemText
                       primary={postulante.alumno_unahur ? "Si" : "No"}
-                      secondary="¿Es alumno de la UNAHUR?"
+                      secondary="¿Es estudiante de la UNAHUR?"
                     />
                   </ListItem>
                 </List>
