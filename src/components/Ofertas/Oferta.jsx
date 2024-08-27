@@ -312,7 +312,7 @@ const Oferta = () => {
                   <ListItem>
                     <ListItemText primary={
                       <>
-                        Rubro de la oferta:
+                        Rubro:
                         <br />
                         {oferta.RubroOferta?.nombre || "No especificado"}
                       </>
