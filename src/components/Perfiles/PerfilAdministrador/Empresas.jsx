@@ -127,7 +127,7 @@ const Empresas = () => {
           component="header"
           my={3}
           direction="row"
-          justifyContent="space-between"
+          justifyContent="flex-start"
           alignItems="center"
           flexWrap="wrap"
           textTransform="uppercase"
@@ -137,9 +137,9 @@ const Empresas = () => {
             variant="contained"
             sx={{
               color: "white",
-              backgroundColor: "green",
+              backgroundColor: "#28a745",
               "&:hover": {
-                backgroundColor: "green",
+                backgroundColor: "#28a745",
                 color: "white",
               },
               width: "220px",
@@ -153,9 +153,9 @@ const Empresas = () => {
             variant="contained"
             sx={{
               color: "white",
-              backgroundColor: "orange",
+              backgroundColor: "#f0ad4e",
               "&:hover": {
-                backgroundColor: "orange",
+                backgroundColor: "#f0ad4e",
                 color: "white",
               },
               width: "220px",
@@ -221,10 +221,11 @@ const Empresas = () => {
                         }
                         sx={{
                           color: "white",
-                          backgroundColor: "green",
+                          backgroundColor: "#28a745",
                           "&:hover": {
-                            backgroundColor: "green",
+                            backgroundColor: "#28a745",
                             color: "white",
+                            opacity: 0.8,
                           },
                         }}
                       >
@@ -235,12 +236,12 @@ const Empresas = () => {
                       variant="outlined"
                       sx={{
                         margin: 1,
-                        color: "green",
-                        borderColor: "green",
+                        color: "#28a745",
+                        borderColor: "#28a745",
                         "&:hover": {
                           backgroundColor: "lightgrey",
                           color: "black",
-                          borderColor: "green",
+                          borderColor: "#28a745",
                         },
                       }}
                       href={`/empresa/${empresa.id}`}

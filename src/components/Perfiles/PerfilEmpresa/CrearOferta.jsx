@@ -21,11 +21,12 @@ import * as yup from "yup";
 import { useState, useEffect, Fragment } from "react";
 
 import { getEstudios } from "../../../services/estudios_service";
-import { getCarreras } from "../../../services/carreras_service";
 import { getJornadas } from "../../../services/jornadas_service";
 import { getTiposContratos } from "../../../services/contratos_service";
 import { postOferta } from "../../../services/ofertas_service";
+import { getRubrosOfertas } from "../../../services/rubros_ofertas_service";
 import { Toaster, toast } from "sonner";
+import LockIcon from "@mui/icons-material/Lock";
 import { EncryptStorage } from "encrypt-storage";
 
 const modalidadDeTrabajo = [
@@ -74,6 +75,8 @@ const CrearOferta = () => {
   const [jornadas, setJornadas] = useState([]);
   const [contratos, setContratos] = useState([]);
   const [idiomasElegidos, setIdiomasElegidos] = useState([]);
+  const [rubrosOfertas, setRubrosOfertas] = useState([]);
+
 
   const [oferta, setOferta] = useState({
     tituloOferta: "",
@@ -84,6 +87,7 @@ const CrearOferta = () => {
     edadDesde: null,
     edadHasta: null,
     experienciaPreviaDesc: "",
+    idRubroOferta: null,
     zonaTrabajo: "",
     areasEstudio: "",
     otrosDetalles: "",
@@ -135,9 +139,15 @@ const CrearOferta = () => {
       const response = await getPreferencias();
       setPreferencias(response.preferencias);
     };
+    const fetchRubrosOfertasData = async () => {
+      const response = await getRubrosOfertas();
+      setRubrosOfertas(response);
+    };
+
     fetchEstudios();
     fetchJornadas();
     fetchContratos();
+    fetchRubrosOfertasData();
   }, []);
 
   const handleChangeAptitudes = (event) => {
@@ -294,7 +304,25 @@ const CrearOferta = () => {
   return (
     <Card type="section" elevation={8}>
       <CardHeader title="Datos de la oferta" />
-      <Stack spacing={6}>
+      {datosUsuario.Estado.id === 2 ? 
+      (
+        <>
+          <Box padding={2} sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 2
+          }}>
+            <LockIcon fontSize="large" sx={{
+              color: "#f44336"
+            }} />
+            <Typography variant="h5" gutterBottom>
+              No puedes crear ofertas si tu cuenta no ha sido verificada. Por favor, contacta al administrador.
+            </Typography>
+          </Box>
+        </>
+      ) : <Stack spacing={6}>
         <Box>
           <Grid
             container
@@ -415,6 +443,30 @@ const CrearOferta = () => {
                 helperText={validarErrores.experienciaPreviaDesc}
               />
             </Grid>
+            <Grid item xs={12} sm={6} md={6}>
+              <TextField
+                fullWidth
+                label="Rubro"
+                variant="outlined"
+                select
+                value={oferta.idRubroOferta || ""}
+                onChange={(e) => {
+                  setOferta({
+                    ...oferta,
+                    idRubroOferta: e.target.value,
+                  });
+                }}
+                error={Boolean(validarErrores.idRubroOferta)}
+                helperText={validarErrores.idRubroOferta}
+              >
+                {rubrosOfertas.map((rubro) => (
+                  <MenuItem key={rubro.id} value={rubro.id}>
+                    {rubro.nombre}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
@@ -834,7 +886,7 @@ const CrearOferta = () => {
             </Grid>
           </Grid>
         </Box>
-      </Stack>
+      </Stack>}
       <Toaster richColors closeButton />
     </Card>
   );

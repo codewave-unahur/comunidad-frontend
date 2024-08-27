@@ -26,6 +26,8 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import BusinessIcon from "@mui/icons-material/Business";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import StorageIcon from "@mui/icons-material/Storage";
+import AnalyticsIcon from '@mui/icons-material/Analytics';
+import BarChartIcon from '@mui/icons-material/BarChart';
 import CollectionsIcon from "@mui/icons-material/Collections";
 import WorkIcon from "@mui/icons-material/Work";
 import Header from "../Header/Header";
@@ -49,10 +51,10 @@ import { uploadCV } from "../../services/files_service";
 import { Toaster, toast } from "sonner";
 import BaseUNAHUR from "./PerfilAdministrador/BaseUNAHUR";
 import ExperienciaLaboral from "./PerfilPostulante/ExperienciaLaboral";
-import enProceso from "../../assets/Processing-bro.svg";
 import { EncryptStorage } from "encrypt-storage";
 import LockIcon from '@mui/icons-material/Lock';
 import CambiarContraseña from "./CambiarContraseña";
+import Estadisticas from "./PerfilAdministrador/Estadisticas";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -170,7 +172,13 @@ const menuOptionsAdmin = [
     text: "Galería",
     renderSection: <Galeria />
   },
- 
+ {
+    id:"6",
+    name: "estadisticas",
+    Icon: BarChartIcon,
+    text: "Estadísticas",
+    renderSection: <Estadisticas />
+ }
 ];
 
 function Perfil() {
@@ -279,7 +287,7 @@ function Perfil() {
         
 
         <IconButton
-          onClick={() => (window.location.href = "/home")}
+          onClick={() => (window.location.href = "/")}
           size="small"
           sx={{
             "&:hover": {

@@ -160,7 +160,7 @@ const Login = () => {
           encryptStorage.setItem("estaLogueado", "true");
           encryptStorage.setItem("tipoUsuario", tipoUsuario);
           encryptStorage.setItem("idUsuario", response.id);
-          window.location.href = "/home";
+          window.location.href = "/";
         }
       })
       .catch((err) => {

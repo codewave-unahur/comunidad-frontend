@@ -36,7 +36,7 @@ export default function IconUser() {
     encryptStorage.removeItem("datosUsuario");
     sessionStorage.removeItem("token");
     encryptStorage.removeItem("idUsuario");
-    window.location.href = "/home";
+    window.location.href = "/";
   };
 
   const handlePerfil = () => {
