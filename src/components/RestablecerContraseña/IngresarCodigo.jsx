@@ -29,7 +29,7 @@ const IngresarCodigo = () => {
             const response = await verificarCodigo(tokenReset);
             if (response.message) {
                 toast.success(response.message);
-                navigate(`/restablecimientoContraseña/nuevaContraseña/${token}`);
+                navigate(`/restablecimientoContraseña/nuevaContraseña/${tokenReset}`);
             }
         } catch (error) {
             toast.error(error.message || "Código inválido");

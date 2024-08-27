@@ -45,7 +45,7 @@ export async function verificarCodigo(token) {
 export async function cambiarContrasena(token, nuevaContrasena) {
     try {
         const response = await axios.post(
-            `${config.apiUrl}/resetPassword/new-password/${token}`,
+            `${config.apiUrl}/resetPassword/new-password/`,
             { token, nuevaContrasena }
         );
         return response.data;
