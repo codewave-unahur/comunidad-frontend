@@ -17,6 +17,7 @@ import { getEstudios } from "../../services/estudios_service";
 import { getJornadas } from "../../services/jornadas_service";
 import { getTiposContratos } from "../../services/contratos_service";
 import { getOfertaById, putOferta } from "../../services/ofertas_service";
+import { getRubrosOfertas } from "../../services/rubros_ofertas_service";
 
 import * as yup from "yup";
 
@@ -46,6 +47,7 @@ const EdicionOferta = () => {
   const [estudios, setEstudios] = useState([]);
   const [jornadas, setJornadas] = useState([]);
   const [contratos, setContratos] = useState([]);
+  const [rubrosOfertas, setRubrosOfertas] = useState([]);
 
   const [oferta, setOferta] = useState({
     tituloOferta: "",
@@ -81,9 +83,14 @@ const EdicionOferta = () => {
       const response = await getTiposContratos();
       setContratos(response.contratos);
     };
+    const fetchRubrosOfertas = async () => {
+      const response = await getRubrosOfertas();
+      setRubrosOfertas(response);
+    };
     fetchEstudios();
     fetchJornadas();
     fetchContratos();
+    fetchRubrosOfertas();
   }, []);
 
   useEffect(() => {
@@ -101,6 +108,7 @@ const EdicionOferta = () => {
         edadDesde: response.edad_desde,
         edadHasta: response.edad_hasta,
         experienciaPreviaDesc: response.experiencia_previa_desc,
+        idRubroOferta: response.fk_id_rubro_oferta,
         zonaTrabajo: response.zona_trabajo,
         areasEstudio: response.areas_estudio,
         otrosDetalles: response.otros_detalles,
@@ -326,6 +334,29 @@ const EdicionOferta = () => {
                     error={Boolean(validarErrores.experienciaPreviaDesc)}
                     helperText={validarErrores.experienciaPreviaDesc}
                   />
+                </Grid>
+                <Grid item xs={12} sm={6} md={6}>
+                  <TextField
+                    fullWidth
+                    select
+                    label="Rubro"
+                    variant="outlined"
+                    value={oferta.idRubroOferta || ""}
+                    onChange={(e) => {
+                      setOferta({
+                        ...oferta,
+                        idRubroOferta: e.target.value,
+                      });
+                    }}
+                    error={Boolean(validarErrores.idRubroOferta)}
+                    helperText={validarErrores.idRubroOferta}
+                  >
+                    {rubrosOfertas.map((rubro) => (
+                      <MenuItem key={rubro.id} value={rubro.id}>
+                        {rubro.nombre}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid>
                 <Grid item xs={12} sm={6} md={6}>
                   <TextField
