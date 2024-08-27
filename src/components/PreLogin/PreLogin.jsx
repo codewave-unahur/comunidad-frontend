@@ -31,7 +31,7 @@ const PreLogin = () => {
             sessionStorage.setItem('invitado', true)
             toast.success('Te has logueado correctamente');
             setTimeout(() => {
-                window.location.href = '/home';
+                window.location.href = '/';
             }, 500);
         }
         else {

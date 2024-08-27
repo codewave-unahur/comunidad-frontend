@@ -49,7 +49,7 @@ const Header = (props) => {
       };
       traerOfertas();
 
-      window.location.href = `/home?busqueda=${buscador}`;
+      window.location.href = `/?busqueda=${buscador}`;
     };
 
     return (
@@ -128,7 +128,7 @@ const Header = (props) => {
               }}
               
             >
-              <Link href="/home">
+              <Link href="/">
                 {/*<img
                   src={logouni}
                   alt="UNAHUR-DVT"
