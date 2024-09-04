@@ -37,16 +37,21 @@ const Ofertas = (props) => {
   const limite = 12;
 
 
-  const removeFbclid = (nombreBusqueda) => {
-    if (nombreBusqueda.includes("fbclid")) {
-      return nombreBusqueda.split("&")[0];
-    }
-    return nombreBusqueda;
+  const removeFbclid = (url) => {
+    if (url.includes("fbclid")) {
+      const urlSplit = url.split("?");
+      const urlSinFbclid = urlSplit[0];
+      window.history.replaceState({}, document.title, urlSinFbclid);
+    };
   };
-
   
 
+
+
+
+
   useEffect(() => {
+
     if (tipoUsuario === "empresa") {
       const traerOfertas = async () => {
         try {
@@ -86,10 +91,11 @@ const Ofertas = (props) => {
     else {
       const traerOfertas = async () => {
         try {
+          removeFbclid(window.location.href);
           const response = await getOfertas(
             paginaActual - 1,
             limite,
-            removeFbclid(nombreBusqueda),
+            nombreBusqueda,
             "id",
             1,
           );
