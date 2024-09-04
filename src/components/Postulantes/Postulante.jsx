@@ -144,6 +144,34 @@ const Postulante = () => {
     return linkAcortado;
   }
 
+  // Crea una función que reciba un nombre y apellido y devuelva las iniciales, y un color de fondo aleatorio
+  const iniciales = (nombre, apellido) => {
+    const iniciales = nombre.charAt(0) + apellido.charAt(0);
+    const colores = [
+      "#f44336",
+      "#e91e63",
+      "#9c27b0",
+      "#673ab7",
+      "#3f51b5",
+      "#2196f3",
+      "#03a9f4",
+      "#00bcd4",
+      "#009688",
+      "#4caf50",
+      "#8bc34a",
+      "#cddc39",
+      "#ffeb3b",
+      "#ffc107",
+      "#ff9800",
+      "#ff5722",
+      "#795548",
+      "#9e9e9e",
+      "#607d8b",
+    ];
+    const color = colores[Math.floor(Math.random() * colores.length)];
+    return { iniciales, color };
+  };
+
   return (
     <>
       <Header />
@@ -184,8 +212,8 @@ const Postulante = () => {
             </>
           ) : (
             <>
-              <Avatar
-                src={postulante.foto? postulante.foto : "/avatar.png"}
+              {postulante.foto ? <Avatar
+                src={postulante.foto}
                 alt={postulante.nombre + " " + postulante.apellido}
                 sx={{
                   position: "absolute",
@@ -198,7 +226,30 @@ const Postulante = () => {
                     sm: "block",
                   },
                 }}
-              />
+              /> : <Avatar
+                sx={{
+                  position: "absolute",
+                  right: "2rem",
+                  top: "2rem",
+                  alignContent: "center",
+                  width: 150,
+                  height: 150,
+                  display: {
+                    xs: "none",
+                    sm: "block",
+                  },
+                  backgroundColor: iniciales(postulante.nombre, postulante.apellido).color,
+                }}
+              >
+                <Typography sx={{
+                  fontSize: "4rem",
+                  fontWeight: "bold",
+                  color: "#fff",
+                  textAlign: "center",
+                  
+                }}>{iniciales(postulante.nombre, postulante.apellido).iniciales}</Typography>
+              </Avatar>
+                }
               <CardHeader
                 title={postulante.nombre + " " + postulante.apellido}
                 subheader={calcularEdad(postulante.fecha_nac) + " años"}
