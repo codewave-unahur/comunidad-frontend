@@ -136,6 +136,14 @@ const Postulante = () => {
     }
   }
 
+  const acortarLink = (link) => {
+    let linkAcortado = link;
+    if (link.length > 30) {
+      linkAcortado = link.slice(0, 30) + "...";
+    }
+    return linkAcortado;
+  }
+
   return (
     <>
       <Header />
@@ -177,7 +185,7 @@ const Postulante = () => {
           ) : (
             <>
               <Avatar
-                src={postulante.foto}
+                src={postulante.foto? postulante.foto : "/avatar.png"}
                 alt={postulante.nombre + " " + postulante.apellido}
                 sx={{
                   position: "absolute",
@@ -250,8 +258,8 @@ const Postulante = () => {
               <>
                 <Typography
                   variant="h5"
-                  color="primary"
-                  sx={{ marginTop: "1rem" }}
+                  sx={{color: "#006982",marginTop: "1rem" }}
+                  
                 >
                   Datos personales
                 </Typography>
@@ -267,11 +275,9 @@ const Postulante = () => {
                 >
                   <ListItem>
                     <EmailOutlinedIcon
-                      color="primary"
+                      sx={{color: "#006982", marginRight: "0.5rem"}}
                       fontSize="large"
-                      sx={{
-                        marginRight: "0.5rem",
-                      }}
+
                     />
                     <ListItemText
                       primary={postulante.Usuario?.usuario}
@@ -280,11 +286,9 @@ const Postulante = () => {
                   </ListItem>
                   <ListItem>
                     <LocalPhoneOutlinedIcon
-                      color="primary"
+                      sx={{color: "#006982", marginRight: "0.5rem"}}
                       fontSize="large"
-                      sx={{
-                        marginRight: "0.5rem",
-                      }}
+                      
                     />
                     <ListItemText
                       primary={postulante.telefono}
@@ -294,11 +298,9 @@ const Postulante = () => {
                   {postulante.segundoTelefono && (
                     <ListItem>
                       <LocalPhoneOutlinedIcon
-                        color="primary"
+                        sx={{color: "#006982", marginRight: "0.5rem"}}
                         fontSize="large"
-                        sx={{
-                          marginRight: "0.5rem",
-                        }}
+                        
                       />
                       <ListItemText
                         primary={postulante.segundoTelefono}
@@ -308,11 +310,9 @@ const Postulante = () => {
                   )}
                   <ListItem>
                     <CalendarMonth
-                      color="primary"
+                      sx={{color: "#006982", marginRight: "0.5rem"}}
                       fontSize="large"
-                      sx={{
-                        marginRight: "0.5rem",
-                      }}
+                      
                     />
                     <ListItemText
                       primary={convertirFecha(postulante.fecha_nac)}
@@ -321,11 +321,9 @@ const Postulante = () => {
                   </ListItem>
                   <ListItem>
                     <LocationOnOutlinedIcon
-                      color="primary"
+                      sx={{color: "#006982", marginRight: "0.5rem"}}
                       fontSize="large"
-                      sx={{
-                        marginRight: "0.5rem",
-                      }}
+                     
                     />
                     <ListItemText
                       primary={
@@ -338,11 +336,9 @@ const Postulante = () => {
                   </ListItem>
                   <ListItem>
                     <MarkunreadMailboxOutlinedIcon
-                      color="primary"
+                      sx={{color: "#006982", marginRight: "0.5rem"}}
                       fontSize="large"
-                      sx={{
-                        marginRight: "0.5rem",
-                      }}
+                      
                     />
                     <ListItemText
                       primary={postulante.cp}
@@ -352,11 +348,9 @@ const Postulante = () => {
                   {postulante.genero && (
                     <ListItem>
                       <TransgenderIcon
-                        color="primary"
+                        sx={{color: "#006982", marginRight: "0.5rem"}}
                         fontSize="large"
-                        sx={{
-                          marginRight: "0.5rem",
-                        }}
+                        
                       />
                       <ListItemText
                         primary={postulante.genero}
@@ -367,11 +361,9 @@ const Postulante = () => {
                   {postulante.linkedIn && (
                     <ListItem>
                       <LinkedInIcon
-                        color="primary"
+                        sx={{color: "#006982", marginRight: "0.5rem"}}
                         fontSize="large"
-                        sx={{
-                          marginRight: "0.5rem",
-                        }}
+                        
                       />
                       <ListItemText
                         primary={
@@ -390,11 +382,9 @@ const Postulante = () => {
                   {postulante.portfolio && (
                     <ListItem>
                       <LanguageIcon
-                        color="primary"
+                        sx={{color: "#006982", marginRight: "0.5rem"}}
                         fontSize="large"
-                        sx={{
-                          marginRight: "0.5rem",
-                        }}
+                        
                       />
                       <ListItemText
                         primary={
@@ -402,8 +392,9 @@ const Postulante = () => {
                             href={postulante.portfolio}
                             target="_blank"
                             rel="noreferrer"
+                            style={{ textDecoration: "none", color:"#00708a"}}
                           >
-                            {postulante.portfolio}
+                            {acortarLink(postulante.portfolio)}
                           </a>
                         }
                         secondary="Portfolio o red social"
@@ -413,11 +404,9 @@ const Postulante = () => {
                   {postulante.discapacidad && (
                     <ListItem>
                       <AccessibilityIcon
-                        color="primary"
+                        sx={{color: "#006982", marginRight: "0.5rem"}}
                         fontSize="large"
-                        sx={{
-                          marginRight: "0.5rem",
-                        }}
+
                       />
                       <ListItemText
                         primary={postulante.discapacidad}
@@ -431,8 +420,8 @@ const Postulante = () => {
                     <Grid item xs={12} sm={12}>
                       <Typography
                         variant="h5"
-                        color="primary"
-                        sx={{ marginTop: "1rem" }}
+                        sx={{color: "#006982", marginTop: "1rem"}}
+                        
                       >
                         Presentación
                       </Typography>
@@ -448,8 +437,8 @@ const Postulante = () => {
                 <Divider sx={{ marginTop: "1rem" }} />
                 <Typography
                   variant="h5"
-                  color="primary"
-                  sx={{ marginTop: "1rem" }}
+                  sx={{color: "#006982", marginTop: "1rem"}}
+                
                 >
                   Datos académicos
                 </Typography>
@@ -493,8 +482,8 @@ const Postulante = () => {
                     <Divider sx={{ marginTop: "1rem" }} />
                     <Typography
                       variant="h5"
-                      color="primary"
-                      sx={{ marginTop: "1rem" }}
+                      sx={{color: "#006982", marginTop: "1rem"}}
+                      
                     >
                       Idiomas
                     </Typography>
@@ -519,8 +508,8 @@ const Postulante = () => {
                     <Divider sx={{ marginTop: "1rem" }} />
                     <Typography
                       variant="h5"
-                      color="primary"
-                      sx={{ marginTop: "1rem" }}
+                      sx={{color: "#006982", marginTop: "1rem"}}
+                   
                     >
                       Habilidades
                     </Typography>
@@ -544,8 +533,8 @@ const Postulante = () => {
                       <Divider sx={{ marginTop: "1rem" }} />
                       <Typography
                         variant="h5"
-                        color="primary"
-                        sx={{ marginTop: "1rem" }}
+                        sx={{color: "#006982", marginTop: "1rem"}}
+                        
                       >
                         Experiencia laboral
                       </Typography>
