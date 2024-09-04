@@ -18,7 +18,7 @@ import {
 } from "../../services/ofertas_service";
 import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_service";
 import PropTypes from "prop-types";
-import CircularIndeterminate from "../Template/Spinner";
+import Spinner from "../Template/Spinner";
 
 const Ofertas = (props) => {
 
@@ -154,14 +154,7 @@ const Ofertas = (props) => {
     return minutos === 1 ? "1 minuto" : `${minutos} minutos`;
   };
 
-  return (  loading ? <Box sx={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "8rem"
-  }}>
-    <CircularIndeterminate />
-  </Box> :
+  return (  loading ? <Spinner/> :
     <Grid
       container
       spacing={4}
