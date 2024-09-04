@@ -39,6 +39,7 @@ import { EncryptStorage } from "encrypt-storage";
 // import PreferenciasOferta from "./PreferenciasOferta";
 import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_service";
 import Footer from "../Footer/Footer";
+import Spinner from "../Template/Spinner";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -61,7 +62,7 @@ const Oferta = () => {
   const [oferta, setOferta] = useState({});
   const [open, setOpen] = useState(false);
   const [postulaciones, setPostulaciones] = useState([]);
-  const isLoading = Object.keys(oferta).length === 0;
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -77,6 +78,7 @@ const Oferta = () => {
       }
     };
     traerOferta();
+    setIsLoading(false);
   }, [idOferta]);
 
   useEffect(() => {
@@ -95,6 +97,8 @@ const Oferta = () => {
         }
       };
       traerPostulaciones();
+      setIsLoading(false);
+
     }
   }, [tipoUsuario, datosUsuario?.id]);
 
@@ -156,6 +160,7 @@ const Oferta = () => {
   return (
     <>
       <Header />
+      {isLoading ? <Spinner /> :
       <Container
         maxWidth="md"
         sx={{
@@ -601,6 +606,7 @@ const Oferta = () => {
           )}
         </Card>
       </Container>
+      }
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -635,6 +641,7 @@ const Oferta = () => {
 
       <Toaster richColors closeButton />
       <Footer/>
+       
     </>
   );
 };
