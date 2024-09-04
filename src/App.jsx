@@ -24,7 +24,6 @@ function App() {
     <Routes>
       
       <Route path="/" element={<Inicio />} />
-      <Route path="/home" element={<Inicio />} />
       <Route path="/perfil" element={
         <Perfil />
       } />
