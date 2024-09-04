@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Avatar,
+  Box,
   Button,
   Card,
   CardActions,
@@ -17,6 +18,7 @@ import {
 } from "../../services/ofertas_service";
 import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_service";
 import PropTypes from "prop-types";
+import CircularIndeterminate from "../Template/Spinner";
 
 const Ofertas = (props) => {
 
@@ -35,6 +37,7 @@ const Ofertas = (props) => {
 
   const [postulaciones, setPostulaciones] = useState([]);
   const limite = 12;
+  const [loading, setLoading] = useState(true);
 
 
   const removeFbclid = (url) => {
@@ -63,6 +66,7 @@ const Ofertas = (props) => {
           );
           setOfertas(response.ofertas.rows);
           setTotalPaginas(response.totalPaginas);
+          setLoading(false);
         } catch (error) {
           console.log(error);
         }
@@ -82,6 +86,8 @@ const Ofertas = (props) => {
           );
           setOfertas(response.ofertas.rows);
           setTotalPaginas(response.totalPaginas);
+          setLoading(false);
+
         } catch (error) {
           console.log(error);
         }
@@ -101,6 +107,8 @@ const Ofertas = (props) => {
           );
           setOfertas(response.ofertas.rows);
           setTotalPaginas(response.totalPaginas);
+          setLoading(false);
+
         } catch (error) {
           console.log(error);
         }
@@ -146,7 +154,14 @@ const Ofertas = (props) => {
     return minutos === 1 ? "1 minuto" : `${minutos} minutos`;
   };
 
-  return (
+  return (  loading ? <Box sx={{
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "8rem"
+  }}>
+    <CircularIndeterminate />
+  </Box> :
     <Grid
       container
       spacing={4}
@@ -178,7 +193,7 @@ const Ofertas = (props) => {
         </Grid>
       )}
 
-      {ofertas.map((oferta, index) => (
+      { ofertas.map((oferta, index) => (
         <Grid xs={12} md={6} lg={4} xl={3} item key={index}>
           <Card
             variant="outlined"
