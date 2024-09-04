@@ -36,6 +36,16 @@ const Ofertas = (props) => {
   const [postulaciones, setPostulaciones] = useState([]);
   const limite = 12;
 
+
+  const removeFbclid = (nombreBusqueda) => {
+    if (nombreBusqueda.includes("fbclid")) {
+      return nombreBusqueda.split("&")[0];
+    }
+    return nombreBusqueda;
+  };
+
+  
+
   useEffect(() => {
     if (tipoUsuario === "empresa") {
       const traerOfertas = async () => {
@@ -79,7 +89,7 @@ const Ofertas = (props) => {
           const response = await getOfertas(
             paginaActual - 1,
             limite,
-            nombreBusqueda,
+            removeFbclid(nombreBusqueda),
             "id",
             1,
           );
