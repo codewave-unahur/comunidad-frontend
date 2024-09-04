@@ -200,11 +200,16 @@ const Ofertas = (props) => {
             }}
           >
             <CardHeader
-              avatar={
+              avatar={oferta.Empresa.logo?
                 <Avatar
                   src={oferta.Empresa?.logo}
                   alt={oferta.Empresa?.nombre_empresa}
-                />
+                />: <Avatar
+                      alt={oferta.Empresa?.nombre_empresa}
+                      sx={{ backgroundColor: "#00404f" }}
+                    >
+                      {oferta.Empresa?.nombre_empresa.charAt(0)}
+                    </Avatar>
               }
               title={oferta.Empresa?.nombre_empresa}
               subheader={oferta.zona_trabajo}
