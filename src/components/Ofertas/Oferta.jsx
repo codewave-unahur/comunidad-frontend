@@ -139,14 +139,9 @@ const Oferta = () => {
           const response = await postPostulacion(postulacion, token);
           if (response) {
             toast.success("Postulación exitosa");
-            setTimeout(() => {
-              window.location.reload();
-            }, 1500);
           }
         } catch (error) {
-          console.log(error);
-          toast.error("Error al postularse");
-        }
+          console.log(error);        }
       }
     } else {
       window.location.href = "/login";

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { config } from "../config/config";
+import { toast } from "sonner";
 
 // Trae todas las empresas con filtros
 
@@ -22,6 +23,15 @@ export async function getEmpresas(
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -40,6 +50,16 @@ export async function getEmpresasSinFiltros(pagina, limite) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
+
   }
 }
 
@@ -57,6 +77,15 @@ export async function getEmpresaByCuit(id) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -75,6 +104,15 @@ export async function getEmpresaByIdUsuario(id) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -93,6 +131,15 @@ export async function postEmpresa(empresa) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -112,6 +159,15 @@ export async function putEmpresa(id, empresa, token) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -130,6 +186,15 @@ export async function deleteEmpresa(id, token) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 

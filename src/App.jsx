@@ -13,7 +13,7 @@ import EdicionOferta from "./components/Ofertas/EdicionOferta.jsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import PreLogin from "./components/PreLogin/PreLogin.jsx";
 import NotFound from "./components/404/NotFound.jsx";
-import { checkLogged, checkRole } from "./components/PrivateRoute/PrivateRoute.jsx";
+import { checkLogged, checkNotLogged, checkRole } from "./components/PrivateRoute/PrivateRoute.jsx";
 import RestablecerPassword from "./components/RestablecerContraseña/RestablecerPassword.jsx";
 import IngresarCodigo from "./components/RestablecerContraseña/IngresarCodigo.jsx";
 
@@ -25,7 +25,7 @@ function App() {
       
       <Route path="/" element={<Inicio />} />
       <Route path="/perfil" element={
-        <Perfil />
+        checkLogged(<Perfil />)
       } />
       <Route path="/oferta/:id" element={
          <Oferta />
@@ -43,27 +43,27 @@ function App() {
          checkRole( <Postulantes />)
       } />
       <Route path="/login" element={
-         checkLogged( <Login />)
+         checkNotLogged( <Login />)
       } />
       <Route path="/registro/postulante/:id" element={
-         checkLogged(<RegistroPostulante />)
+         checkNotLogged(<RegistroPostulante />)
       } />
       <Route path="/registro/empresa/:id" element={
-         checkLogged(<RegistroEmpresa />)
+         checkNotLogged(<RegistroEmpresa />)
       } />
       <Route path="/restablecimientoContraseña" element={
-         < RestablecerPassword/>
+         checkNotLogged(<RestablecerPassword/>)
       } />
         <Route
             path="/restablecimientoContraseña/ingresarCodigo/:token"
             element={
-                <IngresarCodigo />
+                checkNotLogged(<IngresarCodigo />)
             }
         />
       <Route
         path="/restablecimientoContraseña/nuevaContraseña/:token"
         element={
-           <NuevoPassword />
+           checkNotLogged(<NuevoPassword />)
         }
       />
       <Route path="*" element={
