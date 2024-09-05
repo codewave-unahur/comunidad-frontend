@@ -430,6 +430,7 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                multiline
                 label="Experiencia previa"
                 variant="outlined"
                 value={oferta.experienciaPreviaDesc || ""}
@@ -486,6 +487,7 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                multiline
                 label="Area de estudio"
                 variant="outlined"
                 value={oferta.areasEstudio || ""}
@@ -502,6 +504,7 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                multiline
                 label="Tareas a realizar"
                 variant="outlined"
                 value={oferta.otrosDetalles || ""}
@@ -518,6 +521,7 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                multiline
                 label="Beneficios"
                 variant="outlined"
                 value={oferta.beneficios || ""}
