@@ -13,13 +13,9 @@ import {
   Select,
   FormControl,
 } from "@mui/material";
-
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-
 import * as yup from "yup";
-
-import { useState, useEffect, Fragment } from "react";
-
+import { useState, useEffect } from "react";
 import { getEstudios } from "../../../services/estudios_service";
 import { getJornadas } from "../../../services/jornadas_service";
 import { getTiposContratos } from "../../../services/contratos_service";
@@ -28,6 +24,7 @@ import { getRubrosOfertas } from "../../../services/rubros_ofertas_service";
 import { Toaster, toast } from "sonner";
 import LockIcon from "@mui/icons-material/Lock";
 import { EncryptStorage } from "encrypt-storage";
+import { useNavigate } from "react-router-dom";
 
 const modalidadDeTrabajo = [
   {
@@ -76,7 +73,7 @@ const CrearOferta = () => {
   const [contratos, setContratos] = useState([]);
   const [idiomasElegidos, setIdiomasElegidos] = useState([]);
   const [rubrosOfertas, setRubrosOfertas] = useState([]);
-
+  const navigate = useNavigate();
 
   const [oferta, setOferta] = useState({
     tituloOferta: "",
@@ -233,7 +230,7 @@ const CrearOferta = () => {
           toast.success("Oferta creada con éxito");
           toast("A la brevedad será revisada por un administrador");
           setTimeout(() => {
-            window.location.reload();
+            navigate("/perfil?section=verOfertas");
           }, 3000);
         } else {
           toast.error("Error al crear la oferta");
@@ -430,6 +427,7 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                multiline
                 label="Experiencia previa"
                 variant="outlined"
                 value={oferta.experienciaPreviaDesc || ""}
@@ -486,6 +484,7 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                multiline
                 label="Area de estudio"
                 variant="outlined"
                 value={oferta.areasEstudio || ""}
@@ -502,6 +501,7 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                multiline
                 label="Tareas a realizar"
                 variant="outlined"
                 value={oferta.otrosDetalles || ""}
@@ -518,6 +518,7 @@ const CrearOferta = () => {
             <Grid item xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                multiline
                 label="Beneficios"
                 variant="outlined"
                 value={oferta.beneficios || ""}
