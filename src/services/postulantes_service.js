@@ -1,5 +1,7 @@
 import axios from "axios";
 import { config } from "../config/config";
+import { toast } from "sonner";
+
 
 // Trae todos los postulantes con filtros
 // NO SE SI ES ASI 🥴
@@ -23,6 +25,15 @@ export async function getPostulantes(
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -41,6 +52,15 @@ export async function getPostulantesSinFiltros() {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -61,6 +81,15 @@ export async function getPostulantesBaseUnahur(
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -79,6 +108,15 @@ export async function getPostulanteById(id) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -96,6 +134,15 @@ export async function getPostulanteByDni(dni) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -111,6 +158,15 @@ export async function postPostulante(postulante) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -130,6 +186,15 @@ export async function putPostulante(id, postulante, token) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -148,6 +213,15 @@ export async function deletePostulante(id, token) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -169,6 +243,15 @@ export async function agregarPreferencias(id, preferencias) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -190,6 +273,15 @@ export async function agregarIdiomas(id, idiomas) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -208,6 +300,15 @@ export async function eliminarIdioma(id) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -226,6 +327,15 @@ export async function eliminarPreferencias(id) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -247,6 +357,15 @@ export async function agregarAptitudes(idPostulante, aptitudes) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -265,5 +384,14 @@ export async function eliminarAptitudes(id) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }

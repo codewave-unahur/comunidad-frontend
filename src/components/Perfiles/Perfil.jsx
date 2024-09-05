@@ -450,6 +450,7 @@ function Perfil() {
           }
         </Grid>
       </Grid>
+      <Toaster richColors />
     </>
   );
 }
