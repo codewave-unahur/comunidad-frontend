@@ -140,7 +140,6 @@ const Login = () => {
           let datosUsuario;
           let tipoUsuario;
           sessionStorage.setItem("token", response.token);
-
           if (response.grupo === 1) {
             datosUsuario = await getPostulanteById(response.id);
             tipoUsuario = "postulante";
@@ -154,13 +153,21 @@ const Login = () => {
             toast.error("Usuario o contraseña incorrectos");
             return;
           }
-
+          if (response.estado === false) {
+            if (tipoUsuario === "postulante") {
+              window.location.href = `/registro/postulante/${response.id}`;
+            } else if (tipoUsuario === "empresa") {
+              window.location.href = `/registro/empresa/${response.id}`;
+          }
+        } else{
           encryptStorage.setItem("datosUsuario", datosUsuario);
-          encryptStorage.setItem("estaLogueado", "true");
           encryptStorage.setItem("tipoUsuario", tipoUsuario);
           encryptStorage.setItem("idUsuario", response.id);
+          encryptStorage.setItem("estaLogueado", "true");
           window.location.href = "/";
         }
+        ;
+      }
       })
       .catch((err) => {
         toast.error(err.message);
