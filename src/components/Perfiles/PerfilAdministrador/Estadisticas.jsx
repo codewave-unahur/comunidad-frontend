@@ -102,6 +102,7 @@ const Estadisticas = () => {
         setEmpresas(response4.empresas.rows.filter(empresa => empresa.createdAt >= fechaInicio && empresa.createdAt <= fechaFin).length);
         setPostulantes(response5.postulantes.rows.filter(postulante => postulante.createdAt >= fechaInicio && postulante.createdAt <= fechaFin).length);
     }
+    
 
 
 
@@ -152,7 +153,7 @@ const Estadisticas = () => {
                         <Grid item xs={12} md={6}>
                             <Box>
                                 <Typography variant = "h6">Estudiantes UNAHUR</Typography>
-                                <Typography variant = "h4">{postulantesUNAHUR} ({porcentajePostulantesUNAHUR}%) </Typography>
+                                <Typography variant = "h4">{postulantesUNAHUR} ({Math.round(porcentajePostulantesUNAHUR)}%) </Typography>
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
@@ -170,25 +171,25 @@ const Estadisticas = () => {
                         <Grid item xs={12} md={6}>
                             <Box>
                                 <Typography variant = "h6">Postulaciones aceptadas por administrador</Typography>
-                                <Typography variant = "h4">{postulacionesAceptadasAdmin} ({porcentajePostulacionesAceptadasAdmin}%)</Typography>
+                                <Typography variant = "h4">{postulacionesAceptadasAdmin} ({Math.round(porcentajePostulacionesAceptadasAdmin)}%)</Typography>
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Box>
                                 <Typography variant = "h6">Postulaciones rechazadas por administrador</Typography>
-                                <Typography variant = "h4">{postulacionesRechazadasAdmin} ({porcentajePostulacionesRechazadasAdmin}%)</Typography>
+                                <Typography variant = "h4">{postulacionesRechazadasAdmin} ({Math.round(porcentajePostulacionesRechazadasAdmin)}%)</Typography>
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Box>
                                 <Typography variant = "h6">Postulaciones aceptadas por empresas</Typography>
-                                <Typography variant = "h4">{postulacionesAceptadasEmpresa} ({porcentajePostulacionesAceptadasEmpresa}%)</Typography>
+                                <Typography variant = "h4">{postulacionesAceptadasEmpresa} ({Math.round(porcentajePostulacionesAceptadasEmpresa)}%)</Typography>
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
                             <Box>
                                 <Typography variant = "h6">Postulaciones rechazadas por empresas</Typography>
-                                <Typography variant = "h4">{postulacionesRechazadasEmpresa} ({porcentajePostulacionesRechazadasEmpresa}%)</Typography>
+                                <Typography variant = "h4">{postulacionesRechazadasEmpresa} ({Math.round(porcentajePostulacionesRechazadasEmpresa)}%)</Typography>
                             </Box>
                         </Grid>
                     </Grid>

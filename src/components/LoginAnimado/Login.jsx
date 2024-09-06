@@ -71,7 +71,6 @@ const Login = () => {
     emailInicio: yup.string().email().required(),
     contraseñaInicio: yup
       .string()
-      .min(8, "La contraseña debe tener al menos 8 caracteres")
       .required(),
   });
 

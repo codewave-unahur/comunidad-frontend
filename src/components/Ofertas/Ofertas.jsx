@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Avatar,
+  Box,
   Button,
   Card,
   CardActions,
@@ -17,6 +18,7 @@ import {
 } from "../../services/ofertas_service";
 import { getPostulacionesPorIdPostulante } from "../../services/postulacionesId_service";
 import PropTypes from "prop-types";
+import Spinner from "../Template/Spinner";
 
 const Ofertas = (props) => {
 
@@ -35,8 +37,24 @@ const Ofertas = (props) => {
 
   const [postulaciones, setPostulaciones] = useState([]);
   const limite = 12;
+  const [loading, setLoading] = useState(true);
+
+
+  const removeFbclid = (url) => {
+    if (url.includes("fbclid")) {
+      const urlSplit = url.split("?");
+      const urlSinFbclid = urlSplit[0];
+      window.history.replaceState({}, document.title, urlSinFbclid);
+    };
+  };
+  
+
+
+
+
 
   useEffect(() => {
+
     if (tipoUsuario === "empresa") {
       const traerOfertas = async () => {
         try {
@@ -48,6 +66,7 @@ const Ofertas = (props) => {
           );
           setOfertas(response.ofertas.rows);
           setTotalPaginas(response.totalPaginas);
+          setLoading(false);
         } catch (error) {
           console.log(error);
         }
@@ -67,6 +86,8 @@ const Ofertas = (props) => {
           );
           setOfertas(response.ofertas.rows);
           setTotalPaginas(response.totalPaginas);
+          setLoading(false);
+
         } catch (error) {
           console.log(error);
         }
@@ -76,6 +97,7 @@ const Ofertas = (props) => {
     else {
       const traerOfertas = async () => {
         try {
+          removeFbclid(window.location.href);
           const response = await getOfertas(
             paginaActual - 1,
             limite,
@@ -85,6 +107,8 @@ const Ofertas = (props) => {
           );
           setOfertas(response.ofertas.rows);
           setTotalPaginas(response.totalPaginas);
+          setLoading(false);
+
         } catch (error) {
           console.log(error);
         }
@@ -130,7 +154,7 @@ const Ofertas = (props) => {
     return minutos === 1 ? "1 minuto" : `${minutos} minutos`;
   };
 
-  return (
+  return (  loading ? <Spinner/> :
     <Grid
       container
       spacing={4}
@@ -162,7 +186,7 @@ const Ofertas = (props) => {
         </Grid>
       )}
 
-      {ofertas.map((oferta, index) => (
+      { ofertas.map((oferta, index) => (
         <Grid xs={12} md={6} lg={4} xl={3} item key={index}>
           <Card
             variant="outlined"
@@ -176,11 +200,16 @@ const Ofertas = (props) => {
             }}
           >
             <CardHeader
-              avatar={
+              avatar={oferta.Empresa.logo?
                 <Avatar
                   src={oferta.Empresa?.logo}
                   alt={oferta.Empresa?.nombre_empresa}
-                />
+                />: <Avatar
+                      alt={oferta.Empresa?.nombre_empresa}
+                      sx={{ backgroundColor: "#00404f" }}
+                    >
+                      {oferta.Empresa?.nombre_empresa.charAt(0)}
+                    </Avatar>
               }
               title={oferta.Empresa?.nombre_empresa}
               subheader={oferta.zona_trabajo}

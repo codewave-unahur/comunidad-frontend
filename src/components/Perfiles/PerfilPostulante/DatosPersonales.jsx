@@ -167,9 +167,6 @@ const DatosPersonales = () => {
           setUsuario(datosActualizados);
           setIsSubmitting(false);
           toast.success("Datos actualizados con éxito");
-          setTimeout(() => {
-            window.location.reload();
-          }, 1500);
         } else {
           toast.error("Error al actualizar los datos");
         }
@@ -584,7 +581,7 @@ const DatosPersonales = () => {
                 label="Provincia"
                 variant="outlined"
                 select
-                value={usuario.fk_id_provincia || ""}
+                value={usuario.fk_id_provincia || " "}
                 InputLabelProps={{ shrink: true }}
                 onChange={(e) =>
                   setUsuario({

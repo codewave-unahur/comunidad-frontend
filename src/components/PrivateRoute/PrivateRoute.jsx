@@ -14,7 +14,11 @@ export const checkRole = (component) => {
     return tipoUsuario === "empresa" || tipoUsuario === "admin" ? component : <NotFound />
 }
 
-export const checkLogged = (component) => {
+export const checkNotLogged = (component) => {
     return !estaLogueado ? component : <NotFound />
+}
+
+export const checkLogged = (component) => {
+    return estaLogueado? component : <NotFound />
 }
     

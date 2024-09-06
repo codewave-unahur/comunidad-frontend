@@ -1,5 +1,6 @@
 import axios from "axios";
 import { config } from "../config/config";
+import { toast } from "sonner";
 
 // Trae todas las ofertas con filtros
 
@@ -22,6 +23,15 @@ export async function getOfertas(
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        sessionStorage.clear();
+      }, 3000);
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -39,6 +49,13 @@ export async function getOfertasSinFiltros() {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      sessionStorage.clear();
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -57,6 +74,13 @@ export async function getOfertaById(id) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      sessionStorage.clear();
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -75,6 +99,13 @@ export async function getOfertaByCuit(pagina, limite, cuit, buscarTitulo) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      sessionStorage.clear();
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -100,6 +131,13 @@ export async function getOfertasPorFiltrosRecomendados(
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      sessionStorage.clear();
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -119,6 +157,13 @@ export async function postOferta(oferta, token) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      sessionStorage.clear();
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -138,6 +183,13 @@ export async function putOferta(idOferta, oferta, token) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      sessionStorage.clear();
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
 
@@ -156,5 +208,12 @@ export async function deleteOferta(idOferta, token) {
     return response.data;
   } catch (error) {
     console.error(error);
+    if (error.response.status === 401) {
+      sessionStorage.clear();
+      toast.error("Su sesión ha expirado, por favor vuelva a iniciar sesión");
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 5000);
+    }
   }
 }
