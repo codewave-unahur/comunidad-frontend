@@ -118,7 +118,7 @@ const CrearOferta = () => {
   useEffect(() => {
     const fetchEstudios = async () => {
       const response = await getEstudios();
-      setEstudios(response.estudios);
+      setEstudios(response);
     };
     const fetchJornadas = async () => {
       const response = await getJornadas();
