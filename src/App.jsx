@@ -11,7 +11,6 @@ import Empresa from "./components/Empresa/Empresa";
 import NuevoPassword from "./components/RestablecerContraseña/NuevoPassword.jsx";
 import EdicionOferta from "./components/Ofertas/EdicionOferta.jsx";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PreLogin from "./components/PreLogin/PreLogin.jsx";
 import NotFound from "./components/404/NotFound.jsx";
 import { checkLogged, checkNotLogged, checkRole } from "./components/PrivateRoute/PrivateRoute.jsx";
 import RestablecerPassword from "./components/RestablecerContraseña/RestablecerPassword.jsx";

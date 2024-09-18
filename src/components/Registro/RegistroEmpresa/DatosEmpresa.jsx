@@ -65,7 +65,7 @@ export default function DatosPersonales({
     const traerCadenaValor = async () => {
       const response = await getCadenaValor();
       if (response) {
-        setCadenaValor(response.cadena_valor);
+        setCadenaValor(response.cadenaValor);
       }
     };
     traerCadenaValor();
