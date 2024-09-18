@@ -8,10 +8,7 @@ import {
   TextField,
   MenuItem,
   Typography,
-  Chip,
-  OutlinedInput,
-  Select,
-  FormControl,
+
 } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import * as yup from "yup";
@@ -126,7 +123,7 @@ const CrearOferta = () => {
     };
     const fetchContratos = async () => {
       const response = await getTiposContratos();
-      setContratos(response.contratos);
+      setContratos(response);
     };
     const getAptitudesData = async () => {
       const response = await getAptitudes();
