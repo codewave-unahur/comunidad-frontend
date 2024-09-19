@@ -57,7 +57,6 @@ const Oferta = () => {
   const tipoUsuario = encryptStorage.getItem("tipoUsuario");
   const datosUsuario = encryptStorage.getItem("datosUsuario");
   const token = sessionStorage.getItem("token");
-
   const idOferta = parseInt(window.location.pathname.split("/")[2]);
   const [oferta, setOferta] = useState({});
   const [open, setOpen] = useState(false);
@@ -139,6 +138,9 @@ const Oferta = () => {
           const response = await postPostulacion(postulacion, token);
           if (response) {
             toast.success("Postulación exitosa");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
           }
         } catch (error) {
           console.log(error);        }
