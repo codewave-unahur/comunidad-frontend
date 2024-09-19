@@ -128,7 +128,6 @@ const Oferta = () => {
 
   const handlePostularme = async () => {
     if (estaLogueado) {
-      if (tipoUsuario === "postulante") {
       if (tipoUsuario === "postulante" && datosUsuario.cv !== "") {
         const postulacion = {
           postulante: datosUsuario.id,
