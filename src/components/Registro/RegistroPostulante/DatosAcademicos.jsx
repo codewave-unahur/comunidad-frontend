@@ -34,7 +34,7 @@ export default function DatosAcademicos({
     
     const getEstudiosData = async () => {
       const response = await getEstudios();
-      setEstudios(response.estudios);
+      setEstudios(response);
     };
     getEstudiosData();
   }, []);
