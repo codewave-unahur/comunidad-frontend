@@ -146,7 +146,7 @@ const Oferta = () => {
           console.log(error);        
         }
       } else if (tipoUsuario === "postulante" && datosUsuario.cv === "") {
-        toast.error("Para postularte a una oferta, primero debes completar tu CV");
+        toast.error("Para postularte a una oferta, primero debes cargar tu CV");
         setTimeout(() => {
           window.location.href = "/perfil?section=curriculumVitae";
         }, 2000);
