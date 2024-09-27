@@ -32,7 +32,7 @@ const Estadisticas = () => {
         const traerEmpresas = async () => {
             const response = await getEmpresasSinFiltros();
             if (response) {
-                setEmpresas(response.empresas.count);
+                setEmpresas(response.empresas.length);
             }
         }
         const traerPostulantes = async () => {
