@@ -5,6 +5,8 @@ import { getEmpresasSinFiltros } from "../../../services/empresas_service";
 import { getPostulantesSinFiltros } from "../../../services/postulantes_service";
 import { getPostulaciones } from "../../../services/postulaciones_service";
 import { getOfertas, getOfertasSinFiltros } from "../../../services/ofertas_service";
+import { PieChart } from '@mui/x-charts/PieChart';
+
 
 const Estadisticas = () => {
 
@@ -104,8 +106,6 @@ const Estadisticas = () => {
     }
     
 
-
-
     return ( 
         <>
             <Card type="section" elevation={8}>
@@ -132,7 +132,7 @@ const Estadisticas = () => {
                         }}>Filtrar</Button>
                     </Box>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} md={6}>
+                        {/*<Grid item xs={12} md={6}>
                             <Box>
                                 <Typography variant = "h6">Usuarios registrados</Typography>
                                 <Typography variant = "h4">{usuarios}</Typography>
@@ -143,11 +143,55 @@ const Estadisticas = () => {
                                 <Typography variant = "h6">Empresas registradas</Typography>
                                 <Typography variant = "h4">{empresas}</Typography>
                             </Box>
+                        </Grid>*/}
+                        <Grid item xs={12} md={6}>
+                            <Box sx={{
+                                displat: "flex",
+                                flexDirection: "column",
+                                gap: 2,
+                            }}>
+                                <Typography variant = "h6">Usuarios registrados</Typography>
+                        <PieChart
+                            series={[
+                            {
+                                data: [
+                                { id: 0, value: empresas, label: 'Empresas', color: '#AC239A' },
+                                { id: 1, value: postulantes, label: 'Postulantes', color: 'blue' },
+                                ],
+                            },
+                            ]}
+                            width={500}
+                            height={200}
+                            dataKey="value"
+                            labelKey="label"
+                            colorKey="color"
+                            
+                        />
+                            </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
-                            <Box>
-                                <Typography variant = "h6">Postulantes registrados</Typography>
-                                <Typography variant = "h4">{postulantes}</Typography>
+                            <Box sx={{
+                                displat: "flex",
+                                flexDirection: "column",
+                                gap: 3,
+                            }}>
+                                <Typography variant = "h6">Postulantes</Typography>
+                                <PieChart
+                            series={[
+                            {
+                                data: [
+                                { id: 0, value: empresas, label: 'Postulantes UNAHUR', color: '#AC239A' },
+                                { id: 1, value: postulantes, label: 'Postulantes externos', color: 'blue' },
+                                ],
+                            },
+                            ]}
+                            width={500}
+                            height={200}
+                            dataKey="value"
+                            labelKey="label"
+                            colorKey="color"
+                            
+                        />
                             </Box>
                         </Grid>
                         <Grid item xs={12} md={6}>
