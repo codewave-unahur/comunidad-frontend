@@ -251,24 +251,28 @@ const Estadisticas = () => {
                 }}
               >
                 <Typography variant="h6">Usuarios registrados</Typography>
-                <PieChart width={400} height={400}>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart width={400} height={400}>
                     <Pie
-                        data={[
-                        { name: "Usuarios", value: usuarios },
+                      data={[
+                        { name: "Postulantes", value: usuarios },
                         { name: "Empresas", value: empresas },
-                        ]}
-                        dataKey="value"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={100}
-                        fill="white"
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      ]}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      fill="#8884d8"
+                      label={({ name, percent,value }) =>
+                        `${name} ${(percent * 100).toFixed(0)}% (${value})`
+                      }
                     >
-                        <Cell fill="blue" />
-                        <Cell fill="green" />
+                      <Cell fill="#4E79A7" />
+                      <Cell fill="#F28E2C" />
                     </Pie>
-                </PieChart>
+                  </PieChart>
+                </ResponsiveContainer>
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -280,18 +284,38 @@ const Estadisticas = () => {
                 }}
               >
                 <Typography variant="h6">Postulantes</Typography>
-                
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={[
+                        {
+                          name: "Estudiantes UNAHUR",
+                          value: postulantesUNAHUR,
+                        },
+                        {
+                          name: "Externos",
+                          value: postulantes - postulantesUNAHUR,
+                        },
+                      ]}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      fill="#8884d8"
+                      label={({ name, percent, value}) =>
+                        `${name} ${(percent * 100).toFixed(0)}% (${value})`
+                      }
+                      
+                    >
+                      <Cell fill="#59A14F" />
+                      <Cell fill="#AF7AA1" />
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
               </Box>
             </Grid>
-            <Grid item xs={12} md={6}>
-              <Box>
-                <Typography variant="h6">Estudiantes UNAHUR</Typography>
-                <Typography variant="h4">
-                  {postulantesUNAHUR} ({Math.round(porcentajePostulantesUNAHUR)}
-                  %){" "}
-                </Typography>
-              </Box>
-            </Grid>
+            
             <Grid item xs={12} md={6}>
               <Box>
                 <Typography variant="h6">Ofertas creadas</Typography>
