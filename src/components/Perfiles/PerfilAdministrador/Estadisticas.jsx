@@ -226,6 +226,8 @@ const Estadisticas = () => {
         return diezRubros;
     }
 
+     
+
   return (
     <>
       <Card type="section" elevation={8}>
@@ -295,7 +297,7 @@ const Estadisticas = () => {
                   <PieChart width={400} height={400}>
                     <Pie
                       data={[
-                        { name: "Postulantes", value: usuarios },
+                        { name: "Postulantes", value: postulantes },
                         { name: "Empresas", value: empresas },
                       ]}
                       dataKey="value"
