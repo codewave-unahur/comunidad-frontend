@@ -1,4 +1,4 @@
-import { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
     Avatar,
@@ -9,34 +9,47 @@ import {
     Paper,
     TextField,
     Typography,
+    Tooltip,
+    IconButton,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { Toaster, toast } from "sonner";
-
 import { cambiarContrasena } from "../../services/password_service";
 import Header from "../Header/Header";
-
 import * as yup from "yup";
+
+const schema = yup.object().shape({
+    contraseña: yup
+        .string()
+        .min(8, "La contraseña debe tener al menos 8 caracteres")
+        .matches(/[A-Z]/, "Debe contener al menos una letra mayúscula")
+        .matches(/\d/, "Debe contener al menos un número")
+        .required("La contraseña es requerida"),
+    confirmarContraseña: yup
+        .string()
+        .oneOf([yup.ref("contraseña"), null], "Las contraseñas deben coincidir")
+        .required("La confirmación de contraseña es requerida"),
+});
 
 const NuevoPassword = () => {
     const [contraseña, setContraseña] = useState('');
     const [confirmarContraseña, setConfirmarContraseña] = useState('');
+    const [errors, setErrors] = useState({});
     const { token } = useParams();
     const navigate = useNavigate();
 
-
-    const schema = yup.object().shape({
-        contraseña: yup
-            .string()
-            .min(8, "La contraseña debe tener al menos 8 caracteres")
-            .required("La contraseña es requerida"),
-        confirmarContraseña: yup
-            .string()
-            .oneOf([yup.ref("contraseña"), null], "Las contraseñas deben coincidir")
-            .required("La confirmación de contraseña es requerida"),
-    });
-
-
+    useEffect(() => {
+        schema.validate({ contraseña, confirmarContraseña }, { abortEarly: false })
+            .then(() => setErrors({}))
+            .catch((err) => {
+                const newErrors = {};
+                err.inner.forEach((error) => {
+                    newErrors[error.path] = error.message;
+                });
+                setErrors(newErrors);
+            });
+    }, [contraseña, confirmarContraseña]);
 
     const handleCambioContraseña = async (e) => {
         e.preventDefault();
@@ -67,8 +80,7 @@ const NuevoPassword = () => {
             <CssBaseline />
             <Header />
             <Container
-                component="form"
-                onSubmit={handleCambioContraseña}
+                component="main"
                 maxWidth="sm"
                 sx={{ mb: 4 }}
             >
@@ -109,44 +121,51 @@ const NuevoPassword = () => {
                         }}
                     >
                         Ingrese su nueva contraseña.
+                        <Tooltip title="La contraseña debe tener al menos 8 caracteres, una letra mayúscula y un número." arrow>
+                            <IconButton size="small" sx={{ ml: 1 }}>
+                                <InfoOutlinedIcon fontSize="small" />
+                            </IconButton>
+                        </Tooltip>
                     </Typography>
-                    <TextField
-                        fullWidth
-                        required
-                        type="password"
-                        label="Contraseña nueva"
-                        id="contraseña"
-                        name="contraseña"
-                        value={contraseña}
-                        onChange={(e) => setContraseña(e.target.value)}
-                        sx={{
-                            mt: 2,
-                        }}
-                    />
-                    <TextField
-                        fullWidth
-                        required
-                        type="password"
-                        label="Confirmar contraseña"
-                        id="confirmarContraseña"
-                        name="confirmarContraseña"
-                        value={confirmarContraseña}
-                        onChange={(e) => setConfirmarContraseña(e.target.value)}
-                        sx={{
-                            mt: 2,
-                        }}
-                    />
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        type="submit"
-                        sx={{
-                            mt: 2,
-                            mb: 2,
-                        }}
-                    >
-                        Cambiar contraseña
-                    </Button>
+                    <Box component="form" onSubmit={handleCambioContraseña} sx={{ mt: 1 }}>
+                        <TextField
+                            fullWidth
+                            required
+                            type="password"
+                            label="Contraseña nueva"
+                            id="contraseña"
+                            name="contraseña"
+                            value={contraseña}
+                            onChange={(e) => setContraseña(e.target.value)}
+                            error={!!errors.contraseña}
+                            helperText={errors.contraseña}
+                            sx={{ mt: 2 }}
+                        />
+                        <TextField
+                            fullWidth
+                            required
+                            type="password"
+                            label="Confirmar contraseña"
+                            id="confirmarContraseña"
+                            name="confirmarContraseña"
+                            value={confirmarContraseña}
+                            onChange={(e) => setConfirmarContraseña(e.target.value)}
+                            error={!!errors.confirmarContraseña}
+                            helperText={errors.confirmarContraseña}
+                            sx={{ mt: 2 }}
+                        />
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            type="submit"
+                            sx={{
+                                mt: 2,
+                                mb: 2,
+                            }}
+                        >
+                            Cambiar contraseña
+                        </Button>
+                    </Box>
                 </Paper>
             </Container>
             <Toaster richColors closeButton duration={5000} />

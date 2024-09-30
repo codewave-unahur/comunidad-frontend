@@ -73,7 +73,7 @@ const EdicionOferta = () => {
   useEffect(() => {
     const fetchEstudios = async () => {
       const response = await getEstudios();
-      setEstudios(response.estudios);
+      setEstudios(response);
     };
     const fetchJornadas = async () => {
       const response = await getJornadas();
@@ -81,7 +81,7 @@ const EdicionOferta = () => {
     };
     const fetchContratos = async () => {
       const response = await getTiposContratos();
-      setContratos(response.contratos);
+      setContratos(response);
     };
     const fetchRubrosOfertas = async () => {
       const response = await getRubrosOfertas();

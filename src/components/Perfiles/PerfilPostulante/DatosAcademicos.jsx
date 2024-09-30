@@ -101,7 +101,7 @@ const DatosAcademicos = () => {
     
     const getEstudiosData = async () => {
       const response = await getEstudios();
-      setEstudios(response.estudios);
+      setEstudios(response);
     };
     const getIdiomasData = async () => {
       const response = await getIdiomasPostulante(datosUsuario.id);

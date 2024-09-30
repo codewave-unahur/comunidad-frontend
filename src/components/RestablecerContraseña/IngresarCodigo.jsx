@@ -1,5 +1,5 @@
-import  { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
     Avatar,
     Box,
@@ -9,6 +9,7 @@ import {
     Paper,
     TextField,
     Typography,
+    CircularProgress,
 } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { Toaster, toast } from "sonner";
@@ -17,23 +18,51 @@ import { verificarCodigo } from "../../services/password_service";
 import Header from "../Header/Header";
 
 const IngresarCodigo = () => {
-    const [tokenReset, setTokenReset] = useState('');
-    const { token } = useParams();
-    console.log(token);
-
+    const [tokenInput, setTokenInput] = useState('');
+    const [isVerifying, setIsVerifying] = useState(false);
+    const [verificationStatus, setVerificationStatus] = useState('initial'); // 'initial', 'success', 'failed'
+    const { token: tokenFromParams } = useParams();
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const tokenFromQuery = searchParams.get('token');
     const navigate = useNavigate();
 
-    const handleVerificarCodigo = async (e) => {
-        e.preventDefault();
+    const tokenFromUrl = tokenFromParams || tokenFromQuery;
+
+    const handleVerificarCodigo = useCallback(async (tokenToVerify, isAutomatic = false) => {
+        if (!tokenToVerify) return;
+
+        setIsVerifying(true);
         try {
-            const response = await verificarCodigo(tokenReset);
+            const response = await verificarCodigo(tokenToVerify);
             if (response.message) {
-                toast.success(response.message);
-                navigate(`/restablecimientoContraseña/nuevaContraseña/${tokenReset}`);
+                setVerificationStatus('success');
+                if (!isAutomatic) {
+                    toast.success(response.message);
+                }
+                navigate(`/restablecimientoContraseña/nuevaContraseña/${tokenToVerify}`);
             }
         } catch (error) {
-            toast.error(error.message || "Código inválido");
+            setVerificationStatus('failed');
+            if (!isAutomatic) {
+                toast.error(error.message || "Código inválido");
+            }
+        } finally {
+            setIsVerifying(false);
         }
+    }, [navigate]);
+
+    useEffect(() => {
+        if (tokenFromUrl) {
+            handleVerificarCodigo(tokenFromUrl, true);
+        } else {
+            setVerificationStatus('failed');
+        }
+    }, [tokenFromUrl, handleVerificarCodigo]);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleVerificarCodigo(tokenInput);
     };
 
     return (
@@ -42,7 +71,7 @@ const IngresarCodigo = () => {
             <Header />
             <Container
                 component="form"
-                onSubmit={handleVerificarCodigo}
+                onSubmit={handleSubmit}
                 maxWidth="sm"
                 sx={{ mb: 4 }}
             >
@@ -74,39 +103,49 @@ const IngresarCodigo = () => {
                     >
                         Verificar código
                     </Typography>
-                    <Typography
-                        variant="body1"
-                        align="left"
-                        sx={{
-                            mt: 2,
-                            mb: 1,
-                        }}
-                    >
-                        Ingrese el código de verificación que le enviamos a su correo electrónico.
-                    </Typography>
-                    <TextField
-                        fullWidth
-                        required
-                        label="Código de verificación"
-                        id="codigo"
-                        name="codigo"
-                        value={tokenReset}
-                        onChange={(e) => setTokenReset(e.target.value)}
-                        sx={{
-                            mt: 2,
-                        }}
-                    />
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        type="submit"
-                        sx={{
-                            mt: 2,
-                            mb: 2,
-                        }}
-                    >
-                        Verificar
-                    </Button>
+                    {isVerifying ? (
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                            <CircularProgress />
+                        </Box>
+                    ) : (
+                        <>
+                            <Typography
+                                variant="body1"
+                                align="left"
+                                sx={{
+                                    mt: 2,
+                                    mb: 1,
+                                }}
+                            >
+                                {verificationStatus === 'failed' && tokenFromUrl
+                                    ? "La verificación automática falló. Por favor, ingrese el código manualmente:"
+                                    : "Ingrese el código de verificación que le enviamos a su correo electrónico:"}
+                            </Typography>
+                            <TextField
+                                fullWidth
+                                required
+                                label="Código de verificación"
+                                id="codigo"
+                                name="codigo"
+                                value={tokenInput}
+                                onChange={(e) => setTokenInput(e.target.value)}
+                                sx={{
+                                    mt: 2,
+                                }}
+                            />
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                type="submit"
+                                sx={{
+                                    mt: 2,
+                                    mb: 2,
+                                }}
+                            >
+                                Verificar
+                            </Button>
+                        </>
+                    )}
                 </Paper>
             </Container>
             <Toaster richColors closeButton duration={5000} />

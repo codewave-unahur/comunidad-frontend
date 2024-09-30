@@ -57,7 +57,6 @@ const Oferta = () => {
   const tipoUsuario = encryptStorage.getItem("tipoUsuario");
   const datosUsuario = encryptStorage.getItem("datosUsuario");
   const token = sessionStorage.getItem("token");
-
   const idOferta = parseInt(window.location.pathname.split("/")[2]);
   const [oferta, setOferta] = useState({});
   const [open, setOpen] = useState(false);
@@ -129,7 +128,7 @@ const Oferta = () => {
 
   const handlePostularme = async () => {
     if (estaLogueado) {
-      if (tipoUsuario === "postulante") {
+      if (tipoUsuario === "postulante" && datosUsuario.cv !== "") {
         const postulacion = {
           postulante: datosUsuario.id,
           oferta: oferta.id,
@@ -139,11 +138,20 @@ const Oferta = () => {
           const response = await postPostulacion(postulacion, token);
           if (response) {
             toast.success("Postulación exitosa");
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
           }
         } catch (error) {
-          console.log(error);        }
+          console.log(error);        
+        }
+      } else if (tipoUsuario === "postulante" && datosUsuario.cv === "") {
+        toast.error("Para postularte a una oferta, primero debes cargar tu CV");
+        setTimeout(() => {
+          window.location.href = "/perfil?section=curriculumVitae";
+        }, 2000);
       }
-    } else {
+      } else {
       window.location.href = "/login";
     }
   };
