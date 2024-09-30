@@ -16,7 +16,15 @@ import {
   getOfertas,
   getOfertasSinFiltros,
 } from "../../../services/ofertas_service";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend
+} from "recharts";
+import { getRubrosOfertas } from "../../../services/rubros_ofertas_service";
+
 const Estadisticas = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [empresas, setEmpresas] = useState([]);
@@ -34,6 +42,7 @@ const Estadisticas = () => {
     useState([]);
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
+  const [rubrosOfertas, setRubrosOfertas] = useState([]);
 
   useEffect(() => {
     const traerUsuarios = async () => {
@@ -52,6 +61,13 @@ const Estadisticas = () => {
       const response = await getPostulantesSinFiltros();
       if (response) {
         setPostulantes(response.postulantes.count);
+      }
+    };
+
+    const traerRubrosOfertas = async () => {
+      const response = await getRubrosOfertas();
+      if (response) {
+        setRubrosOfertas(response);
       }
     };
 
@@ -99,7 +115,7 @@ const Estadisticas = () => {
     const traerOfertas = async () => {
       const response = await getOfertasSinFiltros();
       if (response) {
-        setOfertas(response.ofertas.count);
+        setOfertas(response.ofertas.rows);
       }
     };
 
@@ -109,9 +125,9 @@ const Estadisticas = () => {
     traerPostulantesUNAHUR();
     traerPostulaciones();
     traerOfertas();
+    traerRubrosOfertas();
   }, []);
 
-  const porcentajePostulantesUNAHUR = (postulantesUNAHUR * 100) / postulantes;
   const porcentajePostulacionesAceptadasAdmin =
     (postulacionesAceptadasAdmin * 100) / postulaciones;
   const porcentajePostulacionesRechazadasAdmin =
@@ -185,6 +201,30 @@ const Estadisticas = () => {
       ).length
     );
   };
+
+  const contarOfertasPorRubro = (ofertas) => {
+    const rubros = [];
+    ofertas.forEach((oferta) => {
+      rubros.push(oferta.RubroOferta.nombre);
+    });
+    const rubrosUnicos = [...new Set(rubros)];
+    const rubrosOfertas = [];
+    rubrosUnicos.forEach((rubro) => {
+      rubrosOfertas.push({
+        rubro,
+        cantidad: rubros.filter((r) => r === rubro).length,
+      });
+    });
+    return rubrosOfertas
+        .sort((a, b) => (a.cantidad < b.cantidad ? 1 : -1))
+        .slice(0, 5);
+    };
+
+    function diezRubrosConMasOfertas (ofertas) {
+        const rubros = contarOfertasPorRubro(ofertas);
+        const diezRubros = rubros.slice(0, 10);
+        return diezRubros;
+    }
 
   return (
     <>
@@ -264,7 +304,7 @@ const Estadisticas = () => {
                       cy="50%"
                       outerRadius={100}
                       fill="#8884d8"
-                      label={({ name, percent,value }) =>
+                      label={({ name, percent, value }) =>
                         `${name} ${(percent * 100).toFixed(0)}% (${value})`
                       }
                     >
@@ -303,10 +343,9 @@ const Estadisticas = () => {
                       cy="50%"
                       outerRadius={100}
                       fill="#8884d8"
-                      label={({ name, percent, value}) =>
+                      label={({ name, percent, value }) =>
                         `${name} ${(percent * 100).toFixed(0)}% (${value})`
                       }
-                      
                     >
                       <Cell fill="#59A14F" />
                       <Cell fill="#AF7AA1" />
@@ -315,11 +354,36 @@ const Estadisticas = () => {
                 </ResponsiveContainer>
               </Box>
             </Grid>
-            
+
             <Grid item xs={12} md={6}>
               <Box>
                 <Typography variant="h6">Ofertas creadas</Typography>
-                <Typography variant="h4">{ofertas}</Typography>
+                <Typography variant="h4">{ofertas.length}</Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Box>
+                <Typography variant="h6">Rubros de ofertas</Typography>
+                <ResponsiveContainer width="100%" height={300}>
+                    <BarChart
+                        width={400}
+                        height={400}
+                        data={diezRubrosConMasOfertas(ofertas)}
+                        margin={{
+                            top: 5,
+                            right: 30,
+                            left: 20,
+                            bottom: 5,
+                        }}
+                    >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="rubro" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="cantidad" fill="#8884d8" />
+                    </BarChart>
+                </ResponsiveContainer>
               </Box>
             </Grid>
             <Grid item xs={12} md={6}>
