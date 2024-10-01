@@ -37,6 +37,7 @@ const Estadisticas = () => {
   const [empresas, setEmpresas] = useState([]);
   const [postulantes, setPostulantes] = useState([]);
   const [postulantesUNAHUR, setPostulantesUNAHUR] = useState([]);
+  const [postulantesExternos, setPostulantesExternos] = useState([]);
   const [postulaciones, setPostulaciones] = useState([]);
   const [ofertas, setOfertas] = useState([]);
   const [postulacionesAceptadasAdmin, setPostulacionesAceptadasAdmin] =
@@ -67,7 +68,7 @@ const Estadisticas = () => {
     const traerPostulantes = async () => {
       const response = await getPostulantesSinFiltros();
       if (response) {
-        setPostulantes(response.postulantes.count);
+        setPostulantes(response.postulantes.rows);
       }
     };
 
@@ -78,16 +79,6 @@ const Estadisticas = () => {
       }
     };
 
-    const traerPostulantesUNAHUR = async () => {
-      const response = await getPostulantesSinFiltros();
-      if (response) {
-        setPostulantesUNAHUR(
-          response.postulantes.rows.filter(
-            (postulante) => postulante.alumno_unahur === true
-          ).length
-        );
-      }
-    };
 
     const traerPostulaciones = async () => {
       const response = await getPostulaciones();
@@ -126,14 +117,30 @@ const Estadisticas = () => {
       }
     };
 
+    
+
     traerUsuarios();
     traerEmpresas();
     traerPostulantes();
-    traerPostulantesUNAHUR();
     traerPostulaciones();
     traerOfertas();
     traerRubrosOfertas();
   }, []);
+
+
+  useEffect(() => {
+    //filtrar postulantes unahur y externos 
+    setPostulantesUNAHUR(
+      postulantes.filter((postulante) => postulante.alumno_unahur === true)
+    );
+    setPostulantesExternos(
+      postulantes.filter((postulante) => postulante.alumno_unahur === false)
+    );
+    console.log(postulantes);
+    console.log(postulantesUNAHUR)
+    console.log(postulantesExternos)
+  }, [postulantes]);
+
 
   const porcentajePostulacionesAceptadasAdmin =
     (postulacionesAceptadasAdmin * 100) / postulaciones;
@@ -233,9 +240,7 @@ const Estadisticas = () => {
     return diezRubros;
   }
 
-  function postulantesExternos(postulantes, postulantesUNAHUR) {
-    return postulantes - postulantesUNAHUR;
-  }
+  
 
   return (
     <>
@@ -306,7 +311,7 @@ const Estadisticas = () => {
                   <PieChart width={400} height={400}>
                     <Pie
                       data={[
-                        { name: "Postulantes", value: postulantes },
+                        { name: "Postulantes", value: postulantes.length },
                         { name: "Empresas", value: empresas },
                       ]}
                       dataKey="value"
@@ -341,14 +346,11 @@ const Estadisticas = () => {
                       data={[
                         {
                           name: "Estudiantes UNAHUR",
-                          value: postulantesUNAHUR,
+                          value: postulantesUNAHUR.length,
                         },
                         {
                           name: "Externos",
-                          value: postulantesExternos(
-                            postulantes,
-                            postulantesUNAHUR
-                          ),
+                          value: postulantesExternos.length,
                         },
                       ]}
                       dataKey="value"
