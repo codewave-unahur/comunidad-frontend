@@ -21,7 +21,14 @@ import {
   Pie,
   Cell,
   ResponsiveContainer,
-  BarChart, Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend
+  BarChart,
+  Bar,
+  Rectangle,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
 } from "recharts";
 import { getRubrosOfertas } from "../../../services/rubros_ofertas_service";
 
@@ -216,17 +223,19 @@ const Estadisticas = () => {
       });
     });
     return rubrosOfertas
-        .sort((a, b) => (a.cantidad < b.cantidad ? 1 : -1))
-        .slice(0, 5);
-    };
+      .sort((a, b) => (a.cantidad < b.cantidad ? 1 : -1))
+      .slice(0, 5);
+  };
 
-    function diezRubrosConMasOfertas (ofertas) {
-        const rubros = contarOfertasPorRubro(ofertas);
-        const diezRubros = rubros.slice(0, 10);
-        return diezRubros;
-    }
+  function diezRubrosConMasOfertas(ofertas) {
+    const rubros = contarOfertasPorRubro(ofertas);
+    const diezRubros = rubros.slice(0, 10);
+    return diezRubros;
+  }
 
-     
+  function postulantesExternos(postulantes, postulantesUNAHUR) {
+    return postulantes - postulantesUNAHUR;
+  }
 
   return (
     <>
@@ -336,7 +345,10 @@ const Estadisticas = () => {
                         },
                         {
                           name: "Externos",
-                          value: postulantes - postulantesUNAHUR,
+                          value: postulantesExternos(
+                            postulantes,
+                            postulantesUNAHUR
+                          ),
                         },
                       ]}
                       dataKey="value"
@@ -367,24 +379,24 @@ const Estadisticas = () => {
               <Box>
                 <Typography variant="h6">Rubros de ofertas</Typography>
                 <ResponsiveContainer width="100%" height={300}>
-                    <BarChart
-                        width={400}
-                        height={400}
-                        data={diezRubrosConMasOfertas(ofertas)}
-                        margin={{
-                            top: 5,
-                            right: 30,
-                            left: 20,
-                            bottom: 5,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="rubro" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="cantidad" fill="#8884d8" />
-                    </BarChart>
+                  <BarChart
+                    width={400}
+                    height={400}
+                    data={diezRubrosConMasOfertas(ofertas)}
+                    margin={{
+                      top: 5,
+                      right: 30,
+                      left: 20,
+                      bottom: 5,
+                    }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="rubro" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="cantidad" fill="#8884d8" />
+                  </BarChart>
                 </ResponsiveContainer>
               </Box>
             </Grid>
