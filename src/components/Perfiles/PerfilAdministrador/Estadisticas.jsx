@@ -34,6 +34,7 @@ import { getRubrosOfertas } from "../../../services/rubros_ofertas_service";
 
 const Estadisticas = () => {
   const [usuarios, setUsuarios] = useState([]);
+  const [usuariosSinFormulario, setUsuariosSinFormulario] = useState([]);
   const [empresas, setEmpresas] = useState([]);
   const [postulantes, setPostulantes] = useState([]);
   const [postulantesUNAHUR, setPostulantesUNAHUR] = useState([]);
@@ -56,7 +57,7 @@ const Estadisticas = () => {
     const traerUsuarios = async () => {
       const response = await getUsuarios();
       if (response) {
-        setUsuarios(response.usuarios.length);
+        setUsuarios(response.usuarios);
       }
     };
     const traerEmpresas = async () => {
@@ -140,6 +141,13 @@ const Estadisticas = () => {
     console.log(postulantesUNAHUR)
     console.log(postulantesExternos)
   }, [postulantes]);
+
+  useEffect(() => {
+    //filtrar usuarios que no completaon el formulario
+    setUsuariosSinFormulario(
+      usuarios.filter((usuario) => usuario.estado === false)
+    );
+  }, [usuarios]);
 
 
   const porcentajePostulacionesAceptadasAdmin =
@@ -370,6 +378,37 @@ const Estadisticas = () => {
                 </ResponsiveContainer>
               </Box>
             </Grid>
+            <Grid item xs={12} md={6}>
+              <Box>
+                <Typography variant="h6">Usuarios por estado</Typography>
+                <ResponsiveContainer width="100%" height={300}>
+                  <PieChart width={400} height={400}>
+                    <Pie
+                      data={[
+                        { name: "Completo", value: usuarios.length - usuariosSinFormulario.length },
+                        {
+                          name: "Incompleto",
+                          value: usuariosSinFormulario.length,
+                        },
+                      ]}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      fill="#8884d8"
+                      label={({ name, percent, value }) =>
+                        `${name} ${(percent * 100).toFixed(0)}% (${value})`
+                      }
+                    >
+                      <Cell fill="#4E79A7" />
+                      <Cell fill="#F28E2C" />
+                    </Pie>
+                  </PieChart>
+                </ResponsiveContainer>
+              </Box>
+            </Grid>
+
 
             <Grid item xs={12} md={6}>
               <Box>
