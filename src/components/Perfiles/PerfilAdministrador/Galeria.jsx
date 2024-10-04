@@ -21,8 +21,8 @@ export default function Galeria() {
     const fetchGaleria = async () => {
       const response = await getGaleria();
       if (response) {
-        setGaleria(response.carouselImages);
-        console.log(response.carouselImages)
+        setGaleria(response);
+        console.log(response)
       }
     };
     fetchGaleria();
