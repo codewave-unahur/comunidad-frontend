@@ -11,7 +11,7 @@ const CarouselBootstrap = () => {
     const fetchGaleria = async () => {
       const response = await getGaleria();
       if (response) {
-        setGaleria(response.carouselImages);
+        setGaleria(response);
       }
     };
     fetchGaleria();
