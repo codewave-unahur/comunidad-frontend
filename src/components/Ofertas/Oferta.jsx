@@ -140,7 +140,7 @@ const Oferta = () => {
             toast.success("Postulación exitosa");
             setTimeout(() => {
               window.location.reload();
-            }, 1000);
+            }, 200);
           }
         } catch (error) {
           console.log(error);        
