@@ -20,7 +20,7 @@ const theme = createTheme({
 });
 
 const ArticlePage = () => {
-  const title = 'Título del Artículo de Noticias';
+  const title = 'Lorem Ipsum Dolor Sit Amet'; 
   const tags = ['Actualidad', 'Tecnología', 'Opinión'];
 
   return (
