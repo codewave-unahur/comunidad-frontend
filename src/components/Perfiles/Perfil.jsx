@@ -56,6 +56,8 @@ import { EncryptStorage } from "encrypt-storage";
 import LockIcon from '@mui/icons-material/Lock';
 import CambiarContraseña from "./CambiarContraseña";
 import Estadisticas from "./PerfilAdministrador/Estadisticas";
+import ArticleIcon from '@mui/icons-material/Article';
+import Articulos from "./PerfilAdministrador/Articulos";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -181,8 +183,15 @@ const menuOptionsAdmin = [
     renderSection: <Newsletter />
   
   },
- {
+  {
     id:"7",
+    name: "articulos",
+    Icon: ArticleIcon,
+    text: "Artículos",
+    renderSection: <Articulos />
+  },
+ {
+    id:"8",
     name: "estadisticas",
     Icon: BarChartIcon,
     text: "Estadísticas",
