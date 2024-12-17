@@ -1,4 +1,4 @@
-import { Card, CardHeader, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { Button, Card, CardHeader, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React from 'react'
 
 export default function Articulos() {
@@ -29,23 +29,17 @@ export default function Articulos() {
                             <TableCell align="center">01/01/2021</TableCell>
                             <TableCell align="center">Admin</TableCell>
                             <TableCell align="center">Publicado</TableCell>
-                            <TableCell align="center">Editar</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell align="center">2</TableCell>
-                            <TableCell align="center">Articulo 2</TableCell>
-                            <TableCell align="center">01/01/2021</TableCell>
-                            <TableCell align="center">Admin</TableCell>
-                            <TableCell align="center">Publicado</TableCell>
-                            <TableCell align="center">Editar</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell align="center">3</TableCell>
-                            <TableCell align="center">Articulo 3</TableCell>
-                            <TableCell align="center">01/01/2021</TableCell>
-                            <TableCell align="center">Admin</TableCell>
-                            <TableCell align="center">Publicado</TableCell>
-                            <TableCell align="center">Editar</TableCell>
+                            <TableCell align="center">
+                                <Button variant="contained" color="success" sx={{
+                                    margin: "0.5rem"
+                                }}>Ver</Button>
+                                <Button variant="contained" color="warning" sx={{
+                                    margin: "0.5rem"
+                                }}>Editar</Button>
+                                <Button variant="outlined" color="error" sx={{
+                                    margin: "0.5rem"
+                                }}>Eliminar</Button>
+                            </TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>
