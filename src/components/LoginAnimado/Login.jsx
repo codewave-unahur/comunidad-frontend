@@ -149,6 +149,10 @@ const Login = () => {
           } else if (response.grupo === 3) {
             datosUsuario = {};
             tipoUsuario = "admin";
+          }
+            else if (response.grupo === 4) {
+            datosUsuario = {};
+            tipoUsuario = "graduado";
           } else {
             toast.error("Usuario o contraseña incorrectos");
             return;
