@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -29,14 +29,21 @@ const theme = createTheme({
 });
 
 const ArticlePage = () => {
+
+  const [titulo, setTitulo] = useState("");
+  const [etiquetas, setEtiquetas] = useState([]);
+  const [contenido, setContenido] = useState("");
+
+
+
   const title = "Lorem Ipsum Dolor Sit Amet";
   const tags = ["Actualidad", "Tecnología", "Opinión"];
 
-  const contenido = `
+  const content = `
   <p>Sed convallis, ipsum nec sagittis <b>porttitor</b>, nisi urna efficitur mauris, ut viverra nisi eros eget arcu. Integer nec neque a metus vulputate finibus. Praesent interdum ultricies quam, non facilisis sapien fermentum a. <strong style="color: rgb(255, 255, 0); background-color: rgb(0, 138, 0);">Vivamus suscipit</strong>, tortor sed posuere pellentesque, erat eros interdum ligula, eu lacinia libero magna sed orci.</p>
   `;
 
-  const cleanHtml = DOMPurify.sanitize(contenido);
+  const cleanHtml = DOMPurify.sanitize(content);
 
 
 
