@@ -3,9 +3,6 @@ import React from 'react'
 
 export default function Articulos() {
 
-    
-
-
   return (
     <>
         <Card type="section" elevation={8}>

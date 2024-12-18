@@ -31,7 +31,6 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 export default function Newsletter() {
   const [open, setOpen] = useState(false);
-
   const [asunto, setAsunto] = useState("");
   const [titulo, setTitulo] = useState("");
   const [algo, setAlgo] = useState("");

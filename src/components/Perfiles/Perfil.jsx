@@ -58,6 +58,8 @@ import CambiarContraseña from "./CambiarContraseña";
 import Estadisticas from "./PerfilAdministrador/Estadisticas";
 import ArticleIcon from '@mui/icons-material/Article';
 import Articulos from "./PerfilAdministrador/Articulos";
+import VerArticulos from "./PerfilGraduado/VerArticulos";
+import CrearArticulo from "./PerfilGraduado/CrearArticulo";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -199,6 +201,23 @@ const menuOptionsAdmin = [
  }
 ];
 
+const menuOptionsGraduado = [
+  {
+    id: "1",
+    name: "VerArticulos",
+    Icon: ArticleIcon,
+    text: "Ver Artículos",
+    renderSection: <VerArticulos />
+  },
+  {
+    id: "2",
+    name: "CrearArticulo",
+    Icon: PostAddIcon,
+    text: "Crear Artículo",
+    renderSection: <CrearArticulo />
+  }
+]
+
 function Perfil() {
 
   const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
@@ -273,6 +292,8 @@ function Perfil() {
         return menuOptionsEmpresa;
       case "admin":
         return menuOptionsAdmin;
+      case "graduado":
+        return menuOptionsGraduado;
       default:
         return menuOptionsPostulante;
     }
