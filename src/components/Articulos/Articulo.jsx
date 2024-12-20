@@ -65,7 +65,7 @@ const ArticlePage = () => {
       <Header />
       <Container maxWidth="md">
         <Box sx={{ mt: 4, mb: 6 }}>
-          <Typography variant="h2" color="primary" gutterBottom>
+          <Typography variant="h3" gutterBottom >
             {title}
           </Typography>
           <Box
@@ -99,6 +99,12 @@ const ArticlePage = () => {
             sapien fermentum a. Vivamus suscipit, tortor sed posuere
             pellentesque, erat eros interdum ligula, eu lacinia libero magna sed
             orci.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Lorem ipsum dolor sit amet <a href="#">oasis</a> adipisicing elit. Veritatis ut perferendis laboriosam error ratione modi ullam, recusandae dolore amet cum quam quis, reprehenderit delectus ipsam eveniet voluptates labore saepe minima.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis ut perferendis laboriosam error ratione modi ullam, recusandae dolore amet cum quam quis, reprehenderit delectus ipsam eveniet voluptates labore saepe minima.
           </Typography>
         </Box>
       </Container>
