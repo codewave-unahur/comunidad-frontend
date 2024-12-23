@@ -5,6 +5,7 @@ import { useState } from "react";
 import Paginacion from "../Paginacion/Paginacion";
 import Footer from "../Footer/Footer.jsx";
 import CarouselBootstrap from "./Carousel/CarouselBootstrap.jsx";
+import Noticias from "./Noticias/Noticias.jsx";
 
 const Inicio = () => {
   const [ofertas, setOfertas] = useState([]);
@@ -27,7 +28,9 @@ const Inicio = () => {
         totalPaginas={totalPaginas}
         cambiarPagina={setPaginaActual}
       />
+      <Noticias />
       <Footer />
+
     </>
   );
 };

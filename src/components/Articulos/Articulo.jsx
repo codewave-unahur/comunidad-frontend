@@ -68,6 +68,9 @@ const ArticlePage = () => {
           <Typography variant="h3" gutterBottom >
             {title}
           </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            12 de octubre de 2021
+          </Typography>
           <Box
             component="img"
             src="https://via.placeholder.com/800x400" // Reemplazar con la URL de tu imagen
