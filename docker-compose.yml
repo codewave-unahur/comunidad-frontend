@@ -1,18 +1,13 @@
 services:
   frontend:
-    container_name: bolsadetrabajo-frontend
+    container_name: bolsa-front
     restart: unless-stopped
-    image: bolsadetrabajo-frontend:v1.0.0
+    image: bolsa-front:v1.0.0
     build:
       context: .
       dockerfile: Dockerfile
-      target: production
-      args:
-        - VITE_PORT=${VITE_PORT}
-        - NODE_ENV=production
-
     ports:
-      - "${VITE_PORT}:${VITE_PORT}"
+      - "${VITE_PORT}:80"
     env_file:
       - .env
     environment:

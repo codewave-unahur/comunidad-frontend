@@ -1,34 +1,22 @@
-FROM node:20.15.0-alpine3.20 AS base
+FROM node:20.15.0-alpine3.20 AS build
 
-ENV DIR /app
+WORKDIR /app
 
-WORKDIR $DIR
+COPY package*.json vite.config.js ./
 
-FROM base AS build
-
-COPY package*.json ./
-COPY vite.config.js ./
-
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci
 
 COPY . .
 
-RUN npm run build && \
-    npm prune --production
+RUN npm run build
 
-FROM base AS production
+FROM nginx:alpine AS production
 
-ENV USER node
+COPY --from=build /app/dist /usr/share/nginx/html
 
-RUN npm install -g serve
+# Copiar la configuración de Nginx Opcional
+#COPY nginx.conf /etc/nginx/nginx.conf
+ 
+EXPOSE 80
 
-COPY --from=build /app/dist /app/dist
-COPY --from=build /app/node_modules /app/node_modules
-COPY package.json .
-
-EXPOSE $VITE_PORT
-
-USER $USER
-
-CMD ["serve", "-s", "dist", "-l", "8080"]
-
+CMD ["nginx", "-g", "daemon off;"]
