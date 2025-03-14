@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { Card, CardMedia, Box, Typography, Button } from "@mui/material";
+import { Card, CardMedia, Box, Typography, Button } from "@mui/material"
+import { useNavigate } from "react-router-dom";
 
 const CustomCard = () => {
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -9,11 +12,12 @@ const CustomCard = () => {
         sx={{
           display: "flex",
           justifyContent: "space-evenly",
+          flexWrap: "wrap",
           alignItems: "center",
           marginBottom: "20px",
         }}
       >
-        <Card sx={{ width: 290, position: "relative" }}>
+        <Card sx={{ width: 290, position: "relative" }} onClick={()=>{navigate("/articulo/1"); window.scrollTo(0, 0);}}>
           {/* Imagen */}
           <CardMedia
             component="img"
@@ -52,7 +56,7 @@ const CustomCard = () => {
             </Typography>
           </Box>
         </Card>
-        <Card sx={{ width: 290, position: "relative" }}>
+        <Card sx={{ width: 290, position: "relative" }} onClick={()=>{navigate("/articulo/1"); window.scrollTo(0, 0);}}>
           {/* Imagen */}
           <CardMedia
             component="img"
@@ -91,7 +95,7 @@ const CustomCard = () => {
             </Typography>
           </Box>
         </Card>
-        <Card sx={{ width: 290, position: "relative" }}>
+        <Card sx={{ width: 290, position: "relative" }} onClick={()=>{navigate("/articulo/1"); window.scrollTo(0, 0);}}>
           {/* Imagen */}
           <CardMedia
             component="img"
@@ -130,7 +134,7 @@ const CustomCard = () => {
             </Typography>
           </Box>
         </Card>
-        <Card sx={{ width: 290, position: "relative" }}>
+        <Card sx={{ width: 290, position: "relative" }} onClick={()=>{navigate("/articulo/1"); window.scrollTo(0, 0);}}>
           {/* Imagen */}
           <CardMedia
             component="img"
