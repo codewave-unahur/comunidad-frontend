@@ -176,7 +176,8 @@ const CustomCard = () => {
       </Box>
       <Box sx={{
         display:"flex",
-        justifyContent:"center"
+        justifyContent:"center",
+        margin: "2rem"
       }}>
         <Button variant="outlined">
             MAS NOTICIAS
