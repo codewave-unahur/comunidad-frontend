@@ -73,7 +73,7 @@ const ArticlePage = () => {
           </Typography>
           <Box
             component="img"
-            src="https://via.placeholder.com/800x400" // Reemplazar con la URL de tu imagen
+            src="https://unahur.edu.ar/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-20-at-10.40.42-980x653.jpeg" // Reemplazar con la URL de tu imagen
             alt="Encabezado del artículo"
             sx={{
               width: "100%",

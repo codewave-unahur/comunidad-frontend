@@ -21,7 +21,7 @@ const CustomCard = () => {
           {/* Imagen */}
           <CardMedia
             component="img"
-            image="https://via.placeholder.com/290x180"
+            image="https://unahur.edu.ar/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-20-at-10.40.42-980x653.jpeg"
             alt="Imagen"
             sx={{ width: 290, height: 180 }}
           />
@@ -60,7 +60,7 @@ const CustomCard = () => {
           {/* Imagen */}
           <CardMedia
             component="img"
-            image="https://via.placeholder.com/290x180"
+            image="https://unahur.edu.ar/wp-content/uploads/2025/01/beca-manuel-belgrano_foto-980x653.jpg"
             alt="Imagen"
             sx={{ width: 290, height: 180 }}
           />
@@ -99,7 +99,7 @@ const CustomCard = () => {
           {/* Imagen */}
           <CardMedia
             component="img"
-            image="https://via.placeholder.com/290x180"
+            image="https://unahur.edu.ar/wp-content/uploads/2025/03/TEC-980x551.png"
             alt="Imagen"
             sx={{ width: 290, height: 180 }}
           />
@@ -138,7 +138,7 @@ const CustomCard = () => {
           {/* Imagen */}
           <CardMedia
             component="img"
-            image="https://via.placeholder.com/290x180"
+            image="https://unahur.edu.ar/wp-content/uploads/2025/03/IMG_7588-1-980x653.jpg"
             alt="Imagen"
             sx={{ width: 290, height: 180 }}
           />
@@ -177,13 +177,8 @@ const CustomCard = () => {
       <Box sx={{
         display:"flex",
         justifyContent:"center"
-        
-        
       }}>
-        <Button variant="outlined" 
-        sx={{
-            color:"#281ac2"
-        }}>
+        <Button variant="outlined">
             MAS NOTICIAS
         </Button>
       </Box>
