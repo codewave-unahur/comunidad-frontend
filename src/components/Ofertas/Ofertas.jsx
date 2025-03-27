@@ -36,7 +36,7 @@ const Ofertas = (props) => {
   const nombreBusqueda = window.location.search.split("=")[1] || "";
 
   const [postulaciones, setPostulaciones] = useState([]);
-  const limite = 12;
+  const limite = 3;
   const [loading, setLoading] = useState(true);
 
 
@@ -197,6 +197,7 @@ const Ofertas = (props) => {
               "@media (max-width: 450px)": {
                 height: 400,
               },
+
             }}
           >
             <CardHeader

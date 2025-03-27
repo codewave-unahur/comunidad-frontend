@@ -179,9 +179,7 @@ const CustomCard = () => {
         justifyContent:"center",
         margin: "2rem"
       }}>
-        <Button variant="outlined">
-            MAS NOTICIAS
-        </Button>
+        
       </Box>
     </>
   );
