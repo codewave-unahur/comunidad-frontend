@@ -85,18 +85,11 @@ export default function CrearArticulo() {
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label="Tags"
-              variant="outlined"
-              required
-              onChange={handleTags}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
               type="file"
               label="Portada"
               variant="outlined"
+              
+              InputLabelProps={{ shrink: true }}
               required
               onChange={handlePortada}
             />
