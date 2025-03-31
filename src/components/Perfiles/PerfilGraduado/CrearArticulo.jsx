@@ -11,7 +11,6 @@ import ReactQuill from "react-quill";
 
 export default function CrearArticulo() {
   const [titulo, setTitulo] = useState("");
-  const [tags, setTags] = useState([]);
   const [contenido, setContenido] = useState("");
   const [portada, setPortada] = useState(null);
 
@@ -43,10 +42,6 @@ export default function CrearArticulo() {
 
   const handleTitulo = (e) => {
     setTitulo(e.target.value);
-  };
-
-  const handleTags = (e) => {
-    setTags(e.target.value);
   };
 
   const handleContenido = (e) => {
@@ -99,7 +94,7 @@ export default function CrearArticulo() {
               modules={modules}
               formats={formats}
               placeholder="Escribe tu articulo"
-              onChange={(e) => setContenido(e)}
+              onChange={handleContenido}
             />
           </Grid>
           <Grid item xs={12}>
