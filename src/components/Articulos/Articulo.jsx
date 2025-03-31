@@ -12,6 +12,7 @@ import { Helmet } from "react-helmet"; // Para SEO
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import DOMPurify from 'dompurify';
+import SocialShareButtons from "./SocialShareButtons";
 
 // Tema personalizado
 const theme = createTheme({
@@ -82,7 +83,7 @@ const ArticlePage = () => {
               mb: 3,
             }}
           />
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 2, display: "flex", flexWrap: "wrap", gap: 1, alignItems: "center" }}>
             {tags.map((tag, index) => (
               <Chip
                 key={index}
@@ -91,6 +92,7 @@ const ArticlePage = () => {
                 sx={{ mr: 1, mb: 1 }}
               />
             ))}
+            <SocialShareButtons/>
           </Box>
           <Typography variant="body1" paragraph>
             <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
