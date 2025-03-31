@@ -13,6 +13,7 @@ export default function CrearArticulo() {
   const [titulo, setTitulo] = useState("");
   const [tags, setTags] = useState([]);
   const [contenido, setContenido] = useState("");
+  const [portada, setPortada] = useState(null);
 
   const modules = {
     toolbar: [
@@ -56,6 +57,17 @@ export default function CrearArticulo() {
     console.log(contenido);
   };
 
+  const handlePortada = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPortada(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   return (
     <>
       <Card type="section" elevation={8}>
@@ -77,6 +89,16 @@ export default function CrearArticulo() {
               variant="outlined"
               required
               onChange={handleTags}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              type="file"
+              label="Portada"
+              variant="outlined"
+              required
+              onChange={handlePortada}
             />
           </Grid>
           <Grid item xs={12}>
