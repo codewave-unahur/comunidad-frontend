@@ -8,11 +8,19 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
+import { postArticulo } from "../../../services/articulos_service";
+import { useNavigate } from "react-router-dom";
+import { toast, Toaster } from "sonner";
+
 
 export default function CrearArticulo() {
   const [titulo, setTitulo] = useState("");
   const [contenido, setContenido] = useState("");
   const [portada, setPortada] = useState(null);
+  const [autor, setAutor] = useState("Juan");
+
+  const navigate = useNavigate();
+  
 
   const modules = {
     toolbar: [
@@ -40,28 +48,49 @@ export default function CrearArticulo() {
     "image",
   ];
 
+   
+
   const handleTitulo = (e) => {
     setTitulo(e.target.value);
-  };
+  }
 
-  const handleContenido = (e) => {
-    setContenido(e.target.value);
-  };
-
-  const crearArticulo = () => {
-    console.log(contenido);
-  };
+  const handleContenido = (value) => {
+    setContenido(value);
+  }
 
   const handlePortada = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPortada(reader.result);
-      };
-      reader.readAsDataURL(file);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPortada(reader.result);
     }
+    reader.readAsDataURL(file);
   }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const datos = {
+      titulo: titulo,
+      portada: portada,
+      contenido: contenido,
+      autor: "Juan Parez",
+    };
+  
+    try {
+      const response = await postArticulo(datos);
+      console.log("Artículo creado:", response);
+      toast.success("Artículo creado con éxito");
+      setTimeout(() => {
+        navigate("/perfil");
+      }, 2000);
+    } catch (error) {
+      console.error("Error al crear el artículo:", error);
+    }
+  };
+
+
+
 
   return (
     <>
@@ -98,12 +127,13 @@ export default function CrearArticulo() {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={crearArticulo}>
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
               Crear
             </Button>
           </Grid>
         </Grid>
       </Card>
+      <Toaster/>
     </>
   );
 }

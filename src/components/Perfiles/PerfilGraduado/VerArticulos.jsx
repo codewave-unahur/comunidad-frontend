@@ -1,11 +1,29 @@
-import React from 'react'
-import { Button, Card, CardHeader, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-
+import { Button, Card, CardHeader, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
+import { useState } from 'react'
 
 
 export default function VerArticulos() {
+    const [articulos, setArticulos] = useState([])
+    const [paginaActual, setPaginaActual] = useState(1)   
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 4; // Número de noticias por página
+
+    const handleChange = (event, value) => {
+        setPage(value);
+    };
+
+    // Calcular las noticias a mostrar en la página actual
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const articulosPaginados = articulos.slice(startIndex, endIndex);
+
+
+    
+
+
   return (
         <>
+        <Box>
             <Card type="section" elevation={8}>
                 <CardHeader title="Articulos" />
                 <TableContainer>
@@ -40,7 +58,13 @@ export default function VerArticulos() {
                     </Table>
                 </TableContainer>
             </Card>
-    
+            <Pagination
+                      count={Math.ceil(articulos.length / itemsPerPage)} // Número total de páginas
+                      page={page}
+                      onChange={handleChange}
+                      
+                    />
+            </Box>
         </>
   )
 }
