@@ -32,7 +32,7 @@ export async function getArticulos() {
 
 export async function getArticulo(id) {
     try {
-        const response = await axios.get(`${config.apiUrl}/articulos/${id}`);
+        const response = await axios.get(`${config.apiUrl}/articulo/obtener-articulos/${id}`);
         return response.data;
     } catch (error) {
         console.error(error);

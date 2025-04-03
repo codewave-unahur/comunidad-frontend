@@ -74,7 +74,7 @@ export default function CrearArticulo() {
       titulo: titulo,
       portada: portada,
       contenido: contenido,
-      autor: "Juan Parez",
+      autor: "Graduados UNAHUR",
     };
   
     try {

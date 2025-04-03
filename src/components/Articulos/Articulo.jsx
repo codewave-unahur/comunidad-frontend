@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
-  Chip,
   Container,
   CssBaseline,
   createTheme,
@@ -13,7 +12,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import DOMPurify from 'dompurify';
 import SocialShareButtons from "./SocialShareButtons";
-
+import { getArticulo } from "../../services/articulos_service";
 // Tema personalizado
 const theme = createTheme({
   palette: {
@@ -29,30 +28,38 @@ const theme = createTheme({
   },
 });
 
+
+
 const ArticlePage = () => {
 
-  const [titulo, setTitulo] = useState("");
-  const [etiquetas, setEtiquetas] = useState([]);
-  const [contenido, setContenido] = useState("");
+  const [articulo, setArticulo] = useState([]);
+  const idArticulo = window.location.pathname.split("/").pop();
 
 
 
-  const title = "Lorem Ipsum Dolor Sit Amet";
-  const tags = ["Actualidad", "Tecnología", "Opinión"];
+  const cleanHtml = DOMPurify.sanitize(articulo.contenido);
 
-  const content = `
-  <p>Sed convallis, ipsum nec sagittis <b>porttitor</b>, nisi urna efficitur mauris, ut viverra nisi eros eget arcu. Integer nec neque a metus vulputate finibus. Praesent interdum ultricies quam, non facilisis sapien fermentum a. <strong style="color: rgb(255, 255, 0); background-color: rgb(0, 138, 0);">Vivamus suscipit</strong>, tortor sed posuere pellentesque, erat eros interdum ligula, eu lacinia libero magna sed orci.</p>
-  `;
 
-  const cleanHtml = DOMPurify.sanitize(content);
-
+  useEffect(() => {
+    const fetchArticulo = async () => {
+      try {
+        const response = await getArticulo(idArticulo);
+        setArticulo(response.articulo);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchArticulo();
+    console.log(articulo)
+  }
+  , [idArticulo]);
 
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Helmet>
-        <title>{title}</title>
+        <title>as</title>
         <meta
           name="description"
           content="Este es un artículo de noticias sobre temas actuales y tecnológicos."
@@ -67,14 +74,14 @@ const ArticlePage = () => {
       <Container maxWidth="md">
         <Box sx={{ mt: 4, mb: 6 }}>
           <Typography variant="h3" gutterBottom >
-            {title}
+            {articulo.titulo}
           </Typography>
           <Typography variant="subtitle1" gutterBottom>
-            12 de octubre de 2021
+            {new Date(articulo.createdAt).toLocaleDateString()} por {articulo.autor}
           </Typography>
           <Box
             component="img"
-            src="https://unahur.edu.ar/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-20-at-10.40.42-980x653.jpeg" // Reemplazar con la URL de tu imagen
+            src={articulo.portada} // Reemplazar con la URL de tu imagen
             alt="Encabezado del artículo"
             sx={{
               width: "100%",
@@ -84,32 +91,10 @@ const ArticlePage = () => {
             }}
           />
           <Box sx={{ mb: 2, display: "flex", flexWrap: "wrap", gap: 1, alignItems: "center" }}>
-            {tags.map((tag, index) => (
-              <Chip
-                key={index}
-                label={tag}
-                color="secondary"
-                sx={{ mr: 1, mb: 1 }}
-              />
-            ))}
             <SocialShareButtons/>
           </Box>
           <Typography variant="body1" paragraph>
             <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
-          </Typography>
-          <Typography variant="body1" paragraph>
-            Sed convallis, ipsum nec sagittis porttitor, nisi urna efficitur
-            mauris, ut viverra nisi eros eget arcu. Integer nec neque a metus
-            vulputate finibus. Praesent interdum ultricies quam, non facilisis
-            sapien fermentum a. Vivamus suscipit, tortor sed posuere
-            pellentesque, erat eros interdum ligula, eu lacinia libero magna sed
-            orci.
-          </Typography>
-          <Typography variant="body1" paragraph>
-            Lorem ipsum dolor sit amet <a href="#">oasis</a> adipisicing elit. Veritatis ut perferendis laboriosam error ratione modi ullam, recusandae dolore amet cum quam quis, reprehenderit delectus ipsam eveniet voluptates labore saepe minima.
-          </Typography>
-          <Typography variant="body1" paragraph>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis ut perferendis laboriosam error ratione modi ullam, recusandae dolore amet cum quam quis, reprehenderit delectus ipsam eveniet voluptates labore saepe minima.
           </Typography>
         </Box>
       </Container>
