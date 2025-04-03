@@ -23,7 +23,7 @@ export async function postArticulo(datosArticulo) {
 
 export async function getArticulos() {
     try {
-        const response = await axios.get(`${config.apiUrl}/articulos`);
+        const response = await axios.get(`${config.apiUrl}/articulo/obtener-articulos`);
         return response.data;
     } catch (error) {
         console.error(error);

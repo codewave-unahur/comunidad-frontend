@@ -1,40 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardMedia, Box, Typography, Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { getArticulos } from "../../../services/articulos_service";
 
 const CustomCard = () => {
   const navigate = useNavigate();
 
-  const noticias = [
-    {
-      id: 1,
-      titulo: "Lorem ipsum dolor sit amet consectetur adipisicing aliquid provident ?",
-      imagen: "https://unahur.edu.ar/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-20-at-10.40.42-980x653.jpeg",
-    },
-    {
-      id: 2,
-      titulo: "Noticia 2",
-      imagen: "https://unahur.edu.ar/wp-content/uploads/2025/01/beca-manuel-belgrano_foto-980x653.jpg",
-    },
-    {
-      id: 3,
-      titulo: "Pablito clavo un clavito, que clavito clavo pablito ?",
-      imagen: "https://unahur.edu.ar/wp-content/uploads/2025/03/TEC-980x551.png",
-    },
-    {
-      id: 4,
-      titulo: "Loreme ipsum dolor sit amet consectetur adipisicing aliquid provident ?",
-      imagen: "https://unahur.edu.ar/wp-content/uploads/2025/03/IMG_7588-1-980x653.jpg",
-    },
-    {
-      id: 5,
-      titulo: "LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISICING ELIT. ?",
-      imagen: "https://unahur.edu.ar/wp-content/uploads/2025/03/WhatsApp-Image-2025-03-20-at-10.40.42-980x653.jpeg",
-    },
-  ];
+  const [noticias, setNoticias] = useState([]);
 
   const [page, setPage] = useState(1);
   const itemsPerPage = 4; // Número de noticias por página
+
+  useEffect(() => {
+    const fetchArticulos = async () => {
+      try {
+        const response = await getArticulos();
+        setNoticias(response.articulos);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchArticulos();
+  }, []);
 
   const handleChange = (event, value) => {
     setPage(value);
@@ -68,7 +55,7 @@ const CustomCard = () => {
             {/* Imagen */}
             <CardMedia
               component="img"
-              image={noticia.imagen}
+              image={noticia.portada}
               alt="Imagen"
               sx={{ width: 290, height: 180 }}
             />
