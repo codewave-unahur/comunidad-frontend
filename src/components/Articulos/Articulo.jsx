@@ -59,7 +59,7 @@ const ArticlePage = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Helmet>
-        <title>as</title>
+        <title>{articulo.titulo}</title>
         <meta
           name="description"
           content="Este es un artículo de noticias sobre temas actuales y tecnológicos."

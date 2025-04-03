@@ -1,13 +1,14 @@
 import { Box, Button, Card, CardHeader, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { getArticulos } from '../../../services/articulos_service'
+import { useNavigate } from 'react-router-dom'
 
 export default function VerArticulos() {
     const [articulos, setArticulos] = useState([])
-    const [paginaActual, setPaginaActual] = useState(1)   
     const [page, setPage] = useState(1);
     const itemsPerPage = 4; // Número de noticias por página
 
+    const navigate = useNavigate()
     const handleChange = (event, value) => {
         setPage(value);
     };
@@ -29,11 +30,6 @@ export default function VerArticulos() {
         fetchArticulos()
     }
     , [])
-
-    const fecha = new Date()
-    
-
-
 
   return (
         <>
@@ -60,7 +56,7 @@ export default function VerArticulos() {
                                     <TableCell align="center">{new Date(articulo.createdAt).toLocaleDateString()}</TableCell>
                                     <TableCell align="center">{articulo.autor}</TableCell>
                                     <TableCell align="center">
-                                        <Button variant="contained" color="success" sx={{
+                                        <Button variant="contained" href={`/articulo/${articulo.id}`} color="success" sx={{
                                             margin: "0.5rem"
                                         }}>Ver</Button>
                                         <Button variant="contained" color="warning" sx={{
