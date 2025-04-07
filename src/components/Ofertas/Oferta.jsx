@@ -132,7 +132,7 @@ const Oferta = () => {
         const postulacion = {
           postulante: datosUsuario.id,
           oferta: oferta.id,
-          empresa: oferta.Empresa?.id,
+          empresa: oferta.Empresas?.id,
         };
         try {
           const response = await postPostulacion(postulacion, token);
@@ -202,8 +202,8 @@ const Oferta = () => {
           ) : (
             <>
               <Avatar
-                src={oferta.Empresa?.logo}
-                alt={oferta.Empresa?.nombre_empresa}
+                src={oferta.Empresas?.logo}
+                alt={oferta.Empresas?.nombre_empresa}
                 sx={{
                   position: "absolute",
                   right: "2rem",
@@ -299,10 +299,10 @@ const Oferta = () => {
                 </Typography>
                 <List>
                   <ListItem>
-                    <ListItemText primary={oferta.Empresa?.nombre_empresa} />
+                    <ListItemText primary={oferta.Empresas?.nombre_empresa} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary={oferta.Empresa?.descripcion} />
+                    <ListItemText primary={oferta.Empresas?.descripcion} />
                   </ListItem>
                 </List>
                 <Divider sx={{ marginTop: "1rem" }} />
