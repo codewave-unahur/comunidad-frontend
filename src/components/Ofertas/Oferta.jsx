@@ -510,7 +510,7 @@ const Oferta = () => {
                       }}
                     />
                     <ListItemText
-                      primary={oferta.Contrato?.nombre_contrato}
+                      primary={oferta.Contratos?.nombre_contrato}
                       secondary="Tipo de contrato"
                     />
                   </ListItem>
@@ -523,7 +523,7 @@ const Oferta = () => {
                       }}
                     />
                     <ListItemText
-                      primary={oferta.Jornada?.nombre_jornada}
+                      primary={oferta.Jornadas?.nombre_jornada}
                       secondary="Jornada"
                     />
                   </ListItem>
