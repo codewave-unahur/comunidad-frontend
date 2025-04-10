@@ -209,16 +209,16 @@ const VerOfertas = () => {
                       sx={{
                         verticalAlign: "middle",
                         color:
-                          oferta.Estado.nombre_estado === "activa"
+                          oferta.EstadoOfertas.nombre_estado === "activa"
                             ? "#28a745"
-                            : oferta.Estado.nombre_estado === "observada"
+                            : oferta.EstadoOfertas.nombre_estado === "observada"
                             ? "red"
-                            : oferta.Estado.nombre_estado === "pendiente"
+                            : oferta.EstadoOfertas.nombre_estado === "pendiente"
                             ? "orange"
                             : "black",
                       }}
                     />
-                    {oferta.Estado.nombre_estado}
+                    {oferta.EstadoOfertas.nombre_estado}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">
@@ -248,7 +248,7 @@ const VerOfertas = () => {
                         borderColor: "#28a745",
                       },
                     }}
-                    disabled={oferta.Estado.nombre_estado === "pendiente" || oferta.Estado.nombre_estado === "observada"}
+                    disabled={oferta.EstadoOfertas.nombre_estado === "pendiente" || oferta.EstadoOfertas.nombre_estado === "observada"}
                     href={`/postulantes/${oferta.id}`}
                   >
                     Ver postulantes

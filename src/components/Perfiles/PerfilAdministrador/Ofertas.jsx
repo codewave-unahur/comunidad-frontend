@@ -376,7 +376,7 @@ const Ofertas = () => {
                   </Typography>
                 </TableCell>
                 <TableCell align="center">
-                  {estadoMap[oferta.Estado.nombre_estado].actions(oferta)}
+                  {estadoMap[oferta.EstadoOfertas.nombre_estado].actions(oferta)}
                 </TableCell>
               </TableRow>
             ))}
