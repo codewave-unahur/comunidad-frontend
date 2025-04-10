@@ -322,7 +322,7 @@ const Oferta = () => {
                       <>
                         Rubro:
                         <br />
-                        {oferta.RubroOferta?.nombre || "No especificado"}
+                        {oferta.RubrosOfertas?.nombre || "No especificado"}
                       </>
                     } />
                   </ListItem>
@@ -376,7 +376,7 @@ const Oferta = () => {
                     <ListItemText
                       primary={
                         "Estudios mínimos: " +
-                        oferta.Estudio?.nombre_estudio
+                        oferta.Estudios?.nombre_estudio
                       }
                     />
                   </ListItem>
