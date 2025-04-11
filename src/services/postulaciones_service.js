@@ -111,6 +111,25 @@ export async function putPostulacion(idPostulacion, postulacion, token) {
   }
 }
 
+export async function putCvVisto(id) {
+  try {
+    const response = await axios.put(
+      `${config.apiUrl}/postulaciones/cv-visto/${id}`,
+      {}, // Cuerpo de la solicitud, que puede ser un objeto vacío si no hay datos que enviar
+      {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      }
+    );
+    return response.data;
+  }
+  catch (error) {
+    console.error(error);
+  }
+}
+
+
 // Delete de postulación
 
 export async function deletePostulacion(idPostulacion, token) {

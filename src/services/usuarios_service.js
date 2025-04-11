@@ -63,3 +63,16 @@ export async function cambiarPassword(passwordActual, passwordNueva) {
     console.error(error);
   }
 }
+
+export async function aceptarTerminos(id) {
+  try {
+    const response = await axios.put(
+      `${config.apiUrl}/usuarios/${id}/aceptar-terminos`,
+      {},
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+

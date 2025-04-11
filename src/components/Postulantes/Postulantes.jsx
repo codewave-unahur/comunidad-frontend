@@ -20,6 +20,7 @@ import {
   TableContainer,
   IconButton,
   Icon,
+  Tab,
 } from "@mui/material";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
@@ -41,6 +42,7 @@ import {
 } from "../../services/postulacionesId_service";
 import { getOfertaById } from "../../services/ofertas_service";
 import { EncryptStorage } from "encrypt-storage";
+import { putCvVisto } from "../../services/postulaciones_service";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
@@ -157,6 +159,21 @@ const Postulantes = () => {
     }
   };
 
+  const handleCvVisto = async (id) => {
+    try {
+      const response = await putCvVisto(id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  const formatoFecha = (fecha) => {
+    const date = new Date(fecha);
+    return date.toLocaleDateString();
+  }
+
+
   return (
     <>
       <Header />
@@ -198,7 +215,7 @@ const Postulantes = () => {
                     <Typography variant="h5">DNI</Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography variant="h5">Teléfono</Typography>
+                    <Typography variant="h5">Fecha de Postulación</Typography>
                   </TableCell>
                   <TableCell align="center">
                     <Typography variant="h5">CV</Typography>
@@ -210,10 +227,16 @@ const Postulantes = () => {
                   </TableCell>
                   {
                     tipoUsuario === "admin" ? (
+                      <>
                       <TableCell align="center">
                         <Typography variant="h5">Evaluación de la empresa </Typography>
                       </TableCell>
+                      <TableCell align="center">
+                        <Typography variant="h5">Visto por la empresa</Typography>
+                      </TableCell>
+                      </>
                     ) : null
+                      
                     
                   }
                   <TableCell align="center">
@@ -241,7 +264,7 @@ const Postulantes = () => {
                     </TableCell>
                     <TableCell align="center">
                       <Typography variant="subtitle1">
-                        {postulacion.Postulante?.telefono}
+                        {formatoFecha(postulacion.createdAt)}
                       </Typography>
                     </TableCell>
                     <TableCell align="center">
@@ -256,6 +279,7 @@ const Postulantes = () => {
                           },
                         }}
                         disabled={!postulacion.Postulante?.cv}
+                        onClick={tipoUsuario === "empresa" ? () => handleCvVisto(postulacion.id) : null}
                       >
                         <PictureAsPdfIcon />
                       </IconButton>
@@ -304,6 +328,7 @@ const Postulantes = () => {
                       </Icon>
                     </TableCell>
                     {tipoUsuario === "admin" ? 
+                    <>
                     <TableCell align="center">
                       {
                         postulacion.Estado.nombre_estado === "aceptado" ? (
@@ -326,7 +351,26 @@ const Postulantes = () => {
                           />
                         )
                       }
-                    </TableCell> : null}
+                    </TableCell> 
+                    <TableCell align="center">
+                      {
+                        postulacion.cv_visto ? (
+                          <CheckOutlinedIcon
+                            sx={{
+                              color: "#28a745",
+                            }}
+                          />
+                        ) : (
+                          <CloseOutlinedIcon
+                            sx={{
+                              color: "red",
+                            }}
+                          />
+                        )
+                      }
+                    </TableCell>
+                    </>
+                    : null}
                     <TableCell align="center">
                       <Button
                         variant="contained"
@@ -339,6 +383,7 @@ const Postulantes = () => {
                           },
                         }}
                         href={`/postulante/${postulacion.Postulante?.id}`}
+                        onClick={tipoUsuario === "empresa" ? () => handleCvVisto(postulacion.id) : null}
                       >
                         Ver perfil
                       </Button>

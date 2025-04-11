@@ -132,7 +132,7 @@ const Oferta = () => {
         const postulacion = {
           postulante: datosUsuario.id,
           oferta: oferta.id,
-          empresa: oferta.Empresa?.id,
+          empresa: oferta.Empresas?.id,
         };
         try {
           const response = await postPostulacion(postulacion, token);
@@ -140,7 +140,7 @@ const Oferta = () => {
             toast.success("Postulación exitosa");
             setTimeout(() => {
               window.location.reload();
-            }, 1000);
+            }, 200);
           }
         } catch (error) {
           console.log(error);        
@@ -202,8 +202,8 @@ const Oferta = () => {
           ) : (
             <>
               <Avatar
-                src={oferta.Empresa?.logo}
-                alt={oferta.Empresa?.nombre_empresa}
+                src={oferta.Empresas?.logo}
+                alt={oferta.Empresas?.nombre_empresa}
                 sx={{
                   position: "absolute",
                   right: "2rem",
@@ -299,10 +299,10 @@ const Oferta = () => {
                 </Typography>
                 <List>
                   <ListItem>
-                    <ListItemText primary={oferta.Empresa?.nombre_empresa} />
+                    <ListItemText primary={oferta.Empresas?.nombre_empresa} />
                   </ListItem>
                   <ListItem>
-                    <ListItemText primary={oferta.Empresa?.descripcion} />
+                    <ListItemText primary={oferta.Empresas?.descripcion} />
                   </ListItem>
                 </List>
                 <Divider sx={{ marginTop: "1rem" }} />
@@ -322,7 +322,7 @@ const Oferta = () => {
                       <>
                         Rubro:
                         <br />
-                        {oferta.RubroOferta?.nombre || "No especificado"}
+                        {oferta.RubrosOfertas?.nombre || "No especificado"}
                       </>
                     } />
                   </ListItem>
@@ -376,7 +376,7 @@ const Oferta = () => {
                     <ListItemText
                       primary={
                         "Estudios mínimos: " +
-                        oferta.Estudio?.nombre_estudio
+                        oferta.Estudios?.nombre_estudio
                       }
                     />
                   </ListItem>
@@ -510,7 +510,7 @@ const Oferta = () => {
                       }}
                     />
                     <ListItemText
-                      primary={oferta.Contrato?.nombre_contrato}
+                      primary={oferta.Contratos?.nombre_contrato}
                       secondary="Tipo de contrato"
                     />
                   </ListItem>
@@ -523,7 +523,7 @@ const Oferta = () => {
                       }}
                     />
                     <ListItemText
-                      primary={oferta.Jornada?.nombre_jornada}
+                      primary={oferta.Jornadas?.nombre_jornada}
                       secondary="Jornada"
                     />
                   </ListItem>

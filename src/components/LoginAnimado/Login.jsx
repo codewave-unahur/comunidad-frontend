@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Dialog,
   FormControlLabel,
   Grid,
   IconButton,
@@ -22,13 +23,11 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import * as yup from "yup";
 import { Toaster, toast } from "sonner";
-import { signIn, signUp } from "../../services/usuarios_service";
+import { signIn, signUp, aceptarTerminos } from "../../services/usuarios_service";
 import { getPostulanteById } from "../../services/postulantes_service";
 import { getEmpresaByIdUsuario } from "../../services/empresas_service";
 import { EncryptStorage } from 'encrypt-storage';
-
-
-
+import Terminos from "../Template/Terminos";
 
 
 const Login = () => {
@@ -43,6 +42,7 @@ const Login = () => {
   const [mostrarContraseñaInicio, setMostrarContraseñaInicio] = useState(false);
   const [mostrarContraseñaRegistro, setMostrarContraseñaRegistro] =
     useState(false);
+  const [open, setOpen] = useState(false);
 
   const toggleMostrarContraseñaInicio = () => {
     setMostrarContraseñaInicio(!mostrarContraseñaInicio);
@@ -149,6 +149,10 @@ const Login = () => {
           } else if (response.grupo === 3) {
             datosUsuario = {};
             tipoUsuario = "admin";
+          }
+            else if (response.grupo === 4) {
+            datosUsuario = {};
+            tipoUsuario = "graduado";
           } else {
             toast.error("Usuario o contraseña incorrectos");
             return;
@@ -160,18 +164,37 @@ const Login = () => {
               window.location.href = `/registro/empresa/${response.id}`;
           }
         } else{
-          encryptStorage.setItem("datosUsuario", datosUsuario);
-          encryptStorage.setItem("tipoUsuario", tipoUsuario);
-          encryptStorage.setItem("idUsuario", response.id);
-          encryptStorage.setItem("estaLogueado", "true");
-          window.location.href = "/";
-        }
-        ;
+          
+          if(response.aceptoTerminos === false){
+            encryptStorage.setItem("datosUsuario", datosUsuario);
+            encryptStorage.setItem("tipoUsuario", tipoUsuario);
+            encryptStorage.setItem("idUsuario", response.id);   
+            setOpen(true);
+          }
+          else{
+            encryptStorage.setItem("datosUsuario", datosUsuario);
+            encryptStorage.setItem("tipoUsuario", tipoUsuario);
+            encryptStorage.setItem("idUsuario", response.id);
+            encryptStorage.setItem("estaLogueado", "true");
+            window.location.href = "/"
+          }
       }
+    }
       })
       .catch((err) => {
         toast.error(err.message);
       });
+  };
+  const aceptarCondiciones = () => {
+    setOpen(false);
+    aceptarTerminos(encryptStorage.getItem("idUsuario"));
+    encryptStorage.setItem("estaLogueado", "true");
+    window.location.href = "/";
+  };
+
+  const rechazarCondiciones = () => {
+    setOpen(false);
+    sessionStorage.clear();
   };
 
   const isValidEmail = (email) => {
@@ -189,6 +212,9 @@ const Login = () => {
       setTipoUsuario(newAlignment);
     }
   };
+
+  
+
 
   return (
     <Box
@@ -669,6 +695,61 @@ const Login = () => {
         </Box>
       </Box>
       <Toaster richColors closeButton />
+      <Dialog open={open} >
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "20px",
+          }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              fontWeight: "bold",
+              margin: "10px 0px",
+            }}
+            
+            
+          >
+            Acepta los términos y condiciones para continuar.
+          </Typography>
+          <Terminos />
+          <Box sx={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}>
+            <Button 
+              variant="text"
+              onClick={() => rechazarCondiciones()}
+              sx={{
+                color: "#dc3545",
+                textTransform: "none",
+                fontSize: "1rem",
+                "&:hover": {
+                  color: "#dc3545",
+              }}
+            }
+            >
+              Rechazar
+            </Button>
+            <Button
+              variant="contained"
+              onClick={aceptarCondiciones}
+              sx={{
+                backgroundColor: "#00496d",
+                color: "#fff",
+                textTransform: "none",
+                fontSize: "1rem",
+                "&:hover": {
+                  backgroundColor: "#00759b",
+              }}
+            }
+            >
+              Aceptar
+            </Button>
+            </Box>
+        </Box>
+      </Dialog>
     </Box>
   );
 };

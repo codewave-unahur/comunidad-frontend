@@ -36,7 +36,7 @@ const Ofertas = (props) => {
   const nombreBusqueda = window.location.search.split("=")[1] || "";
 
   const [postulaciones, setPostulaciones] = useState([]);
-  const limite = 12;
+  const limite = 3;
   const [loading, setLoading] = useState(true);
 
 
@@ -197,21 +197,22 @@ const Ofertas = (props) => {
               "@media (max-width: 450px)": {
                 height: 400,
               },
+
             }}
           >
             <CardHeader
-              avatar={oferta.Empresa.logo?
+              avatar={oferta.Empresas.logo?
                 <Avatar
-                  src={oferta.Empresa?.logo}
-                  alt={oferta.Empresa?.nombre_empresa}
+                  src={oferta.Empresas?.logo}
+                  alt={oferta.Empresas?.nombre_empresa}
                 />: <Avatar
-                      alt={oferta.Empresa?.nombre_empresa}
+                      alt={oferta.Empresas?.nombre_empresa}
                       sx={{ backgroundColor: "#00404f" }}
                     >
-                      {oferta.Empresa?.nombre_empresa.charAt(0)}
+                      {oferta.Empresas?.nombre_empresa.charAt(0)}
                     </Avatar>
               }
-              title={oferta.Empresa?.nombre_empresa}
+              title={oferta.Empresas?.nombre_empresa}
               subheader={oferta.zona_trabajo}
               sx={{
                 "& .css-et1ao3-MuiTypography-root": {

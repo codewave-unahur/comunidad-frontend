@@ -160,6 +160,9 @@ const MisPostulaciones = () => {
                 <Typography variant="h5">Estado</Typography>
               </TableCell>
               <TableCell align="center" sx={{ width: "30%" }}>
+                <Typography variant="h5">CV Visto</Typography>
+              </TableCell>
+              <TableCell align="center" sx={{ width: "30%" }}>
                 <Typography variant="h5">Acciones</Typography>
               </TableCell>
             </TableRow>
@@ -177,7 +180,7 @@ const MisPostulaciones = () => {
                 </TableCell>
                 <TableCell align="center">
                   <Typography variant="subtitle1">
-                    {oferta.Empresa?.nombre_empresa}
+                    {oferta.Empresas?.nombre_empresa}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">
@@ -188,6 +191,11 @@ const MisPostulaciones = () => {
                       oferta.Estado.nombre_estado === "en proceso" ? "En proceso de selección" :
                       "Rechazado"
                     }
+                  </Typography>
+                </TableCell>
+                <TableCell align="center">
+                  <Typography variant="subtitle1">
+                    {oferta.cv_visto ? "Sí" : "No"}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">

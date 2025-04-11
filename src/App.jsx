@@ -15,6 +15,7 @@ import NotFound from "./components/404/NotFound.jsx";
 import { checkLogged, checkNotLogged, checkRole } from "./components/PrivateRoute/PrivateRoute.jsx";
 import RestablecerPassword from "./components/RestablecerContraseña/RestablecerPassword.jsx";
 import IngresarCodigo from "./components/RestablecerContraseña/IngresarCodigo.jsx";
+import Articulo from "./components/Articulos/Articulo.jsx";
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
     <Routes>
       
       <Route path="/" element={<Inicio />} />
+      <Route path="/articulo/:id" element={<Articulo />} />
       <Route path="/perfil" element={
         checkLogged(<Perfil />)
       } />

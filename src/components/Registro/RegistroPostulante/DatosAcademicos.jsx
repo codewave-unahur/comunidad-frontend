@@ -5,12 +5,18 @@ import {
   TextField,
   Typography,
   Grid,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Paper
 } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useEffect, useState } from "react";
 
 import PropTypes from "prop-types";
 
 import { getEstudios } from "../../../services/estudios_service";
+import Terminos from "../../Template/Terminos";
 
 export default function DatosAcademicos({
   postulante,
@@ -29,6 +35,7 @@ export default function DatosAcademicos({
 
   const [estudios, setEstudios] = useState([]);
   const [carreraEnabled, setCarreraEnabled] = useState(false);
+  const [aceptaTerminos, setAceptaTerminos] = useState(false);
 
   useEffect(() => {
     
@@ -133,7 +140,7 @@ export default function DatosAcademicos({
           />
         </Grid>
       </Grid>
-      <Grid container spacing={3} sx={{ marginY: 2 }}>
+      <Grid container spacing={3} sx={{ marginY: "4px" }}>
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox />}
@@ -149,6 +156,19 @@ export default function DatosAcademicos({
           />
         </Grid>
       </Grid>
+      <Terminos />
+      {/*<Grid container spacing={1} sx={{ marginY: "4px" }}>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Acepto los términos y condiciones"
+            name="aceptaTerminos"
+            checked={aceptaTerminos}
+            onChange={(e) => setAceptaTerminos(e.target.checked)}
+          />
+        </Grid>
+      </Grid>*/}
+
     </>
   );
 }

@@ -1,11 +1,13 @@
-import { MenuItem, Grid, TextField, Typography } from "@mui/material";
-
+import { MenuItem, Grid, TextField, Typography, Accordion, AccordionDetails, AccordionSummary, Paper } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Checkbox, FormControlLabel } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { getRubros } from "../../../services/rubros_service";
 import { getCadenaValor } from "../../../services/cadenaValor_service";
 import { getProvincias } from "../../../services/provincias_service";
 import { getCiudades } from "../../../services/ciudades_service";
+import Terminos from "../../Template/Terminos";
 
 export default function DatosPersonales({
   empresa,
@@ -25,6 +27,7 @@ export default function DatosPersonales({
   const [ciudades, setCiudades] = useState([]);
   const [rubros, setRubros] = useState([]);
   const [cadenaValor, setCadenaValor] = useState([]);
+  const [aceptaTerminos, setAceptaTerminos] = useState(false);
 
   useEffect(() => {
     const traerProvincias = async () => {
@@ -446,6 +449,7 @@ export default function DatosPersonales({
             }
           />
         </Grid>
+        <Terminos />
       </Grid>
     </>
   );

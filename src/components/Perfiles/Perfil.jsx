@@ -29,6 +29,7 @@ import StorageIcon from "@mui/icons-material/Storage";
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import CollectionsIcon from "@mui/icons-material/Collections";
+import NewspaperIcon from '@mui/icons-material/Newspaper';
 import WorkIcon from "@mui/icons-material/Work";
 import Header from "../Header/Header";
 import DatosPersonales from "./PerfilPostulante/DatosPersonales";
@@ -49,12 +50,16 @@ import { forwardRef, useEffect, useState } from "react";
 import { postularseBaseConstante } from "../../services/postulaciones_service";
 import { uploadCV } from "../../services/files_service";
 import { Toaster, toast } from "sonner";
-import BaseUNAHUR from "./PerfilAdministrador/BaseUNAHUR";
+import Newsletter from "./PerfilAdministrador/Newsletter";
 import ExperienciaLaboral from "./PerfilPostulante/ExperienciaLaboral";
 import { EncryptStorage } from "encrypt-storage";
 import LockIcon from '@mui/icons-material/Lock';
 import CambiarContraseña from "./CambiarContraseña";
 import Estadisticas from "./PerfilAdministrador/Estadisticas";
+import ArticleIcon from '@mui/icons-material/Article';
+import Articulos from "./PerfilAdministrador/Articulos";
+import VerArticulos from "./PerfilGraduado/VerArticulos";
+import CrearArticulo from "./PerfilGraduado/CrearArticulo";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -172,14 +177,46 @@ const menuOptionsAdmin = [
     text: "Galería",
     renderSection: <Galeria />
   },
- {
+  {
     id:"6",
+    name: "newsletters",
+    Icon: NewspaperIcon,
+    text: "Newsletters",
+    renderSection: <Newsletter />
+  
+  },
+  {
+    id:"7",
+    name: "articulos",
+    Icon: ArticleIcon,
+    text: "Artículos",
+    renderSection: <Articulos />
+  },
+ {
+    id:"8",
     name: "estadisticas",
     Icon: BarChartIcon,
     text: "Estadísticas",
     renderSection: <Estadisticas />
  }
 ];
+
+const menuOptionsGraduado = [
+  {
+    id: "1",
+    name: "VerArticulos",
+    Icon: ArticleIcon,
+    text: "Ver Artículos",
+    renderSection: <VerArticulos />
+  },
+  {
+    id: "2",
+    name: "CrearArticulo",
+    Icon: PostAddIcon,
+    text: "Crear Artículo",
+    renderSection: <CrearArticulo />
+  }
+]
 
 function Perfil() {
 
@@ -255,6 +292,8 @@ function Perfil() {
         return menuOptionsEmpresa;
       case "admin":
         return menuOptionsAdmin;
+      case "graduado":
+        return menuOptionsGraduado;
       default:
         return menuOptionsPostulante;
     }

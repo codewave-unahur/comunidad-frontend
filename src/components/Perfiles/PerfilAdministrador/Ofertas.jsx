@@ -372,11 +372,11 @@ const Ofertas = () => {
                 </TableCell>
                 <TableCell align="center">
                   <Typography variant="subtitle1">
-                    {oferta.Empresa?.nombre_empresa}
+                    {oferta.Empresas?.nombre_empresa}
                   </Typography>
                 </TableCell>
                 <TableCell align="center">
-                  {estadoMap[oferta.Estado.nombre_estado].actions(oferta)}
+                  {estadoMap[oferta.EstadoOfertas.nombre_estado].actions(oferta)}
                 </TableCell>
               </TableRow>
             ))}
