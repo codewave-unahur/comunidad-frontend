@@ -164,6 +164,7 @@ const Ofertas = (props) => {
       paddingBottom={5}
       ref={scrollRef}
       sx={{
+        justifyContent: "center",
         "@media (max-width: 450px)": {
           padding: 1,
           paddingBottom: 5,
