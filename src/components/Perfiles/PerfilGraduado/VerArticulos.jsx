@@ -59,9 +59,6 @@ export default function VerArticulos() {
                                         <Button variant="contained" href={`/articulo/${articulo.id}`} color="success" sx={{
                                             margin: "0.5rem"
                                         }}>Ver</Button>
-                                        <Button variant="contained" color="warning" sx={{
-                                            margin: "0.5rem"
-                                        }}>Editar</Button>
                                     </TableCell>
                                 </TableRow>
                                  ))}
