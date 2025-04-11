@@ -93,6 +93,7 @@ const Estadisticas = () => {
       const response = await getPostulaciones();
       if (response) {
         setPostulaciones(response.postulaciones.length);
+        console.log(response.postulaciones);
         setPostulacionesAceptadasAdmin(
           response.postulaciones.filter(
             (postulacion) =>
@@ -228,7 +229,7 @@ const Estadisticas = () => {
   const contarOfertasPorRubro = (ofertas) => {
     const rubros = [];
     ofertas.forEach((oferta) => {
-      rubros.push(oferta.RubroOferta.nombre);
+      rubros.push(oferta.RubrosOfertas.nombre);
     });
     const rubrosUnicos = [...new Set(rubros)];
     const rubrosOfertas = [];

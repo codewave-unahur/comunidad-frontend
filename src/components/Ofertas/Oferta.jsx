@@ -62,6 +62,8 @@ const Oferta = () => {
   const [open, setOpen] = useState(false);
   const [postulaciones, setPostulaciones] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPostulando, setIsPostulando] = useState(false); // Nuevo estado
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -129,6 +131,7 @@ const Oferta = () => {
   const handlePostularme = async () => {
     if (estaLogueado) {
       if (tipoUsuario === "postulante" && datosUsuario.cv !== "") {
+        setIsPostulando(true); // Deshabilita el botón
         const postulacion = {
           postulante: datosUsuario.id,
           oferta: oferta.id,
@@ -143,7 +146,8 @@ const Oferta = () => {
             }, 200);
           }
         } catch (error) {
-          console.log(error);        
+          console.log(error);
+          setIsPostulando(false); // Habilita el botón en caso de error
         }
       } else if (tipoUsuario === "postulante" && datosUsuario.cv === "") {
         toast.error("Para postularte a una oferta, primero debes cargar tu CV");
@@ -151,7 +155,7 @@ const Oferta = () => {
           window.location.href = "/perfil?section=curriculumVitae";
         }, 2000);
       }
-      } else {
+    } else {
       window.location.href = "/login";
     }
   };
@@ -636,8 +640,9 @@ const Oferta = () => {
             }}
             autoFocus
             color="success"
+            disabled={isPostulando} // Deshabilita el botón si ya se hizo clic
           >
-            Si, postularme.
+            {isPostulando ? "Postulando..." : "Sí, postularme"}
           </Button>
         </DialogActions>
       </Dialog>
