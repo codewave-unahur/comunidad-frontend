@@ -8,7 +8,7 @@ export async function postArticulo(datosArticulo) {
         datosArticulo,
         {
           headers: {
-            'Content-Type': 'application/json', // Opcional, Axios lo hace por defecto
+             Authorization: `Bearer ${sessionStorage.getItem('token')}`,
           },
         }
       );
@@ -41,7 +41,13 @@ export async function getArticulo(id) {
 
 export async function deleteArticulo(id) {
     try {
-        const response = await axios.delete(`${config.apiUrl}/articulo/${id}`);
+        const response = await axios.delete(`${config.apiUrl}/articulo/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            }
+        );
         return response.data;
     } catch (error) {
         console.error(error);
@@ -50,7 +56,13 @@ export async function deleteArticulo(id) {
 
 export async function updateArticulo(id, datosArticulo) {
     try {
-        const response = await axios.patch(`${config.apiUrl}/articulo/actualizar-articulos/${id}`, datosArticulo);
+        const response = await axios.patch(`${config.apiUrl}/articulo/actualizar-articulos/${id}`, datosArticulo,
+            {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            }
+        );
         return response.data;
     } catch (error) {
         console.error(error);
