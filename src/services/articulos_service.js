@@ -41,7 +41,16 @@ export async function getArticulo(id) {
 
 export async function deleteArticulo(id) {
     try {
-        const response = await axios.delete(`${config.apiUrl}/articulos/${id}`);
+        const response = await axios.delete(`${config.apiUrl}/articulo/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+export async function updateArticulo(id, datosArticulo) {
+    try {
+        const response = await axios.patch(`${config.apiUrl}/articulo/actualizar-articulos/${id}`, datosArticulo);
         return response.data;
     } catch (error) {
         console.error(error);

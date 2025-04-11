@@ -6,13 +6,18 @@ import {
   CssBaseline,
   createTheme,
   ThemeProvider,
+  Button,
+  TextField,
 } from "@mui/material";
 import { Helmet } from "react-helmet"; // Para SEO
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 import SocialShareButtons from "./SocialShareButtons";
-import { getArticulo } from "../../services/articulos_service";
+import { getArticulo, updateArticulo } from "../../services/articulos_service";
+import ReactQuill from "react-quill";
+import { EncryptStorage } from "encrypt-storage";
+
 // Tema personalizado
 const theme = createTheme({
   palette: {
@@ -28,32 +33,99 @@ const theme = createTheme({
   },
 });
 
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }], // Encabezados
+    ["bold", "italic", "underline", "strike"], // Negrita, Cursiva, Subrayado, Tachado
+    [{ color: [] }, { background: [] }], // Color de texto y fondo
+    [{ list: "ordered" }, { list: "bullet" }], // Listas ordenadas y desordenadas
+    ["link", "image"], // Enlaces e imágenes
+    [{ align: ["justify", "center", "right", "left"] }],
+    ["clean"], // Botón para limpiar estilos
+  ],
+};
 
+const formats = [
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "color",
+  "background",
+  "list",
+  "bullet",
+  "link",
+  "image",
+];
 
 const ArticlePage = () => {
+  const encryptStorage = new EncryptStorage(import.meta.env.VITE_SECRET, {
+    doNotParseValues: false,
+    storageType: "sessionStorage",
+  });
 
-  const [articulo, setArticulo] = useState([]);
+
+  const [articulo, setArticulo] = useState({});
+  const [edit, setEdit] = useState(false);
+  const [nuevoTitulo, setNuevoTitulo] = useState("");
+  const [nuevoContenido, setNuevoContenido] = useState("");
+  const [nuevaPortada, setNuevaPortada] = useState(""); // Almacena la imagen en Base64
   const idArticulo = window.location.pathname.split("/").pop();
+  const cleanHtml = DOMPurify.sanitize(articulo.contenido || "");
+  const tipoUsuario = encryptStorage.getItem("tipoUsuario");
 
-
-
-  const cleanHtml = DOMPurify.sanitize(articulo.contenido);
-
-
+  
   useEffect(() => {
     const fetchArticulo = async () => {
       try {
         const response = await getArticulo(idArticulo);
         setArticulo(response.articulo);
+        setNuevoTitulo(response.articulo.titulo); // Inicializa el título editable
+        setNuevoContenido(response.articulo.contenido); // Inicializa el contenido editable
+        setNuevaPortada(response.articulo.portada); // Inicializa la portada editable
       } catch (error) {
         console.error(error);
       }
     };
     fetchArticulo();
-    console.log(articulo)
-  }
-  , [idArticulo]);
+  }, [idArticulo]);
 
+  const handleEdit = () => {
+    setEdit(true);
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNuevaPortada(reader.result); // Convierte el archivo a Base64 y lo guarda
+      };
+      reader.readAsDataURL(file); // Convierte el archivo a Base64
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      // Actualiza el artículo con la nueva portada (en Base64), título y contenido
+      await updateArticulo(idArticulo, {
+        titulo: nuevoTitulo,
+        contenido: nuevoContenido,
+        portada: nuevaPortada,
+      });
+
+      setEdit(false);
+      setArticulo((prevArticulo) => ({
+        ...prevArticulo,
+        titulo: nuevoTitulo,
+        contenido: nuevoContenido,
+        portada: nuevaPortada,
+      }));
+    } catch (error) {
+      console.error("Error al actualizar el artículo:", error);
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -73,29 +145,98 @@ const ArticlePage = () => {
       <Header />
       <Container maxWidth="md">
         <Box sx={{ mt: 4, mb: 6 }}>
-          <Typography variant="h3" gutterBottom >
-            {articulo.titulo}
-          </Typography>
+          {edit ? (
+            <TextField
+              fullWidth
+              variant="outlined"
+              label="Título del artículo"
+              value={nuevoTitulo}
+              onChange={(e) => setNuevoTitulo(e.target.value)}
+              sx={{ mb: 2 }}
+            />
+          ) : (
+            <Typography variant="h3" gutterBottom>
+              {articulo.titulo}
+            </Typography>
+          )}
           <Typography variant="subtitle1" gutterBottom>
-            {new Date(articulo.createdAt).toLocaleDateString()} por {articulo.autor}
+            {new Date(articulo.createdAt).toLocaleDateString()} por{" "}
+            {articulo.autor}
           </Typography>
+          {edit ? (
+            <>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                style={{ marginBottom: "20px" }}
+              />
+              {nuevaPortada && (
+                <Box
+                  component="img"
+                  src={nuevaPortada} // Muestra la imagen seleccionada
+                  alt="Vista previa de la portada"
+                  sx={{
+                    width: "100%",
+                    borderRadius: 2,
+                    boxShadow: 3,
+                    mb: 3,
+                  }}
+                />
+              )}
+            </>
+          ) : (
+            <Box
+              component="img"
+              src={articulo.portada} // URL de la portada actual
+              alt="Encabezado del artículo"
+              sx={{
+                width: "100%",
+                borderRadius: 2,
+                boxShadow: 3,
+                mb: 3,
+              }}
+            />
+          )}
           <Box
-            component="img"
-            src={articulo.portada} // Reemplazar con la URL de tu imagen
-            alt="Encabezado del artículo"
             sx={{
-              width: "100%",
-              borderRadius: 2,
-              boxShadow: 3,
-              mb: 3,
+              mb: 2,
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 1,
+              alignItems: "center",
             }}
-          />
-          <Box sx={{ mb: 2, display: "flex", flexWrap: "wrap", gap: 1, alignItems: "center" }}>
-            <SocialShareButtons/>
+          >
+            <SocialShareButtons />
           </Box>
-          <Typography variant="body1" paragraph>
-            <div dangerouslySetInnerHTML={{ __html: cleanHtml }} />
-          </Typography>
+          {tipoUsuario === "graduado"? <Typography variant="body1" paragraph>
+            <Button variant="contained" color="warning" onClick={handleEdit} disabled={edit}>
+              Editar
+            </Button>
+          </Typography> : null}
+          {edit ? (
+            <>
+              <ReactQuill
+                modules={modules}
+                formats={formats}
+                value={nuevoContenido} // Usa el estado `nuevoContenido`
+                onChange={setNuevoContenido}
+                style={{ marginBottom: "20px" }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleUpdate}
+              >
+                Guardar Cambios
+              </Button>
+            </>
+          ) : (
+            <Typography
+              variant="body1"
+              dangerouslySetInnerHTML={{ __html: cleanHtml }}
+            ></Typography>
+          )}
         </Box>
       </Container>
       <Footer />
