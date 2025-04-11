@@ -209,7 +209,7 @@ const ArticlePage = () => {
           >
             <SocialShareButtons />
           </Box>
-          {tipoUsuario === "graduado"? <Typography variant="body1" paragraph>
+          {tipoUsuario === "graduado" || tipoUsuario === "admin" ? <Typography variant="body1" paragraph>
             <Button variant="contained" color="warning" onClick={handleEdit} disabled={edit}>
               Editar
             </Button>
