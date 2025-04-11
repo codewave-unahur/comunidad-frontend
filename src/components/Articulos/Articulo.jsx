@@ -127,6 +127,17 @@ const ArticlePage = () => {
     }
   };
 
+  const obtenerNombreAutor = (email) => {
+    const autores = {
+      "graduados@unahur.edu.ar": "Graduados UNAHUR",
+      "empleabilidad@unahur.edu.ar": "Empleabilidad UNAHUR",
+      "ingenieria@unahur.edu.ar": "Instituto de Tecnología e Ingeniería",
+      "biotecnologia@unahur.edu.ar": "Instituto de Biotecnología",
+      "educacion@unahur.edu.ar": "Instituto de Educación",
+      "saludcomunitaria@unahur.edu.ar": "Instituto de Salud Comunitaria",
+    };
+    return autores[email] || email; // Devuelve el nombre mapeado o el email si no está en la lista
+  };
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -161,7 +172,7 @@ const ArticlePage = () => {
           )}
           <Typography variant="subtitle1" gutterBottom>
             {new Date(articulo.createdAt).toLocaleDateString()} por{" "}
-            {articulo.autor}
+            {obtenerNombreAutor(articulo.autor)}
           </Typography>
           {edit ? (
             <>

@@ -6,19 +6,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import { postArticulo } from "../../../services/articulos_service";
 import { useNavigate } from "react-router-dom";
 import { toast, Toaster } from "sonner";
+import { jwtDecode } from "jwt-decode";
 
 
 export default function CrearArticulo() {
   const [titulo, setTitulo] = useState("");
   const [contenido, setContenido] = useState("");
   const [portada, setPortada] = useState(null);
-  const [autor, setAutor] = useState("Juan");
-
+  const [autor, setAutor] = useState("");
+  const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
   
 
@@ -48,7 +49,22 @@ export default function CrearArticulo() {
     "image",
   ];
 
+  
+
+  useEffect(() => {
+    decodificarToken(token);
+  }, [token]);
    
+
+  const decodificarToken = (token) => {
+    if (token) {
+      const decoded = jwtDecode(token);
+      const { usuario } = decoded;
+      setAutor(usuario);
+    } else {
+      console.error("Token no encontrado o inválido");
+    }
+  };
 
   const handleTitulo = (e) => {
     setTitulo(e.target.value);
@@ -74,7 +90,7 @@ export default function CrearArticulo() {
       titulo: titulo,
       portada: portada,
       contenido: contenido,
-      autor: "Graduados UNAHUR",
+      autor: autor
     };
   
     try {
