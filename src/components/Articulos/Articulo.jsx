@@ -135,6 +135,7 @@ const ArticlePage = () => {
       "biotecnologia@unahur.edu.ar": "Instituto de Biotecnología",
       "educacion@unahur.edu.ar": "Instituto de Educación",
       "saludcomunitaria@unahur.edu.ar": "Instituto de Salud Comunitaria",
+      "admin@unahur.edu.ar": "Administrador",
     };
     return autores[email] || email; // Devuelve el nombre mapeado o el email si no está en la lista
   };
