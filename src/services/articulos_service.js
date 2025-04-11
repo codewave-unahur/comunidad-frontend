@@ -41,7 +41,7 @@ export async function getArticulo(id) {
 
 export async function deleteArticulo(id) {
     try {
-        const response = await axios.delete(`${config.apiUrl}/articulo/${id}`,
+        const response = await axios.delete(`${config.apiUrl}/articulo/eliminar-articulo/${id}`,
             {
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem('token')}`,

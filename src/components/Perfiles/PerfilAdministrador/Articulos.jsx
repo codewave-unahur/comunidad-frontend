@@ -1,7 +1,9 @@
 import { Box, Button, Card, CardHeader, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { useState, useEffect } from 'react'
-import { getArticulos } from '../../../services/articulos_service'
+import { getArticulos, deleteArticulo } from '../../../services/articulos_service'
 import { useNavigate } from 'react-router-dom'
+import { Toaster, toast } from "sonner";
+
 
 export default function VerArticulos() {
     const [articulos, setArticulos] = useState([])
@@ -31,10 +33,21 @@ export default function VerArticulos() {
     }
     , [])
 
+    const eliminarArticulo = async (id) => {
+        try {
+            await deleteArticulo(id)
+            setArticulos(articulos.filter((articulo) => articulo.id !== id))
+            toast.success("Articulo eliminado correctamente")
+        }
+        catch (error) {
+            console.error(error)
+            toast.error("Error al eliminar el articulo")
+        }
+    }
+
   return (
         <>
         <Box>
-           
                     <Card type="section" elevation={8}>
                     <CardHeader title="Articulos" />
                     <TableContainer>
@@ -59,6 +72,7 @@ export default function VerArticulos() {
                                         <Button variant="contained" href={`/articulo/${articulo.id}`} color="success" sx={{
                                             margin: "0.5rem"
                                         }}>Ver</Button>
+                                        <Button variant="outlined" color="error" onClick={() => eliminarArticulo(articulo.id)}>Eliminar</Button>
                                     </TableCell>
                                 </TableRow>
                                  ))}
