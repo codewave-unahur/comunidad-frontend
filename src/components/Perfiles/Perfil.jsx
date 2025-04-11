@@ -192,8 +192,15 @@ const menuOptionsAdmin = [
     text: "Artículos",
     renderSection: <Articulos />
   },
- {
+  {
     id:"8",
+    name: "crearArticulo",
+    Icon: PostAddIcon,
+    text: "Crear Artículo",
+    renderSection: <CrearArticulo />
+  },
+ {
+    id:"9",
     name: "estadisticas",
     Icon: BarChartIcon,
     text: "Estadísticas",
