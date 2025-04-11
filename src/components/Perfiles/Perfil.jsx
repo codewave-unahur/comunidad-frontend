@@ -215,6 +215,13 @@ const menuOptionsGraduado = [
     Icon: PostAddIcon,
     text: "Crear Artículo",
     renderSection: <CrearArticulo />
+  },
+  {
+    id: "3",
+    name: "cambiarContraseña",
+    Icon: LockIcon,
+    text: "Cambiar contraseña",
+    renderSection: <CambiarContraseña />
   }
 ]
 
