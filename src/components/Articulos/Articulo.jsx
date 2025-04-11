@@ -200,7 +200,7 @@ const ArticlePage = () => {
           ) : (
             <Box
               component="img"
-              src={articulo.portada} // URL de la portada actual
+              src={articulo.portada || "https://unahur.edu.ar/wp-content/uploads/2022/01/comunicadoinstitucionalnot01.jpg"} // Muestra la portada original
               alt="Encabezado del artículo"
               sx={{
                 width: "100%",
