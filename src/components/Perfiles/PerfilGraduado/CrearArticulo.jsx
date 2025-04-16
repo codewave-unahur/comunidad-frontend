@@ -19,6 +19,7 @@ export default function CrearArticulo() {
   const [contenido, setContenido] = useState("");
   const [portada, setPortada] = useState(null);
   const [autor, setAutor] = useState("");
+  const [isCreando, setIsCreando] = useState(false)
   const token = sessionStorage.getItem("token");
   const navigate = useNavigate();
   
@@ -94,6 +95,7 @@ export default function CrearArticulo() {
     };
   
     try {
+      setIsCreando(true)
       const response = await postArticulo(datos);
       console.log("Artículo creado:", response);
       toast.success("Artículo creado con éxito");
@@ -143,8 +145,8 @@ export default function CrearArticulo() {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Crear
+            <Button variant="contained" color="primary" onClick={handleSubmit} disabled={isCreando}>
+              {isCreando? "Creando artículo..." : "Crear"}
             </Button>
           </Grid>
         </Grid>
