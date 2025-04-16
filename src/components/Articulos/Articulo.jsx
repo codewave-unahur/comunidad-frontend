@@ -17,6 +17,7 @@ import SocialShareButtons from "./SocialShareButtons";
 import { getArticulo, updateArticulo, updateArticuloVistas } from "../../services/articulos_service";
 import ReactQuill from "react-quill";
 import { EncryptStorage } from "encrypt-storage";
+import Spinner from "../Template/Spinner";
 
 // Tema personalizado
 const theme = createTheme({
@@ -71,6 +72,7 @@ const ArticlePage = () => {
   const [nuevoTitulo, setNuevoTitulo] = useState("");
   const [nuevoContenido, setNuevoContenido] = useState("");
   const [nuevaPortada, setNuevaPortada] = useState(""); // Almacena la imagen en Base64
+  const [loading, setLoading] = useState(true);
   const idArticulo = window.location.pathname.split("/").pop();
   const cleanHtml = DOMPurify.sanitize(articulo.contenido || "");
   const tipoUsuario = encryptStorage.getItem("tipoUsuario");
@@ -84,6 +86,7 @@ const ArticlePage = () => {
         setNuevoTitulo(response.articulo.titulo); // Inicializa el título editable
         setNuevoContenido(response.articulo.contenido); // Inicializa el contenido editable
         setNuevaPortada(response.articulo.portada); // Inicializa la portada editable
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -167,6 +170,7 @@ const ArticlePage = () => {
         <meta name="author" content="Redacción Noticias" />
       </Helmet>
       <Header />
+      {loading ? <Spinner /> :
       <Container maxWidth="md">
         <Box sx={{ mt: 4, mb: 6 }}>
           {edit ? (
@@ -262,7 +266,7 @@ const ArticlePage = () => {
             ></Typography>
           )}
         </Box>
-      </Container>
+      </Container>}
       <Footer />
     </ThemeProvider>
   );
