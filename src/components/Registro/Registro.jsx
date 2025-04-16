@@ -31,6 +31,7 @@ export default function Registro({
   steps,
   getStepContent,
   handleFinish,
+  isRegistrando,
   setValidarErrores,
   schema,
   usuario,
@@ -200,7 +201,7 @@ export default function Registro({
 
                 <Button
                   variant="contained"
-                  disabled={activeStep === steps.length - 1 && !terminos}
+                  disabled={isRegistrando || (activeStep === steps.length - 1 && !terminos)}
                   onClick={
                     activeStep === steps.length - 1 ? handleFinish : handleNext
                   }

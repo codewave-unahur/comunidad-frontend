@@ -12,6 +12,7 @@ import { useState } from "react";
 export default function RegistroPostulante() {
   const steps = ["Datos personales", "Datos académicos"];
   const idUsuario = parseInt(window.location.pathname.split("/")[3]);
+  const [isRegistrando, setIsRegistrando] = useState(false);
 
   const [postulante, setPostulante] = useState({
     documento: null,
@@ -126,6 +127,7 @@ export default function RegistroPostulante() {
 
   const handleFinish = async () => {
     try {
+      setIsRegistrando(true);
       // Intenta validar los campos con Yup
       schemaDatosPersonales.validateSync(postulante, { abortEarly: false });
       schemaDatosAcademicos.validateSync(postulante, { abortEarly: false });
@@ -142,6 +144,7 @@ export default function RegistroPostulante() {
       }
     } catch (error) {
       // Si hay errores, actualiza el estado de errores de validación
+      setIsRegistrando(false);
       const errors = {};
       error.inner.forEach((e) => {
         errors[e.path] = e.message;
@@ -159,6 +162,7 @@ export default function RegistroPostulante() {
         steps={steps}
         getStepContent={getStepContent}
         handleFinish={handleFinish}
+        isRegistrando={isRegistrando}
         usuario={postulante}
         schema={schemaDatosPersonales}
         setValidarErrores={setValidarErroresDatosPersonales}
