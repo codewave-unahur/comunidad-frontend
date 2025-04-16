@@ -11,6 +11,7 @@ import { postEmpresa } from "../../../services/empresas_service.js";
 export default function RegistroPostulante() {
   const steps = ["Datos de la empresa"];
   const idUsuario = parseInt(window.location.pathname.split("/")[3]);
+  const [isRegistrando, setIsRegistrando] = useState(false);
 
   const [usuario, setUsuario] = useState({
     cuit: null,
@@ -95,6 +96,7 @@ export default function RegistroPostulante() {
   const handleFinish = async () => {
     try {
       schema.validateSync(usuario, { abortEarly: false });
+      setIsRegistrando(true);
 
       const response = await postEmpresa(usuario);
 
@@ -126,6 +128,7 @@ export default function RegistroPostulante() {
       steps={steps}
       getStepContent={getStepContent}
       handleFinish={handleFinish}
+      isRegistrando={isRegistrando}
       usuario={usuario}
       schema={schema}
       setValidarErrores={setValidarErrores}
