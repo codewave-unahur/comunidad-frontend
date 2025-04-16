@@ -58,6 +58,7 @@ export default function VerArticulos() {
                                     <TableCell align="center">Nombre</TableCell>
                                     <TableCell align="center">Fecha</TableCell>
                                     <TableCell align="center">Publicado por</TableCell>
+                                    <TableCell align='center'>Visitas</TableCell>
                                     <TableCell align="center">Acciones</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -68,6 +69,7 @@ export default function VerArticulos() {
                                     <TableCell align="center">{articulo.titulo}</TableCell>
                                     <TableCell align="center">{new Date(articulo.createdAt).toLocaleDateString()}</TableCell>
                                     <TableCell align="center">{articulo.autor}</TableCell>
+                                    <TableCell align="center">{articulo.visto}</TableCell>
                                     <TableCell align="center">
                                         <Button variant="contained" href={`/articulo/${articulo.id}`} color="success" sx={{
                                             margin: "0.5rem"

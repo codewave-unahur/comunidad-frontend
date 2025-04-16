@@ -69,4 +69,19 @@ export async function updateArticulo(id, datosArticulo) {
     }
 }
 
+export async function updateArticuloVistas(id) {
+    try {
+        const response = await axios.put(`${config.apiUrl}/articulo/actualizar-articulo/${id}/vistas`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+}
 

@@ -14,7 +14,7 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import DOMPurify from "dompurify";
 import SocialShareButtons from "./SocialShareButtons";
-import { getArticulo, updateArticulo } from "../../services/articulos_service";
+import { getArticulo, updateArticulo, updateArticuloVistas } from "../../services/articulos_service";
 import ReactQuill from "react-quill";
 import { EncryptStorage } from "encrypt-storage";
 
@@ -91,6 +91,17 @@ const ArticlePage = () => {
     fetchArticulo();
   }, [idArticulo]);
 
+  useEffect(() => {
+    const updateVistas = async () => {
+      try {
+        await updateArticuloVistas(idArticulo);
+      } catch (error) {
+        console.error("Error al actualizar las vistas:", error);
+      }
+    };
+    updateVistas();
+  }, [idArticulo]);
+
   const handleEdit = () => {
     setEdit(true);
   };
@@ -136,6 +147,7 @@ const ArticlePage = () => {
       "educacion@unahur.edu.ar": "Instituto de Educación",
       "saludcomunitaria@unahur.edu.ar": "Instituto de Salud Comunitaria",
       "admin@unahur.edu.ar": "Administrador",
+      "": "Secretaria de Bienestar"
     };
     return autores[email] || email; // Devuelve el nombre mapeado o el email si no está en la lista
   };
