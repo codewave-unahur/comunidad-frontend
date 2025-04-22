@@ -234,19 +234,10 @@ const Ofertas = (props) => {
               <Typography variant="subtitle2" color="text.secondary">
                 Publicado hace {publicadoHace(oferta.createdAt)}
               </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{
-                  marginTop: 2,
-                  overflow: "hidden",
-                  display: "-webkit-box",
-                  textOverflow: "ellipsis",
-                  WebkitLineClamp: 5,
-                  WebkitBoxOrient: "vertical",
-                }}
-              >
-                {oferta.descripcion}
+              <Typography variant="subtitle2" color="text.secondary">
+                {oferta.descripcion && oferta.descripcion.length > 125
+                  ? `${oferta.descripcion.substring(0, 125)}...`
+                  : oferta.descripcion}
               </Typography>
             </CardContent>
             <CardActions
