@@ -150,7 +150,7 @@ const ArticlePage = () => {
       "educacion@unahur.edu.ar": "Instituto de Educación",
       "saludcomunitaria@unahur.edu.ar": "Instituto de Salud Comunitaria",
       "admin@unahur.edu.ar": "Administrador",
-      "": "Secretaria de Bienestar"
+      "servicios.comunidad@unahur.edu.ar": "Secretaria de Servicios a la Comunidad"
     };
     return autores[email] || email; // Devuelve el nombre mapeado o el email si no está en la lista
   };
