@@ -14,9 +14,10 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import DOMPurify from "dompurify";
 import SocialShareButtons from "./SocialShareButtons";
-import { getArticulo, updateArticulo } from "../../services/articulos_service";
+import { getArticulo, updateArticulo, updateArticuloVistas } from "../../services/articulos_service";
 import ReactQuill from "react-quill";
 import { EncryptStorage } from "encrypt-storage";
+import Spinner from "../Template/Spinner";
 
 // Tema personalizado
 const theme = createTheme({
@@ -71,6 +72,7 @@ const ArticlePage = () => {
   const [nuevoTitulo, setNuevoTitulo] = useState("");
   const [nuevoContenido, setNuevoContenido] = useState("");
   const [nuevaPortada, setNuevaPortada] = useState(""); // Almacena la imagen en Base64
+  const [loading, setLoading] = useState(true);
   const idArticulo = window.location.pathname.split("/").pop();
   const cleanHtml = DOMPurify.sanitize(articulo.contenido || "");
   const tipoUsuario = encryptStorage.getItem("tipoUsuario");
@@ -84,11 +86,23 @@ const ArticlePage = () => {
         setNuevoTitulo(response.articulo.titulo); // Inicializa el título editable
         setNuevoContenido(response.articulo.contenido); // Inicializa el contenido editable
         setNuevaPortada(response.articulo.portada); // Inicializa la portada editable
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
     };
     fetchArticulo();
+  }, [idArticulo]);
+
+  useEffect(() => {
+    const updateVistas = async () => {
+      try {
+        await updateArticuloVistas(idArticulo);
+      } catch (error) {
+        console.error("Error al actualizar las vistas:", error);
+      }
+    };
+    updateVistas();
   }, [idArticulo]);
 
   const handleEdit = () => {
@@ -127,6 +141,19 @@ const ArticlePage = () => {
     }
   };
 
+  const obtenerNombreAutor = (email) => {
+    const autores = {
+      "graduados@unahur.edu.ar": "Graduados UNAHUR",
+      "empleabilidad@unahur.edu.ar": "Empleabilidad UNAHUR",
+      "ingenieria@unahur.edu.ar": "Instituto de Tecnología e Ingeniería",
+      "biotecnologia@unahur.edu.ar": "Instituto de Biotecnología",
+      "educacion@unahur.edu.ar": "Instituto de Educación",
+      "saludcomunitaria@unahur.edu.ar": "Instituto de Salud Comunitaria",
+      "admin@unahur.edu.ar": "Administrador",
+      "": "Secretaria de Bienestar"
+    };
+    return autores[email] || email; // Devuelve el nombre mapeado o el email si no está en la lista
+  };
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -143,6 +170,7 @@ const ArticlePage = () => {
         <meta name="author" content="Redacción Noticias" />
       </Helmet>
       <Header />
+      {loading ? <Spinner /> :
       <Container maxWidth="md">
         <Box sx={{ mt: 4, mb: 6 }}>
           {edit ? (
@@ -161,7 +189,7 @@ const ArticlePage = () => {
           )}
           <Typography variant="subtitle1" gutterBottom>
             {new Date(articulo.createdAt).toLocaleDateString()} por{" "}
-            {articulo.autor}
+            {obtenerNombreAutor(articulo.autor)}
           </Typography>
           {edit ? (
             <>
@@ -188,7 +216,7 @@ const ArticlePage = () => {
           ) : (
             <Box
               component="img"
-              src={articulo.portada} // URL de la portada actual
+              src={articulo.portada || "https://unahur.edu.ar/wp-content/uploads/2022/01/comunicadoinstitucionalnot01.jpg"} // Muestra la portada original
               alt="Encabezado del artículo"
               sx={{
                 width: "100%",
@@ -238,7 +266,7 @@ const ArticlePage = () => {
             ></Typography>
           )}
         </Box>
-      </Container>
+      </Container>}
       <Footer />
     </ThemeProvider>
   );

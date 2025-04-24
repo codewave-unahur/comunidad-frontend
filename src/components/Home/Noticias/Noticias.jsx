@@ -55,7 +55,7 @@ const CustomCard = () => {
             {/* Imagen */}
             <CardMedia
               component="img"
-              image={noticia.portada}
+              image={noticia.portada || "https://unahur.edu.ar/wp-content/uploads/2022/01/comunicadoinstitucionalnot01.jpg"}
               alt="Imagen"
               sx={{ width: 290, height: 180 }}
             />

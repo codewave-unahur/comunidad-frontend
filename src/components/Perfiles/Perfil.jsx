@@ -177,20 +177,27 @@ const menuOptionsAdmin = [
     text: "Galería",
     renderSection: <Galeria />
   },
-  {
+  /*{
     id:"6",
     name: "newsletters",
     Icon: NewspaperIcon,
     text: "Newsletters",
     renderSection: <Newsletter />
   
-  },
+  },*/
   {
-    id:"7",
+    id:"6",
     name: "articulos",
     Icon: ArticleIcon,
     text: "Artículos",
     renderSection: <Articulos />
+  },
+  {
+    id:"7",
+    name: "crearArticulo",
+    Icon: PostAddIcon,
+    text: "Crear Artículo",
+    renderSection: <CrearArticulo />
   },
  {
     id:"8",
@@ -215,6 +222,13 @@ const menuOptionsGraduado = [
     Icon: PostAddIcon,
     text: "Crear Artículo",
     renderSection: <CrearArticulo />
+  },
+  {
+    id: "3",
+    name: "cambiarContraseña",
+    Icon: LockIcon,
+    text: "Cambiar contraseña",
+    renderSection: <CambiarContraseña />
   }
 ]
 

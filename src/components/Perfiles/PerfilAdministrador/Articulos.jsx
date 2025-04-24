@@ -1,7 +1,9 @@
 import { Box, Button, Card, CardHeader, Pagination, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import { useState, useEffect } from 'react'
-import { getArticulos } from '../../../services/articulos_service'
+import { getArticulos, deleteArticulo } from '../../../services/articulos_service'
 import { useNavigate } from 'react-router-dom'
+import { Toaster, toast } from "sonner";
+
 
 export default function VerArticulos() {
     const [articulos, setArticulos] = useState([])
@@ -31,10 +33,21 @@ export default function VerArticulos() {
     }
     , [])
 
+    const eliminarArticulo = async (id) => {
+        try {
+            await deleteArticulo(id)
+            setArticulos(articulos.filter((articulo) => articulo.id !== id))
+            toast.success("Articulo eliminado correctamente")
+        }
+        catch (error) {
+            console.error(error)
+            toast.error("Error al eliminar el articulo")
+        }
+    }
+
   return (
         <>
         <Box>
-           
                     <Card type="section" elevation={8}>
                     <CardHeader title="Articulos" />
                     <TableContainer>
@@ -45,6 +58,7 @@ export default function VerArticulos() {
                                     <TableCell align="center">Nombre</TableCell>
                                     <TableCell align="center">Fecha</TableCell>
                                     <TableCell align="center">Publicado por</TableCell>
+                                    <TableCell align='center'>Visitas</TableCell>
                                     <TableCell align="center">Acciones</TableCell>
                                 </TableRow>
                             </TableHead>
@@ -55,10 +69,12 @@ export default function VerArticulos() {
                                     <TableCell align="center">{articulo.titulo}</TableCell>
                                     <TableCell align="center">{new Date(articulo.createdAt).toLocaleDateString()}</TableCell>
                                     <TableCell align="center">{articulo.autor}</TableCell>
+                                    <TableCell align="center">{articulo.visto}</TableCell>
                                     <TableCell align="center">
                                         <Button variant="contained" href={`/articulo/${articulo.id}`} color="success" sx={{
                                             margin: "0.5rem"
                                         }}>Ver</Button>
+                                        <Button variant="outlined" color="error" onClick={() => eliminarArticulo(articulo.id)}>Eliminar</Button>
                                     </TableCell>
                                 </TableRow>
                                  ))}
