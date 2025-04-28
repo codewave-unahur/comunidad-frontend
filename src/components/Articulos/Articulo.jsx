@@ -145,6 +145,7 @@ const ArticlePage = () => {
     const autores = {
       "graduados@unahur.edu.ar": "Graduados UNAHUR",
       "empleabilidad@unahur.edu.ar": "Empleabilidad UNAHUR",
+      "soriaybarb@gmail.com": "Empleabilidad UNAHUR",
       "ingenieria@unahur.edu.ar": "Instituto de Tecnología e Ingeniería",
       "biotecnologia@unahur.edu.ar": "Instituto de Biotecnología",
       "educacion@unahur.edu.ar": "Instituto de Educación",

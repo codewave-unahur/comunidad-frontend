@@ -13,27 +13,29 @@ import {
 } from 'react-share';
 
 const SocialShareButtons = ({ url, title }) => {
+
+  const currentUrl = window.location.href; // Obtiene la URL actual
+  const currentTitle = document.title; // Obtiene el título actual de la página
+  const quote = `¡Mira este artículo: ${currentTitle}!`;
+
   return (
     <div style={{ display: 'flex', gap: '8px' }}>
-      <FacebookShareButton url={url} quote={title}>
+      <FacebookShareButton url={currentUrl} quote={quote}>
         <FacebookIcon size={32} round />
       </FacebookShareButton>
       
-      <TwitterShareButton url={url} title={title}>
+      <TwitterShareButton url={currentUrl} title={quote}>
         <TwitterIcon size={32} round />
       </TwitterShareButton>
       
-      <LinkedinShareButton url={url} title={title}>
+      <LinkedinShareButton url={currentUrl} title={quote}>
         <LinkedinIcon size={32} round />
       </LinkedinShareButton>
       
-      <WhatsappShareButton url={url} title={title}>
+      <WhatsappShareButton url={currentUrl} title={quote}>
         <WhatsappIcon size={32} round />
       </WhatsappShareButton>
       
-      <RedditShareButton url={url} title={title}>
-        <RedditIcon size={32} round />
-      </RedditShareButton>
     </div>
   );
 };
