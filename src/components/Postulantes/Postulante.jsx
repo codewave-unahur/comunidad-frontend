@@ -103,38 +103,38 @@ const Postulante = () => {
   };
 
   const convertirFecha = (fecha) => {
+    if (!fecha) {
+        const fechaActual = new Date();
+        return "Actualidad";
+    }
     const fechaDate = new Date(fecha);
     fechaDate.setDate(fechaDate.getDate() + 1);
     return fechaDate.toLocaleDateString();
-}
+};
 
-  const calcularTiempo = (fechaInicio, fechaFin) => {
-    const fechaInicioDate = new Date(fechaInicio);
-    const fechaFinDate = new Date(fechaFin);
-    let años = fechaFinDate.getFullYear() - fechaInicioDate.getFullYear();
-    let meses = fechaFinDate.getMonth() - fechaInicioDate.getMonth();
-    if (meses < 0) {
+const calcularTiempo = (fechaInicio, fechaFin) => {
+  const fechaInicioDate = new Date(fechaInicio);
+  const fechaFinDate = fechaFin ? new Date(fechaFin) : new Date(); // Usa la fecha actual si fechaFin es null
+  let años = fechaFinDate.getFullYear() - fechaInicioDate.getFullYear();
+  let meses = fechaFinDate.getMonth() - fechaInicioDate.getMonth();
+  if (meses < 0) {
       años--;
       meses = 12 + meses;
-    }
-    if (años === 0) {
-      if (meses === 1) {
-        return meses + " mes";
-      } else {
-        return meses + " meses";
-      }
-    } else {
-      if (meses === 0) {
-        return años + " años";
-      } else {
-        if (años === 1) {
-          return años + " año y " + meses + " meses";
-        } else {
-          return años + " años y " + meses + " meses";
-        }
-      }
-    }
   }
+  if (años === 0) {
+      if (meses === 1) {
+          return meses + " mes";
+      } else {
+          return meses + " meses";
+      }
+  } else {
+      if (meses === 0) {
+          return años + " años";
+      } else {
+          return años + " años y " + meses + " meses";
+      }
+  }
+};
 
   const acortarLink = (link) => {
     let linkAcortado = link;
