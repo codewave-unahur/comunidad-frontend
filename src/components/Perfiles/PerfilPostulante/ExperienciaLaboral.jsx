@@ -1,4 +1,4 @@
-import { Button, Box, TextField, Tooltip, Card, CardHeader, Grid, Stack, List, ListItem, Typography, ListItemText } from '@mui/material';
+import { Button, Box, TextField, Tooltip, Card, CardHeader, Grid, Stack, List, ListItem, Typography, ListItemText, Switch } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { getExperienciaLaboral, postExperienciaLaboral, deleteExperienciaLaboral } from '../../../services/experienciaLaboral_service';
 import { toast } from 'sonner';
@@ -25,6 +25,7 @@ const ExperienciaLaboral = () => {
     const [fechaFinElegida, setFechaFinElegida] = useState('');
     const [puestoElegido, setPuestoElegido] = useState('');
     const [empresaElegida, setEmpresaElegida] = useState('');
+    const [actualmenteTrabajando, setActualmenteTrabajando] = useState(false);
 
 
     useEffect(() => {
@@ -59,8 +60,12 @@ const ExperienciaLaboral = () => {
     }
 
     const handleChangeFechaFin = (event) => {
-        setFechaFinElegida(event.target.value);
-    }
+        const value = event.target.value;
+        setFechaFinElegida(value);
+        if (value) {
+            setActualmenteTrabajando(false); // Desactiva el switch si el campo no está vacío
+        }
+    };
 
     const handleCancel = () => {
         setEdit(false);
@@ -107,7 +112,7 @@ const ExperienciaLaboral = () => {
     const convertirFecha = (fecha) => {
         if (!fecha) {
             const fechaActual = new Date();
-            return fechaActual.toLocaleDateString();
+            return "Actualidad";
         }
         const fechaDate = new Date(fecha);
         fechaDate.setDate(fechaDate.getDate() + 1);
@@ -137,7 +142,14 @@ const ExperienciaLaboral = () => {
             }
         }
     };
-      
+    
+    const handleActualmenteTrabajandoChange = (event) => {
+        const isChecked = event.target.checked;
+        setActualmenteTrabajando(isChecked);
+        if (isChecked) {
+            setFechaFinElegida(''); // Vacía el campo de Fecha de fin
+        }
+    };
 
     return ( 
         <>
@@ -268,9 +280,22 @@ const ExperienciaLaboral = () => {
                                                     InputLabelProps={{ shrink: true}}
                                                 />
                                             </Grid>
+                                            <Grid item xs={12} sm={6}>
+                                            <Switch 
+    checked={actualmenteTrabajando}
+    onChange={handleActualmenteTrabajandoChange}
+    color="primary"
+    disabled={isFieldDisabled}
+    inputProps={{ 'aria-label': 'controlled' }}
+/>
+<Typography>
+    Actualmente trabajando
+</Typography>
+                </Grid>
                                         </Grid>
                     )}
                 </Box>
+                
                 <Grid item xs={12} sm={12} md={12}>
                     {
                         edit && (
@@ -295,7 +320,7 @@ const ExperienciaLaboral = () => {
                             float:"right",
                         }}
                         onClick={edit ? handleAgregarExpereinciaLaboral : handleEdit}
-                        disabled={edit && (!puestoElegido || !empresaElegida || !descripcionElegida || !fechaInicioElegida)}
+                        disabled={edit && (!puestoElegido || !empresaElegida || !descripcionElegida || !fechaInicioElegida || (!fechaFinElegida && !actualmenteTrabajando))}
 
                     >
                         {edit ? "Agregar" : "Agregar experiencia laboral"}
