@@ -105,37 +105,39 @@ const ExperienciaLaboral = () => {
     };
 
     const convertirFecha = (fecha) => {
-        
+        if (!fecha) {
+            const fechaActual = new Date();
+            return fechaActual.toLocaleDateString();
+        }
         const fechaDate = new Date(fecha);
         fechaDate.setDate(fechaDate.getDate() + 1);
         return fechaDate.toLocaleDateString();
-
-    }
+    };
 
     const calcularTiempo = (fechaInicio, fechaFin) => {
         const fechaInicioDate = new Date(fechaInicio);
-        const fechaFinDate = new Date(fechaFin);
+        const fechaFinDate = fechaFin ? new Date(fechaFin) : new Date(); // Usa la fecha actual si fechaFin es null
         let años = fechaFinDate.getFullYear() - fechaInicioDate.getFullYear();
         let meses = fechaFinDate.getMonth() - fechaInicioDate.getMonth();
         if (meses < 0) {
-          años--;
-          meses = 12 + meses;
+            años--;
+            meses = 12 + meses;
         }
         if (años === 0) {
-          if (meses === 1) {
-            return meses + " mes";
-          } else {
-            return meses + " meses";
-          }
+            if (meses === 1) {
+                return meses + " mes";
+            } else {
+                return meses + " meses";
+            }
         } else {
-          if (meses === 0) {
-            return años + " años";
-          } else {
-            return años + " años y " + meses + " meses";
-          }
+            if (meses === 0) {
+                return años + " años";
+            } else {
+                return años + " años y " + meses + " meses";
+            }
         }
-      }
-
+    };
+      
 
     return ( 
         <>
@@ -170,12 +172,17 @@ const ExperienciaLaboral = () => {
                                     <ListItemText primary={experienciaLaboral.descripcion} secondary="Descripción" />
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
-                                    <ListItemText primary={convertirFecha(experienciaLaboral.fecha_inicio) +
-                                         " - " + convertirFecha(experienciaLaboral.fecha_fin) + 
-                                         " (" + calcularTiempo(experienciaLaboral.fecha_inicio, experienciaLaboral.fecha_fin) + ")"} 
-                                         secondary="Tiempo" 
-                                             
-                                    />
+                                <ListItemText
+    primary={
+        convertirFecha(experienciaLaboral.fecha_inicio) +
+        " - " +
+        convertirFecha(experienciaLaboral.fecha_fin) +
+        " (" +
+        calcularTiempo(experienciaLaboral.fecha_inicio, experienciaLaboral.fecha_fin) +
+        ")"
+    }
+    secondary="Tiempo"
+/>
                                 </Grid>
                                 <Grid item xs={12}>
                                     <Button
@@ -288,7 +295,7 @@ const ExperienciaLaboral = () => {
                             float:"right",
                         }}
                         onClick={edit ? handleAgregarExpereinciaLaboral : handleEdit}
-                        disabled={edit && (!puestoElegido || !empresaElegida || !descripcionElegida || !fechaInicioElegida || !fechaFinElegida)}
+                        disabled={edit && (!puestoElegido || !empresaElegida || !descripcionElegida || !fechaInicioElegida)}
 
                     >
                         {edit ? "Agregar" : "Agregar experiencia laboral"}
