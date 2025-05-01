@@ -13,6 +13,7 @@ import {
   ListItemIcon,
   MenuItem,
   MenuList,
+  Select,
   Slide,
   Stack,
   Typography,
@@ -60,12 +61,20 @@ import ArticleIcon from '@mui/icons-material/Article';
 import Articulos from "./PerfilAdministrador/Articulos";
 import VerArticulos from "./PerfilGraduado/VerArticulos";
 import CrearArticulo from "./PerfilGraduado/CrearArticulo";
+import SelectSection from "./PerfilPostulante/SelectSection";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const menuOptionsPostulante = [
+  {
+    id: "0",
+    name: "section",
+    Icon: StorageIcon,
+    text: "Seleccionar sección",
+    renderSection: <SelectSection/>,
+  },
   {
     id: "1",
     name: "datosPersonales",
