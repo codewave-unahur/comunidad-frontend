@@ -7,26 +7,33 @@ import {
   Typography,
   Avatar,
   Grid,
+  Pagination,
 } from "@mui/material";
 import { getOfertas } from "../../../services/ofertas_service";
 
 export default function Ofertas() {
   const [ofertas, setOfertas] = useState([]);
-  const [pagina, setPagina] = useState(0);
-  const [limite, setLimite] = useState(6);
+  const [page, setPage] = useState(1); // Página actual (1-basado para Material-UI)
+  const itemsPerPage = 6; // Número de ofertas por página
+  const [totalOfertas, setTotalOfertas] = useState(0); // Total de ofertas para calcular el número de páginas
+
+  const handleChange = (event, value) => {
+    setPage(value); // Actualiza la página actual
+  };
 
   useEffect(() => {
     const fetchOfertas = async () => {
       try {
-        const response = await getOfertas(pagina, limite, "", "id", 1);
-        setOfertas(response.ofertas.rows);
+        // Llama al servicio para obtener las ofertas paginadas
+        const response = await getOfertas(page - 1, itemsPerPage, "", "id", 1); // Ajusta la página para que sea 0-basado
+        setOfertas(response.ofertas.rows); // Actualiza las ofertas
+        setTotalOfertas(response.ofertas.count); // Total de ofertas para el paginado
       } catch (error) {
         console.error("Error fetching ofertas:", error);
       }
     };
     fetchOfertas();
-    console.log(ofertas);
-  }, []);
+  }, [page]); // Vuelve a cargar las ofertas cuando cambia la página
 
   const publicadoHace = (fecha) => {
     const fechaPublicacion = new Date(fecha);
@@ -91,6 +98,12 @@ export default function Ofertas() {
           ) : (
             <Spinner />
           )}
+          <Pagination
+            count={Math.ceil(totalOfertas / itemsPerPage)} // Número total de páginas
+            page={page}
+            onChange={handleChange}
+            sx={{ display: "flex", justifyContent: "center", marginTop: "1rem" }}
+          />
         </Box>
       </Card>
     </>
