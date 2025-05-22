@@ -63,6 +63,7 @@ import VerArticulos from "./PerfilGraduado/VerArticulos";
 import CrearArticulo from "./PerfilGraduado/CrearArticulo";
 import SelectSection from "./PerfilPostulante/SelectSection";
 import Ofertas2 from "./PerfilPostulante/Ofertas2";
+import Noticias2 from "./PerfilPostulante/Noticias2";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -74,7 +75,7 @@ const menuOptionsPostulante = [
     name: "section",
     Icon: StorageIcon,
     text: "Seleccionar sección",
-    renderSection: <Ofertas2/>,
+    renderSection: <Noticias2 />,
   },
   {
     id: "1",

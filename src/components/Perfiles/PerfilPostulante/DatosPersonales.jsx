@@ -114,7 +114,7 @@ const DatosPersonales = () => {
 
   const handleSaveFoto = async (foto, id, token) => {
     try {
-      const response = await uploadFoto(foto, id, token);
+      const response = await uploadFoto(foto, usuario.id, token);
       if (response) {
         setUsuario({ ...usuario, foto: response });
         const datosUsuario = encryptStorage.getItem("datosUsuario");
